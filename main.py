@@ -5,16 +5,22 @@ from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, sqlite3, http.client, json as pyjson
 from fpdf import FPDF
 
-app = FastAPI()
+app = FastAPI(title="NFL Predictor API", version="1.0.0")
 
+# -----------------------------
+# CORS
+# -----------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # restrict to your frontend domain later if desired
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# -----------------------------
+# Env & Globals
+# -----------------------------
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "").strip()
 ODDS_REGION = os.getenv("ODDS_REGION", "us")
 PREDICTION_PROVIDER = os.getenv("PREDICTION_PROVIDER", "market").lower()  # market | ml
@@ -112,7 +118,7 @@ def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, A
             pass
 
 def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
-    # Demo: pull latest markets; no calendar mapping to "week" here.
+    # Demo pulls latest markets (no date→week mapping). Good enough to prove live integration.
     h2h = _oddsapi_get("/sports/americanfootball_nfl/odds",
                        {"regions": ODDS_REGION, "markets": "h2h", "oddsFormat": "american"})
     spd = _oddsapi_get("/sports/americanfootball_nfl/odds",
@@ -294,7 +300,7 @@ def get_market_predictions(week: int) -> Dict[str, Any]:
     return build_from_games(games)
 
 def get_ml_predictions(week: int) -> Dict[str, Any]:
-    # Stub for future ML models
+    # Stub for future ML models (keep shape identical)
     random.seed(999 + week)
     return {
         "top5_su": [{"home": "TBD", "away": "TBD", "su_pick": "TBD", "su_confidence": 0.55} for _ in range(5)],
@@ -315,6 +321,19 @@ def get_predictions_for_week(week: int) -> Dict[str, Any]:
 @app.on_event("startup")
 def on_start():
     init_db()
+
+@app.get("/")
+def root():
+    return {
+        "name": "NFL Predictor API",
+        "status": "ok",
+        "docs": "/docs",
+        "examples": {
+            "health": "/v1/health",
+            "week_1_predictions": "/v1/best-picks/2025/1",
+            "download_csv": "/v1/best-picks/2025/1/download?format=csv"
+        }
+    }
 
 @app.get("/v1/health")
 def health():
@@ -346,7 +365,6 @@ def download_predictions(week: int, format: str = Query("json", regex="^(json|cs
         return JSONResponse(content=data)
 
     if format == "csv":
-        # Build CSV in-memory then return as bytes with proper headers
         output = io.StringIO()
         writer = csv.writer(output)
         for section, entries in data.items():
