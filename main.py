@@ -1,20 +1,29 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, Response
-from typing import Dict, Any, List, Optional, Tuple
-import os, io, csv, random, datetime
+from typing import Dict, Any, Optional
+import os, io, csv, random, datetime, http.client, json as pyjson
 from fpdf import FPDF
 
-app = FastAPI(title="NFL Predictor API", version="1.0.0")
+app = FastAPI(title="NFL Predictor API", version="1.1.0")
 
+# ---------------- CORS ----------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # you can restrict to your Vercel domain later
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# ---------------- ENV -----------------
+ODDS_API_KEY         = os.getenv("ODDS_API_KEY", "").strip()
+ODDS_REGION          = os.getenv("ODDS_REGION", "us")
+SPORTSDATAIO_KEY     = os.getenv("SPORTSDATAIO_KEY", "").strip()
+FANTASYDATA_API_KEY  = os.getenv("FANTASYDATA_API_KEY", "").strip()
+FANTASY_SEASON       = os.getenv("FANTASY_SEASON", "2025REG")  # season code, NOT a secret key
+
+# ---------------- Mock Data (current baseline) ----------------
 def get_mock_predictions(week: int) -> Dict[str, Any]:
     random.seed(1000 + week)
     return {
@@ -74,6 +83,98 @@ def get_mock_lineup(week: int) -> Dict[str, Any]:
         ],
     }
 
+# ---------------- Health & Debug ----------------
+@app.get("/v1/health")
+def health():
+    """Simple health/flags endpoint."""
+    return {
+        "ok": True,
+        "odds_api_key_set": bool(ODDS_API_KEY),
+        "sportsdataio_key_set": bool(SPORTSDATAIO_KEY := os.getenv("SPORTSDATAIO_KEY", "").strip()),
+        "fantasydata_key_set": bool(FANTASYDATA_API_KEY),
+        "fantasy_season": FANTASY_SEASON,
+        "ts": datetime.datetime.utcnow().isoformat() + "Z",
+    }
+
+@app.get("/v1/debug/providers")
+def debug_providers(week: int = 1):
+    """
+    Attempts shallow calls to providers and returns status/sample.
+    No secrets are returned; we only show counts/status.
+    """
+    results: Dict[str, Any] = {"env": {
+        "odds_api_key_set": bool(ODDS_API_KEY),
+        "sportsdataio_key_set": bool(SPORTSDATAIO_KEY),
+        "fantasydata_key_set": bool(FANTASYDATA_API_KEY),
+        "fantasy_season": FANTASY_SEASON,
+    }}
+
+    # SportsDataIO props (if key set)
+    try:
+        if SPORTSDATAIO_KEY:
+            conn = http.client.HTTPSConnection("api.sportsdata.io", timeout=8)
+            path = f"/v3/nfl/props/json/PlayerGamePropsByWeek/{FANTASY_SEASON}/{week}"
+            conn.request("GET", path, headers={"Ocp-Apim-Subscription-Key": SPORTSDATAIO_KEY})
+            resp = conn.getresponse()
+            body = resp.read()
+            status = resp.status
+            sample = []
+            if status == 200:
+                data = pyjson.loads(body.decode("utf-8"))
+                if isinstance(data, list):
+                    sample = data[:2]
+            results["sportsdataio"] = {"status": status, "path": path, "sample_count": len(sample), "sample": sample}
+            conn.close()
+        else:
+            results["sportsdataio"] = {"status": "skipped (no key)"}
+    except Exception as e:
+        results["sportsdataio"] = {"status": f"error: {type(e).__name__}"}
+
+    # FantasyData projections (if key set)
+    try:
+        if FANTASYDATA_API_KEY:
+            conn = http.client.HTTPSConnection("api.fantasydata.net", timeout=8)
+            path = f"/v3/nfl/projections/json/PlayerGameProjectionStatsByWeek/{FANTASY_SEASON}/{week}"
+            conn.request("GET", path, headers={"Ocp-Apim-Subscription-Key": FANTASYDATA_API_KEY})
+            resp = conn.getresponse()
+            body = resp.read()
+            status = resp.status
+            sample = []
+            if status == 200:
+                data = pyjson.loads(body.decode("utf-8"))
+                if isinstance(data, list):
+                    sample = data[:2]
+            results["fantasydata"] = {"status": status, "path": path, "sample_count": len(sample), "sample": sample}
+            conn.close()
+        else:
+            results["fantasydata"] = {"status": "skipped (no key)"}
+    except Exception as e:
+        results["fantasydata"] = {"status": f"error: {type(e).__name__}"}
+
+    # Odds API shallow H2H (if key set)
+    try:
+        if ODDS_API_KEY:
+            conn = http.client.HTTPSConnection("api.the-odds-api.com", timeout=8)
+            path = f"/v4/sports/americanfootball_nfl/odds?regions=us&markets=h2h&apiKey={ODDS_API_KEY}"
+            conn.request("GET", path)
+            resp = conn.getresponse()
+            body = resp.read()
+            status = resp.status
+            sample = []
+            if status == 200:
+                data = pyjson.loads(body.decode("utf-8"))
+                if isinstance(data, list):
+                    sample = data[:1]
+            results["oddsapi"] = {"status": status, "path": path, "sample_count": len(sample)}
+            conn.close()
+        else:
+            results["oddsapi"] = {"status": "skipped (no key)"}
+    except Exception as e:
+        results["oddsapi"] = {"status": f"error: {type(e).__name__}"}
+
+    return results
+
+# ---------------- Core Routes ----------------
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
     if week < 1 or week > 18:
@@ -87,7 +188,9 @@ def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     data = get_mock_predictions(week)
 
     if format == "json":
-        return JSONResponse(content=data)
+        # Use Response to avoid any serialization edge cases
+        import json as _json
+        return Response(content=_json.dumps(data), media_type="application/json")
 
     if format == "csv":
         s = io.StringIO()
