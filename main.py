@@ -1,11 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from typing import Dict
-import json
+from typing import Dict, List
 import csv
 import io
-import datetime
+import random
 
 app = FastAPI()
 
@@ -17,46 +16,113 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_mock_predictions(week: int):
+TEAMS = [
+    "BUF","KC","SF","DAL","MIA","PHI","CIN","DET","BAL","GB",
+    "SEA","LAR","JAX","NYJ","NYG","CLE","PIT","MIN","NO","HOU",
+    "ATL","TEN","IND","LV","DEN","CHI","TB","WAS","CAR","ARI","NE","LAC"
+]
+
+def _ats_pick_with_spread(team: str) -> Dict:
+    """Create one ATS record with spread and confidence.
+       Half the time it selects a favorite (-spread), half an underdog (+spread)."""
+    base_pts = random.choice([0.5, 1.5, 2.5, 3.5, 4.5, 6.5, 7.5])
+    sign = random.choice([-1, 1])  # -1 favorite, +1 underdog
+    spread_val = round(sign * base_pts, 1)
+    # Format ats_pick like "DET -3.5" or "NYG +2.5"
+    sign_char = "-" if spread_val < 0 else "+"
+    ats_pick_str = f"{team} {sign_char}{abs(spread_val)}"
+    conf = round(random.uniform(0.65, 0.85), 2)
+    return {"ats_pick": ats_pick_str, "spread": spread_val, "ats_confidence": conf}
+
+def get_mock_predictions(week: int) -> Dict:
+    random.seed(10_000 + week)
+
+    # SU
+    top5_su = []
+    for _ in range(5):
+        home, away = random.sample(TEAMS, 2)
+        winner = random.choice([home, away])
+        top5_su.append({
+            "home": home,
+            "away": away,
+            "su_pick": winner,
+            "su_confidence": round(random.uniform(0.62, 0.86), 2)
+        })
+
+    # ATS (now includes spreads)
+    top5_ats = []
+    seen = set()
+    for _ in range(5):
+        t = random.choice(TEAMS)
+        # avoid trivial duplicates
+        tries = 0
+        while t in seen and tries < 10:
+            t = random.choice(TEAMS); tries += 1
+        seen.add(t)
+        top5_ats.append(_ats_pick_with_spread(t))
+
+    # Totals
+    top5_totals = []
+    for _ in range(5):
+        side = random.choice(["Over", "Under"])
+        tot = random.choice([39.5, 41.0, 41.5, 43.5, 45.5, 47.5, 49.5, 51.0])
+        top5_totals.append({
+            "tot_pick": f"{side} {tot}",
+            "tot_confidence": round(random.uniform(0.58, 0.8), 2)
+        })
+
+    # Props (placeholder, readable)
+    players = [
+        "Josh Allen","Jalen Hurts","Patrick Mahomes","Lamar Jackson",
+        "Tyreek Hill","Ja'Marr Chase","Justin Jefferson","Christian McCaffrey"
+    ]
+    prop_types = ["Pass Yards","Rush Yards","Receiving Yards","Pass TDs","Receptions"]
+    top5_props = []
+    for _ in range(5):
+        p = random.choice(players)
+        pt = random.choice(prop_types)
+        if pt == "Pass Yards":
+            pred = random.randint(240, 330)
+        elif pt == "Rush Yards":
+            pred = random.randint(55, 115)
+        elif pt == "Receiving Yards":
+            pred = random.randint(65, 130)
+        elif pt == "Pass TDs":
+            pred = random.randint(1, 3)
+        else:  # Receptions
+            pred = random.randint(4, 9)
+        top5_props.append({
+            "player": p,
+            "prop_type": pt,
+            "prediction": pred,
+            "confidence": round(random.uniform(0.55, 0.8), 2)
+        })
+
+    # Fantasy value (placeholder)
+    positions = ["QB","RB","WR","TE"]
+    top5_fantasy = []
+    for _ in range(5):
+        p = random.choice(players)
+        pos = random.choice(positions)
+        salary = random.randint(5000, 9500)
+        value = round(random.uniform(2.2, 3.6), 2)
+        top5_fantasy.append({
+            "player": p,
+            "position": pos,
+            "salary": salary,
+            "value_score": value
+        })
+
     return {
-        "top5_su": [
-            {"home": "BUF", "away": "NYJ", "su_pick": "BUF", "su_confidence": 0.78},
-            {"home": "KC", "away": "CIN", "su_pick": "KC", "su_confidence": 0.72},
-            {"home": "SF", "away": "SEA", "su_pick": "SF", "su_confidence": 0.70},
-            {"home": "DAL", "away": "PHI", "su_pick": "DAL", "su_confidence": 0.68},
-            {"home": "MIA", "away": "NE", "su_pick": "MIA", "su_confidence": 0.65},
-        ],
-        "top5_ats": [
-            {"ats_pick": "DET", "ats_confidence": 0.81},
-            {"ats_pick": "PHI", "ats_confidence": 0.75},
-            {"ats_pick": "ATL", "ats_confidence": 0.72},
-            {"ats_pick": "JAX", "ats_confidence": 0.70},
-            {"ats_pick": "NYG", "ats_confidence": 0.69},
-        ],
-        "top5_totals": [
-            {"tot_pick": "Over 45.5", "tot_confidence": 0.68},
-            {"tot_pick": "Under 42", "tot_confidence": 0.66},
-            {"tot_pick": "Over 47", "tot_confidence": 0.65},
-            {"tot_pick": "Under 38.5", "tot_confidence": 0.64},
-            {"tot_pick": "Over 50", "tot_confidence": 0.63},
-        ],
-        "top5_props": [
-            {"player": "Josh Allen", "prop_type": "Pass Yards", "prediction": 286, "confidence": 0.72},
-            {"player": "Jalen Hurts", "prop_type": "Rush TDs", "prediction": 1, "confidence": 0.69},
-            {"player": "Justin Jefferson", "prop_type": "Receiving Yards", "prediction": 105, "confidence": 0.67},
-            {"player": "Bijan Robinson", "prop_type": "Rush Yards", "prediction": 88, "confidence": 0.66},
-            {"player": "Patrick Mahomes", "prop_type": "Pass TDs", "prediction": 3, "confidence": 0.64},
-        ],
-        "top5_fantasy": [
-            {"player": "Ja'Marr Chase", "position": "WR", "salary": 8800, "value_score": 3.45},
-            {"player": "Bijan Robinson", "position": "RB", "salary": 7800, "value_score": 3.22},
-            {"player": "Travis Etienne", "position": "RB", "salary": 6900, "value_score": 3.10},
-            {"player": "Davante Adams", "position": "WR", "salary": 8400, "value_score": 2.98},
-            {"player": "Dalton Kincaid", "position": "TE", "salary": 5200, "value_score": 2.86},
-        ]
+        "top5_su": top5_su,
+        "top5_ats": top5_ats,        # <-- includes "spread" and "ats_pick" string with line
+        "top5_totals": top5_totals,
+        "top5_props": top5_props,
+        "top5_fantasy": top5_fantasy
     }
 
-def get_mock_lineup(week: int):
+def get_mock_lineup(week: int) -> Dict:
+    random.seed(20_000 + week)
     return {
         "week": week,
         "salary_cap": 50000,
@@ -95,12 +161,15 @@ def download_predictions(week: int, format: str):
         writer = csv.writer(output)
         for category, items in picks.items():
             writer.writerow([category])
-            writer.writerow(items[0].keys())
-            for row in items:
-                writer.writerow(row.values())
+            if items:
+                writer.writerow(items[0].keys())
+                for row in items:
+                    writer.writerow(row.values())
             writer.writerow([])
         output.seek(0)
-        return FileResponse(io.BytesIO(output.getvalue().encode()), media_type='text/csv', filename=f"week_{week}_predictions.csv")
+        return FileResponse(io.BytesIO(output.getvalue().encode()),
+                            media_type='text/csv',
+                            filename=f"week_{week}_predictions.csv")
 
     elif format == "pdf":
         from fpdf import FPDF
