@@ -3,12 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, http.client, json as pyjson
-from urllib.parse import urlparse
 from fpdf import FPDF
 
-app = FastAPI(title="NFL Predictor API", version="2.4.0")
+app = FastAPI(title="NFL Predictor API", version="2.5.0")
 
-# ---------------- CORS ----------------
+# ---------- CORS ----------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # tighten to your Vercel domain later
@@ -17,16 +16,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------------- ENV -----------------
-ODDS_API_KEY       = os.getenv("ODDS_API_KEY", "").strip()
-ODDS_REGION        = os.getenv("ODDS_REGION", "us")
-SPORTSDATAIO_KEY   = os.getenv("SPORTSDATAIO_KEY", "").strip()
-FANTASYDATA_API_KEY= os.getenv("FANTASYDATA_API_KEY", "").strip()
-FANTASY_SEASON     = os.getenv("FANTASY_SEASON", "2025REG")
-PP_URL             = os.getenv("PP_URL", "").strip()       # optional, unofficial
-SPLASH_URL         = os.getenv("SPLASH_URL", "").strip()   # optional, unofficial
+# ---------- ENV ----------
+ODDS_API_KEY        = os.getenv("ODDS_API_KEY", "").strip()
+ODDS_REGION         = os.getenv("ODDS_REGION", "us")
+SPORTSDATAIO_KEY    = os.getenv("SPORTSDATAIO_KEY", "").strip()
+FANTASYDATA_API_KEY = os.getenv("FANTASYDATA_API_KEY", "").strip()
+FANTASY_SEASON      = os.getenv("FANTASY_SEASON", "2025REG")  # e.g., 2025REG
 
-# ---------------- Helpers -----------------
+# ---------- Helpers ----------
 def safe_float(x, default=None):
     try: return float(x)
     except: return default
@@ -61,7 +58,7 @@ def _json_get(host: str, path: str, headers: Optional[Dict[str,str]]=None, https
         try: conn.close()
         except Exception: pass
 
-# ---------------- The Odds API (SU/ATS/Totals) ----------------
+# ---------- The Odds API (live SU/ATS/Totals) ----------
 def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
     q = "&".join(f"{k}={v}" for k,v in params.items())
@@ -209,10 +206,10 @@ def get_market_predictions() -> Dict[str, Any]:
     games = snap if snap else mock_games_for_week(1)
     return build_su_ats_totals(games)
 
-# --------------- SportsDataIO Props ---------------
+# ---------- SportsDataIO props (only) ----------
 def fetch_sportsdataio_props(week: int) -> List[Dict[str, Any]]:
     if not SPORTSDATAIO_KEY: return []
-    path = f"/v3/nfl/props/json/PlayerGamePropsByWeek/2025REG/{week}"
+    path = f"/v3/nfl/props/json/PlayerGamePropsByWeek/{FANTASY_SEASON}/{week}"
     data = _json_get("api.sportsdata.io", path, headers={"Ocp-Apim-Subscription-Key": SPORTSDATAIO_KEY})
     if not data: return []
     picks = []
@@ -221,66 +218,17 @@ def fetch_sportsdataio_props(week: int) -> List[Dict[str, Any]]:
         market = r.get("PropType") or r.get("StatType") or "prop"
         line = safe_float(r.get("Value"))
         if not player or line is None: continue
-        # SDIO may include payouts; for now, default a conservative confidence
         picks.append({
             "player": player,
             "prop_type": market,
             "line": line,
-            "pick": "Over",
+            "pick": "Over",          # SDIO payouts sometimes available; conservative default here
             "confidence": 0.55,
             "bookmaker": "SportsDataIO"
         })
     return rank_top_n(picks, "confidence", 5)
 
-# --------------- PrizePicks (unofficial) ---------------
-def fetch_prizepicks_props() -> List[Dict[str, Any]]:
-    if not PP_URL: return []
-    try:
-        u = urlparse(PP_URL)
-        data = _json_get(u.netloc, u.path + (f"?{u.query}" if u.query else ""), https=(u.scheme=="https"))
-        if not data: return []
-        def scan(obj):
-            out = []
-            if isinstance(obj, dict):
-                player = obj.get("player") or obj.get("player_name") or obj.get("name")
-                line = obj.get("line") or obj.get("point") or obj.get("points")
-                market = obj.get("key") or obj.get("market") or obj.get("stat_type") or "prop"
-                if player and line is not None:
-                    out.append({"player": str(player), "prop_type": str(market), "line": safe_float(line),
-                                "pick": "Over", "confidence": 0.54, "bookmaker": "PrizePicks"})
-                for v in obj.values(): out.extend(scan(v))
-            elif isinstance(obj, list):
-                for it in obj: out.extend(scan(it))
-            return out
-        picks = scan(data)
-        return rank_top_n(picks, "confidence", 5)
-    except: return []
-
-# --------------- Splash Sports (unofficial) ---------------
-def fetch_splash_props() -> List[Dict[str, Any]]:
-    if not SPLASH_URL: return []
-    try:
-        u = urlparse(SPLASH_URL)
-        data = _json_get(u.netloc, u.path + (f"?{u.query}" if u.query else ""), https=(u.scheme=="https"))
-        if not data: return []
-        def scan(obj):
-            out = []
-            if isinstance(obj, dict):
-                player = obj.get("player") or obj.get("name")
-                line = obj.get("line") or obj.get("point") or obj.get("points")
-                market = obj.get("market") or obj.get("stat_type") or obj.get("key") or "prop"
-                if player and line is not None:
-                    out.append({"player": str(player), "prop_type": str(market), "line": safe_float(line),
-                                "pick": "Over", "confidence": 0.53, "bookmaker": "Splash"})
-                for v in obj.values(): out.extend(scan(v))
-            elif isinstance(obj, list):
-                for it in obj: out.extend(scan(it))
-            return out
-        picks = scan(data)
-        return rank_top_n(picks, "confidence", 5)
-    except: return []
-
-# --------------- FantasyData (value picks) ---------------
+# ---------- FantasyData (value picks) ----------
 def fetch_fantasydata_week(week: int) -> Optional[List[Dict[str, Any]]]:
     if not FANTASYDATA_API_KEY: return None
     path = f"/v3/nfl/projections/json/PlayerGameProjectionStatsByWeek/{FANTASY_SEASON}/{week}"
@@ -289,6 +237,7 @@ def fetch_fantasydata_week(week: int) -> Optional[List[Dict[str, Any]]]:
 def build_fantasy_week(week: int) -> List[Dict[str, Any]]:
     arr = fetch_fantasydata_week(week)
     if not arr:
+        # Placeholder value list
         random.seed(3000 + week)
         players = ["Josh Allen","CMC","Tyreek Hill","CeeDee Lamb","Davante Adams","Bijan Robinson","Dalton Kincaid"]
         positions = ["QB","RB","WR","TE"]
@@ -313,30 +262,22 @@ def build_fantasy_week(week: int) -> List[Dict[str, Any]]:
     rows.sort(key=lambda x: (x.get("value_score") or 0.0), reverse=True)
     return rows[:5]
 
-# --------------- Compose Best Picks ---------------
+# ---------- Compose payload ----------
 def get_best_picks_payload(week: int) -> Dict[str, Any]:
     core = get_market_predictions()
-    # Props priority: SportsDataIO -> PrizePicks -> Splash -> placeholder
-    props = fetch_sportsdataio_props(week) if SPORTSDATAIO_KEY else []
+    # Props via SportsDataIO only (with fallback)
+    props = fetch_sportsdataio_props(week)
     if not props:
-        pp = fetch_prizepicks_props()
-        if pp: props = pp
-    if not props:
-        sp = fetch_splash_props()
-        if sp: props = sp
-    if not props:
-        # final fallback
         random.seed(2000 + week)
         players = ["Josh Allen","Jalen Hurts","Patrick Mahomes","Lamar Jackson","Tyreek Hill","Ja'Marr Chase"]
         types = ["Pass Yards","Rush Yards","Receiving Yards","Pass TDs","Receptions"]
         props = [{"player": random.choice(players), "prop_type": random.choice(types),
                   "line": random.randint(55, 310), "pick": "Over", "confidence": 0.55, "bookmaker": "N/A"}
                  for _ in range(5)]
-
     fantasy = build_fantasy_week(week)
     return {**core, "top5_props": props[:5], "top5_fantasy": fantasy}
 
-# --------------- DFS Lineup (placeholder) ---------------
+# ---------- DFS lineup (placeholder) ----------
 def get_mock_lineup(week: int) -> Dict:
     random.seed(4000 + week)
     return {
@@ -357,7 +298,7 @@ def get_mock_lineup(week: int) -> Dict:
         ]
     }
 
-# --------------- Routes ---------------
+# ---------- Routes ----------
 @app.get("/v1/health")
 def health():
     return {
@@ -365,8 +306,6 @@ def health():
         "odds_api_key_set": bool(ODDS_API_KEY),
         "sportsdataio_key_set": bool(SPORTSDATAIO_KEY),
         "fantasydata_key_set": bool(FANTASYDATA_API_KEY),
-        "pp_url_set": bool(PP_URL),
-        "splash_url_set": bool(SPLASH_URL),
         "ts": datetime.datetime.utcnow().isoformat()+"Z"
     }
 
@@ -409,5 +348,5 @@ def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
 
 @app.get("/v1/lineup/2025/{week}")
 def get_dfs_lineup(week: int, site: str = Query("DK", regex="^(DK|FD)$")):
-    # Placeholder lineup until we enable the optimizer again
+    # Placeholder lineup; optimizer/salaries can be re-enabled later
     return get_mock_lineup(week)
