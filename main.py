@@ -1,29 +1,30 @@
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, http.client, json as pyjson
 from fpdf import FPDF
 
-app = FastAPI(title="NFL Predictor API", version="2.1.0")
+# Optimizer
+from pulp import LpVariable, LpProblem, LpMaximize, lpSum, LpBinary, LpStatusOptimal, PULP_CBC_CMD
 
-# CORS
+app = FastAPI(title="NFL Predictor API", version="3.0.0")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # lock to your Vercel domain later
+    allow_origins=["*"],   # tighten later
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ---- ENV ----
+# ------------------ ENV ------------------
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "").strip()
-ODDS_REGION = os.getenv("ODDS_REGION", "us")  # us | uk | eu | au
+ODDS_REGION   = os.getenv("ODDS_REGION", "us")
+FANTASYDATA_API_KEY = os.getenv("FANTASYDATA_API_KEY", "").strip()
+FANTASY_SEASON = os.getenv("FANTASY_SEASON", "2025REG")
 
-FANTASYDATA_API_KEY = os.getenv("FANTASYDATA_API_KEY", "").strip()  # header: Ocp-Apim-Subscription-Key
-FANTASY_SEASON = os.getenv("FANTASY_SEASON", "2025REG")  # e.g., 2025REG / 2025PRE
-
-# ---- Small helpers ----
+# ------------------ Helpers ------------------
 def american_to_prob(odds: Optional[float]) -> Optional[float]:
     if odds is None: return None
     try: o = float(odds)
@@ -45,9 +46,7 @@ def safe_float(x, default=None):
 def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[str, Any]]:
     return sorted(items, key=lambda r: r.get(key, 0.0), reverse=True)[:n]
 
-# =====================================================================
-# LIVE SU / ATS / TOTALS  (The Odds API)
-# =====================================================================
+# ------------------ Live Odds (The Odds API) ------------------
 def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
     q = "&".join(f"{k}={v}" for k,v in params.items())
@@ -85,32 +84,25 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                 names = [o.get("name") for o in outs if o.get("name")]
                 for nm in names:
                     if nm != home:
-                        away = nm
-                        break
+                        away = nm; break
             out[(home or "", away or "")] = g
         return out
 
-    h2h_idx = idx(h2h)
-    spd_idx = idx(spd or [])
-    tot_idx = idx(tot or [])
-
+    h2h_idx = idx(h2h); spd_idx = idx(spd or []); tot_idx = idx(tot or [])
     games = []
     for key, row in h2h_idx.items():
         home, away = key
-        entry = {
-            "home_team": home, "away_team": away,
-            "h2h_home": None, "h2h_away": None,
-            "spread": None, "spread_team": None,
-            "total": None, "over_odds": None, "under_odds": None
-        }
-        # H2H odds
+        entry = {"home_team": home, "away_team": away,
+                 "h2h_home": None, "h2h_away": None,
+                 "spread": None, "spread_team": None,
+                 "total": None, "over_odds": None, "under_odds": None}
+        # H2H
         bks = row.get("bookmakers") or []
         if bks and bks[0].get("markets"):
             outs = bks[0]["markets"][0].get("outcomes") or []
             for o in outs:
                 if o.get("name") == home: entry["h2h_home"] = safe_float(o.get("price"))
                 elif o.get("name") == away: entry["h2h_away"] = safe_float(o.get("price"))
-
         # Spreads
         srow = spd_idx.get(key)
         if srow:
@@ -119,15 +111,11 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                 outs = bks[0]["markets"][0].get("outcomes") or []
                 fav, fav_line = None, None
                 for o in outs:
-                    pt = safe_float(o.get("point"))
-                    nm = o.get("name")
+                    pt = safe_float(o.get("point")); nm = o.get("name")
                     if pt is not None and pt < 0:
-                        fav, fav_line = nm, pt
-                        break
+                        fav, fav_line = nm, pt; break
                 if fav_line is not None:
-                    entry["spread"] = fav_line
-                    entry["spread_team"] = fav
-
+                    entry["spread"] = fav_line; entry["spread_team"] = fav
         # Totals
         trow = tot_idx.get(key)
         if trow:
@@ -196,18 +184,16 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
             ats_rows.append({
                 "ats_pick": f"{fav} {sign_char}{abs(spread)}",
                 "spread": float(spread),
-                "ats_confidence": round(max(0.50, min(0.75, 0.46 + 0.5 * abs(fav_prob - 0.5))), 4)
+                "ats_confidence": round(max(0.50, min(0.75, 0.46 + 0.5*abs(fav_prob-0.5))), 4)
             })
 
         op = american_to_prob(g.get("over_odds"))
         up = american_to_prob(g.get("under_odds"))
-        if op is not None and up is not None:
-            of, uf = deflate_vig(op, up)
-        else:
-            of, uf = 0.5, 0.5
+        if op is not None and up is not None: of, uf = deflate_vig(op, up)
+        else: of, uf = 0.5, 0.5
 
         if of >= uf:
-            tot_rows.append({"tot_pick": f"Over {g.get('total')}", "tot_confidence": round(of, 4)})
+            tot_rows.append({"tot_pick": f"Over {g.get('total')}",  "tot_confidence": round(of, 4)})
         else:
             tot_rows.append({"tot_pick": f"Under {g.get('total')}", "tot_confidence": round(uf, 4)})
 
@@ -222,16 +208,8 @@ def get_market_predictions() -> Dict[str, Any]:
     games = snap if snap else mock_games_for_week(1)
     return build_su_ats_totals(games)
 
-# =====================================================================
-# LIVE PROPS  (The Odds API player markets)
-# =====================================================================
-PROP_MARKETS = ",".join([
-    "player_pass_yds",
-    "player_pass_tds",
-    "player_rush_yds",
-    "player_rec_yds",
-    "player_receptions",
-])
+# ------------------ Live Player Props (Odds API) ------------------
+PROP_MARKETS = ",".join(["player_pass_yds","player_pass_tds","player_rush_yds","player_rec_yds","player_receptions"])
 
 def fetch_player_props() -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
@@ -241,48 +219,40 @@ def fetch_player_props() -> Optional[List[Dict[str, Any]]]:
 def build_top_props() -> List[Dict[str, Any]]:
     data = fetch_player_props()
     if not data: return []
-
     picks = []
     for event in data:
         for bm in (event.get("bookmakers") or []):
             for mkt in (bm.get("markets") or []):
-                outcomes = mkt.get("outcomes") or []
-                over = next((o for o in outcomes if (o.get("name") or "").lower()=="over"), None)
-                under = next((o for o in outcomes if (o.get("name") or "").lower()=="under"), None)
+                outs = mkt.get("outcomes") or []
+                over = next((o for o in outs if (o.get("name") or "").lower()=="over"), None)
+                under= next((o for o in outs if (o.get("name") or "").lower()=="under"), None)
                 if not over and not under: continue
-
                 player = mkt.get("player") or mkt.get("player_name") or "TBD"
                 line = safe_float((over or under).get("point"))
-                over_prob = american_to_prob(safe_float(over.get("price"))) if over else None
-                under_prob = american_to_prob(safe_float(under.get("price"))) if under else None
-                of, uf = deflate_vig(over_prob or 0.5, under_prob or 0.5)
+                op = american_to_prob(safe_float(over.get("price"))) if over else None
+                up = american_to_prob(safe_float(under.get("price"))) if under else None
+                of, uf = deflate_vig(op or 0.5, up or 0.5)
                 if of is None or uf is None: continue
-
                 side = "Over" if of >= uf else "Under"
                 conf = round(max(of, uf), 3)
                 picks.append({
                     "player": player,
-                    "prop_type": mkt.get("key", "prop"),
+                    "prop_type": mkt.get("key","prop"),
                     "line": line,
                     "pick": side,
                     "confidence": conf,
                     "bookmaker": bm.get("title") or "N/A",
                 })
-
-    # Dedup by (player, prop_type) keeping the highest confidence
+    # Dedup (player, prop_type)
     best = {}
     for p in picks:
-        key = (p["player"], p["prop_type"])
-        if key not in best or p["confidence"] > best[key]["confidence"]:
-            best[key] = p
-
-    top = list(best.values())
-    top.sort(key=lambda x: x["confidence"], reverse=True)
+        k = (p["player"], p["prop_type"])
+        if k not in best or p["confidence"] > best[k]["confidence"]:
+            best[k] = p
+    top = list(best.values()); top.sort(key=lambda x: x["confidence"], reverse=True)
     return top[:5]
 
-# =====================================================================
-# LIVE FANTASY DFS (FantasyData)
-# =====================================================================
+# ------------------ Live Fantasy (FantasyData) ------------------
 def fetch_fantasydata_week(week: int) -> Optional[List[Dict[str, Any]]]:
     if not FANTASYDATA_API_KEY: return None
     path = f"/v3/nfl/projections/json/PlayerGameProjectionStatsByWeek/{FANTASY_SEASON}/{week}"
@@ -302,7 +272,7 @@ def fetch_fantasydata_week(week: int) -> Optional[List[Dict[str, Any]]]:
 def build_fantasy_week(week: int) -> List[Dict[str, Any]]:
     arr = fetch_fantasydata_week(week)
     if not arr:
-        # fallback placeholders
+        # placeholder
         random.seed(3000 + week)
         players = ["Josh Allen","CMC","Tyreek Hill","CeeDee Lamb","Davante Adams","Bijan Robinson","Dalton Kincaid"]
         positions = ["QB","RB","WR","TE"]
@@ -321,28 +291,19 @@ def build_fantasy_week(week: int) -> List[Dict[str, Any]]:
         team = r.get("Team") or ""
         pts  = safe_float(r.get("FantasyPointsDraftKings"), safe_float(r.get("FantasyPoints"), 0.0))
         sal  = safe_float(r.get("DraftKingsSalary"), 0.0)
-        value = round((pts / sal) * 1000.0, 3) if sal and sal > 0 else round(pts, 3)
-        rows.append({
-            "player": name, "position": pos, "team": team,
-            "salary": sal or 0.0, "proj_points": round(pts or 0.0, 2),
-            "value_score": value
-        })
-
+        value= round((pts / sal) * 1000.0, 3) if sal and sal > 0 else round(pts, 3)
+        rows.append({"player": name, "position": pos, "team": team, "salary": sal or 0.0, "proj_points": round(pts or 0.0, 2), "value_score": value})
     rows.sort(key=lambda x: (x.get("value_score") or 0.0), reverse=True)
     return rows[:5]
 
-# =====================================================================
-# Best-picks payload: SU/ATS/Totals (live), Props (live if key), Fantasy (live if key)
-# =====================================================================
+# ------------------ Compose Best Picks ------------------
 def get_best_picks_payload(week: int) -> Dict[str, Any]:
     core = get_market_predictions()
     props = build_top_props() if ODDS_API_KEY else []
     fantasy = build_fantasy_week(week)
-    return {**core, "top5_props": props[:5] if props else build_fantasy_week(week)[:0], "top5_fantasy": fantasy}
+    return {**core, "top5_props": props[:5] if props else [], "top5_fantasy": fantasy}
 
-# =====================================================================
-# DFS lineup (placeholder for now; we’ll hook optimizer next)
-# =====================================================================
+# ------------------ Classic DFS Lineup (placeholder) ------------------
 def get_mock_lineup(week: int) -> Dict:
     random.seed(4000 + week)
     return {
@@ -363,9 +324,7 @@ def get_mock_lineup(week: int) -> Dict:
         ]
     }
 
-# =====================================================================
-# Routes
-# =====================================================================
+# ------------------ Routes ------------------
 @app.get("/v1/health")
 def health():
     return {
