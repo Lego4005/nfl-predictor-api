@@ -1,4 +1,4 @@
-fastapi
-uvicorn[standard]
-fpdf
+fastapi>=0.110
+uvicorn[standard]>=0.29
+fpdf==1.7.2
 python-multipart
