@@ -5,7 +5,7 @@ from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, datetime, http.client, json as pyjson
 from fpdf import FPDF
 
-APP_VERSION = "LIVE-LINES-HARDENED-1.0.0"
+APP_VERSION = "LIVE-LINES-HARDENED-1.0.1"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -201,10 +201,11 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
                 tot_rows.append({"tot_pick": f"Over {g.get('total')}", "tot_confidence": round(of or 0.5, 4)})
             else:
                 tot_rows.append({"tot_pick": f"Under {g.get('total')}", "tot_confidence": round(uf or 0.5, 4)})
+
     except Exception:
         pass
 
-    # placeholders for props/fantasy to keep UI consistent
+    # keep props/fantasy placeholders (UI stability)
     props = [{"player":"Josh Allen","prop_type":"Pass Yards","prediction":286,"confidence":0.72}]
     fantasy = [{"player":"Ja'Marr Chase","position":"WR","salary":8800,"value_score":3.45}]
 
@@ -222,7 +223,6 @@ def get_live_or_mock_payload() -> Dict[str, Any]:
         games = snap if snap else mock_games()
         return build_su_ats_totals(games)
     except Exception:
-        # last-resort fallback if anything unexpected happens
         return build_su_ats_totals(mock_games())
 
 # -------- Root & Health --------
@@ -232,7 +232,7 @@ def root():
 
 @app.get("/v1/health")
 def health():
-    status = "skipped"
+    status = "no key" if not ODDS_API_KEY else "unknown"
     sample = 0
     try:
         if ODDS_API_KEY:
@@ -242,8 +242,6 @@ def health():
                 status = "200"; sample = len(data[:1])
             else:
                 status = "error or empty"
-        else:
-            status = "no key"
     except Exception:
         status = "exception"
     return {"ok": True, "version": APP_VERSION,
@@ -252,11 +250,15 @@ def health():
             "odds_shallow_status": status,
             "odds_sample_items": sample}
 
-# -------- Core: live SU/ATS/Totals + downloads --------
+# -------- Core: best-picks & downloads --------
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
     if week < 1 or week > 18: raise HTTPException(400, "Invalid week")
-    return get_live_or_mock_payload()
+    # extra guard to ensure we never 502
+    try:
+        return get_live_or_mock_payload()
+    except Exception:
+        return build_su_ats_totals(mock_games())
 
 @app.get("/v1/best-picks/2025/{week}/download")
 def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
