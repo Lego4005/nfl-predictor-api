@@ -7,11 +7,10 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES-WEEKED-1.1.0"
+APP_VERSION = "LIVE-LINES+PROPS-1.2.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
-# -------- CORS --------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,16 +19,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -------- ENV --------
 ODDS_API_KEY = (os.getenv("ODDS_API_KEY") or "").strip()
 ODDS_REGION  = ((os.getenv("ODDS_REGION") or "us").strip().lower())
 ODDS_SPORT   = ((os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip().lower())
 
-# NFL 2025 calendar (Week 1 begins Mon Sep 1, 2025 00:00 UTC → covers the full NFL week)
+# NFL 2025 calendar – week windows (UTC)
 NFL_2025_WEEK1_UTC = datetime(2025, 9, 1, 0, 0, 0, tzinfo=timezone.utc)
 WEEK_LENGTH = timedelta(days=7)
 
-# -------- Helpers --------
+def week_window_utc(week: int) -> Tuple[datetime, datetime]:
+    start = NFL_2025_WEEK1_UTC + WEEK_LENGTH * (week - 1)
+    end   = start + WEEK_LENGTH
+    return start, end
+
 def safe_float(x, default=None):
     try: return float(x)
     except Exception: return default
@@ -57,7 +59,7 @@ def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[s
         return items[:n]
 
 def _json_get(host: str, path: str, https=True, timeout=10):
-    """Returns (data, err, status) and never raises."""
+    """Return (data, err, status). Never raises."""
     try:
         conn = http.client.HTTPSConnection(host, timeout=timeout) if https else http.client.HTTPConnection(host, timeout=timeout)
         conn.request("GET", path)
@@ -75,35 +77,19 @@ def _json_get(host: str, path: str, https=True, timeout=10):
 
 def parse_commence_utc(s: Optional[str]) -> Optional[datetime]:
     if not s: return None
-    try:
-        # Odds API sample: "2025-09-05T00:21:00Z"
-        return datetime.fromisoformat(s.replace("Z", "+00:00"))
-    except Exception:
-        return None
+    try: return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except Exception: return None
 
-def week_window_utc(week: int) -> Tuple[datetime, datetime]:
-    start = NFL_2025_WEEK1_UTC + WEEK_LENGTH * (week - 1)
-    end   = start + WEEK_LENGTH
-    return start, end
-
-# -------- Odds API fetch --------
+# ---------------------- Odds API: games (h2h/spreads/totals) ----------------------
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
-    if not ODDS_API_KEY:
-        return None
-
-    qs = urlencode({
-        "regions": ODDS_REGION,
-        "oddsFormat": "american",
-        "apiKey": ODDS_API_KEY,
-    })
+    if not ODDS_API_KEY: return None
+    qs = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
 
     h2h, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
     spd, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
-
-    if not isinstance(h2h, list) or len(h2h) == 0:
-        return None
+    if not isinstance(h2h, list) or len(h2h) == 0: return None
 
     def idx(rows):
         out = {}
@@ -111,9 +97,9 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
         for g in rows:
             try:
                 home = g.get("home_team")
-                away = None
-                # capture commence_time
                 ct = parse_commence_utc(g.get("commence_time"))
+                # infer away
+                away = None
                 bks = g.get("bookmakers") or []
                 if bks and bks[0].get("markets"):
                     outs = bks[0]["markets"][0].get("outcomes") or []
@@ -175,22 +161,93 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             continue
     return games if games else None
 
-# -------- Mock fallback --------
+# ---------------------- Odds API: player props (Over/Under markets) ----------------------
+PROP_MARKETS = ",".join([
+    "player_pass_yds",
+    "player_pass_tds",
+    "player_rush_yds",
+    "player_rec_yds",
+    "player_receptions",
+])
+
+def fetch_player_props_raw() -> Optional[List[Dict[str, Any]]]:
+    if not ODDS_API_KEY: return None
+    qs = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY, "markets": PROP_MARKETS})
+    base = f"/v4/sports/{ODDS_SPORT}/odds"
+    data, _, _ = _json_get("api.the-odds-api.com", f"{base}?{qs}")
+    return data if isinstance(data, list) else None
+
+def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
+    raw = fetch_player_props_raw()
+    if not raw: return []
+
+    start_utc, end_utc = week_window_utc(week)
+    picks: List[Dict[str, Any]] = []
+
+    for ev in raw:
+        ct = parse_commence_utc(ev.get("commence_time"))
+        if ct and not (start_utc <= ct < end_utc):
+            continue  # filter by week window
+
+        bks = ev.get("bookmakers") or []
+        # use the first bookmaker with outcomes
+        for bm in bks:
+            mkts = bm.get("markets") or []
+            for m in mkts:
+                outs = m.get("outcomes") or []
+                over = next((o for o in outs if (o.get("name") or "").lower()=="over"), None)
+                under= next((o for o in outs if (o.get("name") or "").lower()=="under"), None)
+                line  = safe_float((over or under or {}).get("point"))
+                if line is None: 
+                    continue
+                op = american_to_prob(safe_float((over or {}).get("price")))
+                up = american_to_prob(safe_float((under or {}).get("price")))
+                of, uf = deflate_vig(op or 0.5, up or 0.5)
+                conf = max(of or 0.5, uf or 0.5)
+                side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
+
+                # player name surface may differ; try a few keys
+                player = m.get("player") or m.get("player_name") or ev.get("home_team")  # fallback
+                prop_key = m.get("key") or m.get("market") or "prop"
+
+                picks.append({
+                    "player": str(player),
+                    "prop_type": prop_key,
+                    "line": line,
+                    "pick": side,
+                    "confidence": round(conf, 3),
+                    "bookmaker": bm.get("title") or bm.get("key") or "N/A",
+                    "commence_time": ct.isoformat() if ct else None,
+                })
+            if picks:
+                break  # take the first bookmaker with data
+
+    # dedupe (player, prop_type) keeping highest confidence
+    best: Dict[Tuple[str,str], Dict[str,Any]] = {}
+    for p in picks:
+        k = (p["player"], p["prop_type"])
+        if k not in best or p["confidence"] > best[k]["confidence"]:
+            best[k] = p
+
+    top = list(best.values())
+    top.sort(key=lambda x: x["confidence"], reverse=True)
+    return top[:5]
+
+# ---------------------- Fallback game ----------------------
 def mock_games() -> List[Dict[str, Any]]:
+    ct = datetime(2025,9,5,0,21,0, tzinfo=timezone.utc).isoformat()
     return [{
-        "home_team":"BUF","away_team":"NYJ",
-        "commence_time": datetime(2025,9,5,0,21,0, tzinfo=timezone.utc).isoformat(),
+        "home_team":"BUF","away_team":"NYJ","commence_time": ct,
         "h2h_home":-120,"h2h_away":110,
         "spread":-3.5,"spread_team":"BUF","total":45.5,"over_odds":-110,"under_odds":-110
     }]
 
-# -------- Build SU/ATS/Totals --------
+# ---------------------- Build SU/ATS/Totals ----------------------
 def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
     seen = set()
     for g in games:
         home, away = g.get("home_team"), g.get("away_team")
-        # avoid duplicates in a week window
         key = (home or "", away or "")
         if key in seen: continue
         seen.add(key)
@@ -228,25 +285,13 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
             else:
                 tot_rows.append({"tot_pick": f"Under {total_line}", "tot_confidence": round(uf or 0.5, 4)})
 
-    # make sure we only return up to 5 for each section
     return {
         "top5_su": rank_top_n(su_rows, "su_confidence", 5),
         "top5_ats": rank_top_n(ats_rows, "ats_confidence", 5),
         "top5_totals": rank_top_n(tot_rows, "tot_confidence", 5),
     }
 
-def build_props_placeholder() -> List[Dict[str, Any]]:
-    # 5 mock props with pick + line so the UI can show "Over 1.5 TDs"
-    return [
-        {"player":"Josh Allen","prop_type":"Pass TDs","prediction":"Over 1.5","confidence":0.66, "pick":"Over","line":1.5},
-        {"player":"Jalen Hurts","prop_type":"Rush Yards","prediction":"Over 48.5","confidence":0.62, "pick":"Over","line":48.5},
-        {"player":"Patrick Mahomes","prop_type":"Pass Yards","prediction":"Over 285.5","confidence":0.60, "pick":"Over","line":285.5},
-        {"player":"Justin Jefferson","prop_type":"Receiving Yards","prediction":"Over 89.5","confidence":0.58, "pick":"Over","line":89.5},
-        {"player":"Bijan Robinson","prop_type":"Rush Attempts","prediction":"Over 16.5","confidence":0.57, "pick":"Over","line":16.5},
-    ]
-
-def get_live_or_mock_payload_for_week(week: int) -> Dict[str, Any]:
-    # pull snapshot, then filter by NFL week window
+def get_live_payload_for_week(week: int) -> Dict[str, Any]:
     snap = fetch_market_snap()
     games = snap if snap else mock_games()
 
@@ -254,20 +299,17 @@ def get_live_or_mock_payload_for_week(week: int) -> Dict[str, Any]:
     filtered = []
     for g in games:
         ct = parse_commence_utc(g.get("commence_time")) if isinstance(g.get("commence_time"), str) else parse_commence_utc(g.get("commence_time"))
-        if ct is None:
-            # if commence_time not present from Odds API, include it (better to include than drop everything)
-            filtered.append(g)
-            continue
-        if start_utc <= ct < end_utc:
+        if ct is None or (start_utc <= ct < end_utc):
             filtered.append(g)
 
     if not filtered:
-        filtered = games  # fallback to whatever we have
+        filtered = games
 
     core = build_su_ats_totals(filtered)
+    props = build_top_props_for_week(week) or []  # live props if available
     return {
         **core,
-        "top5_props": build_props_placeholder(),   # until we wire a live props provider
+        "top5_props": props,
         "top5_fantasy": [
             {"player":"Ja'Marr Chase","position":"WR","salary":8800,"value_score":3.45},
             {"player":"Bijan Robinson","position":"RB","salary":7800,"value_score":3.22},
@@ -277,56 +319,45 @@ def get_live_or_mock_payload_for_week(week: int) -> Dict[str, Any]:
         ],
     }
 
-# -------- Routes --------
+# ---------------------- Routes ----------------------
 @app.get("/")
 def root():
     return {"ok": True, "version": APP_VERSION}
 
 @app.get("/v1/health")
 def health():
-    # shallow check
-    qs = urlencode({"regions": ODDS_REGION, "markets": "h2h", "oddsFormat": "american", "apiKey": ODDS_API_KEY})
+    qs = urlencode({"regions": ODDS_REGION, "markets":"h2h", "oddsFormat":"american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
     data, err, st = _json_get("api.the-odds-api.com", f"{base}?{qs}")
-    status = "no key" if not ODDS_API_KEY else (str(st) if st else (err or "error"))
     sample = len(data[:1]) if isinstance(data, list) else 0
-    return {"ok": True, "version": APP_VERSION,
-            "odds_api_key_set": bool(ODDS_API_KEY),
-            "odds_region": ODDS_REGION,
-            "odds_sport": ODDS_SPORT,
-            "odds_shallow_status": status,
-            "odds_sample_items": sample}
+    status = str(st) if st else (err or "no key" if not ODDS_API_KEY else "error")
+    return {"ok": True, "version": APP_VERSION, "odds_api_key_set": bool(ODDS_API_KEY),
+            "odds_region": ODDS_REGION, "odds_sport": ODDS_SPORT,
+            "odds_shallow_status": status, "odds_sample_items": sample}
 
 @app.get("/v1/debug/snap")
 def debug_snap():
-    if not ODDS_API_KEY:
-        return {"ok": False, "reason": "No ODDS_API_KEY set"}
-    qs = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY})
+    qs = urlencode({"regions": ODDS_REGION, "oddsFormat":"american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
     h2h, err1, st1 = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
     spd, err2, st2 = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
     tot, err3, st3 = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
-
-    def pack(data, err, st):
-        return {
-            "status": st, "error": err,
-            "count": (len(data) if isinstance(data, list) else 0),
-            "sample": (data[:1] if isinstance(data, list) and data else [])
-        }
-    return {"sport": ODDS_SPORT, "region": ODDS_REGION,
-            "h2h": pack(h2h, err1, st1),
-            "spreads": pack(spd, err2, st2),
-            "totals": pack(tot, err3, st3)}
+    return {
+        "sport": ODDS_SPORT, "region": ODDS_REGION,
+        "h2h": {"status": st1, "error": err1, "count": (len(h2h) if isinstance(h2h, list) else 0)},
+        "spreads": {"status": st2, "error": err2, "count": (len(spd) if isinstance(spd, list) else 0)},
+        "totals": {"status": st3, "error": err3, "count": (len(tot) if isinstance(tot, list) else 0)},
+    }
 
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
     if week < 1 or week > 18: raise HTTPException(400, "Invalid week")
-    return get_live_or_mock_payload_for_week(week)
+    return get_live_payload_for_week(week)
 
 @app.get("/v1/best-picks/2025/{week}/download")
 def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     if week < 1 or week > 18: raise HTTPException(400, "Invalid week")
-    data = get_live_or_mock_payload_for_week(week)
+    data = get_live_payload_for_week(week)
     if format == "json":
         import json as _json
         return Response(content=_json.dumps(data), media_type="application/json")
