@@ -4,8 +4,9 @@ from fastapi.responses import FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, http.client, json as pyjson
 from fpdf import FPDF
+from urllib.parse import urlencode
 
-APP_VERSION = "LIVE-LINES-HARDENED-1.0.2"
+APP_VERSION = "LIVE-LINES-HARDENED-1.0.3"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -20,9 +21,8 @@ app.add_middleware(
 
 # -------- ENV --------
 ODDS_API_KEY = (os.getenv("ODDS_API_KEY") or "").strip()
-ODDS_REGION  = (os.getenv("ODDS_REGION") or "us").strip()
-# allow switching to preseason or a different sport without code changes
-ODDS_SPORT   = (os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip()
+ODDS_REGION  = ((os.getenv("ODDS_REGION") or "us").strip().lower())
+ODDS_SPORT   = ((os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip().lower())
 
 # -------- Helpers --------
 def safe_float(x, default=None):
@@ -52,9 +52,6 @@ def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[s
         return items[:n]
 
 def _json_get(host: str, path: str, https=True, timeout=10) -> Tuple[Optional[Any], Optional[str], Optional[int]]:
-    """
-    Safe GET that returns (data, error_message, status_code)
-    """
     try:
         conn = http.client.HTTPSConnection(host, timeout=timeout) if https else http.client.HTTPConnection(host, timeout=timeout)
         conn.request("GET", path)
@@ -73,13 +70,14 @@ def _json_get(host: str, path: str, https=True, timeout=10) -> Tuple[Optional[An
 
 # -------- Odds API fetch --------
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
-    """
-    Fetch H2H, spreads, totals snapshots. Returns None on any trouble or empty.
-    """
     if not ODDS_API_KEY:
         return None
 
-    qs   = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
+    qs = urlencode({
+        "regions": ODDS_REGION,
+        "oddsFormat": "american",
+        "apiKey": ODDS_API_KEY,
+    })
     base = f"/v4/sports/{ODDS_SPORT}/odds"
 
     h2h, err1, st1 = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
@@ -227,11 +225,15 @@ def root():
 
 @app.get("/v1/health")
 def health():
-    # shallow check
     status, sample = "no key", 0
     if ODDS_API_KEY:
+        qs = urlencode({
+            "regions": ODDS_REGION,
+            "markets": "h2h",
+            "oddsFormat": "american",
+            "apiKey": ODDS_API_KEY,
+        })
         base = f"/v4/sports/{ODDS_SPORT}/odds"
-        qs   = f"regions={ODDS_REGION}&markets=h2h&oddsFormat=american&apiKey={ODDS_API_KEY}"
         data, err, st = _json_get("api.the-odds-api.com", f"{base}?{qs}")
         if isinstance(data, list):
             status, sample = "200", len(data[:1])
@@ -248,14 +250,17 @@ def health():
 def debug_snap():
     if not ODDS_API_KEY:
         return {"ok": False, "reason": "No ODDS_API_KEY set"}
+    qs = urlencode({
+        "regions": ODDS_REGION,
+        "oddsFormat": "american",
+        "apiKey": ODDS_API_KEY,
+    })
     base = f"/v4/sports/{ODDS_SPORT}/odds"
-    qs   = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
-
     h2h, err1, st1 = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
     spd, err2, st2 = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
     tot, err3, st3 = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
 
-    def pack(name, data, err, st):
+    def pack(data, err, st):
         return {
             "status": st, "error": err,
             "count": (len(data) if isinstance(data, list) else 0),
@@ -263,9 +268,9 @@ def debug_snap():
         }
 
     return {"sport": ODDS_SPORT, "region": ODDS_REGION,
-            "h2h": pack("h2h", h2h, err1, st1),
-            "spreads": pack("spreads", spd, err2, st2),
-            "totals": pack("totals", tot, err3, st3)}
+            "h2h": pack(h2h, err1, st1),
+            "spreads": pack(spd, err2, st2),
+            "totals": pack(tot, err3, st3)}
 
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
