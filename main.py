@@ -5,7 +5,7 @@ from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, http.client, json as pyjson
 from fpdf import FPDF
 
-APP_VERSION = "LIVE-LINES-ODDSAPI-1.0.0"
+APP_VERSION = "LIVE-LINES-HARDENED-1.0.2"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -21,6 +21,7 @@ app.add_middleware(
 # -------- ENV --------
 ODDS_API_KEY = (os.getenv("ODDS_API_KEY") or "").strip()
 ODDS_REGION  = (os.getenv("ODDS_REGION") or "us").strip()
+# allow switching to preseason or a different sport without code changes
 ODDS_SPORT   = (os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip()
 
 # -------- Helpers --------
@@ -50,31 +51,40 @@ def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[s
     except Exception:
         return items[:n]
 
-def _json_get(host: str, path: str, https=True, timeout=10) -> Optional[Any]:
+def _json_get(host: str, path: str, https=True, timeout=10) -> Tuple[Optional[Any], Optional[str], Optional[int]]:
+    """
+    Safe GET that returns (data, error_message, status_code)
+    """
     try:
         conn = http.client.HTTPSConnection(host, timeout=timeout) if https else http.client.HTTPConnection(host, timeout=timeout)
         conn.request("GET", path)
         resp = conn.getresponse()
-        if resp.status != 200:
-            return None
-        return pyjson.loads(resp.read().decode("utf-8"))
-    except Exception:
-        return None
+        status = resp.status
+        if status != 200:
+            return None, f"http {status}", status
+        body = resp.read()
+        data = pyjson.loads(body.decode("utf-8"))
+        return data, None, status
+    except Exception as e:
+        return None, f"{type(e).__name__}", None
     finally:
         try: conn.close()
         except Exception: pass
 
 # -------- Odds API fetch --------
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
+    """
+    Fetch H2H, spreads, totals snapshots. Returns None on any trouble or empty.
+    """
     if not ODDS_API_KEY:
         return None
 
+    qs   = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
     base = f"/v4/sports/{ODDS_SPORT}/odds"
-    qs = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
 
-    h2h = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
-    spd = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
-    tot = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
+    h2h, err1, st1 = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
+    spd, err2, st2 = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
+    tot, err3, st3 = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
 
     if not isinstance(h2h, list) or len(h2h) == 0:
         return None
@@ -127,7 +137,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         pt = safe_float(o.get("point")); nm = o.get("name")
                         if pt is not None and pt < 0:
                             entry["spread"] = pt; entry["spread_team"] = nm; break
-            # Total
+            # Totals
             trow = tot_idx.get(key)
             if trow:
                 bks = trow.get("bookmakers") or []
@@ -144,6 +154,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             games.append(entry)
         except Exception:
             continue
+
     return games if games else None
 
 # -------- Mock fallback --------
@@ -211,19 +222,21 @@ def get_live_or_mock_payload() -> Dict[str, Any]:
 
 # -------- Routes --------
 @app.get("/")
-def root(): return {"ok": True, "version": APP_VERSION}
+def root():
+    return {"ok": True, "version": APP_VERSION}
 
 @app.get("/v1/health")
 def health():
+    # shallow check
     status, sample = "no key", 0
     if ODDS_API_KEY:
         base = f"/v4/sports/{ODDS_SPORT}/odds"
         qs   = f"regions={ODDS_REGION}&markets=h2h&oddsFormat=american&apiKey={ODDS_API_KEY}"
-        data = _json_get("api.the-odds-api.com", f"{base}?{qs}")
+        data, err, st = _json_get("api.the-odds-api.com", f"{base}?{qs}")
         if isinstance(data, list):
             status, sample = "200", len(data[:1])
         else:
-            status = "error or empty"
+            status = err or "error or empty"
     return {"ok": True, "version": APP_VERSION,
             "odds_api_key_set": bool(ODDS_API_KEY),
             "odds_region": ODDS_REGION,
@@ -237,14 +250,22 @@ def debug_snap():
         return {"ok": False, "reason": "No ODDS_API_KEY set"}
     base = f"/v4/sports/{ODDS_SPORT}/odds"
     qs   = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
-    h2h = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
-    spd = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
-    tot = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
-    def count_first(lst):
-        return {"count": (len(lst) if isinstance(lst, list) else 0),
-                "sample": (lst[:1] if isinstance(lst, list) and lst else [])}
+
+    h2h, err1, st1 = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
+    spd, err2, st2 = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
+    tot, err3, st3 = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
+
+    def pack(name, data, err, st):
+        return {
+            "status": st, "error": err,
+            "count": (len(data) if isinstance(data, list) else 0),
+            "sample": (data[:1] if isinstance(data, list) and data else [])
+        }
+
     return {"sport": ODDS_SPORT, "region": ODDS_REGION,
-            "h2h": count_first(h2h), "spreads": count_first(spd), "totals": count_first(tot)}
+            "h2h": pack("h2h", h2h, err1, st1),
+            "spreads": pack("spreads", spd, err2, st2),
+            "totals": pack("totals", tot, err3, st3)}
 
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
