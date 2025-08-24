@@ -1,11 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from typing import Dict
-import json
-import csv
-import io
-import datetime
+from typing import List
+import random
 
 app = FastAPI()
 
@@ -17,10 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-import random
-
 def get_mock_predictions(week: int):
-    # Seed for consistent weekly output
     random.seed(week)
 
     teams = ["BUF", "NYJ", "KC", "CIN", "PHI", "SF", "DAL", "MIA", "DET", "BAL", "LAR", "SEA", "GB", "MIN", "NE", "TEN"]
@@ -85,49 +78,6 @@ def get_mock_predictions(week: int):
     }
 
 @app.get("/v1/best-picks/2025/{week}")
-def get_predictions(week: int):
-    if week < 1 or week > 18:
-        raise HTTPException(status_code=400, detail="Invalid week")
+def best_picks(week: int):
     return get_mock_predictions(week)
 
-@app.get("/v1/best-picks/2025/{week}/download")
-def download_predictions(week: int, format: str):
-    if week < 1 or week > 18:
-        raise HTTPException(status_code=400, detail="Invalid week")
-    picks = get_mock_predictions(week)
-
-    if format == "json":
-        return picks
-
-    elif format == "csv":
-        output = io.StringIO()
-        writer = csv.writer(output)
-        for category, items in picks.items():
-            writer.writerow([category])
-            writer.writerow(items[0].keys())
-            for row in items:
-                writer.writerow(row.values())
-            writer.writerow([])
-        output.seek(0)
-        return FileResponse(io.BytesIO(output.getvalue().encode()), media_type='text/csv', filename=f"week_{week}_predictions.csv")
-
-    elif format == "pdf":
-        from fpdf import FPDF
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt=f"NFL 2025 - Week {week} Predictions", ln=True, align='C')
-        for category, items in picks.items():
-            pdf.ln(10)
-            pdf.set_font("Arial", style='B', size=12)
-            pdf.cell(200, 10, txt=category.upper(), ln=True)
-            pdf.set_font("Arial", size=10)
-            for item in items:
-                line = ", ".join([f"{k}: {v}" for k, v in item.items()])
-                pdf.multi_cell(0, 8, txt=line)
-        filename = f"week_{week}_predictions.pdf"
-        pdf.output(filename)
-        return FileResponse(filename, media_type='application/pdf')
-
-    else:
-        raise HTTPException(status_code=400, detail="Invalid format")
