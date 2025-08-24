@@ -5,14 +5,14 @@ from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, sqlite3, http.client, json as pyjson
 from fpdf import FPDF
 
-app = FastAPI(title="NFL Predictor API", version="1.0.0")
+app = FastAPI(title="NFL Predictor API", version="1.2.0")
 
 # -----------------------------
 # CORS
 # -----------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # restrict to your frontend domain later if desired
+    allow_origins=["*"],  # restrict to your frontend later if you like
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,6 +25,9 @@ ODDS_API_KEY = os.getenv("ODDS_API_KEY", "").strip()
 ODDS_REGION = os.getenv("ODDS_REGION", "us")
 PREDICTION_PROVIDER = os.getenv("PREDICTION_PROVIDER", "market").lower()  # market | ml
 DB_PATH = os.getenv("DB_PATH", "predictions.db")
+
+# FantasyData (optional for DFS projections)
+FANTASYDATA_API_KEY = os.getenv("FANTASYDATA_API_KEY", "").strip()  # header: Ocp-Apim-Subscription-Key
 
 # -----------------------------
 # DB
@@ -93,7 +96,7 @@ def safe_float(x, default=None):
         return default
 
 # -----------------------------
-# External odds (The Odds API)
+# THE ODDS API helpers
 # -----------------------------
 def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY:
@@ -101,7 +104,7 @@ def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, A
     query = "&".join(f"{k}={v}" for k, v in params.items())
     url = f"/v4{path}?apiKey={ODDS_API_KEY}&{query}"
     try:
-        conn = http.client.HTTPSConnection("api.the-odds-api.com", timeout=10)
+        conn = http.client.HTTPSConnection("api.the-odds-api.com", timeout=12)
         conn.request("GET", url)
         resp = conn.getresponse()
         if resp.status != 200:
@@ -117,8 +120,8 @@ def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, A
         except Exception:
             pass
 
-def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
-    # Demo pulls latest markets (no date→week mapping). Good enough to prove live integration.
+def fetch_week_odds_from_api() -> Optional[List[Dict[str, Any]]]:
+    # Not week-specific (API is event-based), but good enough to reflect current market
     h2h = _oddsapi_get("/sports/americanfootball_nfl/odds",
                        {"regions": ODDS_REGION, "markets": "h2h", "oddsFormat": "american"})
     spd = _oddsapi_get("/sports/americanfootball_nfl/odds",
@@ -201,7 +204,170 @@ def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
     return results
 
 # -----------------------------
-# Mock games (fallback)
+# Player Props (The Odds API)
+# -----------------------------
+PROP_MARKETS = ",".join([
+    "player_pass_yds",
+    "player_pass_tds",
+    "player_rush_yds",
+    "player_rec_yds",
+    "player_receptions",
+])
+
+def fetch_player_props_from_oddsapi() -> Optional[List[Dict[str, Any]]]:
+    if not ODDS_API_KEY:
+        return None
+    rows = _oddsapi_get("/sports/americanfootball_nfl/odds",
+                        {"regions": ODDS_REGION, "markets": PROP_MARKETS, "oddsFormat": "american"})
+    return rows
+
+def build_prop_picks_from_oddsapi() -> List[Dict[str, Any]]:
+    """
+    For each player market, choose the side (Over/Under) with higher fair probability
+    based on the best bookmaker listed. Rank by confidence and return top 5.
+    """
+    data = fetch_player_props_from_oddsapi()
+    if not data:
+        return []
+
+    picks = []
+    for event in data:
+        for bm in (event.get("bookmakers") or []):
+            for mkt in (bm.get("markets") or []):
+                market_key = mkt.get("key")  # e.g., player_pass_yds
+                outcomes = mkt.get("outcomes") or []
+                # Normalize: find Over/Under with point & price
+                over = next((o for o in outcomes if (o.get("name") or "").lower() == "over"), None)
+                under = next((o for o in outcomes if (o.get("name") or "").lower() == "under"), None)
+                player_name = mkt.get("player") or mkt.get("player_name") or None  # some feeds include this
+                line = None
+                over_prob = under_prob = None
+
+                if over:
+                    line = safe_float(over.get("point"), line)
+                    over_prob = american_to_prob(safe_float(over.get("price")))
+                if under:
+                    line = safe_float(under.get("point"), line)
+                    under_prob = american_to_prob(safe_float(under.get("price")))
+
+                if over_prob is None and under_prob is None:
+                    continue
+
+                o_fair, u_fair = deflate_vig(over_prob or 0.5, under_prob or 0.5)
+                if o_fair is None or u_fair is None:
+                    continue
+
+                side = "Over" if o_fair >= u_fair else "Under"
+                conf = max(o_fair, u_fair)
+                picks.append({
+                    "player": player_name or "TBD",
+                    "prop_type": market_key or "prop",
+                    "line": line,
+                    "pick": side,
+                    "confidence": round(conf, 3),
+                    "bookmaker": bm.get("title") or "N/A",
+                })
+
+    # Deduplicate by (player, prop_type) keeping the highest confidence
+    dedup = {}
+    for p in picks:
+        key = (p["player"], p["prop_type"])
+        if key not in dedup or p["confidence"] > dedup[key]["confidence"]:
+            dedup[key] = p
+
+    top = list(dedup.values())
+    top.sort(key=lambda x: x["confidence"], reverse=True)
+    return top[:5]
+
+# -----------------------------
+# Fantasy/DFS (FantasyData)
+# -----------------------------
+def fetch_fantasy_from_fantasydata(week: int) -> Optional[List[Dict[str, Any]]]:
+    """
+    Uses FantasyData projections: top players by projected fantasy points.
+    API doc (example): /projections/json/PlayerGameProjectionStatsByWeek/{season}/{week}
+    Header: Ocp-Apim-Subscription-Key: <key>
+    """
+    if not FANTASYDATA_API_KEY:
+        return None
+
+    # Season format e.g., 2025REG / 2025PRE depending on timing; we default to REG here.
+    season = "2025REG"
+    path = f"/v3/nfl/projections/json/PlayerGameProjectionStatsByWeek/{season}/{week}"
+    try:
+        conn = http.client.HTTPSConnection("api.fantasydata.net", timeout=12)
+        conn.request("GET", path, headers={"Ocp-Apim-Subscription-Key": FANTASYDATA_API_KEY})
+        resp = conn.getresponse()
+        if resp.status != 200:
+            return None
+        body = resp.read()
+        arr = pyjson.loads(body.decode("utf-8"))
+        if not isinstance(arr, list):
+            return None
+        # Map minimal fields
+        rows = []
+        for r in arr:
+            rows.append({
+                "player": r.get("Name") or r.get("ShortName") or "TBD",
+                "position": r.get("Position") or "",
+                "team": r.get("Team") or "",
+                "proj_points": safe_float(r.get("FantasyPointsDraftKings"), safe_float(r.get("FantasyPoints"), 0.0)),
+                "salary": safe_float(r.get("DraftKingsSalary"), 0.0),
+            })
+        return rows
+    except Exception:
+        return None
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+def build_fantasy_picks(week: int) -> List[Dict[str, Any]]:
+    data = fetch_fantasy_from_fantasydata(week)
+    if not data:
+        # placeholder if no key or API failed
+        random.seed(1000 + week)
+        players = [
+            ("Josh Allen","QB"), ("Christian McCaffrey","RB"), ("Tyreek Hill","WR"),
+            ("CeeDee Lamb","WR"), ("Travis Kelce","TE"), ("Lamar Jackson","QB"),
+            ("Ja'Marr Chase","WR"), ("Amon-Ra St. Brown","WR"), ("Bijan Robinson","RB"),
+            ("Garrett Wilson","WR")
+        ]
+        rows = []
+        for i in range(5):
+            name, pos = random.choice(players)
+            salary = random.randint(4500, 9500)
+            proj = round(random.uniform(12, 28), 2)
+            value = round(proj / max(salary,1) * 1000.0, 3)  # pts per $1k
+            rows.append({
+                "player": name, "position": pos, "salary": salary,
+                "proj_points": proj, "value_score": value
+            })
+        return rows
+
+    # Rank by value if salary present, else by projected points
+    for r in data:
+        pts = r.get("proj_points") or 0.0
+        sal = r.get("salary") or 0.0
+        r["value_score"] = round((pts / sal) * 1000.0, 3) if sal > 0 else round(pts, 3)
+
+    data.sort(key=lambda x: (x.get("value_score") or 0.0), reverse=True)
+    top = []
+    for r in data[:25]:  # sample more, then pick diverse positions
+        top.append({
+            "player": r.get("player","TBD"),
+            "position": r.get("position",""),
+            "salary": r.get("salary", 0.0),
+            "proj_points": r.get("proj_points", 0.0),
+            "value_score": r.get("value_score", 0.0)
+        })
+        if len(top) >= 5:
+            break
+    return top
+
+# -----------------------------
+# Mock games (fallback for SU/ATS/Totals)
 # -----------------------------
 TEAMS = ["BUF","KC","PHI","DAL","MIA","CIN","SF","NYJ","DET","BAL","SEA","GB","MIN","LAR","PIT","JAX"]
 
@@ -236,7 +402,7 @@ def mock_games_for_week(week: int) -> List[Dict[str, Any]]:
     return games
 
 # -----------------------------
-# Build predictions from games
+# Build SU/ATS/Totals from games
 # -----------------------------
 def build_from_games(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
@@ -290,30 +456,28 @@ def build_from_games(games: List[Dict[str, Any]]) -> Dict[str, Any]:
         "top5_su": rank_top_n(su_rows, "su_confidence", 5),
         "top5_ats": rank_top_n(ats_rows, "ats_confidence", 5),
         "top5_totals": rank_top_n(tot_rows, "tot_confidence", 5),
-        "top5_props": [{"player": "TBD", "prop_type": "TBD", "prediction": 0, "confidence": 0.0} for _ in range(5)],
-        "top5_fantasy": [{"player": "TBD", "position": "TBD", "salary": 0, "value_score": 0.0} for _ in range(5)]
     }
 
-def get_market_predictions(week: int) -> Dict[str, Any]:
-    api_games = fetch_week_odds_from_api(week)
-    games = api_games if api_games else mock_games_for_week(week)
+# -----------------------------
+# Market vs ML switch
+# -----------------------------
+def get_market_predictions() -> Dict[str, Any]:
+    api_games = fetch_week_odds_from_api()
+    games = api_games if api_games else mock_games_for_week(1)  # not truly week-bound
     return build_from_games(games)
 
-def get_ml_predictions(week: int) -> Dict[str, Any]:
-    # Stub for future ML models (keep shape identical)
-    random.seed(999 + week)
+def get_ml_predictions() -> Dict[str, Any]:
+    random.seed(999)
     return {
         "top5_su": [{"home": "TBD", "away": "TBD", "su_pick": "TBD", "su_confidence": 0.55} for _ in range(5)],
         "top5_ats": [{"matchup": "TBD @ TBD", "ats_pick": "TBD -2.5", "ats_confidence": 0.55} for _ in range(5)],
         "top5_totals": [{"matchup": "TBD @ TBD", "tot_pick": "Over 45.5", "tot_confidence": 0.55} for _ in range(5)],
-        "top5_props": [{"player": "TBD", "prop_type": "TBD", "prediction": 0, "confidence": 0.5} for _ in range(5)],
-        "top5_fantasy": [{"player": "TBD", "position": "TBD", "salary": 0, "value_score": 0.0} for _ in range(5)]
     }
 
-def get_predictions_for_week(week: int) -> Dict[str, Any]:
+def get_predictions_core() -> Dict[str, Any]:
     if PREDICTION_PROVIDER == "ml":
-        return get_ml_predictions(week)
-    return get_market_predictions(week)
+        return get_ml_predictions()
+    return get_market_predictions()
 
 # -----------------------------
 # Routes
@@ -337,29 +501,62 @@ def root():
 
 @app.get("/v1/health")
 def health():
-    return {"ok": True, "provider": PREDICTION_PROVIDER, "ts": datetime.datetime.utcnow().isoformat() + "Z"}
+    return {
+        "ok": True,
+        "provider": PREDICTION_PROVIDER,
+        "odds_api_key_set": bool(ODDS_API_KEY),
+        "fantasydata_key_set": bool(FANTASYDATA_API_KEY),
+        "ts": datetime.datetime.utcnow().isoformat()+"Z"
+    }
 
 @app.get("/v1/debug")
 def debug():
     return {
-        "odds_api_key_set": bool(ODDS_API_KEY),
         "provider": PREDICTION_PROVIDER,
-        "db_path": DB_PATH
+        "db_path": DB_PATH,
+        "odds_api_key_set": bool(ODDS_API_KEY),
+        "fantasydata_key_set": bool(FANTASYDATA_API_KEY),
     }
 
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
     if week < 1 or week > 18:
         raise HTTPException(status_code=400, detail="Invalid week (1–18)")
-    data = get_predictions_for_week(week)
-    save_predictions(week, data)
-    return data
+
+    core = get_predictions_core()
+    # Props
+    prop_picks = build_prop_picks_from_oddsapi() if ODDS_API_KEY else []
+    if not prop_picks:
+        # graceful placeholders if no key or API returns nothing
+        random.seed(week + 2025)
+        sample_players = ["Josh Allen", "Patrick Mahomes", "Tyreek Hill", "Jalen Hurts", "Christian McCaffrey",
+                          "Justin Jefferson", "Lamar Jackson", "Amon-Ra St. Brown", "Ja'Marr Chase", "Joe Burrow"]
+        sample_types = ["player_pass_yds", "player_rush_yds", "player_rec_yds", "player_pass_tds", "player_receptions"]
+        prop_picks = [{
+            "player": random.choice(sample_players),
+            "prop_type": random.choice(sample_types),
+            "line": random.randint(40, 300),
+            "pick": random.choice(["Over", "Under"]),
+            "confidence": round(random.uniform(0.52, 0.7), 3),
+            "bookmaker": "N/A",
+        } for _ in range(5)]
+
+    # Fantasy
+    fantasy = build_fantasy_picks(week)
+
+    payload = {
+        **core,
+        "top5_props": prop_picks[:5],
+        "top5_fantasy": fantasy[:5]
+    }
+    save_predictions(week, payload)
+    return payload
 
 @app.get("/v1/best-picks/2025/{week}/download")
 def download_predictions(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     if week < 1 or week > 18:
         raise HTTPException(status_code=400, detail="Invalid week (1–18)")
-    data = get_predictions_for_week(week)
+    data = best_picks(week)
 
     if format == "json":
         return JSONResponse(content=data)
@@ -401,7 +598,3 @@ def download_predictions(week: int, format: str = Query("json", regex="^(json|cs
         return FileResponse(filename, media_type="application/pdf", filename=os.path.basename(filename))
 
     raise HTTPException(status_code=400, detail="Invalid format")
-
-
-
-
