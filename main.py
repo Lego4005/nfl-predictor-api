@@ -4,27 +4,29 @@ from fastapi.responses import JSONResponse, FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, http.client, json as pyjson
 from fpdf import FPDF
-
-# Optimizer
 from pulp import LpVariable, LpProblem, LpMaximize, lpSum, LpBinary, LpStatusOptimal, PULP_CBC_CMD
 
-app = FastAPI(title="NFL Predictor API", version="3.0.0")
+app = FastAPI(title="NFL Predictor API", version="4.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # tighten later
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ------------------ ENV ------------------
+# ============================
+# ENV
+# ============================
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "").strip()
-ODDS_REGION   = os.getenv("ODDS_REGION", "us")
+ODDS_REGION = os.getenv("ODDS_REGION", "us")
 FANTASYDATA_API_KEY = os.getenv("FANTASYDATA_API_KEY", "").strip()
-FANTASY_SEASON = os.getenv("FANTASY_SEASON", "2025REG")
+FANTASY_SEASON = os.getenv("FANTASY_SEASON", "2025REG")  # e.g., 2025REG
 
-# ------------------ Helpers ------------------
+# ============================
+# Helpers
+# ============================
 def american_to_prob(odds: Optional[float]) -> Optional[float]:
     if odds is None: return None
     try: o = float(odds)
@@ -46,7 +48,9 @@ def safe_float(x, default=None):
 def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[str, Any]]:
     return sorted(items, key=lambda r: r.get(key, 0.0), reverse=True)[:n]
 
-# ------------------ Live Odds (The Odds API) ------------------
+# ============================
+# Live SU/ATS/Totals (The Odds API)
+# ============================
 def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
     q = "&".join(f"{k}={v}" for k,v in params.items())
@@ -189,8 +193,10 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
 
         op = american_to_prob(g.get("over_odds"))
         up = american_to_prob(g.get("under_odds"))
-        if op is not None and up is not None: of, uf = deflate_vig(op, up)
-        else: of, uf = 0.5, 0.5
+        if op is not None and up is not None:
+            of, uf = deflate_vig(op, up)
+        else:
+            of, uf = 0.5, 0.5
 
         if of >= uf:
             tot_rows.append({"tot_pick": f"Over {g.get('total')}",  "tot_confidence": round(of, 4)})
@@ -208,7 +214,9 @@ def get_market_predictions() -> Dict[str, Any]:
     games = snap if snap else mock_games_for_week(1)
     return build_su_ats_totals(games)
 
-# ------------------ Live Player Props (Odds API) ------------------
+# ============================
+# Live Props (Odds API)
+# ============================
 PROP_MARKETS = ",".join(["player_pass_yds","player_pass_tds","player_rush_yds","player_rec_yds","player_receptions"])
 
 def fetch_player_props() -> Optional[List[Dict[str, Any]]]:
@@ -235,15 +243,10 @@ def build_top_props() -> List[Dict[str, Any]]:
                 if of is None or uf is None: continue
                 side = "Over" if of >= uf else "Under"
                 conf = round(max(of, uf), 3)
-                picks.append({
-                    "player": player,
-                    "prop_type": mkt.get("key","prop"),
-                    "line": line,
-                    "pick": side,
-                    "confidence": conf,
-                    "bookmaker": bm.get("title") or "N/A",
-                })
-    # Dedup (player, prop_type)
+                picks.append({"player": player, "prop_type": mkt.get("key","prop"),
+                              "line": line, "pick": side, "confidence": conf,
+                              "bookmaker": bm.get("title") or "N/A"})
+    # Dedup
     best = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
@@ -252,7 +255,9 @@ def build_top_props() -> List[Dict[str, Any]]:
     top = list(best.values()); top.sort(key=lambda x: x["confidence"], reverse=True)
     return top[:5]
 
-# ------------------ Live Fantasy (FantasyData) ------------------
+# ============================
+# Live Fantasy (FantasyData)
+# ============================
 def fetch_fantasydata_week(week: int) -> Optional[List[Dict[str, Any]]]:
     if not FANTASYDATA_API_KEY: return None
     path = f"/v3/nfl/projections/json/PlayerGameProjectionStatsByWeek/{FANTASY_SEASON}/{week}"
@@ -292,18 +297,23 @@ def build_fantasy_week(week: int) -> List[Dict[str, Any]]:
         pts  = safe_float(r.get("FantasyPointsDraftKings"), safe_float(r.get("FantasyPoints"), 0.0))
         sal  = safe_float(r.get("DraftKingsSalary"), 0.0)
         value= round((pts / sal) * 1000.0, 3) if sal and sal > 0 else round(pts, 3)
-        rows.append({"player": name, "position": pos, "team": team, "salary": sal or 0.0, "proj_points": round(pts or 0.0, 2), "value_score": value})
+        rows.append({"player": name, "position": pos, "team": team, "salary": sal or 0.0,
+                     "proj_points": round(pts or 0.0, 2), "value_score": value})
     rows.sort(key=lambda x: (x.get("value_score") or 0.0), reverse=True)
     return rows[:5]
 
-# ------------------ Compose Best Picks ------------------
+# ============================
+# Compose best-picks payload
+# ============================
 def get_best_picks_payload(week: int) -> Dict[str, Any]:
     core = get_market_predictions()
     props = build_top_props() if ODDS_API_KEY else []
     fantasy = build_fantasy_week(week)
     return {**core, "top5_props": props[:5] if props else [], "top5_fantasy": fantasy}
 
-# ------------------ Classic DFS Lineup (placeholder) ------------------
+# ============================
+# DFS lineup — (placeholder; will switch to optimizer after salary ingestion)
+# ============================
 def get_mock_lineup(week: int) -> Dict:
     random.seed(4000 + week)
     return {
@@ -324,7 +334,163 @@ def get_mock_lineup(week: int) -> Dict:
         ]
     }
 
-# ------------------ Routes ------------------
+# ============================
+# Salary ingestion & Optimizer
+# ============================
+SALARIES: Dict[str, Dict[int, List[Dict[str, Any]]]] = {"DK": {}, "FD": {}}
+SITE_CAP = {"DK": 50000, "FD": 60000}
+# classic: QB, RBx2, WRx3, TE, FLEX, DST (both DK & FD NFL classic)
+SLOTS = ["QB","RB","RB","WR","WR","WR","TE","FLEX","DST"]
+
+def normalize_row(d: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    # accept headers case-insensitively
+    m = {k.lower().strip(): v for k, v in d.items()}
+    player = m.get("player"); pos = (m.get("position") or "").upper()
+    team = m.get("team") or ""
+    salary = safe_float(m.get("salary"))
+    proj = safe_float(m.get("proj_points"))
+    if not player or not pos or salary is None:
+        return None
+    return {"player": player, "position": pos, "team": team, "salary": salary, "proj_points": proj}
+
+@app.post("/v1/salaries/{site}/{week}")
+async def upload_salaries(site: str, week: int, file: UploadFile = File(...)):
+    site = site.upper()
+    if site not in SALARIES: raise HTTPException(400, "site must be DK or FD")
+    if week < 1 or week > 18: raise HTTPException(400, "Invalid week (1-18)")
+    content = await file.read()
+    try:
+        reader = csv.DictReader(io.StringIO(content.decode("utf-8")))
+    except Exception:
+        raise HTTPException(400, "Invalid CSV encoding")
+    rows = []
+    for r in reader:
+        nr = normalize_row(r)
+        if nr: rows.append(nr)
+    if not rows: raise HTTPException(400, "No valid rows found (need: player, position, salary)")
+    SALARIES[site][week] = rows
+    return {"site": site, "week": week, "count": len(rows)}
+
+@app.get("/v1/salaries/{site}/{week}")
+def get_salaries(site: str, week: int):
+    site = site.upper()
+    if site not in SALARIES: raise HTTPException(400, "site must be DK or FD")
+    return {"site": site, "week": week, "count": len(SALARIES[site].get(week, [])), "rows": SALARIES[site].get(week, [])[:20]}
+
+def optimize_lineup(site: str, week: int) -> Dict[str, Any]:
+    site = site.upper()
+    cap = SITE_CAP.get(site, 50000)
+    pool = SALARIES.get(site, {}).get(week, [])
+    if not pool:
+        raise HTTPException(400, f"No salaries stored for {site} week {week}. Upload CSV to /v1/salaries/{site}/{week}")
+
+    # Fill projections if missing using FantasyData or a heuristic
+    has_any_proj = any((r.get("proj_points") is not None) for r in pool)
+    if not has_any_proj:
+        # Try FantasyData; if not set, build a simple heuristic
+        arr = fetch_fantasydata_week(week)
+        proj_map = {}
+        if arr:
+            for r in arr:
+                name = r.get("Name") or r.get("ShortName")
+                pts  = safe_float(r.get("FantasyPointsDraftKings"), safe_float(r.get("FantasyPoints"), 0.0))
+                if name and pts is not None: proj_map[name.lower()] = pts
+        for r in pool:
+            if r.get("proj_points") is None:
+                r["proj_points"] = proj_map.get(r["player"].lower(), max(6.0, 0.002 * r["salary"]))  # simple fallback
+
+    # ILP model
+    prob = LpProblem("dfs", LpMaximize)
+    x = [LpVariable(f"x_{i}", cat=LpBinary) for i in range(len(pool))]
+
+    # Objective: maximize projected points
+    prob += lpSum([x[i] * (pool[i]["proj_points"] or 0.0) for i in range(len(pool))])
+
+    # Salary cap
+    prob += lpSum([x[i] * (pool[i]["salary"] or 0.0) for i in range(len(pool))]) <= cap
+
+    # Roster constraints
+    def exactly(n, position):
+        prob.addConstraint(lpSum([x[i] for i in range(len(pool)) if pool[i]["position"] == position]) == n)
+    def at_least(n, positions):
+        prob.addConstraint(lpSum([x[i] for i in range(len(pool)) if pool[i]["position"] in positions]) >= n)
+
+    # Classic NFL: QB(1), RB(2), WR(3), TE(1), DST(1), FLEX(1 from RB/WR/TE)
+    exactly(1, "QB")
+    exactly(2, "RB")
+    exactly(3, "WR")
+    exactly(1, "TE")
+    exactly(1, "DST")
+    # FLEX: one extra from RB/WR/TE
+    at_least(3, ["RB","WR"])  # with WR=3 and RB=2 -> >=5 already; we ensure at least 6 across RB/WR/TE in total
+    at_least(6, ["RB","WR","TE"])
+
+    # Total players must equal 9
+    prob += lpSum(x) == 9
+
+    # Solve
+    prob.solve(PULP_CBC_CMD(msg=False))
+
+    if prob.status != LpStatusOptimal:
+        raise HTTPException(400, "Unable to find optimal lineup with given pool/cap")
+
+    chosen = [pool[i] for i in range(len(pool)) if x[i].value() == 1]
+    total_salary = int(sum(r["salary"] or 0 for r in chosen))
+    projected = round(sum(r["proj_points"] or 0 for r in chosen), 2)
+
+    # Order into slots QB, RB, RB, WR, WR, WR, TE, FLEX, DST
+    def pop_first(role):
+        for j, r in enumerate(chosen):
+            if r["position"] == role:
+                return chosen.pop(j)
+        return None
+    ordered = []
+    ordered.append(pop_first("QB"))
+    ordered.append(pop_first("RB")); ordered.append(pop_first("RB"))
+    ordered.append(pop_first("WR")); ordered.append(pop_first("WR")); ordered.append(pop_first("WR"))
+    ordered.append(pop_first("TE"))
+    # FLEX: first remaining RB/WR/TE
+    flex = None
+    for j, r in enumerate(chosen):
+        if r["position"] in ("RB","WR","TE"): flex = chosen.pop(j); break
+    ordered.append(flex)
+    # DST
+    ordered.append(pop_first("DST"))
+
+    # Map to output rows
+    lineup_rows = []
+    slot_names = ["QB","RB","RB","WR","WR","WR","TE","FLEX","DST"]
+    for s, r in zip(slot_names, ordered):
+        if r:
+            lineup_rows.append({
+                "position": s,
+                "player": r["player"],
+                "team": r.get("team",""),
+                "salary": r["salary"],
+                "proj_points": round(r.get("proj_points",0.0), 2)
+            })
+
+    return {
+        "site": site,
+        "week": week,
+        "salary_cap": cap,
+        "total_salary": total_salary,
+        "projected_points": projected,
+        "lineup": lineup_rows
+    }
+
+# ============================
+# Compose Best Picks payload
+# ============================
+def get_best_picks_payload(week: int) -> Dict[str, Any]:
+    core = get_market_predictions()
+    props = build_top_props() if ODDS_API_KEY else []
+    fantasy = build_fantasy_week(week)
+    return {**core, "top5_props": props[:5] if props else [], "top5_fantasy": fantasy}
+
+# ============================
+# Routes
+# ============================
 @app.get("/v1/health")
 def health():
     return {
@@ -372,6 +538,9 @@ def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     raise HTTPException(status_code=400, detail="Invalid format")
 
 @app.get("/v1/lineup/2025/{week}")
-def get_dfs_lineup(week: int):
-    if week < 1 or week > 18: raise HTTPException(status_code=400, detail="Invalid week (1–18)")
-    return get_mock_lineup(week)
+def get_lineup(site: str = Query("DK", regex="^(DK|FD)$"), week: int = 1):
+    # If salaries were uploaded → optimized lineup; else fallback placeholder
+    try:
+        return optimize_lineup(site, week)
+    except HTTPException:
+        return get_mock_lineup(week)
