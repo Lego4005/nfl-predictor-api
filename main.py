@@ -1,31 +1,25 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 from typing import Dict, Any, List, Optional, Tuple
 import os, io, csv, random, datetime, sqlite3, http.client, json as pyjson
 from fpdf import FPDF
 
-# -----------------------------
-# App & CORS
-# -----------------------------
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], allow_credentials=True,
-    allow_methods=["*"], allow_headers=["*"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# -----------------------------
-# Env & Globals
-# -----------------------------
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "").strip()
 ODDS_REGION = os.getenv("ODDS_REGION", "us")
-PREDICTION_PROVIDER = os.getenv("PREDICTION_PROVIDER", "market").lower()  # market | ml
+PREDICTION_PROVIDER = os.getenv("PREDICTION_PROVIDER", "market").lower()
 DB_PATH = os.getenv("DB_PATH", "predictions.db")
 
-# -----------------------------
-# DB (SQLite)
-# -----------------------------
 def init_db():
     with sqlite3.connect(DB_PATH) as con:
         con.execute("""
@@ -56,9 +50,6 @@ def save_predictions(week: int, payload: Dict[str, Any]):
             (week, pyjson.dumps(payload), datetime.datetime.utcnow().isoformat()+"Z")
         )
 
-# -----------------------------
-# Odds helpers
-# -----------------------------
 def american_to_prob(odds: Optional[float]) -> Optional[float]:
     if odds is None:
         return None
@@ -68,7 +59,7 @@ def american_to_prob(odds: Optional[float]) -> Optional[float]:
         return None
     if o > 0:
         return 100.0 / (o + 100.0)
-    elif o < 0:
+    if o < 0:
         return (-o) / ((-o) + 100.0)
     return None
 
@@ -89,9 +80,6 @@ def safe_float(x, default=None):
     except Exception:
         return default
 
-# -----------------------------
-# External odds (The Odds API)
-# -----------------------------
 def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY:
         return None
@@ -115,7 +103,6 @@ def _oddsapi_get(path: str, params: Dict[str, Any]) -> Optional[List[Dict[str, A
             pass
 
 def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
-    # No native "week" filter; for demo we just pull latest markets and ignore week mapping.
     h2h = _oddsapi_get("/sports/americanfootball_nfl/odds",
                        {"regions": ODDS_REGION, "markets": "h2h", "oddsFormat": "american"})
     spd = _oddsapi_get("/sports/americanfootball_nfl/odds",
@@ -154,7 +141,6 @@ def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
             "spread": None, "spread_team": None,
             "total": None, "over_odds": None, "under_odds": None
         }
-        # H2H
         bks = row.get("bookmakers") or []
         if bks and bks[0].get("markets"):
             outcomes = bks[0]["markets"][0].get("outcomes") or []
@@ -163,7 +149,6 @@ def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
                     entry["h2h_home"] = safe_float(o.get("price"))
                 elif o.get("name") == away:
                     entry["h2h_away"] = safe_float(o.get("price"))
-        # Spreads
         srow = spd_idx.get(key)
         if srow:
             bks = srow.get("bookmakers") or []
@@ -181,7 +166,6 @@ def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
                 if fav_line is not None:
                     entry["spread"] = fav_line
                     entry["spread_team"] = fav
-        # Totals
         trow = tot_idx.get(key)
         if trow:
             bks = trow.get("bookmakers") or []
@@ -197,9 +181,6 @@ def fetch_week_odds_from_api(week: int) -> Optional[List[Dict[str, Any]]]:
         results.append(entry)
     return results
 
-# -----------------------------
-# Mock games (fallback)
-# -----------------------------
 TEAMS = ["BUF","KC","PHI","DAL","MIA","CIN","SF","NYJ","DET","BAL","SEA","GB","MIN","LAR","PIT","JAX"]
 
 def mock_games_for_week(week: int) -> List[Dict[str, Any]]:
@@ -232,9 +213,6 @@ def mock_games_for_week(week: int) -> List[Dict[str, Any]]:
         })
     return games
 
-# -----------------------------
-# Market provider: odds → picks
-# -----------------------------
 def build_from_games(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
     for g in games:
@@ -296,11 +274,7 @@ def get_market_predictions(week: int) -> Dict[str, Any]:
     games = api_games if api_games else mock_games_for_week(week)
     return build_from_games(games)
 
-# -----------------------------
-# ML provider (stub – future)
-# -----------------------------
 def get_ml_predictions(week: int) -> Dict[str, Any]:
-    # Replace later with real inference; structure must match market output
     random.seed(999 + week)
     return {
         "top5_su": [{"home": "TBD", "away": "TBD", "su_pick": "TBD", "su_confidence": 0.55} for _ in range(5)],
@@ -315,9 +289,6 @@ def get_predictions_for_week(week: int) -> Dict[str, Any]:
         return get_ml_predictions(week)
     return get_market_predictions(week)
 
-# -----------------------------
-# Routes
-# -----------------------------
 @app.on_event("startup")
 def on_start():
     init_db()
@@ -335,7 +306,7 @@ def best_picks(week: int):
     return data
 
 @app.get("/v1/best-picks/2025/{week}/download")
-def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
+def download_predictions(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     if week < 1 or week > 18:
         raise HTTPException(status_code=400, detail="Invalid week (1–18)")
     data = get_predictions_for_week(week)
@@ -344,47 +315,51 @@ def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
         return JSONResponse(content=data)
 
     if format == "csv":
-        s = io.StringIO()
-        w = csv.writer(s)
-        for section, rows in data.items():
-            w.writerow([section])
-            if rows:
-                w.writerow(rows[0].keys())
-                for r in rows:
-                    w.writerow(r.values())
-            w.writerow([])
-        b = io.BytesIO(s.getvalue().encode("utf-8"))
-        return FileResponse(b, media_type="text/csv", filename=f"week{week}_predictions.csv")
+        output = io.StringIO()
+        writer = csv.writer(output)
+        for section, entries in data.items():
+            writer.writerow([section])
+            if entries and isinstance(entries, list) and len(entries) > 0:
+                writer.writerow(entries[0].keys())
+                for row in entries:
+                    writer.writerow(row.values())
+            writer.writerow([])
+        output.seek(0)
+        headers = {
+            "Content-Disposition": f'attachment; filename="nfl_week{week}_predictions.csv"'
+        }
+        return StreamingResponse(iter([output.getvalue()]), media_type="text/csv", headers=headers)
 
     if format == "pdf":
         pdf = FPDF()
         pdf.add_page()
-        pdf.set_font("Arial", size=12)
+        pdf.set_font("Arial", size=14)
         pdf.cell(200, 10, txt=f"NFL Week {week} Predictions", ln=True, align="C")
-        for section, rows in data.items():
+        for section, entries in data.items():
             pdf.ln(8)
             pdf.set_font("Arial", "B", 12)
             pdf.cell(200, 10, txt=section.replace("_", " ").title(), ln=True)
             pdf.set_font("Arial", size=10)
-            if rows:
-                for r in rows:
-                    line = ", ".join(f"{k}: {v}" for k, v in r.items())
+            if entries and isinstance(entries, list):
+                for row in entries:
+                    line = ", ".join(f"{k}: {v}" for k, v in row.items())
                     pdf.multi_cell(0, 7, line)
-        fp = f"/tmp/week{week}_predictions.pdf"
-        pdf.output(fp)
-        return FileResponse(fp, media_type="application/pdf", filename=os.path.basename(fp))
+        filename = f"/tmp/nfl_week{week}_predictions.pdf"
+        pdf.output(filename)
+        return FileResponse(filename, media_type="application/pdf", filename=os.path.basename(filename))
 
     raise HTTPException(status_code=400, detail="Invalid format")
 
 @app.get("/v1/metrics")
 def metrics():
-    # Simple placeholder metrics; becomes meaningful when you insert outcomes later.
     with sqlite3.connect(DB_PATH) as con:
         cur = con.execute("SELECT COUNT(1) FROM predictions")
         total_preds = cur.fetchone()[0]
     return {
         "provider": PREDICTION_PROVIDER,
         "predictions_saved": total_preds,
-        "note": "Insert outcomes later to compute real accuracy/cover rates."
+        "note": "Insert outcomes later to compute real accuracy."
     }
+
+
 
