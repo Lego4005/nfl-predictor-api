@@ -1,11 +1,11 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse, Response
+from fastapi.responses import FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
-import os, io, csv, datetime, http.client, json as pyjson
+import os, io, csv, http.client, json as pyjson
 from fpdf import FPDF
 
-APP_VERSION = "LIVE-LINES-HARDENED-1.0.1"
+APP_VERSION = "LIVE-LINES-ODDSAPI-1.0.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -20,7 +20,8 @@ app.add_middleware(
 
 # -------- ENV --------
 ODDS_API_KEY = (os.getenv("ODDS_API_KEY") or "").strip()
-ODDS_REGION  = (os.getenv("ODDS_REGION") or "us").strip()   # us | uk | eu | au
+ODDS_REGION  = (os.getenv("ODDS_REGION") or "us").strip()
+ODDS_SPORT   = (os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip()
 
 # -------- Helpers --------
 def safe_float(x, default=None):
@@ -50,28 +51,25 @@ def rank_top_n(items: List[Dict[str, Any]], key: str, n: int = 5) -> List[Dict[s
         return items[:n]
 
 def _json_get(host: str, path: str, https=True, timeout=10) -> Optional[Any]:
-    """Safe GET that returns None on any error."""
     try:
         conn = http.client.HTTPSConnection(host, timeout=timeout) if https else http.client.HTTPConnection(host, timeout=timeout)
         conn.request("GET", path)
         resp = conn.getresponse()
         if resp.status != 200:
             return None
-        body = resp.read()
-        return pyjson.loads(body.decode("utf-8"))
+        return pyjson.loads(resp.read().decode("utf-8"))
     except Exception:
         return None
     finally:
         try: conn.close()
         except Exception: pass
 
-# -------- Odds API fetch (all guarded) --------
+# -------- Odds API fetch --------
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
-    """Fetch H2H, spreads, totals snapshots. Returns None on any trouble."""
     if not ODDS_API_KEY:
         return None
 
-    base = "/v4/sports/americanfootball_nfl/odds"
+    base = f"/v4/sports/{ODDS_SPORT}/odds"
     qs = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
 
     h2h = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
@@ -94,8 +92,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                     names = [o.get("name") for o in outs if o.get("name")]
                     for nm in names:
                         if nm and nm != home:
-                            away = nm
-                            break
+                            away = nm; break
                 out[(home or "", away or "")] = g
             except Exception:
                 continue
@@ -118,23 +115,19 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             if bks and bks[0].get("markets"):
                 outs = bks[0]["markets"][0].get("outcomes") or []
                 for o in outs:
-                    nm = o.get("name")
-                    if nm == home: entry["h2h_home"] = safe_float(o.get("price"))
-                    elif nm == away: entry["h2h_away"] = safe_float(o.get("price"))
-            # Spreads
+                    if o.get("name") == home: entry["h2h_home"] = safe_float(o.get("price"))
+                    elif o.get("name") == away: entry["h2h_away"] = safe_float(o.get("price"))
+            # Spread
             srow = spd_idx.get(key)
             if srow:
                 bks = srow.get("bookmakers") or []
                 if bks and bks[0].get("markets"):
                     outs = bks[0]["markets"][0].get("outcomes") or []
                     for o in outs:
-                        pt = safe_float(o.get("point"))
-                        nm = o.get("name")
+                        pt = safe_float(o.get("point")); nm = o.get("name")
                         if pt is not None and pt < 0:
-                            entry["spread"] = pt
-                            entry["spread_team"] = nm
-                            break
-            # Totals
+                            entry["spread"] = pt; entry["spread_team"] = nm; break
+            # Total
             trow = tot_idx.get(key)
             if trow:
                 bks = trow.get("bookmakers") or []
@@ -146,12 +139,11 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                             entry["total"] = safe_float(o.get("point"))
                             entry["over_odds"] = safe_float(o.get("price"))
                         elif nm == "under":
-                            entry["total"] = entry["total"] if entry["total"] is not None else safe_float(o.get("point"))
+                            if entry["total"] is None: entry["total"] = safe_float(o.get("point"))
                             entry["under_odds"] = safe_float(o.get("price"))
             games.append(entry)
         except Exception:
             continue
-
     return games if games else None
 
 # -------- Mock fallback --------
@@ -161,51 +153,46 @@ def mock_games() -> List[Dict[str, Any]]:
         "spread":-3.5,"spread_team":"BUF","total":45.5,"over_odds":-110,"under_odds":-110
     }]
 
-# -------- Build SU/ATS/Totals (guarded math) --------
+# -------- Build SU/ATS/Totals --------
 def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
-    try:
-        for g in games:
-            home, away = g.get("home_team"), g.get("away_team")
-            p_home = american_to_prob(g.get("h2h_home"))
-            p_away = american_to_prob(g.get("h2h_away"))
-            if p_home is None and p_away is not None: p_home = 1 - p_away
-            if p_away is None and p_home is not None: p_away = 1 - p_home
-            ph_fair, pa_fair = deflate_vig(p_home, p_away)
-            if ph_fair is None or pa_fair is None: ph_fair, pa_fair = 0.5, 0.5
+    for g in games:
+        home, away = g.get("home_team"), g.get("away_team")
+        p_home = american_to_prob(g.get("h2h_home"))
+        p_away = american_to_prob(g.get("h2h_away"))
+        if p_home is None and p_away is not None: p_home = 1 - p_away
+        if p_away is None and p_home is not None: p_away = 1 - p_home
+        ph_fair, pa_fair = deflate_vig(p_home, p_away)
+        if ph_fair is None or pa_fair is None: ph_fair, pa_fair = 0.5, 0.5
 
-            su_rows.append({
-                "home": home, "away": away,
-                "su_pick": home if ph_fair >= pa_fair else away,
-                "su_confidence": round(max(ph_fair, pa_fair), 4)
+        su_rows.append({
+            "home": home, "away": away,
+            "su_pick": home if ph_fair >= pa_fair else away,
+            "su_confidence": round(max(ph_fair, pa_fair), 4)
+        })
+
+        fav, spread = g.get("spread_team"), g.get("spread")
+        if fav and spread is not None:
+            fav_prob = ph_fair if fav == home else pa_fair
+            sign_char = "-" if spread < 0 else "+"
+            ats_rows.append({
+                "ats_pick": f"{fav} {sign_char}{abs(spread)}",
+                "spread": float(spread),
+                "ats_confidence": round(max(0.50, min(0.75, 0.46 + 0.5*abs((fav_prob or 0.5) - 0.5))), 4)
             })
 
-            fav, spread = g.get("spread_team"), g.get("spread")
-            if fav and spread is not None:
-                fav_prob = ph_fair if fav == home else pa_fair
-                sign_char = "-" if spread < 0 else "+"
-                ats_rows.append({
-                    "ats_pick": f"{fav} {sign_char}{abs(spread)}",
-                    "spread": float(spread),
-                    "ats_confidence": round(max(0.50, min(0.75, 0.46 + 0.5*abs((fav_prob or 0.5) - 0.5))), 4)
-                })
+        op = american_to_prob(g.get("over_odds"))
+        up = american_to_prob(g.get("under_odds"))
+        if op is not None and up is not None:
+            of, uf = deflate_vig(op, up)
+        else:
+            of, uf = 0.5, 0.5
 
-            op = american_to_prob(g.get("over_odds"))
-            up = american_to_prob(g.get("under_odds"))
-            if op is not None and up is not None:
-                of, uf = deflate_vig(op, up)
-            else:
-                of, uf = 0.5, 0.5
+        if (of or 0.5) >= (uf or 0.5):
+            tot_rows.append({"tot_pick": f"Over {g.get('total')}", "tot_confidence": round(of or 0.5, 4)})
+        else:
+            tot_rows.append({"tot_pick": f"Under {g.get('total')}", "tot_confidence": round(uf or 0.5, 4)})
 
-            if (of or 0.5) >= (uf or 0.5):
-                tot_rows.append({"tot_pick": f"Over {g.get('total')}", "tot_confidence": round(of or 0.5, 4)})
-            else:
-                tot_rows.append({"tot_pick": f"Under {g.get('total')}", "tot_confidence": round(uf or 0.5, 4)})
-
-    except Exception:
-        pass
-
-    # keep props/fantasy placeholders (UI stability)
     props = [{"player":"Josh Allen","prop_type":"Pass Yards","prediction":286,"confidence":0.72}]
     fantasy = [{"player":"Ja'Marr Chase","position":"WR","salary":8800,"value_score":3.45}]
 
@@ -218,47 +205,51 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 def get_live_or_mock_payload() -> Dict[str, Any]:
-    try:
-        snap = fetch_market_snap()
-        games = snap if snap else mock_games()
-        return build_su_ats_totals(games)
-    except Exception:
-        return build_su_ats_totals(mock_games())
+    snap = fetch_market_snap()
+    games = snap if snap else mock_games()
+    return build_su_ats_totals(games)
 
-# -------- Root & Health --------
+# -------- Routes --------
 @app.get("/")
-def root():
-    return {"ok": True, "version": APP_VERSION}
+def root(): return {"ok": True, "version": APP_VERSION}
 
 @app.get("/v1/health")
 def health():
-    status = "no key" if not ODDS_API_KEY else "unknown"
-    sample = 0
-    try:
-        if ODDS_API_KEY:
-            path = f"/v4/sports/americanfootball_nfl/odds?regions={ODDS_REGION}&markets=h2h&oddsFormat=american&apiKey={ODDS_API_KEY}"
-            data = _json_get("api.the-odds-api.com", path)
-            if isinstance(data, list):
-                status = "200"; sample = len(data[:1])
-            else:
-                status = "error or empty"
-    except Exception:
-        status = "exception"
+    status, sample = "no key", 0
+    if ODDS_API_KEY:
+        base = f"/v4/sports/{ODDS_SPORT}/odds"
+        qs   = f"regions={ODDS_REGION}&markets=h2h&oddsFormat=american&apiKey={ODDS_API_KEY}"
+        data = _json_get("api.the-odds-api.com", f"{base}?{qs}")
+        if isinstance(data, list):
+            status, sample = "200", len(data[:1])
+        else:
+            status = "error or empty"
     return {"ok": True, "version": APP_VERSION,
             "odds_api_key_set": bool(ODDS_API_KEY),
             "odds_region": ODDS_REGION,
+            "odds_sport": ODDS_SPORT,
             "odds_shallow_status": status,
             "odds_sample_items": sample}
 
-# -------- Core: best-picks & downloads --------
+@app.get("/v1/debug/snap")
+def debug_snap():
+    if not ODDS_API_KEY:
+        return {"ok": False, "reason": "No ODDS_API_KEY set"}
+    base = f"/v4/sports/{ODDS_SPORT}/odds"
+    qs   = f"regions={ODDS_REGION}&oddsFormat=american&apiKey={ODDS_API_KEY}"
+    h2h = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
+    spd = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
+    tot = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
+    def count_first(lst):
+        return {"count": (len(lst) if isinstance(lst, list) else 0),
+                "sample": (lst[:1] if isinstance(lst, list) and lst else [])}
+    return {"sport": ODDS_SPORT, "region": ODDS_REGION,
+            "h2h": count_first(h2h), "spreads": count_first(spd), "totals": count_first(tot)}
+
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
     if week < 1 or week > 18: raise HTTPException(400, "Invalid week")
-    # extra guard to ensure we never 502
-    try:
-        return get_live_or_mock_payload()
-    except Exception:
-        return build_su_ats_totals(mock_games())
+    return get_live_or_mock_payload()
 
 @app.get("/v1/best-picks/2025/{week}/download")
 def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
@@ -292,7 +283,6 @@ def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
         return FileResponse(fp, media_type="application/pdf", filename=os.path.basename(fp))
     raise HTTPException(400, "Invalid format")
 
-# -------- DFS lineup (placeholder) --------
 @app.get("/v1/lineup/2025/{week}")
 def lineup(week: int, site: str = Query("DK", regex="^(DK|FD)$")):
     return {"week": week, "salary_cap": 50000, "total_salary": 49800, "projected_points": 162.4,
