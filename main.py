@@ -2,10 +2,10 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, Response
 from typing import Dict, Any, List, Optional, Tuple
-import os, io, csv, random, datetime, http.client, json as pyjson
+import os, io, csv, random, datetime
 from fpdf import FPDF
 
-app = FastAPI()
+app = FastAPI(title="NFL Predictor API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,7 +15,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_mock_predictions(week: int):
+def get_mock_predictions(week: int) -> Dict[str, Any]:
+    random.seed(1000 + week)
     return {
         "top5_su": [
             {"home": "BUF", "away": "NYJ", "su_pick": "BUF", "su_confidence": 0.78},
@@ -51,10 +52,10 @@ def get_mock_predictions(week: int):
             {"player": "Travis Etienne", "position": "RB", "salary": 6900, "value_score": 3.10},
             {"player": "Davante Adams", "position": "WR", "salary": 8400, "value_score": 2.98},
             {"player": "Dalton Kincaid", "position": "TE", "salary": 5200, "value_score": 2.86},
-        ]
+        ],
     }
 
-def get_mock_lineup(week: int):
+def get_mock_lineup(week: int) -> Dict[str, Any]:
     return {
         "week": week,
         "salary_cap": 50000,
@@ -69,20 +70,20 @@ def get_mock_lineup(week: int):
             {"position": "WR", "player": "Zay Flowers", "team": "BAL", "salary": 5600, "proj_points": 14.5},
             {"position": "TE", "player": "Sam LaPorta", "team": "DET", "salary": 4800, "proj_points": 13.0},
             {"position": "FLEX", "player": "Nico Collins", "team": "HOU", "salary": 5000, "proj_points": 14.7},
-            {"position": "DST", "player": "Dallas Cowboys", "team": "DAL", "salary": 4100, "proj_points": 9.0}
-        ]
+            {"position": "DST", "player": "Dallas Cowboys", "team": "DAL", "salary": 4100, "proj_points": 9.0},
+        ],
     }
 
 @app.get("/v1/best-picks/2025/{week}")
-def get_predictions(week: int):
+def best_picks(week: int):
     if week < 1 or week > 18:
-        raise HTTPException(status_code=400, detail="Invalid week")
+        raise HTTPException(status_code=400, detail="Invalid week (1–18)")
     return get_mock_predictions(week)
 
 @app.get("/v1/best-picks/2025/{week}/download")
-def download_predictions(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
+def download(week: int, format: str = Query("json", regex="^(json|csv|pdf)$")):
     if week < 1 or week > 18:
-        raise HTTPException(status_code=400, detail="Invalid week")
+        raise HTTPException(status_code=400, detail="Invalid week (1–18)")
     data = get_mock_predictions(week)
 
     if format == "json":
@@ -109,14 +110,15 @@ def download_predictions(week: int, format: str = Query("json", regex="^(json|cs
         pdf.add_page()
         pdf.set_font("Arial", size=12)
         pdf.cell(200, 10, txt=f"NFL 2025 - Week {week} Predictions", ln=True, align="C")
-        for section, items in data.items():
+        for section, rows in data.items():
             pdf.ln(10)
             pdf.set_font("Arial", style="B", size=12)
             pdf.cell(200, 10, txt=section.upper(), ln=True)
             pdf.set_font("Arial", size=10)
-            for item in items:
-                line = ", ".join([f"{k}: {v}" for k, v in item.items()])
-                pdf.multi_cell(0, 8, txt=line)
+            if rows and isinstance(rows, list):
+                for row in rows:
+                    line = ", ".join([f"{k}: {v}" for k, v in row.items()])
+                    pdf.multi_cell(0, 8, txt=line)
         filename = f"/tmp/nfl_week{week}_predictions.pdf"
         pdf.output(filename)
         return FileResponse(filename, media_type="application/pdf", filename=filename)
@@ -124,5 +126,5 @@ def download_predictions(week: int, format: str = Query("json", regex="^(json|cs
     raise HTTPException(status_code=400, detail="Invalid format")
 
 @app.get("/v1/lineup/2025/{week}")
-def get_dfs_lineup(week: int, site: str = Query("DK", regex="^(DK|FD)$")):
+def lineup(week: int, site: str = Query("DK", regex="^(DK|FD)$")):
     return get_mock_lineup(week)
