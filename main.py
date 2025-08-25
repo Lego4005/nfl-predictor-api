@@ -7,7 +7,7 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-FIX-1.8.0"
+APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-1.9.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -78,6 +78,30 @@ def extract_number(text: Optional[str]) -> Optional[float]:
     m = re.search(r"(-?\d+(\.\d+)?)", text)
     return safe_float(m.group(1)) if m else None
 
+# ---------- prop label normalization ----------
+def normalize_prop_label(key_or_text: str) -> Tuple[str, str]:
+    """
+    Return (label, units) from an Odds API key or SDIO text.
+    """
+    s = (key_or_text or "").lower()
+    # Odds API keys
+    if "player_pass_yds" in s: return ("Passing Yards", "yds")
+    if "player_pass_tds" in s: return ("Passing TDs", "TDs")
+    if "player_pass_att" in s: return ("Passing Attempts", "att")
+    if "player_rush_yds" in s: return ("Rushing Yards", "yds")
+    if "player_rush_att" in s: return ("Rushing Attempts", "att")
+    if "player_rec_yds"  in s: return ("Receiving Yards", "yds")
+    if "player_receptions" in s: return ("Receptions", "rec")
+    # SDIO text guesses
+    if "passing yards"      in s: return ("Passing Yards", "yds")
+    if "passing attempts"   in s or "pass attempts" in s: return ("Passing Attempts", "att")
+    if "passing touchdowns" in s or "pass tds" in s: return ("Passing TDs", "TDs")
+    if "rushing yards"      in s: return ("Rushing Yards", "yds")
+    if "rushing attempts"   in s: return ("Rushing Attempts", "att")
+    if "receiving yards"    in s: return ("Receiving Yards", "yds")
+    if "receptions"         in s: return ("Receptions", "rec")
+    return (key_or_text or "Prop", "")
+
 # ---------------- Odds API: games ----------------
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
@@ -88,7 +112,6 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
     if not isinstance(h2h, list) or not h2h: return None
 
-    # index by (home, away) using event fields
     def index_by_teams(rows):
         out = {}
         if not isinstance(rows, list): return out
@@ -137,17 +160,17 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             # spreads
             srow = spd_idx.get(key)
             if srow:
-                found = False
+                done = False
                 for bm in (srow.get("bookmakers") or []):
                     for mk in (bm.get("markets") or []):
                         for o in (mk.get("outcomes") or []):
                             pt = safe_float(o.get("point")); nm = o.get("name")
                             if pt is not None and pt < 0:
                                 entry["spread"] = pt; entry["spread_team"] = nm
-                                found = True; break
-                        if found: break
-                    if found: break
-            # totals: accept first numeric line (prices optional)
+                                done = True; break
+                        if done: break
+                    if done: break
+            # totals: accept numeric line from any book (prices optional)
             trow = tot_idx.get(key)
             if trow:
                 best_line=None; op=None; up=None
@@ -174,7 +197,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             continue
     return games if games else None
 
-# ---------------- Odds API props (primary) ----------------
+# ---------- Odds API props ----------
 PROP_MARKETS = ",".join([
     "player_pass_yds","player_pass_tds","player_pass_att",
     "player_rush_yds","player_rush_att",
@@ -188,7 +211,7 @@ def fetch_player_props_raw() -> Optional[List[Dict[str, Any]]]:
     data, _, _ = _json_get("api.the-odds-api.com", f"{base}?{qs}")
     return data if isinstance(data, list) else None
 
-# ---------------- SDIO props (fallback) ----------------
+# ---------- SDIO props (fallback) ----------
 def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
     key = SPORTSDATAIO_KEY
     if not key: return []
@@ -199,10 +222,12 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
     for p in data:
         try:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
-            market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
-            line   = (safe_float(p.get("Value")) or safe_float(p.get("Line")) or
-                      safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
-                      extract_number(p.get("Description")) or extract_number(p.get("BetDescription")))
+            raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
+            label, units = normalize_prop_label(str(raw_market))
+            # robust line extraction
+            line = (safe_float(p.get("Value")) or safe_float(p.get("Line")) or
+                    safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
+                    extract_number(p.get("Description")) or extract_number(p.get("BetDescription")))
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
             of, uf = deflate_vig(op or 0.5, up or 0.5)
@@ -212,8 +237,9 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
             team = p.get("Team") or p.get("HomeTeam")
             opp  = p.get("Opponent") or p.get("AwayTeam")
             picks.append({
-                "player": player, "prop_type": market, "line": line,
-                "pick": side, "confidence": round(conf, 3), "bookmaker": "SportsDataIO",
+                "player": player, "prop_type": label, "units": units,
+                "line": line, "pick": side, "confidence": round(conf, 3),
+                "bookmaker": "SportsDataIO",
                 "team": team, "opponent": opp
             })
         except Exception:
@@ -245,18 +271,18 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
                     of, uf = deflate_vig(op or 0.5, up or 0.5)
                     side   = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
                     conf   = max(of or 0.5, uf or 0.5)
+                    raw_key = mk.get("key") or mk.get("market") or "Prop"
+                    label, units = normalize_prop_label(str(raw_key))
                     player = mk.get("player") or mk.get("player_name") or "Unknown"
-                    prop   = mk.get("key") or mk.get("market") or "Prop"
                     picks.append({
-                        "player": str(player), "prop_type": prop, "line": line,
-                        "pick": side, "confidence": round(conf, 3),
+                        "player": str(player), "prop_type": label, "units": units,
+                        "line": line, "pick": side, "confidence": round(conf, 3),
                         "bookmaker": bm.get("title") or bm.get("key") or "OddsAPI",
                         "matchup": matchup
                     })
     if not picks:
         picks = fetch_sportsdataio_props("2025REG", week)
 
-    # dedupe (player, prop_type)
     best: Dict[Tuple[str,str], Dict[str,Any]] = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
