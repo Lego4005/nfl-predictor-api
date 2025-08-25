@@ -7,7 +7,7 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.3"
+APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.1.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -128,7 +128,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away: 
+                if not home or not away:
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -216,14 +216,17 @@ def fetch_player_props_raw() -> Optional[List[Dict[str, Any]]]:
 def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
     key = SPORTSDATAIO_KEY
     if not key: return []
-    path = f"/v3/nfl/odds/json/PlayerPropsByWeek/{season}/{week}?key={key}"
-    data, _, _ = _json_get("api.sportsdata.io", path)
-    if not isinstance(data, list): return []
+    path1 = f"/v3/nfl/odds/json/PlayerPropsByWeek/{season}/{week}?key={key}"
+    path2 = f"/v3/nfl/odds/json/PlayerGamePropsByWeek/{season}/{week}?key={key}"
+    all_rows: List[Dict[str, Any]] = []
+    for p in (path1, path2):
+        data, _, _ = _json_get("api.sportsdata.io", p)
+        if isinstance(data, list): all_rows.extend(data)
     picks: List[Dict[str, Any]] = []
-    for p in data:
+    for p in all_rows:
         try:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
-            raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
+            raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or p.get("PlayerPropType") or "Prop"
             label, units = normalize_prop_label(str(raw_market))
             line = (
                 safe_float(p.get("Value")) or safe_float(p.get("Line")) or
@@ -232,17 +235,23 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
                 safe_float(p.get("PropValue")) or
                 extract_number(p.get("Description")) or extract_number(p.get("BetDescription"))
             )
-            # Keep row even if line is None so table isn't empty; UI will show "—"
+            # If still no numeric line, skip (we want real lines)
+            if line is None: 
+                continue
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
-            of, uf = deflate_vig(op or 0.5, up or 0.5)
-            conf = max(of or 0.5, uf or 0.5) if (op is not None and up is not None) else 0.625
-            side = "Over" if (op or 0.5) >= (up or 0.5) else "Under"
+            if op is not None and up is not None:
+                of, uf = deflate_vig(op, up)
+                conf = max(of or 0.5, uf or 0.5)
+                side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
+            else:
+                conf = 0.625
+                side = "Over"
             team = p.get("Team") or p.get("HomeTeam")
             opp  = p.get("Opponent") or p.get("AwayTeam")
             picks.append({
                 "player": player, "prop_type": label, "units": units,
-                "line": line, "pick": side, "confidence": round(conf, 3),
+                "line": float(line), "pick": side, "confidence": round(conf, 3),
                 "bookmaker": "SportsDataIO",
                 "team": team, "opponent": opp
             })
@@ -276,14 +285,14 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
                     player = mk.get("player") or mk.get("player_name") or "Unknown"
                     picks.append({
                         "player": str(player), "prop_type": label, "units": units,
-                        "line": line, "pick": side, "confidence": round(conf, 3),
+                        "line": float(line), "pick": side, "confidence": round(conf, 3),
                         "bookmaker": bm.get("title") or bm.get("key") or "OddsAPI",
                         "matchup": matchup
                     })
     if not picks:
         picks = fetch_sportsdataio_props("2025REG", week)
 
-    # dedupe (player, prop_type)
+    # dedupe (player, prop_type) keep highest confidence
     best: Dict[Tuple[str,str], Dict[str,Any]] = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
@@ -360,17 +369,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
         "top5_totals": rank_top_n(tot_rows, "tot_confidence", 5),
     }
 
-def widen_if_empty(rows: List[Dict[str, Any]], week: int) -> List[Dict[str, Any]]:
-    if rows: return rows
-    snap = fetch_market_snap() or []
-    base_start, base_end = week_window_utc(week)
-    start, end = base_start - timedelta(days=3), base_end + timedelta(days=3)
-    out = []
-    for g in snap:
-        ct = parse_commence_utc(g.get("commence_time"))
-        if ct is None or (start <= ct < end): out.append(g)
-    return out or snap
-
+# ---------------- core ----------------
 def get_live_payload_for_week(week: int) -> Dict[str, Any]:
     snap = fetch_market_snap() or []
     start, end = week_window_utc(week)
@@ -378,9 +377,8 @@ def get_live_payload_for_week(week: int) -> Dict[str, Any]:
     for g in snap:
         ct = parse_commence_utc(g.get("commence_time"))
         if ct is None or (start <= ct < end): filtered.append(g)
-    filtered = widen_if_empty(filtered, week)
 
-    core  = build_su_ats_totals(filtered)
+    core  = build_su_ats_totals(filtered if filtered else snap)
     props = build_top_props_for_week(week)
     return {**core, "top5_props": props,
             "top5_fantasy": [
@@ -420,8 +418,8 @@ def debug_snap():
 
 @app.get("/v1/debug/props")
 def debug_props(week: int = Query(1, ge=1, le=18)):
-    odds = build_top_props_for_week(week)
-    return {"week": week, "count": len(odds), "sample": odds[:2]}
+    rows = build_top_props_for_week(week)
+    return {"week": week, "count": len(rows), "sample": rows[:2]}
 
 @app.get("/v1/best-picks/2025/{week}")
 def best_picks(week: int):
