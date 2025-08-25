@@ -7,10 +7,11 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-1.2.0"
+APP_VERSION = "LIVE-LINES+PROPS-FALLBACK-1.3.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,19 +20,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ENV (normalized)
 ODDS_API_KEY = (os.getenv("ODDS_API_KEY") or "").strip()
 ODDS_REGION  = ((os.getenv("ODDS_REGION") or "us").strip().lower())
 ODDS_SPORT   = ((os.getenv("ODDS_SPORT") or "americanfootball_nfl").strip().lower())
+SPORTSDATAIO_KEY = (os.getenv("SPORTSDATAIO_KEY") or "").strip()
 
-# NFL 2025 calendar – week windows (UTC)
+# NFL 2025 calendar: Week 1 window (UTC)
 NFL_2025_WEEK1_UTC = datetime(2025, 9, 1, 0, 0, 0, tzinfo=timezone.utc)
 WEEK_LENGTH = timedelta(days=7)
 
 def week_window_utc(week: int) -> Tuple[datetime, datetime]:
     start = NFL_2025_WEEK1_UTC + WEEK_LENGTH * (week - 1)
-    end   = start + WEEK_LENGTH
-    return start, end
+    return start, start + WEEK_LENGTH
 
+# ---- Helpers ----
 def safe_float(x, default=None):
     try: return float(x)
     except Exception: return default
@@ -67,8 +70,8 @@ def _json_get(host: str, path: str, https=True, timeout=10):
         status = resp.status
         if status != 200:
             return None, f"http {status}", status
-        data = pyjson.loads(resp.read().decode("utf-8"))
-        return data, None, status
+        body = resp.read()
+        return pyjson.loads(body.decode("utf-8")), None, status
     except Exception as e:
         return None, f"{type(e).__name__}", None
     finally:
@@ -80,16 +83,15 @@ def parse_commence_utc(s: Optional[str]) -> Optional[datetime]:
     try: return datetime.fromisoformat(s.replace("Z", "+00:00"))
     except Exception: return None
 
-# ---------------------- Odds API: games (h2h/spreads/totals) ----------------------
+# ---- Odds API: games ----
 def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
     qs = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
-
     h2h, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=h2h&{qs}")
     spd, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=spreads&{qs}")
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
-    if not isinstance(h2h, list) or len(h2h) == 0: return None
+    if not isinstance(h2h, list) or not h2h: return None
 
     def idx(rows):
         out = {}
@@ -161,7 +163,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
             continue
     return games if games else None
 
-# ---------------------- Odds API: player props (Over/Under markets) ----------------------
+# ---- Odds API: props (primary) ----
 PROP_MARKETS = ",".join([
     "player_pass_yds",
     "player_pass_tds",
@@ -172,68 +174,91 @@ PROP_MARKETS = ",".join([
 
 def fetch_player_props_raw() -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
-    qs = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY, "markets": PROP_MARKETS})
+    qs = urlencode({"regions": ODDS_REGION, "oddsFormat":"american", "apiKey": ODDS_API_KEY, "markets": PROP_MARKETS})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
     data, _, _ = _json_get("api.the-odds-api.com", f"{base}?{qs}")
     return data if isinstance(data, list) else None
 
-def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
-    raw = fetch_player_props_raw()
-    if not raw: return []
-
-    start_utc, end_utc = week_window_utc(week)
+# ---- SportsDataIO: props (fallback) ----
+def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
+    key = SPORTSDATAIO_KEY
+    if not key: return []
+    path = f"/v3/nfl/odds/json/PlayerPropsByWeek/{season}/{week}?key={key}"
+    data, err, st = _json_get("api.sportsdata.io", path)
+    if not isinstance(data, list): return []
     picks: List[Dict[str, Any]] = []
+    for p in data:
+        try:
+            player = p.get("Name") or p.get("PlayerName") or "Unknown"
+            market = p.get("BetName") or "Prop"
+            line = safe_float(p.get("Value"))
+            over_price = safe_float(p.get("OverPayout"))
+            under_price= safe_float(p.get("UnderPayout"))
+            op = american_to_prob(over_price)
+            up = american_to_prob(under_price)
+            of, uf = deflate_vig(op or 0.5, up or 0.5)
+            conf = max(of or 0.5, uf or 0.5)
+            side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
+            picks.append({
+                "player": player,
+                "prop_type": market,
+                "line": line,
+                "pick": side,
+                "confidence": round(conf, 3),
+                "bookmaker": "SportsDataIO",
+            })
+        except Exception:
+            continue
+    return picks
 
-    for ev in raw:
-        ct = parse_commence_utc(ev.get("commence_time"))
-        if ct and not (start_utc <= ct < end_utc):
-            continue  # filter by week window
+def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
+    picks: List[Dict[str, Any]] = []
+    raw = fetch_player_props_raw()
+    if raw:
+        start_utc, end_utc = week_window_utc(week)
+        for ev in raw:
+            ct = parse_commence_utc(ev.get("commence_time"))
+            if ct and not (start_utc <= ct < end_utc):
+                continue
+            for bm in (ev.get("bookmakers") or []):
+                for m in (bm.get("markets") or []):
+                    outs = m.get("outcomes") or []
+                    over = next((o for o in outs if (o.get("name") or "").lower()=="over"), None)
+                    under= next((o for o in outs if (o.get("name") or "").lower()=="under"), None)
+                    line = safe_float((over or under or {}).get("point"))
+                    if line is None: continue
+                    op = american_to_prob(safe_float((over or {}).get("price")))
+                    up = american_to_prob(safe_float((under or {}).get("price")))
+                    of, uf = deflate_vig(op or 0.5, up or 0.5)
+                    conf = max(of or 0.5, uf or 0.5)
+                    side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
+                    player = m.get("player") or m.get("player_name") or "Unknown"
+                    prop_key = m.get("key") or m.get("market") or "prop"
+                    picks.append({
+                        "player": str(player),
+                        "prop_type": prop_key,
+                        "line": line,
+                        "pick": side,
+                        "confidence": round(conf, 3),
+                        "bookmaker": bm.get("title") or bm.get("key") or "OddsAPI",
+                    })
+                if picks: break
+    # Fallback to SportsDataIO if nothing yet
+    if not picks:
+        season = "2025REG"
+        picks = fetch_sportsdataio_props(season, week)
 
-        bks = ev.get("bookmakers") or []
-        # use the first bookmaker with outcomes
-        for bm in bks:
-            mkts = bm.get("markets") or []
-            for m in mkts:
-                outs = m.get("outcomes") or []
-                over = next((o for o in outs if (o.get("name") or "").lower()=="over"), None)
-                under= next((o for o in outs if (o.get("name") or "").lower()=="under"), None)
-                line  = safe_float((over or under or {}).get("point"))
-                if line is None: 
-                    continue
-                op = american_to_prob(safe_float((over or {}).get("price")))
-                up = american_to_prob(safe_float((under or {}).get("price")))
-                of, uf = deflate_vig(op or 0.5, up or 0.5)
-                conf = max(of or 0.5, uf or 0.5)
-                side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
-
-                # player name surface may differ; try a few keys
-                player = m.get("player") or m.get("player_name") or ev.get("home_team")  # fallback
-                prop_key = m.get("key") or m.get("market") or "prop"
-
-                picks.append({
-                    "player": str(player),
-                    "prop_type": prop_key,
-                    "line": line,
-                    "pick": side,
-                    "confidence": round(conf, 3),
-                    "bookmaker": bm.get("title") or bm.get("key") or "N/A",
-                    "commence_time": ct.isoformat() if ct else None,
-                })
-            if picks:
-                break  # take the first bookmaker with data
-
-    # dedupe (player, prop_type) keeping highest confidence
+    # Deduplicate (player, prop_type)
     best: Dict[Tuple[str,str], Dict[str,Any]] = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
         if k not in best or p["confidence"] > best[k]["confidence"]:
             best[k] = p
-
     top = list(best.values())
     top.sort(key=lambda x: x["confidence"], reverse=True)
     return top[:5]
 
-# ---------------------- Fallback game ----------------------
+# ---- Fallback single game ----
 def mock_games() -> List[Dict[str, Any]]:
     ct = datetime(2025,9,5,0,21,0, tzinfo=timezone.utc).isoformat()
     return [{
@@ -242,7 +267,7 @@ def mock_games() -> List[Dict[str, Any]]:
         "spread":-3.5,"spread_team":"BUF","total":45.5,"over_odds":-110,"under_odds":-110
     }]
 
-# ---------------------- Build SU/ATS/Totals ----------------------
+# ---- Build SU / ATS / Totals ----
 def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
     seen = set()
@@ -301,12 +326,10 @@ def get_live_payload_for_week(week: int) -> Dict[str, Any]:
         ct = parse_commence_utc(g.get("commence_time")) if isinstance(g.get("commence_time"), str) else parse_commence_utc(g.get("commence_time"))
         if ct is None or (start_utc <= ct < end_utc):
             filtered.append(g)
-
-    if not filtered:
-        filtered = games
+    if not filtered: filtered = games
 
     core = build_su_ats_totals(filtered)
-    props = build_top_props_for_week(week) or []  # live props if available
+    props = build_top_props_for_week(week)  # Odds first, SDIO fallback
     return {
         **core,
         "top5_props": props,
@@ -319,7 +342,7 @@ def get_live_payload_for_week(week: int) -> Dict[str, Any]:
         ],
     }
 
-# ---------------------- Routes ----------------------
+# ---- Routes ----
 @app.get("/")
 def root():
     return {"ok": True, "version": APP_VERSION}
@@ -331,7 +354,8 @@ def health():
     data, err, st = _json_get("api.the-odds-api.com", f"{base}?{qs}")
     sample = len(data[:1]) if isinstance(data, list) else 0
     status = str(st) if st else (err or "no key" if not ODDS_API_KEY else "error")
-    return {"ok": True, "version": APP_VERSION, "odds_api_key_set": bool(ODDS_API_KEY),
+    return {"ok": True, "version": APP_VERSION,
+            "odds_api_key_set": bool(ODDS_API_KEY),
             "odds_region": ODDS_REGION, "odds_sport": ODDS_SPORT,
             "odds_shallow_status": status, "odds_sample_items": sample}
 
