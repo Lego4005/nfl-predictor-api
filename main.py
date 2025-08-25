@@ -7,10 +7,11 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.1"
+APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.2"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,12 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ENV
 ODDS_API_KEY     = (os.getenv("ODDS_API_KEY") or "").strip()
 ODDS_REGION      = ((os.getenv("ODDS_REGION") or "us").strip().lower())
 ODDS_SPORT       = ((os.getenv("ODDS_SPORT")  or "americanfootball_nfl").strip().lower())
 SPORTSDATAIO_KEY = (os.getenv("SPORTSDATAIO_KEY") or "").strip()
 
-# NFL 2025 calendar (UTC)
+# NFL 2025 calendar (UTC) – week windows
 NFL_2025_WEEK1_UTC = datetime(2025, 9, 1, 0, 0, 0, tzinfo=timezone.utc)
 WEEK_LENGTH = timedelta(days=7)
 def week_window_utc(week: int) -> Tuple[datetime, datetime]:
@@ -137,7 +139,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     spd_idx = {k: v[0] for k, v in index_by_teams(spd or []).items()}
     tot_idx = {k: v[0] for k, v in index_by_teams(tot or []).items()}
 
-    games = []
+    games: List[Dict[str, Any]] = []
     for key, (row, ct) in h2h_idx.items():
         try:
             home, away = key
@@ -217,13 +219,12 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
     path = f"/v3/nfl/odds/json/PlayerPropsByWeek/{season}/{week}?key={key}"
     data, _, _ = _json_get("api.sportsdata.io", path)
     if not isinstance(data, list): return []
-    picks = []
+    picks: List[Dict[str, Any]] = []
     for p in data:
         try:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
             raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
             label, units = normalize_prop_label(str(raw_market))
-            # robust line extraction (many possible field names)
             line = (
                 safe_float(p.get("Value")) or safe_float(p.get("Line")) or
                 safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
@@ -304,7 +305,7 @@ def mock_games() -> List[Dict[str, Any]]:
     }]
 
 # ---------------- build sections ----------------
-def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]]:
+def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
     seen = set()
     for g in games:
@@ -361,11 +362,11 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]]:
         "top5_totals": rank_top_n(tot_rows, "tot_confidence", 5),
     }
 
-def get_live_payload_for_week(week: int) -> Dict[str, Any]]:
+def get_live_payload_for_week(week: int) -> Dict[str, Any]:
     snap = fetch_market_snap()
     games = snap if snap else mock_games()
     start, end = week_window_utc(week)
-    filtered = []
+    filtered: List[Dict[str, Any]] = []
     for g in games:
         ct = parse_commence_utc(g.get("commence_time")) if isinstance(g.get("commence_time"), str) else parse_commence_utc(g.get("commence_time"))
         if ct is None or (start <= ct < end): filtered.append(g)
