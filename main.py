@@ -7,7 +7,7 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.0"
+APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.1"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -102,7 +102,7 @@ def normalize_prop_label(key_or_text: str) -> Tuple[str, str]:
     return (key_or_text or "Prop", "")
 
 # ---------------- Odds API: games ----------------
-def fetch_market_snap() -> Optional[List[Dict[str, Any]]]]:
+def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     if not ODDS_API_KEY: return None
     qs   = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
@@ -126,7 +126,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]]:
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away: 
+                if not home or not away:
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -223,6 +223,7 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
             raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
             label, units = normalize_prop_label(str(raw_market))
+            # robust line extraction (many possible field names)
             line = (
                 safe_float(p.get("Value")) or safe_float(p.get("Line")) or
                 safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
@@ -231,7 +232,7 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
                 extract_number(p.get("Description")) or extract_number(p.get("BetDescription"))
             )
             if line is None:
-                continue  # drop rows with no actual numeric line
+                continue  # drop rows with no numeric line
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
             of, uf = deflate_vig(op or 0.5, up or 0.5)
@@ -258,11 +259,7 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
         for ev in raw:
             ct = parse_commence_utc(ev.get("commence_time"))
             if ct and not (start <= ct < end): continue
-            matchup = None
-            try:
-                matchup = f"{ev.get('away_team')} @ {ev.get('home_team')}"
-            except Exception:
-                pass
+            matchup = f"{ev.get('away_team')} @ {ev.get('home_team')}" if ev.get("away_team") and ev.get("home_team") else None
             for bm in (ev.get("bookmakers") or []):
                 for mk in (bm.get("markets") or []):
                     outs = mk.get("outcomes") or []
@@ -307,7 +304,7 @@ def mock_games() -> List[Dict[str, Any]]:
     }]
 
 # ---------------- build sections ----------------
-def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
+def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]]:
     su_rows, ats_rows, tot_rows = [], [], []
     seen = set()
     for g in games:
@@ -364,7 +361,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
         "top5_totals": rank_top_n(tot_rows, "tot_confidence", 5),
     }
 
-def get_live_payload_for_week(week: int) -> Dict[str, Any]:
+def get_live_payload_for_week(week: int) -> Dict[str, Any]]:
     snap = fetch_market_snap()
     games = snap if snap else mock_games()
     start, end = week_window_utc(week)
