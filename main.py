@@ -29,7 +29,6 @@ SPORTSDATAIO_KEY = (os.getenv("SPORTSDATAIO_KEY") or "").strip()
 # NFL 2025 calendar (UTC)
 NFL_2025_WEEK1_UTC = datetime(2025, 9, 1, 0, 0, 0, tzinfo=timezone.utc)
 WEEK_LENGTH = timedelta(days=7)
-
 def week_window_utc(week: int) -> Tuple[datetime, datetime]:
     s = NFL_2025_WEEK1_UTC + WEEK_LENGTH * (week - 1)
     return s, s + WEEK_LENGTH
@@ -129,7 +128,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away:
+                if not home or not away: 
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -226,7 +225,6 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
             raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
             label, units = normalize_prop_label(str(raw_market))
-            # robust line extraction (many possible field names)
             line = (
                 safe_float(p.get("Value")) or safe_float(p.get("Line")) or
                 safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
@@ -234,7 +232,7 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
                 safe_float(p.get("PropValue")) or
                 extract_number(p.get("Description")) or extract_number(p.get("BetDescription"))
             )
-            # Don't drop rows anymore: keep even if line is None so UI shows item instead of empty table
+            # Keep row even if line is None so table isn't empty; UI will show "—"
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
             of, uf = deflate_vig(op or 0.5, up or 0.5)
@@ -305,7 +303,7 @@ def mock_games() -> List[Dict[str, Any]]:
     }]
 
 # ---------------- build sections ----------------
-def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]]:
+def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
     su_rows, ats_rows, tot_rows = [], [], []
     seen = set()
     for g in games:
@@ -363,7 +361,6 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]]:
     }
 
 def widen_if_empty(rows: List[Dict[str, Any]], week: int) -> List[Dict[str, Any]]:
-    """If a week filter ends up empty, widen window ±3 days and refilter."""
     if rows: return rows
     snap = fetch_market_snap() or []
     base_start, base_end = week_window_utc(week)
@@ -374,10 +371,10 @@ def widen_if_empty(rows: List[Dict[str, Any]], week: int) -> List[Dict[str, Any]
         if ct is None or (start <= ct < end): out.append(g)
     return out or snap
 
-def get_live_payload_for_week(week: int) -> Dict[str, Any]]:
+def get_live_payload_for_week(week: int) -> Dict[str, Any]:
     snap = fetch_market_snap() or []
     start, end = week_window_utc(week)
-    filtered = []
+    filtered: List[Dict[str, Any]] = []
     for g in snap:
         ct = parse_commence_utc(g.get("commence_time"))
         if ct is None or (start <= ct < end): filtered.append(g)
@@ -394,7 +391,7 @@ def get_live_payload_for_week(week: int) -> Dict[str, Any]]:
                 {"player":"Dalton Kincaid","position":"TE","salary":5200,"value_score":2.86},
             ]}
 
-# ---------------- routes ----------------
+# ---------------- debug & routes ----------------
 @app.get("/")
 def root(): return {"ok": True, "version": APP_VERSION}
 
@@ -423,7 +420,7 @@ def debug_snap():
 
 @app.get("/v1/debug/props")
 def debug_props(week: int = Query(1, ge=1, le=18)):
-    odds = build_top_props_for_week(week)  # already calls both providers
+    odds = build_top_props_for_week(week)
     return {"week": week, "count": len(odds), "sample": odds[:2]}
 
 @app.get("/v1/best-picks/2025/{week}")
