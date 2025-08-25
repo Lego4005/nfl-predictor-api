@@ -7,7 +7,7 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-FIX-1.7.0"
+APP_VERSION = "LIVE-LINES+PROPS-FIX-1.8.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
@@ -88,7 +88,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
     if not isinstance(h2h, list) or not h2h: return None
 
-    # Build a map keyed by (home, away) using fields from the event root.
+    # index by (home, away) using event fields
     def index_by_teams(rows):
         out = {}
         if not isinstance(rows, list): return out
@@ -97,15 +97,14 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                 home = g.get("home_team")
                 away = g.get("away_team")
                 ct   = parse_commence_utc(g.get("commence_time"))
-                # If 'away_team' missing (some feeds), infer from outcomes once:
-                if not away:
+                if not home or not away:
                     bks = g.get("bookmakers") or []
                     if bks and bks[0].get("markets"):
                         outs = bks[0]["markets"][0].get("outcomes") or []
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away:  # still missing; skip
+                if not home or not away: 
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -120,12 +119,14 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     for key, (row, ct) in h2h_idx.items():
         try:
             home, away = key
-            entry = {"home_team": home, "away_team": away,
-                     "commence_time": ct.isoformat() if ct else None,
-                     "h2h_home": None, "h2h_away": None,
-                     "spread": None, "spread_team": None,
-                     "total": None, "over_odds": None, "under_odds": None}
-            # moneylines (scan all books until we see a price for either team)
+            entry = {
+                "home_team": home, "away_team": away,
+                "commence_time": ct.isoformat() if ct else None,
+                "h2h_home": None, "h2h_away": None,
+                "spread": None, "spread_team": None,
+                "total": None, "over_odds": None, "under_odds": None
+            }
+            # moneylines
             for bm in (row.get("bookmakers") or []):
                 for mk in (bm.get("markets") or []):
                     for o in (mk.get("outcomes") or []):
@@ -133,25 +134,23 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         elif o.get("name") == away: entry["h2h_away"] = safe_float(o.get("price"))
                 if entry["h2h_home"] is not None or entry["h2h_away"] is not None:
                     break
-
-            # spreads: negative point marks favorite — scan all books
+            # spreads
             srow = spd_idx.get(key)
             if srow:
-                done = False
+                found = False
                 for bm in (srow.get("bookmakers") or []):
                     for mk in (bm.get("markets") or []):
                         for o in (mk.get("outcomes") or []):
                             pt = safe_float(o.get("point")); nm = o.get("name")
                             if pt is not None and pt < 0:
                                 entry["spread"] = pt; entry["spread_team"] = nm
-                                done = True; break
-                        if done: break
-                    if done: break
-
-            # totals: accept if any book supplies a numeric line (Over or Under). Prices optional.
+                                found = True; break
+                        if found: break
+                    if found: break
+            # totals: accept first numeric line (prices optional)
             trow = tot_idx.get(key)
             if trow:
-                best_line = None; over_price = None; under_price = None
+                best_line=None; op=None; up=None
                 for bm in (trow.get("bookmakers") or []):
                     for mk in (bm.get("markets") or []):
                         outs = mk.get("outcomes") or []
@@ -162,15 +161,14 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         line = over_pt if over_pt is not None else under_pt
                         if line is not None:
                             best_line = line
-                            over_price  = safe_float((over or {}).get("price"))
-                            under_price = safe_float((under or {}).get("price"))
+                            op = safe_float((over or {}).get("price"))
+                            up = safe_float((under or {}).get("price"))
                             break
                     if best_line is not None: break
                 if best_line is not None:
                     entry["total"]      = best_line
-                    entry["over_odds"]  = over_price
-                    entry["under_odds"] = under_price
-
+                    entry["over_odds"]  = op
+                    entry["under_odds"] = up
             games.append(entry)
         except Exception:
             continue
@@ -202,19 +200,21 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
         try:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
             market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
-            # line from multiple possible fields or parse description
-            line = (safe_float(p.get("Value")) or safe_float(p.get("Line")) or
-                    safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
-                    extract_number(p.get("Description")) or extract_number(p.get("BetDescription")))
+            line   = (safe_float(p.get("Value")) or safe_float(p.get("Line")) or
+                      safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
+                      extract_number(p.get("Description")) or extract_number(p.get("BetDescription")))
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
             of, uf = deflate_vig(op or 0.5, up or 0.5)
             conf = max(of or 0.5, uf or 0.5)
             if conf == 0.5: conf = 0.625
             side = "Over" if (of or 0.5) >= (uf or 0.5) else "Under"
+            team = p.get("Team") or p.get("HomeTeam")
+            opp  = p.get("Opponent") or p.get("AwayTeam")
             picks.append({
                 "player": player, "prop_type": market, "line": line,
-                "pick": side, "confidence": round(conf, 3), "bookmaker": "SportsDataIO"
+                "pick": side, "confidence": round(conf, 3), "bookmaker": "SportsDataIO",
+                "team": team, "opponent": opp
             })
         except Exception:
             continue
@@ -228,6 +228,11 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
         for ev in raw:
             ct = parse_commence_utc(ev.get("commence_time"))
             if ct and not (start <= ct < end): continue
+            matchup = None
+            try:
+                matchup = f"{ev.get('away_team')} @ {ev.get('home_team')}"
+            except Exception:
+                pass
             for bm in (ev.get("bookmakers") or []):
                 for mk in (bm.get("markets") or []):
                     outs = mk.get("outcomes") or []
@@ -245,11 +250,13 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
                     picks.append({
                         "player": str(player), "prop_type": prop, "line": line,
                         "pick": side, "confidence": round(conf, 3),
-                        "bookmaker": bm.get("title") or bm.get("key") or "OddsAPI"
+                        "bookmaker": bm.get("title") or bm.get("key") or "OddsAPI",
+                        "matchup": matchup
                     })
     if not picks:
         picks = fetch_sportsdataio_props("2025REG", week)
 
+    # dedupe (player, prop_type)
     best: Dict[Tuple[str,str], Dict[str,Any]] = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
@@ -277,6 +284,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
         key = (home or "", away or "")
         if key in seen: continue
         seen.add(key)
+        matchup = f"{away} @ {home}"
 
         p_home = american_to_prob(g.get("h2h_home"))
         p_away = american_to_prob(g.get("h2h_away"))
@@ -286,7 +294,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
         if ph_fair is None or pa_fair is None: ph_fair, pa_fair = 0.5, 0.5
 
         su_rows.append({
-            "home": home, "away": away,
+            "home": home, "away": away, "matchup": matchup,
             "su_pick": home if ph_fair >= pa_fair else away,
             "su_confidence": round(max(ph_fair, pa_fair), 4)
         })
@@ -296,7 +304,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
             fav_prob = ph_fair if fav == home else pa_fair
             sign_char = "-" if spread < 0 else "+"
             ats_rows.append({
-                "ats_pick": f"{fav} {sign_char}{abs(spread)}",
+                "matchup": matchup, "ats_pick": f"{fav} {sign_char}{abs(spread)}",
                 "spread": float(spread),
                 "ats_confidence": round(max(0.50, min(0.75, 0.46 + 0.5*abs((fav_prob or 0.5) - 0.5))), 4)
             })
@@ -313,6 +321,7 @@ def build_su_ats_totals(games: List[Dict[str, Any]]) -> Dict[str, Any]:
                 pick_over = True
                 conf = 0.55
             tot_rows.append({
+                "matchup": matchup,
                 "tot_pick": f"{'Over' if pick_over else 'Under'} {float(total_line)}",
                 "total_line": float(total_line),
                 "tot_confidence": round(conf, 4)
