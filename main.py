@@ -112,6 +112,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
     if not isinstance(h2h, list) or not h2h: return None
 
+    # index by (home, away) using event fields
     def index_by_teams(rows):
         out = {}
         if not isinstance(rows, list): return out
@@ -127,7 +128,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away: 
+                if not home or not away:
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -283,6 +284,7 @@ def build_top_props_for_week(week: int) -> List[Dict[str, Any]]:
     if not picks:
         picks = fetch_sportsdataio_props("2025REG", week)
 
+    # dedupe (player, prop_type)
     best: Dict[Tuple[str,str], Dict[str,Any]] = {}
     for p in picks:
         k = (p["player"], p["prop_type"])
