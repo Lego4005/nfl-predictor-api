@@ -7,14 +7,16 @@ from fpdf import FPDF
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, timezone
 
-APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-1.9.0"
+APP_VERSION = "LIVE-LINES+PROPS-NORMALIZED-2.0.0"
 
 app = FastAPI(title="NFL Predictor API", version=APP_VERSION)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], allow_credentials=True,
-    allow_methods=["*"], allow_headers=["*"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 ODDS_API_KEY     = (os.getenv("ODDS_API_KEY") or "").strip()
@@ -80,9 +82,6 @@ def extract_number(text: Optional[str]) -> Optional[float]:
 
 # ---------- prop label normalization ----------
 def normalize_prop_label(key_or_text: str) -> Tuple[str, str]:
-    """
-    Return (label, units) from an Odds API key or SDIO text.
-    """
     s = (key_or_text or "").lower()
     # Odds API keys
     if "player_pass_yds" in s: return ("Passing Yards", "yds")
@@ -103,7 +102,7 @@ def normalize_prop_label(key_or_text: str) -> Tuple[str, str]:
     return (key_or_text or "Prop", "")
 
 # ---------------- Odds API: games ----------------
-def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
+def fetch_market_snap() -> Optional[List[Dict[str, Any]]]]:
     if not ODDS_API_KEY: return None
     qs   = urlencode({"regions": ODDS_REGION, "oddsFormat": "american", "apiKey": ODDS_API_KEY})
     base = f"/v4/sports/{ODDS_SPORT}/odds"
@@ -112,7 +111,6 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
     tot, _, _ = _json_get("api.the-odds-api.com", f"{base}?markets=totals&{qs}")
     if not isinstance(h2h, list) or not h2h: return None
 
-    # index by (home, away) using event fields
     def index_by_teams(rows):
         out = {}
         if not isinstance(rows, list): return out
@@ -128,7 +126,7 @@ def fetch_market_snap() -> Optional[List[Dict[str, Any]]]:
                         for o in outs:
                             nm = o.get("name")
                             if nm and nm != home: away = nm; break
-                if not home or not away:
+                if not home or not away: 
                     continue
                 out[(home, away)] = (g, ct)
             except Exception:
@@ -225,10 +223,15 @@ def fetch_sportsdataio_props(season: str, week: int) -> List[Dict[str, Any]]:
             player = p.get("Name") or p.get("PlayerName") or "Unknown"
             raw_market = p.get("BetName") or p.get("BetType") or p.get("StatType") or "Prop"
             label, units = normalize_prop_label(str(raw_market))
-            # robust line extraction
-            line = (safe_float(p.get("Value")) or safe_float(p.get("Line")) or
-                    safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
-                    extract_number(p.get("Description")) or extract_number(p.get("BetDescription")))
+            line = (
+                safe_float(p.get("Value")) or safe_float(p.get("Line")) or
+                safe_float(p.get("Points")) or safe_float(p.get("BetValue")) or
+                safe_float(p.get("PlayerPropStat")) or safe_float(p.get("PlayerPropLine")) or
+                safe_float(p.get("PropValue")) or
+                extract_number(p.get("Description")) or extract_number(p.get("BetDescription"))
+            )
+            if line is None:
+                continue  # drop rows with no actual numeric line
             op = american_to_prob(safe_float(p.get("OverPayout")))
             up = american_to_prob(safe_float(p.get("UnderPayout")))
             of, uf = deflate_vig(op or 0.5, up or 0.5)
