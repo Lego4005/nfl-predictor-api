@@ -1,34 +1,30 @@
-# 🏈 NFL 2025 Predictor API
 
-A FastAPI-powered backend for delivering weekly NFL predictions against the spread, straight-up, totals, player props, and fantasy value picks — optimized for betting and DFS insights.
+# NFL Frontend (Clean Vite + React)
 
-## 🔧 Features
+A minimal React dashboard for your NFL Predictor API. 
 
-- Predictive engine returns:
-  - Top 5 Straight-Up winners
-  - Top 5 Against the Spread (ATS) picks
-  - Top 5 Over/Under Totals
-  - Top 5 Prop Bets by player
-  - Top 5 Fantasy Value picks (DFS)
-- Download results in: JSON, CSV, PDF
-- Built for the 2025 NFL season
+## Steps to Deploy
 
-## 🚀 Installation
-
+### 1. Local Development
 ```bash
-pip install -r requirements.txt
-uvicorn main:app --reload
+npm install
+npm run dev
 ```
 
-## 📡 API Endpoints
+### 2. Build for Production
+```bash
+npm run build
+```
 
-### Get Predictions
-`GET /v1/best-picks/2025/{week}`
+### 3. Vercel Setup
+- Framework Preset: **Other**
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Node: 18.x or 20.x
 
-### Download Predictions
-`GET /v1/best-picks/2025/{week}/download?format=json|csv|pdf`
+### 4. Environment Variable
+```
+VITE_API_BASE=https://nfl-predictor-api.onrender.com
+```
 
-## 🛠 Deployment Options
-- Render.com
-- Railway.app
-- Replit
+That's it. Once deployed, you'll have tables, week selector, and working downloads.

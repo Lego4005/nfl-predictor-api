@@ -1,0 +1,48 @@
+# Production requirements for NFL Predictor API
+# Core API framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# HTTP client and async support
+aiohttp>=3.9.0
+httpx>=0.25.0
+
+# Data processing
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Caching
+redis>=5.0.0
+hiredis>=2.2.0  # For better Redis performance
+
+# PDF generation
+fpdf>=2.7.0
+
+# Configuration and environment
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Monitoring and logging
+structlog>=23.2.0
+prometheus-client>=0.19.0
+
+# Security
+cryptography>=41.0.0
+python-jose[cryptography]>=3.3.0
+
+# Database (optional, for analytics/logging)
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+psycopg2-binary>=2.9.0  # PostgreSQL adapter
+
+# Testing (for production validation)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0  # For testing API endpoints
+
+# Production server
+gunicorn>=21.2.0
+
+# Health checks and monitoring
+psutil>=5.9.0  # System monitoring
