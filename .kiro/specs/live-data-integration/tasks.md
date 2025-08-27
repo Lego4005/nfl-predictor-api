@@ -83,6 +83,8 @@
 
 
 
+
+
   - Create user notification service for API status communication
   - Implement comprehensive error classification and handling
   - Add retry logic with exponential backoff
@@ -295,6 +297,7 @@
   - Implement alerting for API failures and degraded performance
   - _Requirements: 5.1, 5.2_
 
+
 - [ ] 9. Enhance UI with comprehensive game display and visual improvements
 
 
@@ -305,10 +308,15 @@
   - Implement color-coded confidence levels and professional styling
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 11.1, 11.2, 11.3, 11.4, 11.5_
 
+
+
+
 - [ ] 9.1 Implement full game slate display
 
 
   - Modify backend to return all 16+ games per week instead of limited subset
+
+
   - Update SU tab to display all games with team logos, picks, and confidence
   - Add game count indicators in tab headers (e.g., "Straight-Up Picks (16 Games)")
   - _Requirements: 8.1, 8.5_
@@ -316,10 +324,13 @@
 - [ ] 9.2 Enhance ATS and totals tabs with complete data
 
 
+
+
   - Update ATS tab to show all games with spread information and color-coded picks
   - Enhance totals tab with all games showing over/under lines and pick directions
   - Add color coding for spreads (red for negative, green for positive) and totals (red for Over, blue for Under)
   - _Requirements: 8.2, 8.3, 8.4_
+
 
 - [ ] 9.3 Add team logos and visual enhancements
 
@@ -334,12 +345,16 @@
 
 
 
+
+
   - Display exactly 10 prop bets ranked by confidence score
   - Add visual highlighting for top 3 props with special indicators
   - Implement color-coded pick directions and confidence levels
+
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
 - [ ] 10.1 Create prop bet ranking and display system
+
 
 
   - Sort all prop bets by confidence score (highest first)
@@ -355,7 +370,10 @@
   - Include player team information and enhanced formatting
   - _Requirements: 9.3, 9.4, 9.5_
 
+
+
 - [ ] 11. Implement seamless week navigation with live API integration
+
 
 
 
@@ -364,6 +382,8 @@
   - Maintain loading states and preserve UI during data transitions
   - Ensure primary API prioritization with fallback handling
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
+
+
 
 - [ ] 11.1 Enhance week selector functionality
 
@@ -377,11 +397,14 @@
 
 
   - Prioritize primary APIs (The Odds API, SportsDataIO) for fresh data
+
+
   - Implement intelligent caching to avoid redundant calls
   - Update timestamp and live data indicators when data refreshes
   - _Requirements: 10.3, 10.4_
 
 - [ ] 12. Add download functionality with enhanced export options
+
 
 
 

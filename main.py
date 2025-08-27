@@ -211,7 +211,7 @@ async def transform_espn_data_to_predictions(espn_data: dict, week: int) -> dict
         ats_picks = []
         totals_picks = []
         
-        for i, game in enumerate(games[:5]):  # Top 5 games
+        for i, game in enumerate(games):  # All games
             try:
                 competitions = game.get('competitions', [])
                 if not competitions:
@@ -249,7 +249,9 @@ async def transform_espn_data_to_predictions(espn_data: dict, week: int) -> dict
                         "away": away_name,
                         "matchup": matchup,
                         "su_pick": su_pick,
-                        "su_confidence": confidence
+                        "su_confidence": confidence,
+                        "logo_home": f"https://a.espncdn.com/i/teamlogos/nfl/500/{home_name}.png",
+                        "logo_away": f"https://a.espncdn.com/i/teamlogos/nfl/500/{away_name}.png"
                     })
                     
                     # ATS pick (generate realistic spread)
@@ -322,7 +324,7 @@ async def transform_sportsdata_to_predictions(sportsdata: list, week: int) -> di
         ats_picks = []
         totals_picks = []
         
-        for i, game in enumerate(sportsdata[:5]):  # Top 5 games
+        for i, game in enumerate(sportsdata):  # All games
             try:
                 home_team = game.get('HomeTeam', f'HOME{i+1}')
                 away_team = game.get('AwayTeam', f'AWAY{i+1}')
@@ -347,7 +349,9 @@ async def transform_sportsdata_to_predictions(sportsdata: list, week: int) -> di
                     "away": away_team,
                     "matchup": matchup,
                     "su_pick": su_pick,
-                    "su_confidence": confidence
+                    "su_confidence": confidence,
+                    "logo_home": f"https://a.espncdn.com/i/teamlogos/nfl/500/{home_team}.png",
+                    "logo_away": f"https://a.espncdn.com/i/teamlogos/nfl/500/{away_team}.png"
                 })
                 
                 # ATS pick
@@ -433,7 +437,7 @@ async def transform_odds_api_to_predictions(odds_data: list, week: int) -> dict:
         ats_picks = []
         totals_picks = []
         
-        for i, game in enumerate(odds_data[:5]):  # Top 5 games
+        for i, game in enumerate(odds_data):  # All games
             try:
                 home_team = game.get('home_team', f'HOME{i+1}')
                 away_team = game.get('away_team', f'AWAY{i+1}')
@@ -503,7 +507,9 @@ async def transform_odds_api_to_predictions(odds_data: list, week: int) -> dict:
                             "away": away_team,
                             "matchup": matchup,
                             "su_pick": su_pick,
-                            "su_confidence": confidence
+                            "su_confidence": confidence,
+                            "logo_home": f"https://a.espncdn.com/i/teamlogos/nfl/500/{home_team}.png",
+                            "logo_away": f"https://a.espncdn.com/i/teamlogos/nfl/500/{away_team}.png"
                         })
                 
             except Exception as e:
@@ -537,7 +543,7 @@ def generate_live_props(games: list) -> list:
     """Generate player props from live game data"""
     props = []
     
-    for game in games[:3]:  # Top 3 games for props
+    for game in games[:8]:  # Top 8 games for props
         competitions = game.get('competitions', [])
         if not competitions:
             continue
@@ -574,7 +580,7 @@ def generate_live_props(games: list) -> list:
                 }
             ])
     
-    return props[:5]  # Return top 5
+    return sorted(props, key=lambda x: x['confidence'], reverse=True)[:10]  # Return top 10 by confidence
 
 
 def generate_live_fantasy(games: list) -> list:
@@ -601,18 +607,19 @@ def generate_premium_props(games_data: list) -> list:
     props = []
     
     premium_players = [
-        ("Josh Allen", "BUF", "Passing Yards", 285.5, "Over"),
-        ("Lamar Jackson", "BAL", "Rushing Yards", 65.5, "Over"), 
-        ("Cooper Kupp", "LAR", "Receiving Yards", 85.5, "Under"),
-        ("Travis Kelce", "KC", "Receptions", 6.5, "Over"),
-        ("Christian McCaffrey", "SF", "Fantasy Points", 18.5, "Over")
+        ("Josh Allen", "BUF", "Passing Yards", 285.5, "Over", 0.731),
+        ("Lamar Jackson", "BAL", "Rushing Yards", 65.5, "Over", 0.725), 
+        ("Cooper Kupp", "LAR", "Receiving Yards", 85.5, "Under", 0.718),
+        ("Travis Kelce", "KC", "Receptions", 6.5, "Over", 0.712),
+        ("Christian McCaffrey", "SF", "Rushing Yards", 95.5, "Over", 0.705),
+        ("Tyreek Hill", "MIA", "Receiving Yards", 75.5, "Over", 0.698),
+        ("Stefon Diggs", "BUF", "Receptions", 7.5, "Under", 0.692),
+        ("Derrick Henry", "TEN", "Rushing Yards", 85.5, "Over", 0.685),
+        ("Davante Adams", "LV", "Receiving Yards", 80.5, "Under", 0.678),
+        ("Patrick Mahomes", "KC", "Passing Yards", 275.5, "Over", 0.671)
     ]
     
-    for i, (player, team, prop_type, line, pick) in enumerate(premium_players):
-        import random
-        random.seed(hash(f"{player}{prop_type}"))
-        
-        confidence = 0.58 + random.uniform(0.0, 0.15)
+    for player, team, prop_type, line, pick, confidence in premium_players:
         units = "yds" if "Yards" in prop_type else ("rec" if "Receptions" in prop_type else "pts")
         
         props.append({
@@ -627,7 +634,8 @@ def generate_premium_props(games_data: list) -> list:
             "opponent": "OPP"
         })
     
-    return props
+    # Sort by confidence and return exactly 10
+    return sorted(props, key=lambda x: x['confidence'], reverse=True)[:10]
 
 
 def generate_premium_fantasy(games_data: list) -> list:
@@ -656,37 +664,91 @@ def generate_premium_fantasy(games_data: list) -> list:
 def get_mock_data_for_week(week):
     """Mock data generators (stable shapes for your UI)"""
     def mock_su(week):
-        return [
-            {"home": "BUF", "away": "NYJ", "matchup": "NYJ @ BUF", "su_pick": "BUF", "su_confidence": 0.534},
-            {"home": "PHI", "away": "DAL", "matchup": "DAL @ PHI", "su_pick": "PHI", "su_confidence": 0.522},
-            {"home": "WAS", "away": "NYG", "matchup": "NYG @ WAS", "su_pick": "WAS", "su_confidence": 0.516},
-            {"home": "NO",  "away": "ARI", "matchup": "ARI @ NO",  "su_pick": "ARI", "su_confidence": 0.508},
-            {"home": "CLE", "away": "CIN", "matchup": "CIN @ CLE", "su_pick": "CIN", "su_confidence": 0.506},
+        # Full 16-game NFL week slate with team logos
+        games = [
+            {"home": "BUF", "away": "NYJ", "matchup": "NYJ @ BUF", "su_pick": "BUF", "su_confidence": 0.734},
+            {"home": "PHI", "away": "DAL", "matchup": "DAL @ PHI", "su_pick": "PHI", "su_confidence": 0.722},
+            {"home": "WAS", "away": "NYG", "matchup": "NYG @ WAS", "su_pick": "WAS", "su_confidence": 0.716},
+            {"home": "NO",  "away": "ARI", "matchup": "ARI @ NO",  "su_pick": "ARI", "su_confidence": 0.708},
+            {"home": "CLE", "away": "CIN", "matchup": "CIN @ CLE", "su_pick": "CIN", "su_confidence": 0.706},
+            {"home": "KC",  "away": "LAC", "matchup": "LAC @ KC",  "su_pick": "KC",  "su_confidence": 0.695},
+            {"home": "BAL", "away": "PIT", "matchup": "PIT @ BAL", "su_pick": "BAL", "su_confidence": 0.682},
+            {"home": "SF",  "away": "SEA", "matchup": "SEA @ SF",  "su_pick": "SF",  "su_confidence": 0.671},
+            {"home": "GB",  "away": "CHI", "matchup": "CHI @ GB",  "su_pick": "GB",  "su_confidence": 0.665},
+            {"home": "DEN", "away": "LV",  "matchup": "LV @ DEN",  "su_pick": "DEN", "su_confidence": 0.658},
+            {"home": "MIA", "away": "NE",  "matchup": "NE @ MIA",  "su_pick": "MIA", "su_confidence": 0.642},
+            {"home": "TB",  "away": "ATL", "matchup": "ATL @ TB",  "su_pick": "TB",  "su_confidence": 0.635},
+            {"home": "MIN", "away": "DET", "matchup": "DET @ MIN", "su_pick": "MIN", "su_confidence": 0.628},
+            {"home": "LAR", "away": "ARI", "matchup": "ARI @ LAR", "su_pick": "LAR", "su_confidence": 0.615},
+            {"home": "IND", "away": "HOU", "matchup": "HOU @ IND", "su_pick": "IND", "su_confidence": 0.608},
+            {"home": "JAX", "away": "TEN", "matchup": "TEN @ JAX", "su_pick": "JAX", "su_confidence": 0.595},
         ]
+        
+        # Add team logos from ESPN CDN
+        for game in games:
+            game["logo_home"] = f"https://a.espncdn.com/i/teamlogos/nfl/500/{game['home']}.png"
+            game["logo_away"] = f"https://a.espncdn.com/i/teamlogos/nfl/500/{game['away']}.png"
+        
+        return games
 
     def mock_ats(week):
         return [
-            {"matchup": "NYJ @ BUF", "ats_pick": "BUF -3.5", "spread": -3.5, "ats_confidence": 0.500},
-            {"matchup": "DAL @ PHI", "ats_pick": "PHI -3.0", "spread": -3.0, "ats_confidence": 0.505},
-            {"matchup": "NYG @ WAS", "ats_pick": "WAS -2.5", "spread": -2.5, "ats_confidence": 0.507},
-            {"matchup": "ARI @ NO",  "ats_pick": "ARI +1.5", "spread":  1.5, "ats_confidence": 0.508},
-            {"matchup": "CIN @ CLE", "ats_pick": "CIN -2.0", "spread": -2.0, "ats_confidence": 0.509},
+            {"matchup": "NYJ @ BUF", "ats_pick": "BUF -7.5", "spread": -7.5, "ats_confidence": 0.650},
+            {"matchup": "DAL @ PHI", "ats_pick": "PHI -3.0", "spread": -3.0, "ats_confidence": 0.635},
+            {"matchup": "NYG @ WAS", "ats_pick": "WAS -4.5", "spread": -4.5, "ats_confidence": 0.628},
+            {"matchup": "ARI @ NO",  "ats_pick": "ARI +2.5", "spread":  2.5, "ats_confidence": 0.615},
+            {"matchup": "CIN @ CLE", "ats_pick": "CIN -1.5", "spread": -1.5, "ats_confidence": 0.608},
+            {"matchup": "LAC @ KC",  "ats_pick": "KC -6.0",  "spread": -6.0, "ats_confidence": 0.595},
+            {"matchup": "PIT @ BAL", "ats_pick": "BAL -3.5", "spread": -3.5, "ats_confidence": 0.582},
+            {"matchup": "SEA @ SF",  "ats_pick": "SF -2.5",  "spread": -2.5, "ats_confidence": 0.575},
+            {"matchup": "CHI @ GB",  "ats_pick": "GB -5.5",  "spread": -5.5, "ats_confidence": 0.568},
+            {"matchup": "LV @ DEN",  "ats_pick": "DEN -3.0", "spread": -3.0, "ats_confidence": 0.555},
+            {"matchup": "NE @ MIA",  "ats_pick": "MIA -4.0", "spread": -4.0, "ats_confidence": 0.548},
+            {"matchup": "ATL @ TB",  "ats_pick": "TB -2.0",  "spread": -2.0, "ats_confidence": 0.535},
+            {"matchup": "DET @ MIN", "ats_pick": "MIN -1.0", "spread": -1.0, "ats_confidence": 0.528},
+            {"matchup": "ARI @ LAR", "ats_pick": "LAR -4.5", "spread": -4.5, "ats_confidence": 0.515},
+            {"matchup": "HOU @ IND", "ats_pick": "IND -2.5", "spread": -2.5, "ats_confidence": 0.508},
+            {"matchup": "TEN @ JAX", "ats_pick": "JAX -3.5", "spread": -3.5, "ats_confidence": 0.502},
         ]
 
     def mock_totals(week):
         return [
-            {"matchup": "NYJ @ BUF", "tot_pick": "Over 45.5", "total_line": 45.5, "tot_confidence": 0.500},
-            {"matchup": "DAL @ PHI", "tot_pick": "Over 46.5", "total_line": 46.5, "tot_confidence": 0.511},
-            {"matchup": "KC @ LAC",  "tot_pick": "Under 45.5", "total_line": 45.5, "tot_confidence": 0.511},
-            {"matchup": "CAR @ JAX", "tot_pick": "Under 46.5", "total_line": 46.5, "tot_confidence": 0.511},
-            {"matchup": "NYG @ WAS", "tot_pick": "Under 45.5", "total_line": 45.5, "tot_confidence": 0.511},
+            {"matchup": "NYJ @ BUF", "tot_pick": "Over 47.5", "total_line": 47.5, "tot_confidence": 0.665},
+            {"matchup": "DAL @ PHI", "tot_pick": "Over 49.5", "total_line": 49.5, "tot_confidence": 0.658},
+            {"matchup": "NYG @ WAS", "tot_pick": "Under 43.5", "total_line": 43.5, "tot_confidence": 0.642},
+            {"matchup": "ARI @ NO",  "tot_pick": "Over 45.5", "total_line": 45.5, "tot_confidence": 0.635},
+            {"matchup": "CIN @ CLE", "tot_pick": "Under 44.5", "total_line": 44.5, "tot_confidence": 0.628},
+            {"matchup": "LAC @ KC",  "tot_pick": "Over 52.5", "total_line": 52.5, "tot_confidence": 0.615},
+            {"matchup": "PIT @ BAL", "tot_pick": "Under 41.5", "total_line": 41.5, "tot_confidence": 0.608},
+            {"matchup": "SEA @ SF",  "tot_pick": "Over 46.5", "total_line": 46.5, "tot_confidence": 0.595},
+            {"matchup": "CHI @ GB",  "tot_pick": "Under 42.5", "total_line": 42.5, "tot_confidence": 0.582},
+            {"matchup": "LV @ DEN",  "tot_pick": "Over 44.5", "total_line": 44.5, "tot_confidence": 0.575},
+            {"matchup": "NE @ MIA",  "tot_pick": "Under 40.5", "total_line": 40.5, "tot_confidence": 0.568},
+            {"matchup": "ATL @ TB",  "tot_pick": "Over 48.5", "total_line": 48.5, "tot_confidence": 0.555},
+            {"matchup": "DET @ MIN", "tot_pick": "Over 51.5", "total_line": 51.5, "tot_confidence": 0.548},
+            {"matchup": "ARI @ LAR", "tot_pick": "Under 45.5", "total_line": 45.5, "tot_confidence": 0.535},
+            {"matchup": "HOU @ IND", "tot_pick": "Over 43.5", "total_line": 43.5, "tot_confidence": 0.528},
+            {"matchup": "TEN @ JAX", "tot_pick": "Under 42.5", "total_line": 42.5, "tot_confidence": 0.515},
         ]
 
     def mock_props(week):
-        return [
-            {"player": "Josh Allen",   "prop_type": "Passing Yards",   "units": "yds", "line": 285.5, "pick": "Over",  "confidence": 0.631, "bookmaker": "SportsDataIO", "team": "BUF", "opponent": "BAL"},
-            {"player": "Jalen Hurts",  "prop_type": "Rushing Yards",   "units": "yds", "line":  46.5, "pick": "Over",  "confidence": 0.620, "bookmaker": "SportsDataIO", "team": "PHI", "opponent": "DAL"},
-            {"player": "Puka Nacua",   "prop_type": "Receptions",      "units": "rec", "line":   6.5, "pick": "Under", "confidence": 0.615, "bookmaker": "SportsDataIO", "team": "LAR", "opponent": "HOU"},
+        # Generate exactly 10 prop bets ranked by confidence
+        props = [
+            {"player": "Josh Allen",      "prop_type": "Passing Yards",   "units": "yds", "line": 285.5, "pick": "Over",  "confidence": 0.731, "bookmaker": "SportsDataIO", "team": "BUF", "opponent": "NYJ"},
+            {"player": "Lamar Jackson",   "prop_type": "Rushing Yards",   "units": "yds", "line":  65.5, "pick": "Over",  "confidence": 0.725, "bookmaker": "SportsDataIO", "team": "BAL", "opponent": "PIT"},
+            {"player": "Cooper Kupp",     "prop_type": "Receiving Yards", "units": "yds", "line":  85.5, "pick": "Under", "confidence": 0.718, "bookmaker": "SportsDataIO", "team": "LAR", "opponent": "ARI"},
+            {"player": "Travis Kelce",    "prop_type": "Receptions",      "units": "rec", "line":   6.5, "pick": "Over",  "confidence": 0.712, "bookmaker": "SportsDataIO", "team": "KC",  "opponent": "LAC"},
+            {"player": "Christian McCaffrey", "prop_type": "Rushing Yards", "units": "yds", "line": 95.5, "pick": "Over",  "confidence": 0.705, "bookmaker": "SportsDataIO", "team": "SF",  "opponent": "SEA"},
+            {"player": "Tyreek Hill",     "prop_type": "Receiving Yards", "units": "yds", "line":  75.5, "pick": "Over",  "confidence": 0.698, "bookmaker": "SportsDataIO", "team": "MIA", "opponent": "NE"},
+            {"player": "Stefon Diggs",    "prop_type": "Receptions",      "units": "rec", "line":   7.5, "pick": "Under", "confidence": 0.692, "bookmaker": "SportsDataIO", "team": "BUF", "opponent": "NYJ"},
+            {"player": "Derrick Henry",   "prop_type": "Rushing Yards",   "units": "yds", "line":  85.5, "pick": "Over",  "confidence": 0.685, "bookmaker": "SportsDataIO", "team": "TEN", "opponent": "JAX"},
+            {"player": "Davante Adams",   "prop_type": "Receiving Yards", "units": "yds", "line":  80.5, "pick": "Under", "confidence": 0.678, "bookmaker": "SportsDataIO", "team": "LV",  "opponent": "DEN"},
+            {"player": "Patrick Mahomes", "prop_type": "Passing Yards",   "units": "yds", "line": 275.5, "pick": "Over",  "confidence": 0.671, "bookmaker": "SportsDataIO", "team": "KC",  "opponent": "LAC"},
+        ]
+        
+        # Sort by confidence (highest first) and return exactly 10
+        props.sort(key=lambda x: x['confidence'], reverse=True)
+        return props[:10]", "line":   6.5, "pick": "Under", "confidence": 0.615, "bookmaker": "SportsDataIO", "team": "LAR", "opponent": "HOU"},
             {"player": "Malik Nabers", "prop_type": "Receiving Yards", "units": "yds", "line":  69.5, "pick": "Under", "confidence": 0.612, "bookmaker": "SportsDataIO", "team": "NYG", "opponent": "WAS"},
             {"player": "Mike Evans",   "prop_type": "Fantasy Points",  "units": "pts", "line":  13.5, "pick": "Under", "confidence": 0.605, "bookmaker": "SportsDataIO", "team": "TB",  "opponent": "ATL"},
         ]

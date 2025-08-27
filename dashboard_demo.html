@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL 2025 Predictions — Week 1</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, Helvetica;
+            background: #f7f7f9;
+            margin: 0;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .status-indicators {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .live-indicator {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08);
+            margin-bottom: 16px;
+        }
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .download-buttons {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-json { background-color: #f8fafc; }
+        .btn-csv { background-color: #f0fdf4; }
+        .btn-pdf { background-color: #fef2f2; }
+        .tabs {
+            display: flex;
+            gap: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 4px 6px;
+        }
+        .tab.active {
+            font-weight: 700;
+            color: #2563eb;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .team-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+        .confidence-high { color: #22c55e; font-weight: 600; }
+        .confidence-med { color: #f59e0b; font-weight: 600; }
+        .confidence-low { color: #6b7280; font-weight: 600; }
+        .spread-neg { 
+            color: #dc2626; 
+            background-color: #fee2e2; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-weight: 600;
+        }
+        .spread-pos { 
+            color: #22c55e; 
+            background-color: #dcfce7; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-weight: 600;
+        }
+        .pick-over { 
+            color: #dc2626; 
+            background-color: #fee2e2; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-weight: 600;
+        }
+        .pick-under { 
+            color: #2563eb; 
+            background-color: #dbeafe; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-weight: 600;
+        }
+        .prop-top3 {
+            background-color: #fef3c7;
+        }
+        .prop-rank {
+            text-align: center;
+            font-weight: 700;
+            color: #d97706;
+        }
+        .team-tag {
+            font-size: 11px;
+            padding: 2px 4px;
+            border-radius: 2px;
+            background-color: #f3f4f6;
+            color: #6b7280;
+            margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>NFL 2025 Predictions — Week 1</h1>
+            <div class="status-indicators">
+                <div class="live-indicator">● LIVE DATA</div>
+                <div style="font-size: 12px; color: #6b7280;">
+                    Last updated: 2:15 PM
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="card">
+            <div class="controls">
+                <label style="font-weight: 600;">
+                    Week:
+                    <select style="padding: 4px 8px; border-radius: 4px; border: 1px solid #d1d5db; margin-left: 8px;">
+                        <option value="1" selected>Week 1</option>
+                        <option value="2">Week 2</option>
+                        <option value="3">Week 3</option>
+                        <!-- ... more weeks ... -->
+                    </select>
+                </label>
+                
+                <button class="btn" style="background-color: #f3f4f6;">
+                    🔄 Refresh
+                </button>
+
+                <div class="download-buttons">
+                    <button class="btn btn-json">📋 JSON</button>
+                    <button class="btn btn-csv">📊 CSV</button>
+                    <button class="btn btn-pdf">📄 PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs and Content -->
+        <div class="card">
+            <nav class="tabs">
+                <button class="tab active">🏈 Straight-Up (16)</button>
+                <button class="tab">📊 ATS (16)</button>
+                <button class="tab">🎯 Totals (16)</button>
+                <button class="tab">⚡ Props (10)</button>
+                <button class="tab">💎 Fantasy (8)</button>
+            </nav>
+
+            <!-- Straight-Up Tab Content -->
+            <div id="su-content">
+                <h3>🏈 Straight-Up Picks (16 Games)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>SU Pick</th>
+                            <th>SU Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/BUF.png" class="team-logo" alt="BUF">
+                                    <strong>BUF</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/NYJ.png" class="team-logo" alt="NYJ">
+                                    NYJ
+                                </div>
+                            </td>
+                            <td><span class="confidence-high">BUF</span></td>
+                            <td><span class="confidence-high">73.4%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/PHI.png" class="team-logo" alt="PHI">
+                                    <strong>PHI</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/DAL.png" class="team-logo" alt="DAL">
+                                    DAL
+                                </div>
+                            </td>
+                            <td><span class="confidence-high">PHI</span></td>
+                            <td><span class="confidence-high">72.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/WAS.png" class="team-logo" alt="WAS">
+                                    <strong>WAS</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/NYG.png" class="team-logo" alt="NYG">
+                                    NYG
+                                </div>
+                            </td>
+                            <td><span class="confidence-high">WAS</span></td>
+                            <td><span class="confidence-high">71.6%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/KC.png" class="team-logo" alt="KC">
+                                    <strong>KC</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/LAC.png" class="team-logo" alt="LAC">
+                                    LAC
+                                </div>
+                            </td>
+                            <td><span class="confidence-high">KC</span></td>
+                            <td><span class="confidence-med">69.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/BAL.png" class="team-logo" alt="BAL">
+                                    <strong>BAL</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <img src="https://a.espncdn.com/i/teamlogos/nfl/500/PIT.png" class="team-logo" alt="PIT">
+                                    PIT
+                                </div>
+                            </td>
+                            <td><span class="confidence-med">BAL</span></td>
+                            <td><span class="confidence-med">68.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #6b7280; font-style: italic;">
+                                ... and 11 more games (16 total)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Props Tab Preview -->
+            <div id="props-preview" style="display: none;">
+                <h3>⚡ Top 10 Player Props (Ranked by Confidence)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Market</th>
+                            <th>Pick</th>
+                            <th>Line</th>
+                            <th>Confidence</th>
+                            <th>Book</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="prop-top3">
+                            <td class="prop-rank">🔥 #1</td>
+                            <td>
+                                <strong>Josh Allen</strong>
+                                <span class="team-tag">BUF</span>
+                            </td>
+                            <td>Passing Yards</td>
+                            <td><span class="pick-over">Over</span></td>
+                            <td><strong>285.5</strong></td>
+                            <td><span class="confidence-high">73.1%</span></td>
+                            <td style="font-size: 12px; color: #6b7280;">SportsDataIO</td>
+                        </tr>
+                        <tr class="prop-top3">
+                            <td class="prop-rank">🔥 #2</td>
+                            <td>
+                                <strong>Lamar Jackson</strong>
+                                <span class="team-tag">BAL</span>
+                            </td>
+                            <td>Rushing Yards</td>
+                            <td><span class="pick-over">Over</span></td>
+                            <td><strong>65.5</strong></td>
+                            <td><span class="confidence-high">72.5%</span></td>
+                            <td style="font-size: 12px; color: #6b7280;">SportsDataIO</td>
+                        </tr>
+                        <tr class="prop-top3">
+                            <td class="prop-rank">🔥 #3</td>
+                            <td>
+                                <strong>Cooper Kupp</strong>
+                                <span class="team-tag">LAR</span>
+                            </td>
+                            <td>Receiving Yards</td>
+                            <td><span class="pick-under">Under</span></td>
+                            <td><strong>85.5</strong></td>
+                            <td><span class="confidence-high">71.8%</span></td>
+                            <td style="font-size: 12px; color: #6b7280;">SportsDataIO</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #6b7280; font-style: italic;">
+                                ... and 7 more props (10 total)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="color: #888; margin-top: 12px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div>
+                API: <code>http://localhost:8080</code>
+            </div>
+            <div>
+                Last updated: 2:15:32 PM
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple tab switching demo
+        document.querySelectorAll('.tab').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show different content based on tab
+                const suContent = document.getElementById('su-content');
+                const propsPreview = document.getElementById('props-preview');
+                
+                if (index === 3) { // Props tab
+                    suContent.style.display = 'none';
+                    propsPreview.style.display = 'block';
+                } else {
+                    suContent.style.display = 'block';
+                    propsPreview.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

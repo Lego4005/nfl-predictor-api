@@ -11,12 +11,23 @@ dist/
 build/
 *.tsbuildinfo
 
-# Environment variables
+# Environment variables (CRITICAL - NEVER COMMIT THESE)
 .env
+.env.*
 .env.local
+.env.development
 .env.development.local
+.env.test
 .env.test.local
+.env.production
 .env.production.local
+.env.staging
+.env.staging.local
+
+# Additional environment file patterns
+*.env
+*_env
+env_*
 
 # Python
 __pycache__/
@@ -217,7 +228,21 @@ cache_credentials.json
 *credential*
 *private*
 
+# Additional security patterns
+*api_key*
+*apikey*
+*access_token*
+*refresh_token*
+*.pem
+*.p12
+*.pfx
+
 # Exclude test files from git (they're for development only)
 test_*.py
 *_test.py
 *_debug.py
+test_full_games.py
+test_api_endpoint.py
+test_logos.py
+test_props.py
+test_complete_integration.py

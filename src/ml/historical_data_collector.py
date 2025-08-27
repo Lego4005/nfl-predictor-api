@@ -90,8 +90,8 @@ class HistoricalDataCollector:
         self.ensure_data_directory()
         
         # API keys from environment
-        self.sportsdata_key = "bc297647c7aa4ef29747e6a85cb575dc"
-        self.odds_api_key = "415cf3d0662545e66f7c31e0c30ac2c4"
+        self.sportsdata_key = os.getenv("SPORTSDATA_IO_KEY")
+        self.odds_api_key = os.getenv("ODDS_API_KEY")
         
         # Data storage
         self.game_results: List[GameResult] = []

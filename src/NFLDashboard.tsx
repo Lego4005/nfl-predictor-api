@@ -402,11 +402,23 @@ export default function NFLDashboard(): JSX.Element {
             <h1 style={{ margin: 0 }}>NFL 2025 Predictions — Week {week}</h1>
             
             {data && (
-              <DataFreshness
-                timestamp={data.timestamp}
-                source={data.source}
-                cached={data.cached}
-              />
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  backgroundColor: data._live_data ? "#dcfce7" : "#fef3c7",
+                  color: data._live_data ? "#166534" : "#92400e"
+                }}>
+                  {data._live_data ? "● LIVE DATA" : "📊 MOCK DATA"}
+                </div>
+                <DataFreshness
+                  timestamp={data.timestamp}
+                  source={data.source}
+                  cached={data.cached}
+                />
+              </div>
             )}
           </div>
 
@@ -431,9 +443,18 @@ export default function NFLDashboard(): JSX.Element {
                   value={week} 
                   onChange={(e) => setWeek(parseInt(e.target.value, 10))}
                   disabled={loading || isRetrying}
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    border: "1px solid #d1d5db",
+                    backgroundColor: loading || isRetrying ? "#f3f4f6" : "#fff",
+                    cursor: loading || isRetrying ? "not-allowed" : "pointer"
+                  }}
                 >
                   {Array.from({ length: 18 }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>Week {i + 1}</option>
+                    <option key={i + 1} value={i + 1}>
+                      Week {i + 1} {i + 1 === week && (loading || isRetrying) ? "(Loading...)" : ""}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -467,20 +488,53 @@ export default function NFLDashboard(): JSX.Element {
                 <button 
                   onClick={() => download("json")}
                   disabled={loading || !data}
+                  style={{
+                    padding: "6px 12px",
+                    backgroundColor: loading || !data ? "#f3f4f6" : "#f8fafc",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    cursor: loading || !data ? "not-allowed" : "pointer",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}
                 >
-                  Download JSON
+                  📋 JSON
                 </button>
                 <button 
                   onClick={() => download("csv")}
                   disabled={loading || !data}
+                  style={{
+                    padding: "6px 12px",
+                    backgroundColor: loading || !data ? "#f3f4f6" : "#f0fdf4",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    cursor: loading || !data ? "not-allowed" : "pointer",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}
                 >
-                  Download CSV
+                  📊 CSV
                 </button>
                 <button 
                   onClick={() => download("pdf")}
                   disabled={loading || !data}
+                  style={{
+                    padding: "6px 12px",
+                    backgroundColor: loading || !data ? "#f3f4f6" : "#fef2f2",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    cursor: loading || !data ? "not-allowed" : "pointer",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}
                 >
-                  Download PDF
+                  📄 PDF
                 </button>
               </div>
             </div>
@@ -502,11 +556,11 @@ export default function NFLDashboard(): JSX.Element {
             flexWrap: "wrap" 
           }}>
             {[
-              ["su", "Straight-Up"],
-              ["ats", "ATS"],
-              ["totals", "Totals"],
-              ["props", "Props"],
-              ["fantasy", "Fantasy"],
+              ["su", `🏈 Straight-Up (${data?.best_picks?.length || 0})`],
+              ["ats", `📊 ATS (${data?.ats_picks?.length || 0})`],
+              ["totals", `🎯 Totals (${data?.totals_picks?.length || 0})`],
+              ["props", `⚡ Props (${data?.prop_bets?.length || 0})`],
+              ["fantasy", `💎 Fantasy (${data?.fantasy_picks?.length || 0})`],
             ].map(([k, label]) => (
               <button 
                 key={k} 
@@ -548,7 +602,7 @@ export default function NFLDashboard(): JSX.Element {
             <>
               {/* STRAIGHT-UP TAB */}
               {tab === "su" && (
-                <Section title={`Straight-Up Picks (${data?.best_picks?.length || 0} Games)`}>
+                <Section title={`🏈 Straight-Up Picks (${data?.best_picks?.length || 0} Games)`}>
                   <Table
                     cols={["Home", "Away", "Su Pick", "Su Confidence"]}
                     rows={(data?.best_picks || []).map((pick: any, i: number) => (
@@ -612,7 +666,10 @@ export default function NFLDashboard(): JSX.Element {
                         <td style={td}>
                           <span style={{ 
                             fontWeight: 600, 
-                            color: pick.ats_confidence > 0.7 ? "#22c55e" : pick.ats_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                            color: pick.ats_confidence > 0.7 ? "#22c55e" : pick.ats_confidence > 0.6 ? "#f59e0b" : "#6b7280",
+                            padding: "4px 8px",
+                            borderRadius: "4px",
+                            backgroundColor: pick.ats_confidence > 0.7 ? "#dcfce7" : pick.ats_confidence > 0.6 ? "#fef3c7" : "#f3f4f6"
                           }}>
                             {pick.ats_pick}
                           </span>
@@ -620,7 +677,10 @@ export default function NFLDashboard(): JSX.Element {
                         <td style={td}>
                           <span style={{ 
                             fontWeight: 600,
-                            color: Math.abs(pick.spread) > 6 ? "#dc2626" : Math.abs(pick.spread) > 3 ? "#f59e0b" : "#22c55e"
+                            color: pick.spread < 0 ? "#dc2626" : pick.spread > 0 ? "#22c55e" : "#6b7280",
+                            padding: "2px 6px",
+                            borderRadius: "3px",
+                            backgroundColor: pick.spread < 0 ? "#fee2e2" : pick.spread > 0 ? "#dcfce7" : "#f3f4f6"
                           }}>
                             {pick.spread > 0 ? `+${pick.spread}` : pick.spread}
                           </span>
@@ -641,36 +701,117 @@ export default function NFLDashboard(): JSX.Element {
 
               {/* TOTALS TAB */}
               {tab === "totals" && (
-                <Section title="Totals (Over/Under)">
+                <Section title={`Totals (Over/Under) (${data?.totals_picks?.length || 0} Games)`}>
                   <Table
                     cols={["Matchup", "Pick", "Line", "Confidence"]}
-                    rows={(data?.totals_picks || []).map((pick: any, i: number) => (
-                      <tr key={i}>
-                        <td style={td}>{pick.matchup}</td>
-                        <td style={td}>{pick.tot_pick}</td>
-                        <td style={td}>{pick.total_line}</td>
-                        <td style={td}>{pct(pick.tot_confidence)}</td>
-                      </tr>
-                    ))}
+                    rows={(data?.totals_picks || []).map((pick: any, i: number) => {
+                      const isOver = pick.tot_pick?.includes('Over');
+                      const isUnder = pick.tot_pick?.includes('Under');
+                      return (
+                        <tr key={i}>
+                          <td style={td}><strong>{pick.matchup}</strong></td>
+                          <td style={td}>
+                            <span style={{ 
+                              fontWeight: 600,
+                              color: isOver ? "#dc2626" : isUnder ? "#2563eb" : "#6b7280",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
+                              backgroundColor: isOver ? "#fee2e2" : isUnder ? "#dbeafe" : "#f3f4f6"
+                            }}>
+                              {isOver ? "🔥" : isUnder ? "❄️" : ""} {pick.tot_pick}
+                            </span>
+                          </td>
+                          <td style={td}>
+                            <span style={{ 
+                              fontWeight: 600,
+                              color: pick.total_line > 48 ? "#dc2626" : pick.total_line < 42 ? "#2563eb" : "#6b7280"
+                            }}>
+                              {pick.total_line}
+                            </span>
+                          </td>
+                          <td style={td}>
+                            <span style={{ 
+                              fontWeight: 600,
+                              color: pick.tot_confidence > 0.7 ? "#22c55e" : pick.tot_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                            }}>
+                              {pct(pick.tot_confidence)}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   />
                 </Section>
               )}
 
               {/* PROPS TAB */}
               {tab === "props" && (
-                <Section title="Player Props">
+                <Section title={`⚡ Top 10 Player Props (Ranked by Confidence)`}>
                   <Table
-                    cols={["Player", "Market", "Pick", "Line", "Confidence", "Book"]}
-                    rows={(data?.prop_bets || []).map((prop: any, i: number) => (
-                      <tr key={i}>
-                        <td style={td}>{prop.player}</td>
-                        <td style={td}>{prop.prop_type}</td>
-                        <td style={td}>{prop.pick}</td>
-                        <td style={td}>{prop.line}</td>
-                        <td style={td}>{pct(prop.confidence)}</td>
-                        <td style={td}>{prop.bookmaker}</td>
-                      </tr>
-                    ))}
+                    cols={["Rank", "Player", "Market", "Pick", "Line", "Confidence", "Book"]}
+                    rows={(data?.prop_bets || []).map((prop: any, i: number) => {
+                      const isTopThree = i < 3;
+                      const isOver = prop.pick === "Over";
+                      const isUnder = prop.pick === "Under";
+                      
+                      return (
+                        <tr key={i} style={{
+                          backgroundColor: isTopThree ? "#fef3c7" : "transparent"
+                        }}>
+                          <td style={{...td, textAlign: "center"}}>
+                            <span style={{
+                              fontWeight: 700,
+                              fontSize: "14px",
+                              color: isTopThree ? "#d97706" : "#6b7280"
+                            }}>
+                              {isTopThree ? "🔥" : ""} #{i + 1}
+                            </span>
+                          </td>
+                          <td style={td}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <strong>{prop.player}</strong>
+                              <span style={{
+                                fontSize: "11px",
+                                padding: "2px 4px",
+                                borderRadius: "2px",
+                                backgroundColor: "#f3f4f6",
+                                color: "#6b7280"
+                              }}>
+                                {prop.team}
+                              </span>
+                            </div>
+                          </td>
+                          <td style={td}>{prop.prop_type}</td>
+                          <td style={td}>
+                            <span style={{
+                              fontWeight: 600,
+                              color: isOver ? "#dc2626" : isUnder ? "#2563eb" : "#6b7280",
+                              padding: "2px 6px",
+                              borderRadius: "3px",
+                              backgroundColor: isOver ? "#fee2e2" : isUnder ? "#dbeafe" : "#f3f4f6"
+                            }}>
+                              {prop.pick}
+                            </span>
+                          </td>
+                          <td style={td}>
+                            <strong>{prop.line}</strong>
+                          </td>
+                          <td style={td}>
+                            <span style={{
+                              fontWeight: 700,
+                              color: prop.confidence > 0.7 ? "#22c55e" : prop.confidence > 0.65 ? "#f59e0b" : "#6b7280"
+                            }}>
+                              {pct(prop.confidence)}
+                            </span>
+                          </td>
+                          <td style={td}>
+                            <span style={{ fontSize: "12px", color: "#6b7280" }}>
+                              {prop.bookmaker}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   />
                 </Section>
               )}
