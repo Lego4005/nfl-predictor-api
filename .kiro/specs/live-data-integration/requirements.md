@@ -89,3 +89,51 @@ The NFL Predictor platform currently operates with mock data and needs to be enh
 3. WHEN types are complex THEN the system SHALL break them into separate type definition files
 4. WHEN API responses are processed THEN the system SHALL validate data against TypeScript interfaces
 5. WHEN refactoring is needed THEN the system SHALL split large files into smaller, focused modules
+
+### Requirement 8
+
+**User Story:** As a sports bettor, I want to see all NFL games for the selected week with comprehensive data display, so that I can analyze the complete slate of games for betting opportunities.
+
+#### Acceptance Criteria
+
+1. WHEN a user selects the SU tab THEN the system SHALL display all 16+ games for the selected week with team logos, picks, and confidence scores
+2. WHEN a user selects the ATS tab THEN the system SHALL display all games with spread information, ATS picks, and confidence ratings
+3. WHEN a user selects the totals tab THEN the system SHALL display all games with over/under lines, total picks, and confidence percentages
+4. WHEN displaying game data THEN the system SHALL use color-coded confidence levels (green for high, orange for medium, gray for low)
+5. WHEN games are loaded THEN the system SHALL show the total count of games in each tab header
+
+### Requirement 9
+
+**User Story:** As a prop bettor, I want to see the top 10 player props ranked by confidence with enhanced visual presentation, so that I can quickly identify the most confident betting opportunities.
+
+#### Acceptance Criteria
+
+1. WHEN a user views the props tab THEN the system SHALL display exactly 10 prop bets sorted by confidence score (highest first)
+2. WHEN displaying props THEN the system SHALL highlight the top 3 props with special visual indicators (fire emoji, background color)
+3. WHEN showing prop data THEN the system SHALL include player name, team, market type, pick direction, line, confidence, and bookmaker
+4. WHEN props are color-coded THEN the system SHALL use red for Over picks and blue for Under picks
+5. WHEN confidence is displayed THEN the system SHALL use green for >70%, orange for 65-70%, and gray for <65%
+
+### Requirement 10
+
+**User Story:** As a platform user, I want seamless week navigation with live data fetching, so that I can easily browse different weeks and get fresh data from primary APIs.
+
+#### Acceptance Criteria
+
+1. WHEN a user changes the week selector THEN the system SHALL immediately fetch fresh data from primary APIs (The Odds API, SportsDataIO)
+2. WHEN week data is loading THEN the system SHALL display loading indicators and maintain previous data until new data arrives
+3. WHEN API calls are made THEN the system SHALL prioritize primary sources and fallback to secondary sources only when needed
+4. WHEN data is successfully loaded THEN the system SHALL update the "Last updated" timestamp and show live data indicators
+5. WHEN switching weeks THEN the system SHALL maintain the current tab selection and apply the same data formatting
+
+### Requirement 11
+
+**User Story:** As a visual user, I want enhanced data presentation with team logos, icons, and visual indicators, so that I can quickly identify teams and understand data at a glance.
+
+#### Acceptance Criteria
+
+1. WHEN displaying NFL teams THEN the system SHALL show official team logos from ESPN CDN or similar reliable source
+2. WHEN team logos fail to load THEN the system SHALL gracefully hide the broken image and show team abbreviation only
+3. WHEN showing data status THEN the system SHALL use visual indicators (● for live data, 📊 for game count, 🎯 for props, 🏈 for fantasy)
+4. WHEN displaying download options THEN the system SHALL use recognizable icons (📊 for CSV, 📄 for PDF)
+5. WHEN showing confidence levels THEN the system SHALL use color coding and visual cues (🔥 emoji for top picks, color-coded percentages)

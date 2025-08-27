@@ -1,0 +1,28 @@
+{
+  "collection_date": "2025-08-26T16:13:33.512135",
+  "data_source": "Public websites (Pro Football Reference, ESPN, NFL.com)",
+  "seasons_collected": [
+    2022,
+    2023,
+    2024
+  ],
+  "total_games": 0,
+  "total_team_stats": 0,
+  "total_power_rankings": 0,
+  "games_by_season": {
+    "2022": 0,
+    "2023": 0,
+    "2024": 0
+  },
+  "advanced_features": [
+    "power_rankings",
+    "scoring_offense_rank",
+    "scoring_defense_rank",
+    "point_differential",
+    "yard_differential",
+    "turnover_differential",
+    "third_down_percentage",
+    "red_zone_percentage",
+    "team_efficiency_metrics"
+  ]
+}

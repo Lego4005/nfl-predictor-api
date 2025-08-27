@@ -15,7 +15,7 @@ import {
   DataSource 
 } from '../types/nfl.types';
 
-// Weekly predictions data structure
+// Weekly predictions data structure (legacy format)
 export interface WeeklyPredictions {
   best_picks: GamePrediction[];
   ats_picks: ATSPrediction[];
@@ -31,7 +31,7 @@ class APIService {
 
   constructor() {
     this.config = {
-      baseUrl: import.meta.env.VITE_API_BASE || 'http://localhost:8000',
+      baseUrl: import.meta.env.VITE_API_BASE || 'http://localhost:8080',
       timeout: 10000, // 10 seconds
       maxRetries: 3,
       retryDelay: 1000 // 1 second

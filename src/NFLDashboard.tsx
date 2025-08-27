@@ -9,14 +9,77 @@ import {
   APIResponse,
   Notification
 } from "./types";
-import apiService, { WeeklyPredictions } from "./services/apiService";
+import apiService from "./services/apiService";
 import NotificationBanner from "./components/NotificationBanner";
 import LoadingIndicator from "./components/LoadingIndicator";
 import DataFreshness from "./components/DataFreshness";
 import RetryButton from "./components/RetryButton";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-type TabType = "main" | "props" | "fantasy" | "lineup";
+type TabType = "su" | "ats" | "totals" | "props" | "fantasy";
+
+// New data structure matching the condensed schema
+interface NewGameData {
+  game_id: string;
+  kickoff_utc: string;
+  home: { team: string; abbr: string; logo?: string };
+  away: { team: string; abbr: string; logo?: string };
+  su: { pick: string; confidence: number };
+  ats: { spread_team: string; spread: number; pick: string; confidence: number };
+  totals: { line: number; pick: string; confidence: number };
+}
+
+interface NewPropData {
+  prop_id: string;
+  game_id: string;
+  player: string;
+  team: string;
+  position: string;
+  market: string;
+  book: string;
+  line: number;
+  pick: string;
+  confidence: number;
+}
+
+interface NewFantasyData {
+  salary_cap: number;
+  lineup: Array<{
+    player: string;
+    team: string;
+    position: string;
+    salary: number;
+    projected_points: number;
+    value: number;
+    game_id: string;
+  }>;
+  alternates: Array<{
+    player: string;
+    team: string;
+    position: string;
+    salary: number;
+    projected_points: number;
+    value: number;
+    game_id: string;
+  }>;
+}
+
+interface NewWeeklyData {
+  season: number;
+  week: string;
+  last_updated_utc: string;
+  games: NewGameData[];
+  props: NewPropData[];
+  fantasy: NewFantasyData;
+  exports: {
+    csv: Record<string, string>;
+    pdf_spec: {
+      title: string;
+      sections: string[];
+      footer: string;
+    };
+  };
+}
 
 interface CardProps {
   children: React.ReactNode;
@@ -34,8 +97,8 @@ interface TableProps {
 
 export default function NFLDashboard(): JSX.Element {
   const [week, setWeek] = useState<number>(1);
-  const [tab, setTab] = useState<TabType>("main");
-  const [data, setData] = useState<APIResponse<WeeklyPredictions> | null>(null);
+  const [tab, setTab] = useState<TabType>("su");
+  const [data, setData] = useState<any>(null); // Simplified - use any for now
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -64,17 +127,22 @@ export default function NFLDashboard(): JSX.Element {
     setNotifications([]);
 
     try {
-      const response = await apiService.getWeeklyPredictions(w);
-      setData(response);
-      setLastRefresh(new Date().toISOString());
+      // Direct fetch like the working HTML version
+      const response = await fetch(`http://localhost:8080/v1/best-picks/2025/${w}?t=${Date.now()}`);
       
-      // Set notifications from API response
-      if (response.notifications && response.notifications.length > 0) {
-        setNotifications(response.notifications);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
+      
+      const rawData = await response.json();
+      console.log('React app received data:', rawData);
+      
+      setData(rawData);
+      setLastRefresh(new Date().toISOString());
       
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : "Failed to fetch data";
+      console.error('React app error:', errorMessage);
       setError(errorMessage);
       
       // Add error notification
@@ -89,6 +157,133 @@ export default function NFLDashboard(): JSX.Element {
       setIsRetrying(false);
     }
   }, []);
+
+  // Transform old API format to new schema format
+  const transformToNewFormat = (oldData: any, week: number): NewWeeklyData => {
+    const games: NewGameData[] = [];
+    const props: NewPropData[] = [];
+    
+    // Transform games data
+    if (oldData.best_picks) {
+      oldData.best_picks.forEach((pick: any, index: number) => {
+        const gameId = `2025-W${week.toString().padStart(2, '0')}-${pick.away}-${pick.home}`;
+        
+        // Find corresponding ATS and totals data
+        const atsData = oldData.ats_picks?.[index] || {};
+        const totalsData = oldData.totals_picks?.[index] || {};
+        
+        games.push({
+          game_id: gameId,
+          kickoff_utc: new Date().toISOString(), // Default to now
+          home: { 
+            team: pick.home || 'HOME', 
+            abbr: pick.home || 'HOME',
+            logo: `https://a.espncdn.com/i/teamlogos/nfl/500/${pick.home}.png`
+          },
+          away: { 
+            team: pick.away || 'AWAY', 
+            abbr: pick.away || 'AWAY',
+            logo: `https://a.espncdn.com/i/teamlogos/nfl/500/${pick.away}.png`
+          },
+          su: { 
+            pick: pick.su_pick === pick.home ? 'HOME' : 'AWAY', 
+            confidence: pick.su_confidence || 0.5 
+          },
+          ats: { 
+            spread_team: atsData.spread > 0 ? 'AWAY' : 'HOME',
+            spread: Math.abs(atsData.spread || 3.5), 
+            pick: atsData.ats_pick?.includes(pick.home) ? 'HOME' : 'AWAY', 
+            confidence: atsData.ats_confidence || 0.5 
+          },
+          totals: { 
+            line: totalsData.total_line || 45.5, 
+            pick: totalsData.tot_pick?.includes('Over') ? 'OVER' : 'UNDER', 
+            confidence: totalsData.tot_confidence || 0.5 
+          }
+        });
+      });
+    }
+    
+    // Transform props data
+    if (oldData.prop_bets) {
+      oldData.prop_bets.forEach((prop: any, index: number) => {
+        const gameId = `2025-W${week.toString().padStart(2, '0')}-${prop.opponent}-${prop.team}`;
+        
+        props.push({
+          prop_id: `${gameId}-${prop.player.toLowerCase().replace(/\s+/g, '-')}-${prop.prop_type.toLowerCase().replace(/\s+/g, '')}`,
+          game_id: gameId,
+          player: prop.player || 'Unknown Player',
+          team: prop.team || 'UNK',
+          position: getPositionFromPropType(prop.prop_type),
+          market: prop.prop_type || 'Unknown Market',
+          book: prop.bookmaker || 'Unknown Book',
+          line: prop.line || 0,
+          pick: prop.pick || 'OVER',
+          confidence: prop.confidence || 0.5
+        });
+      });
+    }
+    
+    // Transform fantasy data
+    const fantasy: NewFantasyData = {
+      salary_cap: 50000,
+      lineup: [],
+      alternates: []
+    };
+    
+    if (oldData.fantasy_picks) {
+      fantasy.lineup = oldData.fantasy_picks.slice(0, 9).map((pick: any, index: number) => ({
+        player: pick.player || `Player ${index + 1}`,
+        team: pick.team || 'UNK',
+        position: pick.position || 'FLEX',
+        salary: pick.salary || 5000,
+        projected_points: pick.projected_points || 10,
+        value: pick.value_score || 2.0,
+        game_id: `2025-W${week.toString().padStart(2, '0')}-GAME-${index + 1}`
+      }));
+      
+      fantasy.alternates = oldData.fantasy_picks.slice(9, 14).map((pick: any, index: number) => ({
+        player: pick.player || `Alt Player ${index + 1}`,
+        team: pick.team || 'UNK',
+        position: pick.position || 'FLEX',
+        salary: pick.salary || 5000,
+        projected_points: pick.projected_points || 10,
+        value: pick.value_score || 2.0,
+        game_id: `2025-W${week.toString().padStart(2, '0')}-ALT-${index + 1}`
+      }));
+    }
+    
+    return {
+      season: 2025,
+      week: week.toString(),
+      last_updated_utc: new Date().toISOString(),
+      games,
+      props,
+      fantasy,
+      exports: {
+        csv: {
+          su: "Home,Away,Su Pick,Su Confidence,Game Id,Kickoff",
+          ats: "Matchup,ATS Pick,Spread,ATS Confidence,Game Id,Kickoff",
+          totals: "Matchup,Pick,Line,Confidence,Game Id,Kickoff",
+          props: "Player,Market,Pick,Line,Confidence,Book,Game,Game Id,Kickoff",
+          fantasy: "Player,Position,Team,Salary,Projected Points,Value,Game Id"
+        },
+        pdf_spec: {
+          title: `NFL 2025 Predictions — Week ${week}`,
+          sections: ["Straight-Up", "ATS", "Totals", "Props", "Fantasy"],
+          footer: "API: https://nfl-predictor-api.onrender.com • Generated {local_time}"
+        }
+      }
+    };
+  };
+
+  const getPositionFromPropType = (propType: string): string => {
+    if (propType?.includes('Passing')) return 'QB';
+    if (propType?.includes('Rushing')) return 'RB';
+    if (propType?.includes('Receiving')) return 'WR';
+    if (propType?.includes('Receptions')) return 'WR';
+    return 'FLEX';
+  };
 
   useEffect(() => { 
     fetchWeek(week); 
@@ -307,10 +502,11 @@ export default function NFLDashboard(): JSX.Element {
             flexWrap: "wrap" 
           }}>
             {[
-              ["main", "Main Predictions"],
-              ["props", "Prop Bets"],
-              ["fantasy", "Fantasy Picks"],
-              ["lineup", "Classic Lineup"],
+              ["su", "Straight-Up"],
+              ["ats", "ATS"],
+              ["totals", "Totals"],
+              ["props", "Props"],
+              ["fantasy", "Fantasy"],
             ].map(([k, label]) => (
               <button 
                 key={k} 
@@ -350,116 +546,150 @@ export default function NFLDashboard(): JSX.Element {
             </div>
           ) : (
             <>
-              {/* MAIN TAB */}
-              {tab === "main" && (
-                <>
-                  <Section title="Top 5 Straight-Up Picks">
-                    <Table
-                      cols={["Home", "Away", "Su Pick", "Su Confidence"]}
-                      rows={(data?.data?.best_picks || []).slice(0, 5).map((r, i) => (
-                        <tr key={i}>
-                          <td style={td}>{r.home}</td>
-                          <td style={td}>{r.away}</td>
-                          <td style={td}>{r.su_pick}</td>
-                          <td style={td}>{pct(r.su_confidence)}</td>
-                        </tr>
-                      ))}
-                    />
-                  </Section>
-
-                  <Section title="Top 5 Against the Spread (ATS)">
-                    <Table
-                      cols={["Matchup", "ATS Pick", "Spread", "ATS Confidence"]}
-                      rows={(data?.data?.ats_picks || []).slice(0, 5).map((r, i) => (
-                        <tr key={i}>
-                          <td style={td}>{r.matchup || "—"}</td>
-                          <td style={td}>{r.ats_pick}</td>
-                          <td style={td}>{typeof r.spread === "number" ? r.spread : "—"}</td>
-                          <td style={td}>{pct(r.ats_confidence)}</td>
-                        </tr>
-                      ))}
-                    />
-                  </Section>
-
-                  <Section title="Top 5 Totals (O/U)">
-                    <Table
-                      cols={["Matchup", "Pick", "Line", "Confidence"]}
-                      rows={(data?.data?.totals_picks || []).slice(0, 5).map((r, i) => (
-                        <tr key={i}>
-                          <td style={td}>{r.matchup || "—"}</td>
-                          <td style={td}>{r.tot_pick || "—"}</td>
-                          <td style={td}>{typeof r.total_line === "number" ? r.total_line : "—"}</td>
-                          <td style={td}>{pct(r.tot_confidence)}</td>
-                        </tr>
-                      ))}
-                    />
-                  </Section>
-                </>
-              )}
-
-              {/* PROPS TAB */}
-              {tab === "props" && (
-                <Section title="Top 5 Player Prop Bets">
+              {/* STRAIGHT-UP TAB */}
+              {tab === "su" && (
+                <Section title={`Straight-Up Picks (${data?.best_picks?.length || 0} Games)`}>
                   <Table
-                    cols={["Player", "Market", "Pick", "Line", "Confidence", "Book", "Game"]}
-                    rows={(data?.data?.prop_bets || []).slice(0, 5).map((p, i) => {
-                      const game = (p.team && p.opponent ? `${p.opponent} @ ${p.team}` : "—");
-                      const line = typeof p.line === "number" ? `${p.line}${p.units ? " " + p.units : ""}` : "—";
-                      return (
-                        <tr key={i}>
-                          <td style={td}>{p.player}</td>
-                          <td style={td}>{p.prop_type}</td>
-                          <td style={td}>{p.pick || "—"}</td>
-                          <td style={td}>{line}</td>
-                          <td style={td}>{pct(p.confidence)}</td>
-                          <td style={td}>{p.bookmaker || "—"}</td>
-                          <td style={td}>{game}</td>
-                        </tr>
-                      );
-                    })}
-                  />
-                </Section>
-              )}
-
-              {/* FANTASY TAB */}
-              {tab === "fantasy" && (
-                <Section title="Top 5 Fantasy Value Picks">
-                  <Table
-                    cols={["Player", "Position", "Salary", "Projected Points", "Value Score"]}
-                    rows={(data?.data?.fantasy_picks || []).slice(0, 5).map((f, i) => (
+                    cols={["Home", "Away", "Su Pick", "Su Confidence"]}
+                    rows={(data?.best_picks || []).map((pick: any, i: number) => (
                       <tr key={i}>
-                        <td style={td}>{f.player}</td>
-                        <td style={td}>{f.position}</td>
-                        <td style={td}>{money(f.salary)}</td>
-                        <td style={td}>{f.projected_points ?? "—"}</td>
-                        <td style={td}>{f.value_score ?? "—"}</td>
+                        <td style={td}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            {pick.logo_home && (
+                              <img 
+                                src={pick.logo_home} 
+                                alt={pick.home} 
+                                style={{ width: 20, height: 20 }}
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            )}
+                            <strong>{pick.home}</strong>
+                          </div>
+                        </td>
+                        <td style={td}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            {pick.logo_away && (
+                              <img 
+                                src={pick.logo_away} 
+                                alt={pick.away} 
+                                style={{ width: 20, height: 20 }}
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            )}
+                            {pick.away}
+                          </div>
+                        </td>
+                        <td style={td}>
+                          <span style={{ 
+                            fontWeight: 600, 
+                            color: pick.su_confidence > 0.7 ? "#22c55e" : pick.su_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                          }}>
+                            {pick.su_pick}
+                          </span>
+                        </td>
+                        <td style={td}>
+                          <span style={{ 
+                            fontWeight: 600,
+                            color: pick.su_confidence > 0.7 ? "#22c55e" : pick.su_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                          }}>
+                            {pct(pick.su_confidence)}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   />
                 </Section>
               )}
 
-              {/* LINEUP TAB */}
-              {tab === "lineup" && (
-                <Section title="Classic Lineup">
-                  {data?.data?.classic_lineup && data.data.classic_lineup.length > 0 ? (
-                    <Table
-                      cols={["Position", "Player", "Salary", "Projected Points", "Value Score"]}
-                      rows={data.data.classic_lineup.map((f, i) => (
-                        <tr key={i}>
-                          <td style={td}>{f.position}</td>
-                          <td style={td}>{f.player}</td>
-                          <td style={td}>{money(f.salary)}</td>
-                          <td style={td}>{f.projected_points ?? "—"}</td>
-                          <td style={td}>{f.value_score ?? "—"}</td>
-                        </tr>
-                      ))}
-                    />
-                  ) : (
-                    <div style={{ color: "#777", textAlign: "center", padding: "24px" }}>
-                      Classic lineup data not available for this week.
-                    </div>
-                  )}
+              {/* ATS TAB */}
+              {tab === "ats" && (
+                <Section title={`Against the Spread (${data?.ats_picks?.length || 0} Games)`}>
+                  <Table
+                    cols={["Matchup", "ATS Pick", "Spread", "ATS Confidence"]}
+                    rows={(data?.ats_picks || []).map((pick: any, i: number) => (
+                      <tr key={i}>
+                        <td style={td}><strong>{pick.matchup}</strong></td>
+                        <td style={td}>
+                          <span style={{ 
+                            fontWeight: 600, 
+                            color: pick.ats_confidence > 0.7 ? "#22c55e" : pick.ats_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                          }}>
+                            {pick.ats_pick}
+                          </span>
+                        </td>
+                        <td style={td}>
+                          <span style={{ 
+                            fontWeight: 600,
+                            color: Math.abs(pick.spread) > 6 ? "#dc2626" : Math.abs(pick.spread) > 3 ? "#f59e0b" : "#22c55e"
+                          }}>
+                            {pick.spread > 0 ? `+${pick.spread}` : pick.spread}
+                          </span>
+                        </td>
+                        <td style={td}>
+                          <span style={{ 
+                            fontWeight: 600,
+                            color: pick.ats_confidence > 0.7 ? "#22c55e" : pick.ats_confidence > 0.6 ? "#f59e0b" : "#6b7280" 
+                          }}>
+                            {pct(pick.ats_confidence)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  />
+                </Section>
+              )}
+
+              {/* TOTALS TAB */}
+              {tab === "totals" && (
+                <Section title="Totals (Over/Under)">
+                  <Table
+                    cols={["Matchup", "Pick", "Line", "Confidence"]}
+                    rows={(data?.totals_picks || []).map((pick: any, i: number) => (
+                      <tr key={i}>
+                        <td style={td}>{pick.matchup}</td>
+                        <td style={td}>{pick.tot_pick}</td>
+                        <td style={td}>{pick.total_line}</td>
+                        <td style={td}>{pct(pick.tot_confidence)}</td>
+                      </tr>
+                    ))}
+                  />
+                </Section>
+              )}
+
+              {/* PROPS TAB */}
+              {tab === "props" && (
+                <Section title="Player Props">
+                  <Table
+                    cols={["Player", "Market", "Pick", "Line", "Confidence", "Book"]}
+                    rows={(data?.prop_bets || []).map((prop: any, i: number) => (
+                      <tr key={i}>
+                        <td style={td}>{prop.player}</td>
+                        <td style={td}>{prop.prop_type}</td>
+                        <td style={td}>{prop.pick}</td>
+                        <td style={td}>{prop.line}</td>
+                        <td style={td}>{pct(prop.confidence)}</td>
+                        <td style={td}>{prop.bookmaker}</td>
+                      </tr>
+                    ))}
+                  />
+                </Section>
+              )}
+
+              {/* FANTASY TAB */}
+              {tab === "fantasy" && (
+                <Section title="Fantasy Picks">
+                  <Table
+                    cols={["Player", "Position", "Salary", "Projected Points", "Value"]}
+                    rows={(data?.fantasy_picks || []).map((pick: any, i: number) => (
+                      <tr key={i}>
+                        <td style={td}>{pick.player}</td>
+                        <td style={td}>{pick.position}</td>
+                        <td style={td}>${money(pick.salary)}</td>
+                        <td style={td}>{pick.projected_points}</td>
+                        <td style={td}>{pick.value_score}</td>
+                      </tr>
+                    ))}
+                  />
                 </Section>
               )}
             </>

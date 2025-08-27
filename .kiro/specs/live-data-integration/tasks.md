@@ -294,3 +294,115 @@
   - Add monitoring dashboards for API performance and errors
   - Implement alerting for API failures and degraded performance
   - _Requirements: 5.1, 5.2_
+
+- [ ] 9. Enhance UI with comprehensive game display and visual improvements
+
+
+
+
+  - Show all NFL games (16+ per week) across SU, ATS, and totals tabs
+  - Add team logos and visual indicators for enhanced data presentation
+  - Implement color-coded confidence levels and professional styling
+  - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 11.1, 11.2, 11.3, 11.4, 11.5_
+
+- [ ] 9.1 Implement full game slate display
+
+
+  - Modify backend to return all 16+ games per week instead of limited subset
+  - Update SU tab to display all games with team logos, picks, and confidence
+  - Add game count indicators in tab headers (e.g., "Straight-Up Picks (16 Games)")
+  - _Requirements: 8.1, 8.5_
+
+- [ ] 9.2 Enhance ATS and totals tabs with complete data
+
+
+  - Update ATS tab to show all games with spread information and color-coded picks
+  - Enhance totals tab with all games showing over/under lines and pick directions
+  - Add color coding for spreads (red for negative, green for positive) and totals (red for Over, blue for Under)
+  - _Requirements: 8.2, 8.3, 8.4_
+
+- [ ] 9.3 Add team logos and visual enhancements
+
+
+  - Integrate ESPN CDN team logos for all 32 NFL teams
+  - Implement graceful fallback when logos fail to load
+  - Add visual status indicators (● live data, 📊 games, 🎯 props, 🏈 fantasy)
+  - _Requirements: 11.1, 11.2, 11.3_
+
+- [ ] 10. Implement top 10 prop bets with enhanced presentation
+
+
+
+
+  - Display exactly 10 prop bets ranked by confidence score
+  - Add visual highlighting for top 3 props with special indicators
+  - Implement color-coded pick directions and confidence levels
+  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
+
+- [ ] 10.1 Create prop bet ranking and display system
+
+
+  - Sort all prop bets by confidence score (highest first)
+  - Limit display to top 10 props with clear ranking indicators
+  - Add fire emoji (🔥) and background highlighting for top 3 props
+  - _Requirements: 9.1, 9.2_
+
+- [ ] 10.2 Enhance prop bet visual presentation
+
+
+  - Color-code Over picks in red and Under picks in blue
+  - Add confidence level color coding (green >70%, orange 65-70%, gray <65%)
+  - Include player team information and enhanced formatting
+  - _Requirements: 9.3, 9.4, 9.5_
+
+- [ ] 11. Implement seamless week navigation with live API integration
+
+
+
+
+  - Add immediate data fetching when week selector changes
+  - Maintain loading states and preserve UI during data transitions
+  - Ensure primary API prioritization with fallback handling
+  - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
+
+- [ ] 11.1 Enhance week selector functionality
+
+
+  - Implement immediate API calls when week changes
+  - Add loading indicators that preserve current data until new data arrives
+  - Maintain current tab selection across week changes
+  - _Requirements: 10.1, 10.2, 10.5_
+
+- [ ] 11.2 Optimize API data fetching for week changes
+
+
+  - Prioritize primary APIs (The Odds API, SportsDataIO) for fresh data
+  - Implement intelligent caching to avoid redundant calls
+  - Update timestamp and live data indicators when data refreshes
+  - _Requirements: 10.3, 10.4_
+
+- [ ] 12. Add download functionality with enhanced export options
+
+
+
+
+  - Implement CSV and PDF download buttons with proper icons
+  - Include all enhanced data fields in exports (logos, confidence colors, etc.)
+  - Add data source attribution and timestamp information to exports
+  - _Requirements: 4.1, 4.2, 4.3, 11.4_
+
+- [ ] 12.1 Create enhanced download functionality
+
+
+  - Add CSV download button with 📊 icon for current tab data
+  - Implement PDF download with 📄 icon using print-friendly formatting
+  - Include team logos and visual formatting in PDF exports where possible
+  - _Requirements: 4.1, 4.2, 11.4_
+
+- [ ] 12.2 Enhance export data structure
+
+
+  - Include data source attribution in all exports
+  - Add timestamp and freshness information to exported files
+  - Maintain consistent data structure across all export formats
+  - _Requirements: 4.3, 4.4, 4.5_

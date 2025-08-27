@@ -100,10 +100,12 @@ async def get_live_data_for_week(week: int):
     # Always try to get live data if we have API keys
     sportsdata_key = os.getenv("SPORTSDATA_IO_KEY")
     odds_key = os.getenv("ODDS_API_KEY")
+    rapid_key = os.getenv("RAPID_API_KEY")
     
     logger.info(f"🔍 Attempting to fetch live data for week {week}")
     logger.info(f"SportsDataIO key available: {'Yes' if sportsdata_key else 'No'}")
     logger.info(f"Odds API key available: {'Yes' if odds_key else 'No'}")
+    logger.info(f"RapidAPI key available: {'Yes' if rapid_key else 'No'}")
     
     try:
         import aiohttp
@@ -145,6 +147,29 @@ async def get_live_data_for_week(week: int):
                     else:
                         response_text = await response.text()
                         logger.error(f"❌ Odds API failed with status {response.status}: {response_text}")
+        
+        # Try RapidAPI NFL (your third premium API)
+        if rapid_key:
+            logger.info(f"💰 Using YOUR RapidAPI NFL for week {week}...")
+            
+            async with aiohttp.ClientSession() as session:
+                headers = {
+                    "X-RapidAPI-Key": rapid_key,
+                    "X-RapidAPI-Host": "nfl-api-data.p.rapidapi.com"
+                }
+                url = "https://nfl-api-data.p.rapidapi.com/nfl-games"
+                params = {"week": week, "season": 2025, "type": "regular"}
+                
+                async with session.get(url, headers=headers, params=params, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        live_data = await transform_rapidapi_to_predictions(data, week)
+                        if live_data.get('_live_data'):
+                            logger.info(f"✅ SUCCESS: Using YOUR RapidAPI NFL premium data for week {week}")
+                            return live_data
+                    else:
+                        response_text = await response.text()
+                        logger.error(f"❌ RapidAPI NFL failed with status {response.status}: {response_text}")
         
         # Only use ESPN as last resort
         logger.info(f"📡 Falling back to free ESPN API for week {week}...")
@@ -379,6 +404,19 @@ async def transform_sportsdata_to_predictions(sportsdata: list, week: int) -> di
         
     except Exception as e:
         logger.error(f"Error transforming SportsDataIO data: {e}")
+        return get_mock_data_for_week(week)
+
+
+async def transform_rapidapi_to_predictions(rapidapi_data: dict, week: int) -> dict:
+    """Transform RapidAPI NFL data to our prediction format"""
+    try:
+        from src.transformers.rapidapi_transformer import RapidAPINFLTransformer
+        
+        games = rapidapi_data.get('games', []) if isinstance(rapidapi_data, dict) else rapidapi_data
+        return await RapidAPINFLTransformer.transform_games_to_predictions(games, week)
+        
+    except Exception as e:
+        logger.error(f"Error transforming RapidAPI data: {e}")
         return get_mock_data_for_week(week)
 
 
