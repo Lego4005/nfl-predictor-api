@@ -5,3 +5,26 @@ pandas>=2.0
 numpy>=1.26
 scikit-learn>=1.4
 redis>=5.0.0
+
+# Database dependencies
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+alembic>=1.13.0
+
+# Authentication and security
+bcrypt>=4.0.0
+python-jose[cryptography]>=3.3.0
+python-multipart>=0.0.6
+passlib[bcrypt]>=1.7.4
+
+# Email and notifications
+emails>=0.6.0
+jinja2>=3.1.0
+
+# Payment processing
+requests>=2.31.0  # For NMI API calls
+stripe>=7.0.0     # Backup payment processor
+
+# Environment and configuration
+python-dotenv>=1.0.0
+pydantic-settings>=2.0.0

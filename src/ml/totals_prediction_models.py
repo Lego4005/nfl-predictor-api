@@ -88,22 +88,24 @@ class TotalsPredictor:
         
         for _, game in games_df.iterrows():
             try:
+                # Convert to proper types
+                week = int(game['week']) if 'week' in game else 1
+                season = int(game['season']) if 'season' in game else 2024
+                
                 # Get base game features
                 game_features = self.data_pipeline.create_game_features(
-                    game['home_team'], game['away_team'], 
-                    int(game['week']), int(game['season'])
+                    game['home_team'], game['away_team'], week, season
                 )
                 
                 # Add totals-specific features
                 totals_features = self._create_totals_specific_features(
-                    game['home_team'], game['away_team'], 
-                    int(game['week']), int(game['season'])
+                    game['home_team'], game['away_team'], week, season
                 )
                 
                 # Combine features
                 combined_features = {**game_features, **totals_features}
                 combined_features['actual_total'] = game['home_score'] + game['away_score']
-                combined_features['game_id'] = f"{game['away_team']}@{game['home_team']}_W{int(game['week'])}"
+                combined_features['game_id'] = f"{game['away_team']}@{game['home_team']}_W{week}"
                 
                 features_list.append(combined_features)
                 

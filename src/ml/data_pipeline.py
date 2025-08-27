@@ -107,6 +107,126 @@ class DataPipeline:
         
         # Load historical data
         self.load_historical_data()
+    
+    def collect_historical_data(self, seasons: List[int], weeks: Optional[List[int]] = None) -> List[Dict]:
+        """Collect historical game data for training"""
+        try:
+            logger.info(f"Collecting historical data for seasons: {seasons}")
+            
+            if self.games_df is None:
+                logger.warning("No games data available, generating mock data")
+                return self._generate_mock_training_data(seasons, weeks)
+            
+            # Filter games by seasons and weeks
+            season_filter = self.games_df['season'].isin(seasons)
+            if weeks:
+                week_filter = self.games_df['week'].isin(weeks)
+                filtered_games = self.games_df[season_filter & week_filter]
+            else:
+                filtered_games = self.games_df[season_filter]
+            
+            # Convert to list of dictionaries
+            historical_data = []
+            for _, game in filtered_games.iterrows():
+                game_dict = {
+                    'game_id': f"{game['season']}_{game['week']}_{game['away_team']}_{game['home_team']}",
+                    'season': game['season'],
+                    'week': game['week'],
+                    'home_team': game['home_team'],
+                    'away_team': game['away_team'],
+                    'home_score': game.get('home_score', 0),
+                    'away_score': game.get('away_score', 0),
+                    'winner': game.get('winner', game['home_team']),
+                    'point_spread': game.get('point_spread', 0),
+                    'total_line': game.get('total_line', 45),
+                    'date': game['date'],
+                    # Add weather and environmental data if available
+                    'weather': {
+                        'temperature': game.get('temperature', 70),
+                        'wind_speed': game.get('wind_speed', 5),
+                        'precipitation': game.get('precipitation', 0),
+                        'is_dome': self._is_dome_game(game['home_team'])
+                    },
+                    'stadium': {
+                        'altitude': game.get('altitude', 0),
+                        'surface': game.get('surface', 'grass'),
+                        'capacity': game.get('capacity', 65000),
+                        'noise_level': game.get('noise_level', 'average')
+                    }
+                }
+                historical_data.append(game_dict)
+            
+            logger.info(f"Collected {len(historical_data)} historical games")
+            return historical_data
+            
+        except Exception as e:
+            logger.error(f"Error collecting historical data: {e}")
+            return self._generate_mock_training_data(seasons, weeks)
+    
+    def _generate_mock_training_data(self, seasons: List[int], weeks: Optional[List[int]] = None) -> List[Dict]:
+        """Generate mock training data when historical data is not available"""
+        logger.info("Generating mock training data")
+        
+        teams = ['KC', 'BUF', 'CIN', 'BAL', 'MIA', 'NYJ', 'NE', 'CLE', 'PIT', 'HOU', 'IND', 'TEN', 'JAX',
+                'LAC', 'LV', 'DEN', 'DAL', 'PHI', 'NYG', 'WAS', 'GB', 'MIN', 'CHI', 'DET', 'TB', 'NO', 
+                'ATL', 'CAR', 'SF', 'SEA', 'LAR', 'ARI']
+        
+        mock_data = []
+        game_id = 1
+        
+        for season in seasons:
+            weeks_to_generate = weeks if weeks else list(range(1, 19))
+            
+            for week in weeks_to_generate:
+                # Generate games for this week
+                teams_copy = teams.copy()
+                np.random.shuffle(teams_copy)
+                
+                # Create 16 games per week (32 teams / 2)
+                for i in range(0, len(teams_copy), 2):
+                    if i + 1 < len(teams_copy):
+                        home_team = teams_copy[i]
+                        away_team = teams_copy[i + 1]
+                        
+                        # Generate realistic scores
+                        home_score = np.random.randint(10, 35)
+                        away_score = np.random.randint(10, 35)
+                        winner = home_team if home_score > away_score else away_team
+                        
+                        # Generate betting lines
+                        point_spread = np.random.uniform(-14, 14)
+                        total_line = np.random.uniform(38, 55)
+                        
+                        game_dict = {
+                            'game_id': f"{season}_{week}_{away_team}_{home_team}",
+                            'season': season,
+                            'week': week,
+                            'home_team': home_team,
+                            'away_team': away_team,
+                            'home_score': home_score,
+                            'away_score': away_score,
+                            'winner': winner,
+                            'point_spread': point_spread,
+                            'total_line': total_line,
+                            'date': datetime(season, 9, 1) + timedelta(weeks=week-1),
+                            'weather': {
+                                'temperature': np.random.randint(20, 85),
+                                'wind_speed': np.random.randint(0, 20),
+                                'precipitation': np.random.uniform(0, 0.5),
+                                'is_dome': self._is_dome_game(home_team)
+                            },
+                            'stadium': {
+                                'altitude': np.random.randint(0, 5000),
+                                'surface': np.random.choice(['grass', 'turf']),
+                                'capacity': np.random.randint(60000, 80000),
+                                'noise_level': np.random.choice(['quiet', 'average', 'loud'])
+                            }
+                        }
+                        mock_data.append(game_dict)
+                        game_id += 1
+        
+        logger.info(f"Generated {len(mock_data)} mock games")
+        return mock_data
         
     def load_historical_data(self):
         """Load historical data from CSV files"""

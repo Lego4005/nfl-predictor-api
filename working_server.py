@@ -462,5 +462,5 @@ async def get_picks(week: int):
     return response
 
 if __name__ == "__main__":
-    print("🚀 Starting NFL Predictor API with ML on http://localhost:8083")
-    uvicorn.run(app, host="127.0.0.1", port=8083)
+    print("🚀 Starting NFL Predictor API with ML on http://localhost:8084")
+    uvicorn.run(app, host="127.0.0.1", port=8084)

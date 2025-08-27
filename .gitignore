@@ -181,6 +181,43 @@ cache_*.json
 
 # Development utilities
 debug_*.py
+
+# ML Models and training data (keep lightweight models, exclude large ones)
+models/large/
+models/production/
+*.joblib.large
+training_data/
+historical_data/large/
+*.pkl.large
+
+# Payment and API credentials
+nmi_credentials.json
+payment_keys.json
+api_credentials.json
+*_credentials.json
+*_keys.json
+
+# Database credentials and connection strings
+database_url.txt
+connection_strings.json
+db_credentials.json
+
+# JWT secrets and encryption keys
+jwt_secret.txt
+encryption_keys.json
+private_keys/
+
+# Redis and cache credentials
+redis_password.txt
+cache_credentials.json
+
+# Any file with 'secret', 'key', 'password', or 'credential' in the name
+*secret*
+*password*
+*credential*
+*private*
+
+# Exclude test files from git (they're for development only)
 test_*.py
 *_test.py
 *_debug.py

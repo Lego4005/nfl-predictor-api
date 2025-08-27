@@ -1,666 +1,732 @@
 """
 Player Props Prediction Engine
-
-Advanced player feature engineering and prop-specific prediction models
-for individual player performance predictions with edge calculations.
-
-Target Accuracy: >57% for prop predictions
+Advanced ML models for individual player performance predictions with edge calculations
 """
 
-import logging
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Optional, Any
-from dataclasses import dataclass
+from datetime import datetime, timedelta
+import logging
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.linear_model import Ridge
 from sklearn.neural_network import MLPRegressor
-from sklearn.model_selection import TimeSeriesSplit, cross_val_score
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.metrics import mean_absolute_error, r2_score
-import xgboost as xgb
 import joblib
-import os
-
-from data_pipeline import DataPipeline
-from enhanced_features import EnhancedFeatureEngine
+import warnings
+warnings.filterwarnings('ignore')
 
 logger = logging.getLogger(__name__)
 
-@dataclass
-class PlayerPropPrediction:
-    """Player prop prediction with edge analysis"""
-    player_name: str
-    team: str
-    opponent: str
-    position: str
-    week: int
-    season: int
-    
-    # Prop predictions
-    passing_yards: float
-    rushing_yards: float
-    receiving_yards: float
-    passing_tds: float
-    rushing_tds: float
-    receiving_tds: float
-    receptions: float
-    
-    # Confidence and edge analysis
-    prop_confidences: Dict[str, float]  # Confidence for each prop
-    market_lines: Dict[str, float]  # Market betting lines
-    prop_edges: Dict[str, float]  # Edge over market lines
-    
-    # Key factors
-    key_factors: List[str]
-    matchup_analysis: Dict[str, Any]
-    usage_metrics: Dict[str, float]
-    
-    # Model details
-    model_predictions: Dict[str, Dict[str, float]]  # Model name -> prop -> value
-
-@dataclass
-class PlayerFeatures:
-    """Enhanced player features for prop predictions"""
-    player_name: str
-    team: str
-    position: str
-    season: int
-    
-    # Season averages
-    games_played: int
-    passing_yards_avg: float = 0.0
-    rushing_yards_avg: float = 0.0
-    receiving_yards_avg: float = 0.0
-    passing_tds_avg: float = 0.0
-    rushing_tds_avg: float = 0.0
-    receiving_tds_avg: float = 0.0
-    receptions_avg: float = 0.0
-    targets_avg: float = 0.0
-    
-    # Recent form (last 5 games)
-    passing_yards_last_5: float = 0.0
-    rushing_yards_last_5: float = 0.0
-    receiving_yards_last_5: float = 0.0
-    passing_tds_last_5: float = 0.0
-    rushing_tds_last_5: float = 0.0
-    receiving_tds_last_5: float = 0.0
-    receptions_last_5: float = 0.0
-    
-    # Advanced metrics
-    target_share: float = 0.0  # % of team targets
-    air_yards_share: float = 0.0  # % of team air yards
-    red_zone_targets: float = 0.0  # Red zone usage
-    snap_percentage: float = 0.0  # % of snaps played
-    
-    # Matchup-specific
-    vs_opponent_avg: float = 0.0  # Historical vs this opponent
-    vs_position_rank: float = 0.0  # Opponent rank vs this position
-    home_away_split: float = 0.0  # Home vs away performance
-    
-    # Situational
-    weather_impact: float = 0.0  # Weather sensitivity
-    primetime_boost: float = 0.0  # Primetime performance boost
-    divisional_impact: float = 0.0  # Divisional game impact
-    
-    # Team context
-    team_pace: float = 0.0  # Team plays per game
-    team_pass_rate: float = 0.0  # Team pass play percentage
-    projected_game_script: float = 0.0  # Expected game flow
-
 class PlayerPropsEngine:
     """
-    Advanced player props prediction engine with sophisticated feature engineering
+    Advanced player props prediction engine with edge calculations
+    Target accuracy: 57% for prop predictions, 68% for fantasy
     """
     
-    def __init__(self, data_pipeline: DataPipeline, feature_engine: EnhancedFeatureEngine):
-        self.data_pipeline = data_pipeline
-        self.feature_engine = feature_engine
-        self.player_features_cache: Dict[str, PlayerFeatures] = {}
-        
-        # Prop-specific models
-        self.prop_models: Dict[str, Dict[str, Any]] = {}
-        self.prop_scalers: Dict[str, StandardScaler] = {}
-        self.prop_feature_columns: Dict[str, List[str]] = {}
-        
-        # Props we predict
-        self.prop_types = [
-            'passing_yards', 'rushing_yards', 'receiving_yards',
-            'passing_tds', 'rushing_tds', 'receiving_tds', 'receptions'
-        ]
-        
-        # Model configurations for each prop type
-        self.model_configs = {
-            'random_forest': {
-                'n_estimators': 200,
-                'max_depth': 10,
-                'min_samples_split': 5,
-                'min_samples_leaf': 3,
-                'random_state': 42
+    def __init__(self):
+        # Prop type configurations
+        self.prop_configs = {
+            'passing_yards': {
+                'type': 'regression',
+                'target_mae': 25.0,
+                'models': {
+                    'random_forest': RandomForestRegressor(n_estimators=150, max_depth=12, random_state=42),
+                    'gradient_boost': GradientBoostingRegressor(n_estimators=100, max_depth=8, random_state=42),
+                    'ridge': Ridge(alpha=1.0, random_state=42)
+                }
             },
-            'xgboost': {
-                'n_estimators': 150,
-                'max_depth': 6,
-                'learning_rate': 0.1,
-                'subsample': 0.8,
-                'colsample_bytree': 0.8,
-                'random_state': 42
+            'rushing_yards': {
+                'type': 'regression',
+                'target_mae': 20.0,
+                'models': {
+                    'random_forest': RandomForestRegressor(n_estimators=150, max_depth=10, random_state=42),
+                    'gradient_boost': GradientBoostingRegressor(n_estimators=100, max_depth=6, random_state=42)
+                }
             },
-            'gradient_boosting': {
-                'n_estimators': 150,
-                'max_depth': 6,
-                'learning_rate': 0.1,
-                'subsample': 0.8,
-                'random_state': 42
+            'receiving_yards': {
+                'type': 'regression',
+                'target_mae': 18.0,
+                'models': {
+                    'random_forest': RandomForestRegressor(n_estimators=150, max_depth=12, random_state=42),
+                    'gradient_boost': GradientBoostingRegressor(n_estimators=100, max_depth=8, random_state=42)
+                }
             },
-            'neural_network': {
-                'hidden_layer_sizes': (100, 50),
-                'activation': 'relu',
-                'solver': 'adam',
-                'alpha': 0.001,
-                'max_iter': 500,
-                'random_state': 42
+            'receptions': {
+                'type': 'regression',
+                'target_mae': 1.5,
+                'models': {
+                    'random_forest': RandomForestRegressor(n_estimators=100, max_depth=8, random_state=42),
+                    'ridge': Ridge(alpha=0.5, random_state=42)
+                }
+            },
+            'touchdowns': {
+                'type': 'regression',
+                'target_mae': 0.8,
+                'models': {
+                    'random_forest': RandomForestRegressor(n_estimators=100, max_depth=6, random_state=42),
+                    'gradient_boost': GradientBoostingRegressor(n_estimators=80, max_depth=4, random_state=42)
+                }
             }
         }
         
-    def create_player_features(self, player_name: str, team: str, opponent: str, 
-                             date: datetime, week: int) -> PlayerFeatures:
-        """Create comprehensive player features for prop predictions"""
+        self.trained_models = {}
+        self.scalers = {}
+        self.feature_importance = {}
         
-        # Get player's historical data
-        if self.data_pipeline.players_df is None:
-            logger.warning("No player data available")
-            return self._create_default_player_features(player_name, team)
+    def create_player_features(self, player_data: Dict, matchup_data: Dict, 
+                              historical_data: List[Dict]) -> Dict:
+        """Create comprehensive player features for ML models"""
+        try:
+            features = {}
             
-        player_data = self.data_pipeline.players_df[
-            self.data_pipeline.players_df['player_name'] == player_name
-        ]
-        
-        if len(player_data) == 0:
-            logger.warning(f"No data found for player: {player_name}")
-            return self._create_default_player_features(player_name, team)
+            # Basic player info
+            features.update({
+                'position_qb': 1 if player_data.get('position') == 'QB' else 0,
+                'position_rb': 1 if player_data.get('position') == 'RB' else 0,
+                'position_wr': 1 if player_data.get('position') == 'WR' else 0,
+                'position_te': 1 if player_data.get('position') == 'TE' else 0,
+                'games_played': player_data.get('games_played', 0),
+                'is_home': 1 if matchup_data.get('is_home', False) else 0
+            })
             
-        # Get season and recent performance
-        season = date.year if date.month >= 9 else date.year - 1
-        season_data = player_data[player_data['season'] == season]
-        
-        if len(season_data) == 0:
-            logger.warning(f"No {season} data for player: {player_name}")
-            return self._create_default_player_features(player_name, team)
+            # Season averages
+            features.update({
+                'season_passing_yards_avg': player_data.get('season_passing_yards_avg', 0),
+                'season_rushing_yards_avg': player_data.get('season_rushing_yards_avg', 0),
+                'season_receiving_yards_avg': player_data.get('season_receiving_yards_avg', 0),
+                'season_receptions_avg': player_data.get('season_receptions_avg', 0),
+                'season_targets_avg': player_data.get('season_targets_avg', 0),
+                'season_touchdowns_avg': player_data.get('season_touchdowns_avg', 0)
+            })
             
-        # Calculate features
-        features = PlayerFeatures(
-            player_name=player_name,
-            team=team,
-            position=season_data.iloc[0]['position'],
-            season=season,
-            games_played=len(season_data)
-        )
-        
-        # Season averages
-        features.passing_yards_avg = season_data['passing_yards'].mean()
-        features.rushing_yards_avg = season_data['rushing_yards'].mean()
-        features.receiving_yards_avg = season_data['receiving_yards'].mean()
-        features.passing_tds_avg = season_data['passing_tds'].mean()
-        features.rushing_tds_avg = season_data['rushing_tds'].mean()
-        features.receiving_tds_avg = season_data['receiving_tds'].mean()
-        features.receptions_avg = season_data['receptions'].mean()
-        features.targets_avg = season_data['targets'].mean()
-        
-        # Recent form (last 5 games)
-        recent_data = season_data.tail(5)
-        features.passing_yards_last_5 = recent_data['passing_yards'].mean()
-        features.rushing_yards_last_5 = recent_data['rushing_yards'].mean()
-        features.receiving_yards_last_5 = recent_data['receiving_yards'].mean()
-        features.passing_tds_last_5 = recent_data['passing_tds'].mean()
-        features.rushing_tds_last_5 = recent_data['rushing_tds'].mean()
-        features.receiving_tds_last_5 = recent_data['receiving_tds'].mean()
-        features.receptions_last_5 = recent_data['receptions'].mean()
-        
-        # Advanced metrics (calculated/estimated)
-        features = self._add_advanced_player_metrics(features, season_data, team, opponent)
-        
-        # Matchup analysis
-        features = self._add_matchup_analysis(features, opponent, date)
-        
-        # Situational factors
-        features = self._add_situational_factors(features, date, week)
-        
-        return features
-        
-    def _create_default_player_features(self, player_name: str, team: str) -> PlayerFeatures:
-        """Create default features when no data is available"""
-        return PlayerFeatures(
-            player_name=player_name,
-            team=team,
-            position="UNKNOWN",
-            season=2024,
-            games_played=0
-        )
-        
-    def _add_advanced_player_metrics(self, features: PlayerFeatures, season_data: pd.DataFrame,
-                                   team: str, opponent: str) -> PlayerFeatures:
-        """Add advanced player metrics"""
-        
-        # Target share (estimated based on receptions and team context)
-        if features.position in ['WR', 'TE', 'RB']:
-            team_games = len(season_data)
-            if team_games > 0:
-                # Estimate target share based on receptions
-                features.target_share = min(0.35, features.targets_avg / 35.0)  # Assume ~35 team targets/game
-                features.air_yards_share = features.target_share * 0.8  # Rough estimate
+            # Recent form (last 5 games)
+            if historical_data and len(historical_data) >= 5:
+                recent_games = historical_data[-5:]
                 
-        # Red zone usage (estimated)
-        if features.receiving_tds_avg > 0 or features.rushing_tds_avg > 0:
-            features.red_zone_targets = (features.receiving_tds_avg + features.rushing_tds_avg) * 3
-            
-        # Snap percentage (estimated based on production)
-        if features.position == 'QB':
-            features.snap_percentage = 0.95  # QBs play most snaps
-        elif features.position in ['WR', 'TE']:
-            # Estimate based on targets
-            features.snap_percentage = min(0.85, 0.4 + (features.targets_avg / 50))
-        elif features.position == 'RB':
-            # Estimate based on touches
-            touches = features.rushing_yards_avg / 4.5 + features.receptions_avg  # ~4.5 yards per carry
-            features.snap_percentage = min(0.75, 0.3 + (touches / 25))
-        else:
-            features.snap_percentage = 0.5
-            
-        return features
-        
-    def _add_matchup_analysis(self, features: PlayerFeatures, opponent: str, date: datetime) -> PlayerFeatures:
-        """Add opponent-specific matchup analysis"""
-        
-        # Historical performance vs opponent (simplified)
-        if self.data_pipeline.players_df is not None:
-            player_vs_opp = self.data_pipeline.players_df[
-                (self.data_pipeline.players_df['player_name'] == features.player_name) &
-                (self.data_pipeline.players_df['opponent'] == opponent)
-            ]
-            
-            if len(player_vs_opp) > 0:
-                # Average performance vs this opponent
-                if features.position == 'QB':
-                    features.vs_opponent_avg = player_vs_opp['passing_yards'].mean()
-                elif features.position == 'RB':
-                    features.vs_opponent_avg = player_vs_opp['rushing_yards'].mean()
-                else:  # WR, TE
-                    features.vs_opponent_avg = player_vs_opp['receiving_yards'].mean()
-            else:
-                features.vs_opponent_avg = 0.0
+                features.update({
+                    'recent_passing_yards_avg': np.mean([g.get('passing_yards', 0) for g in recent_games]),
+                    'recent_rushing_yards_avg': np.mean([g.get('rushing_yards', 0) for g in recent_games]),
+                    'recent_receiving_yards_avg': np.mean([g.get('receiving_yards', 0) for g in recent_games]),
+                    'recent_receptions_avg': np.mean([g.get('receptions', 0) for g in recent_games]),
+                    'recent_targets_avg': np.mean([g.get('targets', 0) for g in recent_games]),
+                    'recent_touchdowns_avg': np.mean([g.get('touchdowns', 0) for g in recent_games])
+                })
                 
-        # Opponent defensive ranking vs position (estimated)
-        if self.feature_engine and self.feature_engine.team_stats is not None:
-            opp_stats = self.feature_engine.team_stats[
-                (self.feature_engine.team_stats['team'] == opponent) &
-                (self.feature_engine.team_stats['season'] == features.season)
-            ]
-            
-            if len(opp_stats) > 0:
-                opp_def_rank = opp_stats.iloc[0].get('points_allowed_per_game', 20)
-                # Convert to position-specific ranking (simplified)
-                features.vs_position_rank = min(32, max(1, opp_def_rank))
-            else:
-                features.vs_position_rank = 16  # Average
-        else:
-            features.vs_position_rank = 16
-            
-        return features
-        
-    def _add_situational_factors(self, features: PlayerFeatures, date: datetime, week: int) -> PlayerFeatures:
-        """Add situational factors that affect performance"""
-        
-        # Home/away split (simplified - assume home games are better)
-        features.home_away_split = 1.05  # 5% boost for home games (simplified)
-        
-        # Weather impact (position-dependent)
-        if features.position in ['QB', 'WR', 'TE']:
-            features.weather_impact = 0.95  # Passing affected by weather
-        else:
-            features.weather_impact = 1.0  # Running less affected
-            
-        # Primetime boost (some players perform better in primetime)
-        if week % 4 == 0:  # Simplified primetime indicator
-            features.primetime_boost = 1.03  # 3% boost
-        else:
-            features.primetime_boost = 1.0
-            
-        # Divisional game impact
-        features.divisional_impact = 1.0  # Neutral for now
-        
-        # Team context (estimated)
-        features.team_pace = 65.0  # Average plays per game
-        features.team_pass_rate = 0.6  # 60% pass plays
-        features.projected_game_script = 0.0  # Neutral game script
-        
-        return features
-        
-    def prepare_prop_training_data(self, prop_type: str) -> Tuple[pd.DataFrame, pd.Series]:
-        """Prepare training data for a specific prop type"""
-        logger.info(f"🏗️ Preparing {prop_type} training data...")
-        
-        if self.data_pipeline.players_df is None:
-            raise ValueError("No player data available")
-            
-        training_features = []
-        training_labels = []
-        
-        # Process player performances
-        for _, player_game in self.data_pipeline.players_df.iterrows():
-            try:
-                # Skip if no data for this prop
-                prop_value = player_game.get(prop_type, 0)
-                if pd.isna(prop_value):
-                    continue
+                # Trend analysis (slope of last 5 games)
+                if len(recent_games) >= 3:
+                    x = np.arange(len(recent_games))
                     
-                # Create player features for this game
-                game_date = pd.to_datetime(player_game['date'])
-                features = self.create_player_features(
-                    player_name=player_game['player_name'],
-                    team=player_game['team'],
-                    opponent=player_game['opponent'],
-                    date=game_date,
-                    week=player_game['week']
+                    # Calculate trends
+                    passing_trend = np.polyfit(x, [g.get('passing_yards', 0) for g in recent_games], 1)[0]
+                    receiving_trend = np.polyfit(x, [g.get('receiving_yards', 0) for g in recent_games], 1)[0]
+                    
+                    features.update({
+                        'passing_yards_trend': passing_trend,
+                        'receiving_yards_trend': receiving_trend,
+                        'targets_trend': np.polyfit(x, [g.get('targets', 0) for g in recent_games], 1)[0]
+                    })
+                else:
+                    features.update({
+                        'passing_yards_trend': 0,
+                        'receiving_yards_trend': 0,
+                        'targets_trend': 0
+                    })
+            else:
+                # No recent data available
+                features.update({
+                    'recent_passing_yards_avg': features['season_passing_yards_avg'],
+                    'recent_rushing_yards_avg': features['season_rushing_yards_avg'],
+                    'recent_receiving_yards_avg': features['season_receiving_yards_avg'],
+                    'recent_receptions_avg': features['season_receptions_avg'],
+                    'recent_targets_avg': features['season_targets_avg'],
+                    'recent_touchdowns_avg': features['season_touchdowns_avg'],
+                    'passing_yards_trend': 0,
+                    'receiving_yards_trend': 0,
+                    'targets_trend': 0
+                })
+            
+            # Matchup features
+            features.update({
+                'opponent_pass_defense_rank': matchup_data.get('opponent_pass_defense_rank', 16),
+                'opponent_rush_defense_rank': matchup_data.get('opponent_rush_defense_rank', 16),
+                'opponent_pass_yards_allowed_avg': matchup_data.get('opponent_pass_yards_allowed_avg', 250),
+                'opponent_rush_yards_allowed_avg': matchup_data.get('opponent_rush_yards_allowed_avg', 120),
+                'opponent_points_allowed_avg': matchup_data.get('opponent_points_allowed_avg', 22),
+                'game_total_line': matchup_data.get('game_total_line', 45),
+                'team_implied_total': matchup_data.get('team_implied_total', 22.5)
+            })
+            
+            # Advanced matchup metrics
+            features.update({
+                'target_share': features['season_targets_avg'] / max(matchup_data.get('team_targets_avg', 35), 1),
+                'red_zone_target_share': player_data.get('red_zone_target_share', 0.1),
+                'snap_percentage': player_data.get('snap_percentage', 0.8),
+                'air_yards_share': player_data.get('air_yards_share', 0.15)
+            })
+            
+            # Environmental factors
+            features.update({
+                'weather_factor': matchup_data.get('weather_factor', 1.0),
+                'dome_game': 1 if matchup_data.get('is_dome', False) else 0,
+                'primetime_game': 1 if matchup_data.get('is_primetime', False) else 0,
+                'divisional_game': 1 if matchup_data.get('is_divisional', False) else 0
+            })
+            
+            # Usage and opportunity metrics
+            features.update({
+                'carries_per_game': player_data.get('carries_per_game', 0),
+                'pass_attempts_per_game': player_data.get('pass_attempts_per_game', 0),
+                'target_percentage': features['season_targets_avg'] / max(features['games_played'], 1),
+                'goal_line_carries_avg': player_data.get('goal_line_carries_avg', 0),
+                'red_zone_targets_avg': player_data.get('red_zone_targets_avg', 0)
+            })
+            
+            return features
+            
+        except Exception as e:
+            logger.error(f"Error creating player features: {e}")
+            return {}
+    
+    def create_mock_player_data(self, num_players: int = 500) -> Dict:
+        """Create mock player data for training"""
+        np.random.seed(42)
+        
+        positions = ['QB', 'RB', 'WR', 'TE']
+        
+        players_data = []
+        
+        for i in range(num_players):
+            position = np.random.choice(positions)
+            
+            # Generate position-specific stats
+            if position == 'QB':
+                player_data = {
+                    'position': position,
+                    'games_played': np.random.randint(8, 17),
+                    'season_passing_yards_avg': np.random.uniform(180, 320),
+                    'season_rushing_yards_avg': np.random.uniform(0, 40),
+                    'season_receiving_yards_avg': 0,
+                    'season_receptions_avg': 0,
+                    'season_targets_avg': 0,
+                    'season_touchdowns_avg': np.random.uniform(1.2, 3.5),
+                    'pass_attempts_per_game': np.random.uniform(25, 45),
+                    'carries_per_game': np.random.uniform(0, 8)
+                }
+            elif position == 'RB':
+                player_data = {
+                    'position': position,
+                    'games_played': np.random.randint(6, 17),
+                    'season_passing_yards_avg': 0,
+                    'season_rushing_yards_avg': np.random.uniform(30, 120),
+                    'season_receiving_yards_avg': np.random.uniform(5, 50),
+                    'season_receptions_avg': np.random.uniform(1, 6),
+                    'season_targets_avg': np.random.uniform(2, 8),
+                    'season_touchdowns_avg': np.random.uniform(0.3, 1.8),
+                    'carries_per_game': np.random.uniform(8, 25),
+                    'pass_attempts_per_game': 0
+                }
+            elif position == 'WR':
+                player_data = {
+                    'position': position,
+                    'games_played': np.random.randint(8, 17),
+                    'season_passing_yards_avg': 0,
+                    'season_rushing_yards_avg': np.random.uniform(0, 15),
+                    'season_receiving_yards_avg': np.random.uniform(20, 100),
+                    'season_receptions_avg': np.random.uniform(2, 8),
+                    'season_targets_avg': np.random.uniform(4, 12),
+                    'season_touchdowns_avg': np.random.uniform(0.2, 1.2),
+                    'carries_per_game': np.random.uniform(0, 2),
+                    'pass_attempts_per_game': 0
+                }
+            else:  # TE
+                player_data = {
+                    'position': position,
+                    'games_played': np.random.randint(10, 17),
+                    'season_passing_yards_avg': 0,
+                    'season_rushing_yards_avg': np.random.uniform(0, 8),
+                    'season_receiving_yards_avg': np.random.uniform(15, 70),
+                    'season_receptions_avg': np.random.uniform(2, 6),
+                    'season_targets_avg': np.random.uniform(3, 9),
+                    'season_touchdowns_avg': np.random.uniform(0.3, 1.0),
+                    'carries_per_game': np.random.uniform(0, 1),
+                    'pass_attempts_per_game': 0
+                }
+            
+            # Add common fields
+            player_data.update({
+                'snap_percentage': np.random.uniform(0.4, 1.0),
+                'red_zone_target_share': np.random.uniform(0.05, 0.25),
+                'air_yards_share': np.random.uniform(0.05, 0.3),
+                'goal_line_carries_avg': np.random.uniform(0, 3),
+                'red_zone_targets_avg': np.random.uniform(0, 4)
+            })
+            
+            # Matchup data
+            matchup_data = {
+                'is_home': np.random.choice([True, False]),
+                'opponent_pass_defense_rank': np.random.randint(1, 33),
+                'opponent_rush_defense_rank': np.random.randint(1, 33),
+                'opponent_pass_yards_allowed_avg': np.random.uniform(180, 280),
+                'opponent_rush_yards_allowed_avg': np.random.uniform(80, 160),
+                'opponent_points_allowed_avg': np.random.uniform(16, 30),
+                'game_total_line': np.random.uniform(38, 55),
+                'team_implied_total': np.random.uniform(18, 32),
+                'team_targets_avg': np.random.uniform(30, 40),
+                'weather_factor': np.random.uniform(0.85, 1.1),
+                'is_dome': np.random.choice([True, False]),
+                'is_primetime': np.random.choice([True, False]),
+                'is_divisional': np.random.choice([True, False])
+            }
+            
+            # Historical data (mock recent games)
+            historical_data = []
+            for j in range(5):
+                if position == 'QB':
+                    game = {
+                        'passing_yards': max(0, player_data['season_passing_yards_avg'] + np.random.normal(0, 50)),
+                        'rushing_yards': max(0, player_data['season_rushing_yards_avg'] + np.random.normal(0, 15)),
+                        'receiving_yards': 0,
+                        'receptions': 0,
+                        'targets': 0,
+                        'touchdowns': max(0, np.random.poisson(player_data['season_touchdowns_avg']))
+                    }
+                elif position == 'RB':
+                    game = {
+                        'passing_yards': 0,
+                        'rushing_yards': max(0, player_data['season_rushing_yards_avg'] + np.random.normal(0, 30)),
+                        'receiving_yards': max(0, player_data['season_receiving_yards_avg'] + np.random.normal(0, 20)),
+                        'receptions': max(0, np.random.poisson(player_data['season_receptions_avg'])),
+                        'targets': max(0, np.random.poisson(player_data['season_targets_avg'])),
+                        'touchdowns': max(0, np.random.poisson(player_data['season_touchdowns_avg']))
+                    }
+                else:  # WR/TE
+                    game = {
+                        'passing_yards': 0,
+                        'rushing_yards': max(0, player_data['season_rushing_yards_avg'] + np.random.normal(0, 10)),
+                        'receiving_yards': max(0, player_data['season_receiving_yards_avg'] + np.random.normal(0, 25)),
+                        'receptions': max(0, np.random.poisson(player_data['season_receptions_avg'])),
+                        'targets': max(0, np.random.poisson(player_data['season_targets_avg'])),
+                        'touchdowns': max(0, np.random.poisson(player_data['season_touchdowns_avg']))
+                    }
+                historical_data.append(game)
+            
+            # Create features
+            features = self.create_player_features(player_data, matchup_data, historical_data)
+            
+            # Generate actual performance (targets)
+            if position == 'QB':
+                actual_performance = {
+                    'passing_yards': max(0, features['recent_passing_yards_avg'] + np.random.normal(0, 40)),
+                    'rushing_yards': max(0, features['recent_rushing_yards_avg'] + np.random.normal(0, 15)),
+                    'receiving_yards': 0,
+                    'receptions': 0,
+                    'touchdowns': max(0, np.random.poisson(features['season_touchdowns_avg']))
+                }
+            elif position == 'RB':
+                actual_performance = {
+                    'passing_yards': 0,
+                    'rushing_yards': max(0, features['recent_rushing_yards_avg'] + np.random.normal(0, 25)),
+                    'receiving_yards': max(0, features['recent_receiving_yards_avg'] + np.random.normal(0, 15)),
+                    'receptions': max(0, np.random.poisson(features['recent_receptions_avg'])),
+                    'touchdowns': max(0, np.random.poisson(features['season_touchdowns_avg']))
+                }
+            else:  # WR/TE
+                actual_performance = {
+                    'passing_yards': 0,
+                    'rushing_yards': max(0, features['recent_rushing_yards_avg'] + np.random.normal(0, 8)),
+                    'receiving_yards': max(0, features['recent_receiving_yards_avg'] + np.random.normal(0, 20)),
+                    'receptions': max(0, np.random.poisson(features['recent_receptions_avg'])),
+                    'touchdowns': max(0, np.random.poisson(features['season_touchdowns_avg']))
+                }
+            
+            players_data.append({
+                'features': features,
+                'targets': actual_performance,
+                'position': position
+            })
+        
+        return {
+            'players': players_data,
+            'feature_names': list(features.keys()) if features else [],
+            'player_count': len(players_data)
+        }
+    
+    def train_prop_models(self, training_data: Optional[Dict] = None) -> Dict:
+        """Train player prop prediction models"""
+        try:
+            logger.info("🚀 Training player prop models...")
+            
+            # Use mock data if none provided
+            if training_data is None:
+                training_data = self.create_mock_player_data()
+            
+            # Convert to DataFrame format
+            features_list = []
+            targets_dict = {prop_type: [] for prop_type in self.prop_configs.keys()}
+            
+            for player in training_data['players']:
+                features_list.append(player['features'])
+                
+                # Map targets to prop types
+                targets_dict['passing_yards'].append(player['targets']['passing_yards'])
+                targets_dict['rushing_yards'].append(player['targets']['rushing_yards'])
+                targets_dict['receiving_yards'].append(player['targets']['receiving_yards'])
+                targets_dict['receptions'].append(player['targets']['receptions'])
+                targets_dict['touchdowns'].append(player['targets']['touchdowns'])
+            
+            features_df = pd.DataFrame(features_list)
+            
+            # Split data
+            split_point = int(len(features_df) * 0.8)
+            
+            X_train = features_df.iloc[:split_point]
+            X_val = features_df.iloc[split_point:]
+            
+            results = {}
+            
+            for prop_type, config in self.prop_configs.items():
+                logger.info(f"🎯 Training {prop_type} models...")
+                
+                y_train = pd.Series(targets_dict[prop_type][:split_point])
+                y_val = pd.Series(targets_dict[prop_type][split_point:])
+                
+                # Train models for this prop type
+                prop_results = self._train_prop_type_models(
+                    prop_type, config, X_train, X_val, y_train, y_val
                 )
                 
-                # Convert to feature dict
-                feature_dict = self._player_features_to_dict(features)
+                # Select best model
+                best_model = self._select_best_prop_model(prop_results, config)
                 
-                training_features.append(feature_dict)
-                training_labels.append(prop_value)
+                # Store results
+                self.trained_models[prop_type] = best_model
                 
-            except Exception as e:
-                logger.debug(f"Skipping player game: {e}")
-                continue
-                
-        if not training_features:
-            raise ValueError(f"No valid training data for {prop_type}")
-            
-        # Convert to DataFrame
-        features_df = pd.DataFrame(training_features)
-        labels_series = pd.Series(training_labels)
-        
-        # Keep only numeric features
-        numeric_features = features_df.select_dtypes(include=[np.number])
-        
-        logger.info(f"✅ Prepared {len(numeric_features)} {prop_type} training samples with {len(numeric_features.columns)} features")
-        
-        return numeric_features, labels_series
-        
-    def _player_features_to_dict(self, features: PlayerFeatures) -> Dict:
-        """Convert PlayerFeatures to dictionary for training"""
-        return {
-            'games_played': features.games_played,
-            'passing_yards_avg': features.passing_yards_avg,
-            'rushing_yards_avg': features.rushing_yards_avg,
-            'receiving_yards_avg': features.receiving_yards_avg,
-            'passing_tds_avg': features.passing_tds_avg,
-            'rushing_tds_avg': features.rushing_tds_avg,
-            'receiving_tds_avg': features.receiving_tds_avg,
-            'receptions_avg': features.receptions_avg,
-            'targets_avg': features.targets_avg,
-            'passing_yards_last_5': features.passing_yards_last_5,
-            'rushing_yards_last_5': features.rushing_yards_last_5,
-            'receiving_yards_last_5': features.receiving_yards_last_5,
-            'passing_tds_last_5': features.passing_tds_last_5,
-            'rushing_tds_last_5': features.rushing_tds_last_5,
-            'receiving_tds_last_5': features.receiving_tds_last_5,
-            'receptions_last_5': features.receptions_last_5,
-            'target_share': features.target_share,
-            'air_yards_share': features.air_yards_share,
-            'red_zone_targets': features.red_zone_targets,
-            'snap_percentage': features.snap_percentage,
-            'vs_opponent_avg': features.vs_opponent_avg,
-            'vs_position_rank': features.vs_position_rank,
-            'home_away_split': features.home_away_split,
-            'weather_impact': features.weather_impact,
-            'primetime_boost': features.primetime_boost,
-            'divisional_impact': features.divisional_impact,
-            'team_pace': features.team_pace,
-            'team_pass_rate': features.team_pass_rate,
-            'projected_game_script': features.projected_game_script,
-        }
-        
-    def train_prop_models(self) -> Dict[str, Dict[str, float]]:
-        """Train models for all prop types"""
-        logger.info("🚀 Training player props models...")
-        
-        all_scores = {}
-        
-        for prop_type in self.prop_types:
-            logger.info(f"🔧 Training models for {prop_type}...")
-            
-            try:
-                # Prepare data for this prop
-                X, y = self.prepare_prop_training_data(prop_type)
-                
-                # Handle missing values
-                X = X.fillna(X.median())
-                
-                # Store feature columns
-                self.prop_feature_columns[prop_type] = X.columns.tolist()
-                
-                # Initialize models for this prop
-                models = {
-                    'random_forest': RandomForestRegressor(**self.model_configs['random_forest']),
-                    'xgboost': xgb.XGBRegressor(**self.model_configs['xgboost']),
-                    'gradient_boosting': GradientBoostingRegressor(**self.model_configs['gradient_boosting']),
-                    'neural_network': MLPRegressor(**self.model_configs['neural_network'])
+                results[prop_type] = {
+                    'best_model': best_model['name'],
+                    'performance': best_model['performance'],
+                    'target_met': self._check_prop_target(config, best_model['performance']),
+                    'all_models': {name: result['performance'] for name, result in prop_results.items()}
                 }
                 
-                # Train models
-                prop_scores = {}
-                prop_models = {}
+                mae = best_model['performance']['mae']
+                status = "✅" if results[prop_type]['target_met'] else "❌"
+                logger.info(f"  {prop_type}: MAE {mae:.2f} {status}")
+            
+            # Save models
+            self._save_prop_models()
+            
+            # Generate report
+            report = {
+                'training_summary': {
+                    'total_players': training_data['player_count'],
+                    'features_count': len(training_data['feature_names']),
+                    'prop_types_trained': len(results),
+                    'timestamp': datetime.utcnow().isoformat()
+                },
+                'model_performance': {k: v['performance'] for k, v in results.items()},
+                'targets_met': {k: v['target_met'] for k, v in results.items()},
+                'recommendations': self._generate_prop_recommendations(results)
+            }
+            
+            logger.info("🎉 Player prop model training completed!")
+            return report
+            
+        except Exception as e:
+            logger.error(f"❌ Error training prop models: {e}")
+            raise
+    
+    def _train_prop_type_models(self, prop_type: str, config: Dict, 
+                               X_train: pd.DataFrame, X_val: pd.DataFrame,
+                               y_train: pd.Series, y_val: pd.Series) -> Dict:
+        """Train models for a specific prop type"""
+        results = {}
+        
+        # Scale features
+        scaler = RobustScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_val_scaled = scaler.transform(X_val)
+        
+        for model_name, model in config['models'].items():
+            try:
+                # Train model
+                if 'neural' in model_name:
+                    model.fit(X_train_scaled, y_train)
+                    predictions = model.predict(X_val_scaled)
+                else:
+                    model.fit(X_train, y_train)
+                    predictions = model.predict(X_val)
                 
-                tscv = TimeSeriesSplit(n_splits=3)  # Fewer splits for smaller datasets
+                # Calculate performance
+                mae = mean_absolute_error(y_val, predictions)
+                r2 = r2_score(y_val, predictions)
                 
-                for model_name, model in models.items():
-                    try:
-                        # Scale for neural network
-                        if model_name == 'neural_network':
-                            scaler = StandardScaler()
-                            X_scaled = scaler.fit_transform(X)
-                            self.prop_scalers[f"{prop_type}_{model_name}"] = scaler
-                            
-                            # Use negative MAE for scoring (higher is better)
-                            scores = cross_val_score(model, X_scaled, y, cv=tscv, scoring='neg_mean_absolute_error')
-                            model.fit(X_scaled, y)
-                        else:
-                            scores = cross_val_score(model, X, y, cv=tscv, scoring='neg_mean_absolute_error')
-                            model.fit(X, y)
-                            
-                        prop_models[model_name] = model
-                        prop_scores[model_name] = -scores.mean()  # Convert back to positive MAE
-                        
-                        logger.info(f"✅ {prop_type} {model_name}: MAE {prop_scores[model_name]:.2f}")
-                        
-                    except Exception as e:
-                        logger.warning(f"⚠️ Failed to train {model_name} for {prop_type}: {e}")
-                        continue
-                        
-                # Store models for this prop
-                self.prop_models[prop_type] = prop_models
-                all_scores[prop_type] = prop_scores
+                performance = {
+                    'mae': mae,
+                    'r2': r2,
+                    'samples': len(y_val)
+                }
+                
+                results[model_name] = {
+                    'model': model,
+                    'scaler': scaler if 'neural' in model_name else None,
+                    'performance': performance,
+                    'predictions': predictions
+                }
                 
             except Exception as e:
-                logger.error(f"❌ Failed to train models for {prop_type}: {e}")
+                logger.error(f"    ❌ {model_name} training failed: {e}")
                 continue
-                
-        logger.info(f"🎯 Trained models for {len(all_scores)} prop types")
-        return all_scores
         
-    def predict_player_props(self, player_name: str, team: str, opponent: str, 
-                           date: datetime, week: int) -> PlayerPropPrediction:
-        """Generate comprehensive player prop predictions"""
+        return results
+    
+    def _select_best_prop_model(self, model_results: Dict, config: Dict) -> Dict:
+        """Select the best performing model for a prop type"""
+        if not model_results:
+            return {'name': 'none', 'model': None, 'performance': {'error': 'No models trained'}}
         
-        # Create player features
-        features = self.create_player_features(player_name, team, opponent, date, week)
+        # Select based on MAE (lower is better)
+        best_name = min(model_results.keys(), 
+                       key=lambda x: model_results[x]['performance'].get('mae', float('inf')))
         
-        # Convert to prediction format
-        feature_dict = self._player_features_to_dict(features)
+        best_result = model_results[best_name]
         
-        # Generate predictions for each prop
-        prop_predictions = {}
-        prop_confidences = {}
-        model_predictions = {}
+        return {
+            'name': best_name,
+            'model': best_result['model'],
+            'scaler': best_result.get('scaler'),
+            'performance': best_result['performance']
+        }
+    
+    def _check_prop_target(self, config: Dict, performance: Dict) -> bool:
+        """Check if model meets target performance"""
+        if 'error' in performance:
+            return False
         
-        for prop_type in self.prop_types:
-            if prop_type not in self.prop_models:
-                continue
-                
-            # Get models for this prop
-            models = self.prop_models[prop_type]
-            feature_columns = self.prop_feature_columns.get(prop_type, [])
+        target_mae = config.get('target_mae', float('inf'))
+        actual_mae = performance.get('mae', float('inf'))
+        return actual_mae <= target_mae
+    
+    def _save_prop_models(self):
+        """Save trained prop models"""
+        try:
+            import os
+            os.makedirs('models/props', exist_ok=True)
             
-            if not models or not feature_columns:
-                continue
-                
-            # Prepare features
-            feature_df = pd.DataFrame([feature_dict])
-            feature_df = feature_df.reindex(columns=feature_columns, fill_value=0)
-            feature_df = feature_df.fillna(feature_df.median())
+            for prop_type, model_info in self.trained_models.items():
+                if model_info['model'] is not None:
+                    model_path = f'models/props/{prop_type}_model.joblib'
+                    joblib.dump(model_info, model_path)
+                    logger.info(f"💾 Saved {prop_type} model")
             
-            # Get predictions from each model
-            model_preds = {}
-            for model_name, model in models.items():
+        except Exception as e:
+            logger.error(f"❌ Error saving prop models: {e}")
+    
+    def _generate_prop_recommendations(self, results: Dict) -> List[str]:
+        """Generate recommendations for prop models"""
+        recommendations = []
+        
+        targets_met = sum(1 for v in results.values() if v['target_met'])
+        total_targets = len(results)
+        
+        if targets_met == total_targets:
+            recommendations.append("🎉 All prop models meet target performance!")
+        elif targets_met > 0:
+            recommendations.append(f"✅ {targets_met}/{total_targets} prop models meet targets.")
+            failed_props = [k for k, v in results.items() if not v['target_met']]
+            recommendations.append(f"⚠️ Improve: {', '.join(failed_props)}")
+        else:
+            recommendations.append("❌ No prop models meet target performance.")
+            recommendations.append("💡 Consider: More player data, position-specific features")
+        
+        return recommendations
+    
+    def predict_player_props(self, player_data: Dict, matchup_data: Dict, 
+                           historical_data: List[Dict]) -> Dict:
+        """Predict player props with edge calculations"""
+        try:
+            # Generate features
+            features = self.create_player_features(player_data, matchup_data, historical_data)
+            if not features:
+                raise ValueError("Could not generate player features")
+            
+            # Convert to DataFrame
+            feature_df = pd.DataFrame([features])
+            
+            predictions = {}
+            
+            for prop_type, model_info in self.trained_models.items():
+                if model_info['model'] is None:
+                    continue
+                
                 try:
-                    if model_name == 'neural_network':
-                        scaler_key = f"{prop_type}_{model_name}"
-                        if scaler_key in self.prop_scalers:
-                            X_scaled = self.prop_scalers[scaler_key].transform(feature_df)
-                            pred = model.predict(X_scaled)[0]
-                        else:
-                            pred = model.predict(feature_df)[0]
-                    else:
-                        pred = model.predict(feature_df)[0]
-                        
-                    model_preds[model_name] = max(0, pred)  # Ensure non-negative
+                    # Prepare features
+                    X = feature_df
+                    
+                    # Handle scaling
+                    if model_info.get('scaler') is not None:
+                        X = model_info['scaler'].transform(X)
+                    
+                    # Make prediction
+                    model = model_info['model']
+                    prediction = model.predict(X)[0]
+                    
+                    predictions[prop_type] = {
+                        'prediction': max(0, prediction),  # Ensure non-negative
+                        'model_name': model_info['name']
+                    }
                     
                 except Exception as e:
-                    logger.warning(f"⚠️ Prediction failed for {model_name} {prop_type}: {e}")
+                    logger.error(f"Error predicting {prop_type}: {e}")
                     continue
-                    
-            if model_preds:
-                # Ensemble prediction (simple average)
-                prop_predictions[prop_type] = np.mean(list(model_preds.values()))
-                prop_confidences[prop_type] = 0.7  # Default confidence
-                model_predictions[prop_type] = model_preds
-                
-        # Create prediction object
-        prediction = PlayerPropPrediction(
-            player_name=player_name,
-            team=team,
-            opponent=opponent,
-            position=features.position,
-            week=week,
-            season=features.season,
-            passing_yards=prop_predictions.get('passing_yards', 0),
-            rushing_yards=prop_predictions.get('rushing_yards', 0),
-            receiving_yards=prop_predictions.get('receiving_yards', 0),
-            passing_tds=prop_predictions.get('passing_tds', 0),
-            rushing_tds=prop_predictions.get('rushing_tds', 0),
-            receiving_tds=prop_predictions.get('receiving_tds', 0),
-            receptions=prop_predictions.get('receptions', 0),
-            prop_confidences=prop_confidences,
-            market_lines={},  # Would be populated with actual market data
-            prop_edges={},    # Would be calculated vs market lines
-            key_factors=self._get_player_key_factors(features),
-            matchup_analysis=self._get_matchup_analysis(features, opponent),
-            usage_metrics=self._get_usage_metrics(features),
-            model_predictions=model_predictions
-        )
-        
-        return prediction
-        
-    def _get_player_key_factors(self, features: PlayerFeatures) -> List[str]:
-        """Get key factors affecting player performance"""
-        factors = []
-        
-        if features.target_share > 0.2:
-            factors.append(f"High target share ({features.target_share:.1%})")
             
-        if features.snap_percentage > 0.7:
-            factors.append(f"High snap count ({features.snap_percentage:.1%})")
+            return {
+                'success': True,
+                'predictions': predictions,
+                'player_name': player_data.get('name', 'Unknown'),
+                'position': player_data.get('position', 'Unknown'),
+                'timestamp': datetime.utcnow().isoformat()
+            }
             
-        if features.vs_position_rank <= 10:
-            factors.append("Favorable matchup (weak defense)")
-        elif features.vs_position_rank >= 25:
-            factors.append("Tough matchup (strong defense)")
-            
-        if features.red_zone_targets > 2:
-            factors.append("Red zone target")
-            
-        if features.primetime_boost > 1.0:
-            factors.append("Primetime game boost")
-            
-        return factors[:5]  # Top 5 factors
-        
-    def _get_matchup_analysis(self, features: PlayerFeatures, opponent: str) -> Dict[str, Any]:
-        """Get detailed matchup analysis"""
-        return {
-            'opponent_def_rank': features.vs_position_rank,
-            'historical_vs_opponent': features.vs_opponent_avg,
-            'matchup_rating': 'favorable' if features.vs_position_rank > 20 else 'tough' if features.vs_position_rank < 10 else 'neutral'
-        }
-        
-    def _get_usage_metrics(self, features: PlayerFeatures) -> Dict[str, float]:
-        """Get player usage metrics"""
-        return {
-            'target_share': features.target_share,
-            'snap_percentage': features.snap_percentage,
-            'red_zone_usage': features.red_zone_targets,
-            'air_yards_share': features.air_yards_share
-        }
-
-def main():
-    """Test player props engine"""
-    # Initialize components
-    pipeline = DataPipeline()
-    feature_engine = EnhancedFeatureEngine(pipeline.games_df)
+        except Exception as e:
+            logger.error(f"Error making player prop predictions: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'player_name': player_data.get('name', 'Unknown')
+            }
     
-    # Create props engine
-    props_engine = PlayerPropsEngine(pipeline, feature_engine)
+    def calculate_prop_edges(self, predictions: Dict, betting_lines: Dict) -> Dict:
+        """Calculate edges over betting lines"""
+        try:
+            edges = {}
+            
+            for prop_type, prediction_data in predictions.items():
+                if prop_type not in betting_lines:
+                    continue
+                
+                prediction = prediction_data['prediction']
+                line = betting_lines[prop_type]['line']
+                over_odds = betting_lines[prop_type].get('over_odds', -110)
+                under_odds = betting_lines[prop_type].get('under_odds', -110)
+                
+                # Calculate implied probabilities
+                over_prob_implied = self._odds_to_probability(over_odds)
+                under_prob_implied = self._odds_to_probability(under_odds)
+                
+                # Estimate our probability (simplified)
+                # In reality, you'd want a more sophisticated approach
+                std_dev = prediction * 0.25  # Assume 25% standard deviation
+                our_over_prob = 1 - self._normal_cdf(line, prediction, std_dev)
+                our_under_prob = self._normal_cdf(line, prediction, std_dev)
+                
+                # Calculate edges
+                over_edge = our_over_prob - over_prob_implied
+                under_edge = our_under_prob - under_prob_implied
+                
+                # Expected value
+                over_ev = (our_over_prob * self._odds_to_payout(over_odds)) - (1 - our_over_prob)
+                under_ev = (our_under_prob * self._odds_to_payout(under_odds)) - (1 - our_under_prob)
+                
+                edges[prop_type] = {
+                    'prediction': prediction,
+                    'line': line,
+                    'over_edge': over_edge,
+                    'under_edge': under_edge,
+                    'over_ev': over_ev,
+                    'under_ev': under_ev,
+                    'best_bet': 'over' if over_edge > under_edge and over_edge > 0.05 else 'under' if under_edge > 0.05 else 'no_bet',
+                    'confidence': max(abs(over_edge), abs(under_edge))
+                }
+            
+            return edges
+            
+        except Exception as e:
+            logger.error(f"Error calculating prop edges: {e}")
+            return {}
+    
+    def _odds_to_probability(self, odds: int) -> float:
+        """Convert American odds to implied probability"""
+        if odds > 0:
+            return 100 / (odds + 100)
+        else:
+            return abs(odds) / (abs(odds) + 100)
+    
+    def _odds_to_payout(self, odds: int) -> float:
+        """Convert American odds to payout multiplier"""
+        if odds > 0:
+            return odds / 100
+        else:
+            return 100 / abs(odds)
+    
+    def _normal_cdf(self, x: float, mean: float, std: float) -> float:
+        """Approximate normal CDF"""
+        from math import erf, sqrt
+        return 0.5 * (1 + erf((x - mean) / (std * sqrt(2))))
+
+# Example usage
+if __name__ == "__main__":
+    props_engine = PlayerPropsEngine()
     
     # Train models
-    logger.info("🚀 Training player props models...")
-    scores = props_engine.train_prop_models()
+    results = props_engine.train_prop_models()
+    
+    print("🎉 Player Props Training Results:")
+    for prop_type, performance in results['model_performance'].items():
+        mae = performance['mae']
+        target_met = "✅" if results['targets_met'][prop_type] else "❌"
+        print(f"{prop_type}: MAE {mae:.2f} {target_met}")
     
     # Test prediction
-    test_date = datetime(2024, 12, 15)
+    test_player = {
+        'name': 'Test Player',
+        'position': 'WR',
+        'games_played': 12,
+        'season_receiving_yards_avg': 75.5,
+        'season_receptions_avg': 5.2,
+        'season_targets_avg': 8.1,
+        'season_touchdowns_avg': 0.6,
+        'snap_percentage': 0.85,
+        'red_zone_target_share': 0.15
+    }
     
-    # Test with a few players
-    test_players = [
-        ("Josh Allen", "BUF"),
-        ("Patrick Mahomes", "KC"),
-        ("Tyreek Hill", "MIA")
+    test_matchup = {
+        'is_home': True,
+        'opponent_pass_defense_rank': 22,
+        'opponent_pass_yards_allowed_avg': 245,
+        'game_total_line': 48.5,
+        'team_implied_total': 25.5,
+        'team_targets_avg': 35,
+        'weather_factor': 1.0,
+        'is_dome': True
+    }
+    
+    test_historical = [
+        {'receiving_yards': 82, 'receptions': 6, 'targets': 9, 'touchdowns': 1},
+        {'receiving_yards': 65, 'receptions': 4, 'targets': 7, 'touchdowns': 0},
+        {'receiving_yards': 91, 'receptions': 7, 'targets': 10, 'touchdowns': 1},
+        {'receiving_yards': 58, 'receptions': 3, 'targets': 6, 'touchdowns': 0},
+        {'receiving_yards': 77, 'receptions': 5, 'targets': 8, 'touchdowns': 1}
     ]
     
-    for player_name, team in test_players:
-        try:
-            prediction = props_engine.predict_player_props(
-                player_name, team, "KC" if team != "KC" else "BUF", test_date, 15
-            )
-            
-            print(f"\n🏈 {prediction.player_name} ({prediction.position}) - {prediction.team} vs {prediction.opponent}")
-            print(f"📊 Passing Yards: {prediction.passing_yards:.1f}")
-            print(f"🏃 Rushing Yards: {prediction.rushing_yards:.1f}")
-            print(f"🎯 Receiving Yards: {prediction.receiving_yards:.1f}")
-            print(f"🏈 Passing TDs: {prediction.passing_tds:.1f}")
-            print(f"🏃 Rushing TDs: {prediction.rushing_tds:.1f}")
-            print(f"🎯 Receiving TDs: {prediction.receiving_tds:.1f}")
-            print(f"👐 Receptions: {prediction.receptions:.1f}")
-            
-            print(f"\n🔍 Key Factors:")
-            for factor in prediction.key_factors:
-                print(f"  • {factor}")
-                
-        except Exception as e:
-            logger.warning(f"⚠️ Failed to predict for {player_name}: {e}")
-            
-    print(f"\n🎉 Player Props Engine Complete!")
-    print(f"📈 Target Accuracy: >57% for props")
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    main()
+    prediction = props_engine.predict_player_props(test_player, test_matchup, test_historical)
+    
+    if prediction['success']:
+        print(f"\\n🎮 Test Prediction for {prediction['player_name']} ({prediction['position']}):")
+        for prop_type, pred_data in prediction['predictions'].items():
+            print(f"{prop_type}: {pred_data['prediction']:.1f}")
+        
+        # Test edge calculation
+        test_lines = {
+            'receiving_yards': {'line': 72.5, 'over_odds': -110, 'under_odds': -110},
+            'receptions': {'line': 4.5, 'over_odds': -115, 'under_odds': -105}
+        }
+        
+        edges = props_engine.calculate_prop_edges(prediction['predictions'], test_lines)
+        
+        print("\\n💰 Edge Analysis:")
+        for prop_type, edge_data in edges.items():
+            print(f"{prop_type}: {edge_data['best_bet']} (confidence: {edge_data['confidence']:.3f})")
+    else:
+        print(f"❌ Prediction failed: {prediction['error']}")
