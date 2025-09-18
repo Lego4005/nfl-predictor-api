@@ -1,0 +1,252 @@
+{
+  "timestamp": "2025-09-16T00:57:54.893190",
+  "game": {
+    "game_id": "LIVE_GAME_20250916_0057",
+    "teams": "Current NFL Game",
+    "time_left": "3:00",
+    "current_situation": "Game still in progress"
+  },
+  "predictions": [
+    {
+      "expert": "the_analyst",
+      "description": "Pure statistical analysis and data patterns",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "8 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.6623068336036946,
+        "winner": 0.7869389966552055,
+        "spread": 0.6430521541517139,
+        "total": 0.6800403657284864
+      },
+      "chain_id": "816935aa-3ca0-4800-b57c-b5e3c1e81f22"
+    },
+    {
+      "expert": "the_veteran",
+      "description": "Experience-based wisdom and historical patterns",
+      "prediction": {
+        "final_winner": "Favored team controls game",
+        "final_margin": "8 points",
+        "key_plays": "Steady drives and defensive stops"
+      },
+      "confidence": {
+        "overall": 0.8439802148941956,
+        "winner": 0.8003538726912418,
+        "spread": 0.7839616028645855,
+        "total": 0.8099381971632804
+      },
+      "chain_id": "2b994bcf-be91-4d6c-8c67-331b4d2553f0"
+    },
+    {
+      "expert": "the_contrarian",
+      "description": "Fades public opinion and conventional wisdom",
+      "prediction": {
+        "final_winner": "Underdog team pulls upset",
+        "final_margin": "2 points",
+        "key_plays": "Late turnover or special teams play"
+      },
+      "confidence": {
+        "overall": 0.5572016056198607,
+        "winner": 0.6254577700306524,
+        "spread": 0.5839047258326026,
+        "total": 0.6814193867678182
+      },
+      "chain_id": "df041cde-dda8-4f6d-a2cc-c437f4e7b0a4"
+    },
+    {
+      "expert": "the_gambler",
+      "description": "Gut instincts and betting market feel",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "4 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.6570898605265426,
+        "winner": 0.8044743279631252,
+        "spread": 0.6511020881327603,
+        "total": 0.6652422833137583
+      },
+      "chain_id": "7cc734e1-7729-4ccb-beab-f1826121d150"
+    },
+    {
+      "expert": "the_momentum_rider",
+      "description": "Reads current team energy and flow",
+      "prediction": {
+        "final_winner": "Team with current possession/momentum",
+        "final_margin": "7 points",
+        "key_plays": "Current drive determines outcome"
+      },
+      "confidence": {
+        "overall": 0.7307701507150608,
+        "winner": 0.8258943332886771,
+        "spread": 0.7419801902134457,
+        "total": 0.7134963743396232
+      },
+      "chain_id": "a9a40041-975e-4e78-8df1-27d1af9a2d38"
+    },
+    {
+      "expert": "the_matchup_expert",
+      "description": "Deep statistical matchup analysis",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "2 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.7808890089053144,
+        "winner": 0.8138864319593835,
+        "spread": 0.6234233352025927,
+        "total": 0.6889153238053984
+      },
+      "chain_id": "bdc56613-d6e9-4d60-a7bf-fb38191f0ade"
+    },
+    {
+      "expert": "the_chaos_theorist",
+      "description": "Expects variance and unpredictable outcomes",
+      "prediction": {
+        "final_winner": "Underdog team pulls upset",
+        "final_margin": "3 points",
+        "key_plays": "Late turnover or special teams play"
+      },
+      "confidence": {
+        "overall": 0.7380516681942806,
+        "winner": 0.7420099665100769,
+        "spread": 0.654743454030329,
+        "total": 0.6114941104722917
+      },
+      "chain_id": "eeb17fb9-c87e-4aef-842e-d836e05c9501"
+    },
+    {
+      "expert": "the_home_field_guru",
+      "description": "Specializes in venue and crowd effects",
+      "prediction": {
+        "final_winner": "Home team feeds off crowd energy",
+        "final_margin": "3 points",
+        "key_plays": "Crowd noise forces key mistake"
+      },
+      "confidence": {
+        "overall": 0.6772726220410343,
+        "winner": 0.7311940737120627,
+        "spread": 0.6727358019814434,
+        "total": 0.7832259119666952
+      },
+      "chain_id": "e3972084-2f8e-40cb-910b-9805cb420dab"
+    },
+    {
+      "expert": "the_weather_watcher",
+      "description": "Focuses on environmental game conditions",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "5 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.7453140810832692,
+        "winner": 0.8093669813633122,
+        "spread": 0.6872269622719658,
+        "total": 0.7862001422200942
+      },
+      "chain_id": "f4fab3e7-85f0-4032-8884-1299f5f0c2ef"
+    },
+    {
+      "expert": "the_injury_tracker",
+      "description": "Analyzes roster health and availability",
+      "prediction": {
+        "final_winner": "Favored team controls game",
+        "final_margin": "11 points",
+        "key_plays": "Steady drives and defensive stops"
+      },
+      "confidence": {
+        "overall": 0.8261307256904666,
+        "winner": 0.8800812825197499,
+        "spread": 0.8310571757696904,
+        "total": 0.867112357426442
+      },
+      "chain_id": "d1548940-ab84-424a-8bc5-d040a2280977"
+    },
+    {
+      "expert": "the_referee_reader",
+      "description": "Studies officiating crew tendencies",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "3 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.7618614504354034,
+        "winner": 0.7818702796583907,
+        "spread": 0.605981678404172,
+        "total": 0.7671832630332687
+      },
+      "chain_id": "d4835d7c-2efa-46bf-b200-35ff89e7810c"
+    },
+    {
+      "expert": "the_primetime_prophet",
+      "description": "Specializes in nationally televised games",
+      "prediction": {
+        "final_winner": "Home team feeds off crowd energy",
+        "final_margin": "4 points",
+        "key_plays": "Crowd noise forces key mistake"
+      },
+      "confidence": {
+        "overall": 0.7795736383998436,
+        "winner": 0.8456617414641635,
+        "spread": 0.641559591738851,
+        "total": 0.6846851251349674
+      },
+      "chain_id": "2d2b4713-5429-46df-87b2-3b0f894ceb1d"
+    },
+    {
+      "expert": "the_divisional_detective",
+      "description": "Expert in rivalry and division dynamics",
+      "prediction": {
+        "final_winner": "Favored team controls game",
+        "final_margin": "7 points",
+        "key_plays": "Steady drives and defensive stops"
+      },
+      "confidence": {
+        "overall": 0.8135993908256055,
+        "winner": 0.8688957467486287,
+        "spread": 0.7545774857591275,
+        "total": 0.7787453900199833
+      },
+      "chain_id": "dd377954-e086-4d39-b614-56ba12b369ea"
+    },
+    {
+      "expert": "the_playoff_predictor",
+      "description": "Reads postseason intensity and pressure",
+      "prediction": {
+        "final_winner": "Team with better statistical matchup",
+        "final_margin": "7 points",
+        "key_plays": "Statistical advantage shows in clutch"
+      },
+      "confidence": {
+        "overall": 0.7273658614273658,
+        "winner": 0.8271361833171901,
+        "spread": 0.6453152504129689,
+        "total": 0.7457857825402314
+      },
+      "chain_id": "f4c0abf9-2a56-4b9d-817a-72ae26439f7a"
+    },
+    {
+      "expert": "the_upset_specialist",
+      "description": "Identifies underdog opportunities",
+      "prediction": {
+        "final_winner": "Underdog team pulls upset",
+        "final_margin": "3 points",
+        "key_plays": "Late turnover or special teams play"
+      },
+      "confidence": {
+        "overall": 0.6770506665299665,
+        "winner": 0.6949995847727471,
+        "spread": 0.6887024476020934,
+        "total": 0.6997853215602856
+      },
+      "chain_id": "7bcf72fc-8a09-4747-9412-c4d594befbbc"
+    }
+  ],
+  "status": "awaiting_results"
+}

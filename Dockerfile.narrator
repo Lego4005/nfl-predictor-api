@@ -1,0 +1,57 @@
+FROM python:3.9-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set work directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    curl \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install additional ML dependencies for narrator
+RUN pip install --no-cache-dir \
+    tensorflow==2.13.0 \
+    lightgbm==4.1.0 \
+    xgboost==2.0.2 \
+    catboost==1.2.2 \
+    optuna==3.4.0 \
+    shap==0.43.0 \
+    plotly==5.17.0 \
+    aiohttp==3.9.1 \
+    redis==5.0.1 \
+    requests-cache==1.1.1
+
+# Copy application code
+COPY src/ src/
+COPY models/ models/
+COPY tests/ tests/
+
+# Create necessary directories
+RUN mkdir -p logs data models/cache
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash narrator
+RUN chown -R narrator:narrator /app
+USER narrator
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/narrator/health || exit 1
+
+# Expose port
+EXPOSE 8000
+
+# Run the application
+CMD ["uvicorn", "src.api.app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

@@ -1,0 +1,3597 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NFL v3 Projections",
+    "version": "1.0",
+    "description": "NFL projected stats API."
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/nfl/projections",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/FantasyDefenseProjectionsBySeason/{season}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections, including average draft position, for all fantasy defense teams for the season. Does not contain Individual Defensive Players (IDP), which have their own endpoint.",
+        "operationId": "ProjectedFantasyDefenseSeasonStatsWithAdp",
+        "summary": "Projected Fantasy Defense Season Stats With ADP",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FantasyDefenseSeasonProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/FantasyDefenseProjectionsByGame/{season}/{week}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections, including DFS salary information, for all fantasy defense teams. Called by season and week. Does not contain Individual Defensive Players (IDP), which have their own endpoint.",
+        "operationId": "ProjectedFantasyDefenseGameStatsWithDfsSalaries",
+        "summary": "Projected Fantasy Defense Game Stats With DFS Salaries",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FantasyDefenseGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerGameProjectionStatsByPlayerID/{season}/{week}/{playerid}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections, including DFS salary information and injuries, for fantasy players, called by player.",
+        "operationId": "ProjectedPlayerGameStatsByPlayer",
+        "summary": "Projected Player Game Stats - by Player",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "\n          Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "Each NFL player has a unique ID assigned by FantasyData. Player IDs can be determined by pulling player related data. Example:<code>14257</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayerGameProjection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerSeasonProjectionStatsByPlayerID/{season}/{playerid}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections on a season-long basis, including ADP, for fantasy players, for a given player.",
+        "operationId": "ProjectedPlayerSeasonStatsWithAdpByPlayer",
+        "summary": "Projected Player Season Stats With ADP - by Player",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "Each NFL player has a unique ID assigned by FantasyData. Player IDs can be determined by pulling player related data. Example:<code>14257</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayerSeasonProjection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerGameProjectionStatsByTeam/{season}/{week}/{team}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections, including DFS salary information and injuries, for fantasy players, for a given game, called by team.",
+        "operationId": "ProjectedPlayerGameStatsByTeam",
+        "summary": "Projected Player Game Stats - by Team",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Abbreviation of the team. Example: <code>WAS</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerSeasonProjectionStats/{season}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections on a season-long basis, including Average Draft Position (ADP), for fantasy players, for a given season.",
+        "operationId": "ProjectedPlayerSeasonStatsWithAdp",
+        "summary": "Projected Player Season Stats With ADP",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerSeasonProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerSeasonProjectionStatsByTeam/{season}/{team}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections on a season-long basis, including ADP, for fantasy players, for a given season and team.",
+        "operationId": "ProjectedPlayerSeasonStatsWithAdpByTeam",
+        "summary": "Projected Player Season Stats With ADP - by Team",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Abbreviation of the team. Example: <code>WAS</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerSeasonProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayerGameProjectionStatsByWeek/{season}/{week}": {
+      "get": {
+        "description": "SportsDataIO's proprietary projections, including DFS salary information and injuries, for fantasy players, called by week.",
+        "operationId": "ProjectedPlayerGameStatsByWeek",
+        "summary": "Projected Player Game Stats - by Week",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "\n          Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/DfsSlatesByDate/{date}": {
+      "get": {
+        "description": "Returns DFS slates, including eligible games, positions, captain mode, players and salaries, for a given date.",
+        "operationId": "DfsSlatesByDate",
+        "summary": "DFS Slates - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the slates.\n<br>Examples: <code>2017-SEP-25</code>, <code>2017-10-31</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DfsSlate"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/DfsSlatesByWeek/{season}/{week}": {
+      "get": {
+        "description": "Returns DFS slates, including eligible games, positions, captain mode, players and salaries, for a given week.",
+        "operationId": "DfsSlatesByWeek",
+        "summary": "DFS Slates - by Week",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DfsSlate"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/IdpPlayerGameProjectionStatsByPlayerID/{season}/{week}/{playerid}": {
+      "get": {
+        "description": "Individual Defensive Player (IDP stats, including DFS salary information and injuries, for fantasy players, called by player.",
+        "operationId": "IdpProjectedPlayerGameStatsByPlayer",
+        "summary": "IDP Projected Player Game Stats - by Player",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "Each NFL player has a unique ID assigned by FantasyData. Player IDs can be determined by pulling player related data. Example:<code>14257</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayerGameProjection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/IdpPlayerGameProjectionStatsByWeek/{season}/{week}": {
+      "get": {
+        "description": "Individual Defensive Player (IDP stats, including DFS salary information and injuries, for fantasy players, called by week.",
+        "operationId": "IdpProjectedPlayerGameStatsByWeek",
+        "summary": "IDP Projected Player Game Stats - by Week",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/IdpPlayerGameProjectionStatsByTeam/{season}/{week}/{team}": {
+      "get": {
+        "description": "Individual Defensive Player (IDP stats, including DFS salary information and injuries, for fantasy players, called by team.",
+        "operationId": "IdpProjectedPlayerGameStatsByTeam",
+        "summary": "IDP Projected Player Game Stats - by Team",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season and the season type. If no season type is provided, then the default is regular season.\n          <br>Examples: <code>2015REG</code>, <code>2015PRE</code>, <code>2015POST</code>.\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "week",
+            "in": "path",
+            "description": "Week of the season. Valid values are as follows: Preseason 0 to 4, Regular Season 1 to 17, Postseason 1 to 4.\n          Example: <code>1</code>\n        ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Abbreviation of the team. Example: <code>WAS</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/UpcomingDfsSlateOwnershipProjections": {
+      "get": {
+        "description": "Returns DFS Slates which have not yet started for which we have DFS Ownership projections.",
+        "operationId": "DfsSlateOwnershipProjectionsUpcoming",
+        "summary": "DFS Slate Ownership Projections - Upcoming",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DfsSlateWithOwnershipProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/DfsSlateOwnershipProjectionsBySlateID/{slateId}": {
+      "get": {
+        "description": "Slate Ownership Projections for a specific slate. Projections are for Guaranteed Prize Pool (GPP) format ownership. Will return an empty list if the slate is not yet projected or not a slate we have projections for.",
+        "operationId": "DfsSlateOwnershipProjectionsBySlate",
+        "summary": "DFS Slate Ownership Projections - by Slate",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "slateId",
+            "in": "path",
+            "description": "SlateID of the DFS Slate you wish to get ownership projections for. Will have an empty SlateOwnershipProjections if this slate was not projected",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DfsSlateWithOwnershipProjection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/InjuredPlayers": {
+      "get": {
+        "description": "This endpoint provides all currently injured NFL players, along with injury details.",
+        "operationId": "PlayerDetailsByInjured",
+        "summary": "Player Details - by Injured",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "FantasyDefenseSeasonProjection": {
+      "properties": {
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PointsAllowed": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TouchdownsScored": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "AssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Sacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassesDefended": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesForced": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesRecovered": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Interceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKicks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Safeties": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "QuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "RunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "WideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "KickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Games": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BlockedKickReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "QuarterbackHits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TacklesForLoss": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DefensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPoints": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Temperature": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Humidity": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ThirdDownAttempts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ThirdDownConversions": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FourthDownAttempts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FourthDownConversions": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PointsAllowedByDefenseSpecialTeams": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AuctionValue": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AuctionValuePPR": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TwoPointConversionReturns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFanDuel": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsDraftKings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OffensiveYardsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPointsYahoo": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPosition": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPositionPPR": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FanDuelFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFantasyDraft": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ScoringDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScoringDetail"
+          }
+        },
+        "AverageDraftPositionDynasty": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPosition2QB": {
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    },
+    "ScoringDetail": {
+      "properties": {
+        "GameKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Week": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoringType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Length": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoringDetailID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayerGameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ScoringPlayID": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "FantasyDefenseGameProjection": {
+      "properties": {
+        "GameKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Week": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Opponent": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PointsAllowed": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TouchdownsScored": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "AssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Sacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassesDefended": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesForced": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesRecovered": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Interceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKicks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Safeties": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "QuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "RunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "WideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "KickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BlockedKickReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "QuarterbackHits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TacklesForLoss": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DefensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "IsGameOver": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "FantasyPoints": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Stadium": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Temperature": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Humidity": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ThirdDownAttempts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ThirdDownConversions": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FourthDownAttempts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FourthDownConversions": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PointsAllowedByDefenseSpecialTeams": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DraftKingsSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDataSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "VictivSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TwoPointConversionReturns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFanDuel": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsDraftKings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OffensiveYardsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPointsYahoo": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "HomeOrAway": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OpponentRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentPositionRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalOpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DraftKingsPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FanDuelPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FantasyDraftPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "YahooPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FantasyDefenseID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ScoreID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FanDuelFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FanDuelKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DraftKingsKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFantasyDraft": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftQuarterbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftRunningbackFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftWideReceiverFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftTightEndFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyDraftKickerFantasyPointsAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ScoringDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScoringDetail"
+          }
+        }
+      }
+    },
+    "PlayerGameProjection": {
+      "properties": {
+        "GameKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Week": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Opponent": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeOrAway": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Number": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PositionCategory": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Activated": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Played": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Started": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PassingAttempts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingCompletions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingCompletionPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYardsPerCompletion": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingInterceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingRating": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingSacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingSackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingAttempts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingTargets": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Receptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYardsPerReception": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Fumbles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesLost": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "AssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TacklesForLoss": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Sacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "QuarterbackHits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PassesDefended": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesForced": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesRecovered": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Interceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKicks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsSoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsAssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "MiscSoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "MiscAssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Punts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntAverage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsAttempted": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsLongestMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ExtraPointsMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionPasses": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionRuns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionReceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPoints": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPointsPPR": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceptionPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYardsPerTarget": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Tackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "OffensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "DefensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Touchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FieldGoalPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PlayerGameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FumblesOwnRecoveries": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FumblesOutOfBounds": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "KickReturnFairCatches": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntReturnFairCatches": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntTouchbacks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntInside20": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntNetAverage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ExtraPointsAttempted": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BlockedKickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Safeties": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ExtraPointsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntLong": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BlockedKickReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntNetYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsFumblesForced": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsFumblesRecovered": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "MiscFumblesForced": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "MiscFumblesRecovered": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ShortName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayingSurface": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsGameOver": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "SafetiesAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Stadium": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Temperature": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Humidity": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FanDuelSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DraftKingsSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDataSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OffensiveSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DefensiveSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SpecialTeamsSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OffensiveTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DefensiveTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SpecialTeamsTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "VictivSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TwoPointConversionReturns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFanDuel": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade0to19": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade20to29": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade30to39": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade40to49": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade50Plus": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsDraftKings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "YahooSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPointsYahoo": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "InjuryStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryBodyPart": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryStartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryNotes": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FanDuelPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DraftKingsPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "YahooPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OpponentRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentPositionRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InjuryPractice": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryPracticeDescription": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DeclaredInactive": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "FantasyDraftSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalOpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ScoreID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FantasyPointsFantasyDraft": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ScoringDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScoringDetail"
+          }
+        },
+        "OffensiveFumbleRecoveryTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SnapCountsConfirmed": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "PlayerSeasonProjection": {
+      "properties": {
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Number": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PositionCategory": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Activated": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Played": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Started": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PassingAttempts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingCompletions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingCompletionPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingYardsPerCompletion": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingInterceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingRating": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingSacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PassingSackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingAttempts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "RushingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingTargets": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Receptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYardsPerReception": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Fumbles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesLost": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnYardsPerAttempt": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "KickReturnLong": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "AssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TacklesForLoss": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Sacks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SackYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "QuarterbackHits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PassesDefended": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesForced": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumblesRecovered": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FumbleReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Interceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "InterceptionReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "BlockedKicks": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsSoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsAssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "MiscSoloTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "MiscAssistedTackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Punts": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntYards": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PuntAverage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsAttempted": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FieldGoalsLongestMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ExtraPointsMade": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionPasses": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionRuns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "TwoPointConversionReceptions": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPoints": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPointsPPR": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceptionPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "ReceivingYardsPerTarget": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Tackles": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "OffensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "DefensiveTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "SpecialTeamsTouchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "Touchdowns": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "FantasyPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FieldGoalPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "PlayerSeasonID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FumblesOwnRecoveries": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FumblesOutOfBounds": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "KickReturnFairCatches": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntReturnFairCatches": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntTouchbacks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntInside20": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntNetAverage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ExtraPointsAttempted": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BlockedKickReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnTouchdowns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Safeties": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ExtraPointsHadBlocked": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntLong": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BlockedKickReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalReturnYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PuntNetYards": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsFumblesForced": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SpecialTeamsFumblesRecovered": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "MiscFumblesForced": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "MiscFumblesRecovered": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ShortName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SafetiesAllowed": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Temperature": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Humidity": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OffensiveSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DefensiveSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SpecialTeamsSnapsPlayed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OffensiveTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DefensiveTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SpecialTeamsTeamSnaps": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AuctionValue": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AuctionValuePPR": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TwoPointConversionReturns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFanDuel": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade0to19": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade20to29": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade30to39": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade40to49": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldGoalsMade50Plus": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsDraftKings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsYahoo": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPosition": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPositionPPR": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPointsFantasyDraft": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ScoringDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScoringDetail"
+          }
+        },
+        "AverageDraftPositionRookie": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPositionDynasty": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AverageDraftPosition2QB": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OffensiveFumbleRecoveryTouchdowns": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "DfsSlate": {
+      "properties": {
+        "SlateID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Operator": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorSlateID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OperatorName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorDay": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorStartTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "NumberOfGames": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "IsMultiDaySlate": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "RemovedByOperator": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "OperatorGameType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DfsSlateGames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DfsSlateGame"
+          }
+        },
+        "DfsSlatePlayers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DfsSlatePlayer"
+          }
+        },
+        "SlateRosterSlots": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "x-nullable": true
+          }
+        },
+        "SalaryCap": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "DfsSlateGame": {
+      "properties": {
+        "SlateGameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SlateID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OperatorGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RemovedByOperator": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "ScoreID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Game": {
+          "$ref": "#/definitions/Schedule"
+        }
+      }
+    },
+    "Schedule": {
+      "properties": {
+        "GameKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Week": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Date": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Channel": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PointSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OverUnder": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "StadiumID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Canceled": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "GeoLat": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "GeoLong": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ForecastTempLow": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastTempHigh": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastDescription": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ForecastWindChill": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastWindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalAwayTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalHomeTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ScoreID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "StadiumDetails": {
+          "$ref": "#/definitions/Stadium"
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsClosed": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "DateTimeUTC": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Stadium": {
+      "properties": {
+        "StadiumID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "City": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "State": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Country": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Capacity": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayingSurface": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GeoLat": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "GeoLong": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Type": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "DfsSlatePlayer": {
+      "properties": {
+        "SlatePlayerID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SlateID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SlateGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerGameProjectionStatID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDefenseProjectionStatID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OperatorPlayerID": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorSlatePlayerID": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorPlayerName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorRosterSlots": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "x-nullable": true
+          }
+        },
+        "OperatorSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RemovedByOperator": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
+    "DfsSlateWithOwnershipProjection": {
+      "properties": {
+        "SlateID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Operator": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorSlateID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OperatorName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorDay": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OperatorStartTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SlateOwnershipProjections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DfsSlatePlayerOwnershipProjection"
+          }
+        }
+      }
+    },
+    "DfsSlatePlayerOwnershipProjection": {
+      "properties": {
+        "SlateID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDefensePlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ProjectedOwnershipPercentage": {
+          "type": "number",
+          "x-nullable": false
+        },
+        "IsCaptain": {
+          "type": "boolean",
+          "x-nullable": false
+        }
+      }
+    },
+    "Player": {
+      "properties": {
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Number": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FirstName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "LastName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Height": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Weight": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BirthDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "College": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Experience": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Active": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "PositionCategory": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Age": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ExperienceString": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BirthDateString": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PhotoUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ByeWeek": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UpcomingGameOpponent": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UpcomingGameWeek": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ShortName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AverageDraftPosition": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DepthPositionCategory": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DepthPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DepthOrder": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DepthDisplayOrder": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CollegeDraftTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CollegeDraftYear": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CollegeDraftRound": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CollegeDraftPick": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "IsUndraftedFreeAgent": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "HeightFeet": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HeightInches": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UpcomingOpponentRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UpcomingOpponentPositionRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UpcomingSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyAlarmPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportRadarPlayerID": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "RotoworldPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RotoWirePlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "StatsPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsDirectPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "XmlTeamPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FanDuelPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DraftKingsPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "YahooPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InjuryStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryBodyPart": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryStartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryNotes": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FanDuelName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DraftKingsName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "YahooName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FantasyPositionDepthOrder": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InjuryPractice": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryPracticeDescription": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DeclaredInactive": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "UpcomingFanDuelSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UpcomingDraftKingsSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UpcomingYahooSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UsaTodayPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UsaTodayHeadshotUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UsaTodayHeadshotNoBackgroundUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UsaTodayHeadshotUpdated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "UsaTodayHeadshotNoBackgroundUpdated": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,1731 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MLB v2 Baker Predictive",
+    "version": "1.0",
+    "description": "MLB projections, best bets and trends."
+  },
+  "host": "baker-api.sportsdata.io",
+  "basePath": "/baker/v2/mlb",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/BakerPlayerGameProjections/{date}": {
+      "get": {
+        "operationId": "BakerProjectedPlayerGameStatsByDateWInjuriesDfsSalaries",
+        "summary": "BAKER Projected Player Game Stats by Date (w/ Injuries, DFS Salaries)",
+        "tags": [
+          "Projections",
+          "Baker"
+        ],
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). Example: 2023-04-30",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BakerPlayerGameProjectionsByTeam/{date}/{team}": {
+      "get": {
+        "operationId": "BakerProjectedPlayerGameStatsByTeamWInjuriesDfsSalaries",
+        "summary": "BAKER Projected Player Game Stats by Team (w/ Injuries, DFS Salaries)",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). Example: 2023-04-30",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "The abbreviation of the requested team.<br>Examples: <code>SF</code>, <code>NYY</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerGameProjection"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/trends/{date}/{team}": {
+      "get": {
+        "description": "Provides betting trends for the given team on the given date.",
+        "operationId": "BakerBettingTrendsByTeam",
+        "summary": "BAKER Betting Trends by Team",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). Example: 2023-04-30",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "The abbreviation of the requested team.<br>Examples: <code>SF</code>, <code>NYY</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/trends/{date}/players/{playerid}": {
+      "get": {
+        "description": "Provides betting trends for the given team on the given date.",
+        "operationId": "BakerBettingTrendsByPlayer",
+        "summary": "BAKER Betting Trends by Player",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). Example: 2023-04-30",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "Unique Player ID.\nExample:<code>10000507</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{date}/team/{team}/offense/avg": {
+      "get": {
+        "operationId": "BakerProjectedPlayerOffensiveStatsByDateAndTeam",
+        "summary": "BAKER Projected Player Offensive Stats By Date and Team",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game.  Example: 2023-06-23, 2023-05-11, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "The abbreviation of the requested team.<br>Examples: <code>SF</code>, <code>NYY</code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{date}/team/{team}/defense/avg": {
+      "get": {
+        "operationId": "BakerProjectedPlayerDefensiveStatsByDateAndTeam",
+        "summary": "BAKER Projected Player Defensive Stats By Date and Team",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game.  Example: 2023-06-23, 2023-05-11, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "The abbreviation of the requested team.<br>Examples: <code>SF</code>, <code>NYY</code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/games/{game_id}": {
+      "get": {
+        "description": "Returns the projected game and team outcomes for a given game.",
+        "operationId": "BakerGameProjections",
+        "summary": "BAKER Game Projections",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{day}/avg": {
+      "get": {
+        "description": "Returns the average projected statistics for the top 50 players sorted by the sort_by parameter. Can be filtered by game_id, team, and position. To retrieve all players efficiently, use the /team endpoint or the /stat endpoint and call them for each team or statistic required.",
+        "operationId": "BakerPlayerProjectionsDayAverage",
+        "summary": "BAKER Player Projections Day Average",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{day}/stat/{stat}/avg": {
+      "get": {
+        "description": "Returns the average projected statistic for up to 500 players sorted in descending order.",
+        "operationId": "BakerPlayerProjectionsDayAverageSingleStatistic",
+        "summary": "BAKER Player Projections Day Average Single Statistic",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stat",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{season_name}/{day}/stat/{stat}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns the percentile of the projected statistic for up to 500 players sorted in descending order.",
+        "operationId": "BakerPlayerProjectionsDayPercentileSingleStatistic",
+        "summary": "BAKER Player Projections Day Percentile Single Statistic",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stat",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/schedule/{season_name}/{day}": {
+      "get": {
+        "operationId": "BakerMlbSchedule",
+        "summary": "BAKER Mlb Schedule",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/schedule/today": {
+      "get": {
+        "operationId": "BakerMlbScheduleToday",
+        "summary": "BAKER Mlb Schedule Today",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/query/games/{game_id}": {
+      "post": {
+        "description": "The advanced query engine powered by Baker, allowing for conditional queries.",
+        "operationId": "BakerAdvancedQueryGame",
+        "summary": "BAKER Advanced Query Game",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "The GameId of the event. This GameId is the SportsDataIO GameId.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "example": {
+                "select": [
+                  {
+                    "category": "game",
+                    "metric": "spread",
+                    "measure": "average",
+                    "period": "final",
+                    "player_id": 0,
+                    "value": 0
+                  }
+                ],
+                "where": [
+                  {
+                    "category": "game",
+                    "metric": "spread",
+                    "period": "final",
+                    "operator": "gt",
+                    "value": 0,
+                    "player_id": 0
+                  }
+                ]
+              }
+            },
+            "description": "The body sent to tell the BAKER API which fields to return and the conditions to use when filtering."
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{game_id}/team/{team}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns a selected percentile of stat projections for all players on the specified team for a given game.",
+        "operationId": "BakerPlayerTeamProjectionsGamePercentile",
+        "summary": "BAKER Player Team Projections Game Percentile",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Available values : ARI, ATL, BAL, BOS, CHC, CHW, CIN, CLE, COL, DET, HOU, KC, LAA, LAD, MIA, MIL, MIN, NYM, NYY, OAK, PHI, PIT, SD, SEA, SF, STL, TB, TEX, TOR, WSH",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "description": "Maximum: 100 \nMinimum: 1",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/game/{game_id}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns the percentile projections for all players in the game.",
+        "operationId": "BakerPlayerProjectionsGamePercentile",
+        "summary": "BAKER Player Projections Game Percentile",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "description": "maximum: 100 \nminimum: 1",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/game/{game_id}/avg": {
+      "get": {
+        "description": "Returns the average projections for all players in the game.",
+        "operationId": "BakerPlayerProjectionsGameAverage",
+        "summary": "BAKER Player Projections Game Average",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/full-season/{season_name}/avg": {
+      "get": {
+        "description": "Returns the average full-season projections for all players. Does not change after the season starts.",
+        "operationId": "BakerPlayerProjectionsFullSeasonAverage",
+        "summary": "BAKER Player Projections Full-Season Average",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "description": "Available values : 2025REG, 2024REG, 2024POST, 2023POST, 2023REG, 2022POST, 2022REG",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/full-season/{season_name}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns all stats at a given percentile for all players for the full season. Does not change after the season starts.",
+        "operationId": "BakerPlayerProjectionsFullSeasonPercentile",
+        "summary": "BAKER Player Projections Full-Season Percentile",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/rest-of-season/{season_name}/avg": {
+      "get": {
+        "description": "Returns the average rest-of-season projections for all players.",
+        "operationId": "BakerPlayerProjectionsRestOfSeasonAverage",
+        "summary": "BAKER Player Projections Rest-Of-Season Average ",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/rest-of-season/{season_name}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns the rest-of-season projections for all players for a given percentile.",
+        "operationId": "BakerPlayerProjectionsRestOfSeasonPercentile",
+        "summary": "BAKER Player Projections Rest-Of-Season Percentile",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{day}/percentile/{percentile}": {
+      "get": {
+        "description": "Returns all stats at a given percentile for all players in a given game",
+        "operationId": "BakerPlayerProjectionsDayPercentile",
+        "summary": "BAKER Player Projections Day Percentile",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "percentile",
+            "in": "path",
+            "description": "Maximum: 100 \nMinimum: 1",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{day}/ceiling/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the ceiling projections all players based on the Yahoo Fantasy Standard Scoring Season_long.",
+        "operationId": "BakerPerGameAverageCeiling",
+        "summary": "BAKER Per Game Average Ceiling",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/{day}/floor/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the floor projections all players based on the Yahoo Fantasy Standard Scoring Season_long.",
+        "operationId": "BakerPerGameAverageFloor",
+        "summary": "BAKER Per Game Average Floor",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/full-season/{season_name}/ceiling/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the full-season fantasy ceiling projections for all players. Does not change after the season starts.",
+        "operationId": "BakerSeasonLongAverageCeiling",
+        "summary": "BAKER Season-Long Average Ceiling",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "description": "Available values : 2025REG, 2024REG, 2024POST, 2023POST, 2023REG, 2022POST, 2022REG\n\n\n2025REG\n",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/full-season/{season_name}/floor/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the full-season fantasy floor projections for all players. Does not change after the season starts.",
+        "operationId": "BakerSeasonLongAverageFloor",
+        "summary": "BAKER Season-Long Average Floor",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "description": "Available values : 2025REG, 2024REG, 2024POST, 2023POST, 2023REG, 2022POST, 2022REG\n\n\n2025REG\n",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/rest-of-season/{season_name}/ceiling/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the rest-of-season fantasy ceiling projections for all players. Does not change after the season starts.",
+        "operationId": "BakerPlayerProjectionsRestOfSeasonCeiling",
+        "summary": "BAKER Player Projections Rest-Of-Season Ceiling",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "description": "Available values : 2025REG, 2024REG, 2024POST, 2023POST, 2023REG, 2022POST, 2022REG",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/projections/players/rest-of-season/{season_name}/floor/fantasy_points_yahoo_season_long": {
+      "get": {
+        "description": "Returns the rest-of-season fantasy floor projections for all players. Does not change after the season starts.",
+        "operationId": "BakerPlayerProjectionsRestOfSeasonFloor",
+        "summary": "BAKER Player Projections Rest-Of-Season Floor",
+        "parameters": [
+          {
+            "name": "season_name",
+            "in": "path",
+            "description": "Available values : 2025REG, 2024REG, 2024POST, 2023POST, 2023REG, 2022POST, 2022REG",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "null",
+              "x-nullable": false
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "definitions": {
+    "PlayerGameProjection": {
+      "properties": {
+        "StatID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PositionCategory": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Started": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BattingOrder": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FanDuelSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DraftKingsSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDataSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "YahooSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InjuryStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryBodyPart": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryStartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "InjuryNotes": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "FanDuelPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DraftKingsPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "YahooPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OpponentRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentPositionRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftSalary": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyDraftPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Opponent": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeOrAway": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsGameOver": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalOpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Games": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPoints": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AtBats": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Runs": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Hits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Singles": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Doubles": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Triples": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "HomeRuns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "RunsBattedIn": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BattingAverage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Outs": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Strikeouts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Walks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "HitByPitch": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Sacrifices": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SacrificeFlies": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "GroundIntoDoublePlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "StolenBases": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "CaughtStealing": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchesSeen": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OnBasePercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SluggingPercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OnBasePlusSlugging": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Errors": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Wins": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Losses": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Saves": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "InningsPitchedDecimal": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalOutsPitched": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "InningsPitchedFull": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "InningsPitchedOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "EarnedRunAverage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingHits": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingRuns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingEarnedRuns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingWalks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingStrikeouts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingHomeRuns": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchesThrown": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchesThrownStrikes": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "WalksHitsPerInningsPitched": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingBattingAverageAgainst": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "GrandSlams": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsFanDuel": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsDraftKings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsYahoo": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PlateAppearances": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalBases": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FlyOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "GroundOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "LineOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PopOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "IntentionalWalks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ReachedOnError": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BallsInPlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BattingAverageOnBallsInPlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "WeightedOnBasePercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingSingles": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingDoubles": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingTriples": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingGrandSlams": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingHitByPitch": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingSacrifices": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingSacrificeFlies": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingGroundIntoDoublePlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingCompleteGames": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingShutOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingNoHitters": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingPerfectGames": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingPlateAppearances": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingTotalBases": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingFlyOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingGroundOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingLineOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingPopOuts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingIntentionalWalks": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingReachedOnError": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingCatchersInterference": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingBallsInPlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingOnBasePercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingSluggingPercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingOnBasePlusSlugging": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingStrikeoutsPerNineInnings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingWalksPerNineInnings": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingBattingAverageOnBallsInPlay": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingWeightedOnBasePercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "DoublePlays": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingDoublePlays": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "BattingOrderConfirmed": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsolatedPower": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FieldingIndependentPitching": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingQualityStarts": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingInningStarted": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "LeftOnBase": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingHolds": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "PitchingBlownSaves": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SubstituteBattingOrder": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SubstituteBattingOrderSequence": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FantasyPointsFantasyDraft": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsBatting": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "FantasyPointsPitching": {
+          "type": "number",
+          "x-nullable": true
+        }
+      }
+    }
+  }
+}

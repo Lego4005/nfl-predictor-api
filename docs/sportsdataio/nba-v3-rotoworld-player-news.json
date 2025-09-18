@@ -1,0 +1,238 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NBA v3 Rotoworld Player News",
+    "version": "1.0",
+    "description": "NBA v3 Rotoworld Player News"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/nba/rotoworld",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/RotoworldPlayerNewsByDate/{date}": {
+      "get": {
+        "description": "The latest Rotoworld news on players from across the league, by date.",
+        "operationId": "RotoworldPlayerNewsByDate",
+        "summary": "Rotoworld Player News - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the news.<br>Examples: <code>2022-JUL-31</code>, <code>2022-SEP-01</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RotoworldPlayerNewsItem"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/RotoworldPlayerNews": {
+      "get": {
+        "description": "The latest Rotoworld news on players from across the league",
+        "operationId": "RotoworldPlayerNewsByRecent",
+        "summary": "Rotoworld Player News - by Recent",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RotoworldPlayerNewsItem"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "RotoworldPlayerNewsItem": {
+      "properties": {
+        "RotoworldPlayerNewsLine": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Headline": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Comment": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Impact": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "RotoworldCreated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "RotoworldLastUpdated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsTopNews": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "IsTransaction": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsRumor": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "MoreLink": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "MoreName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerInfo": {
+          "$ref": "#/definitions/PlayerInfo"
+        },
+        "RotoworldPlayerMeta": {
+          "$ref": "#/definitions/RotoworldPlayerNewsPlayerMetaData"
+        }
+      }
+    },
+    "PlayerInfo": {
+      "properties": {
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "RotoworldPlayerNewsPlayerMetaData": {
+      "properties": {
+        "PlayerFirstName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerLastName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "RotoworldPlayerId": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StatsPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportRadarID": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamCity": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamColor": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

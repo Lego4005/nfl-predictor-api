@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard Direct Link</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        button {
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+        .admin-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+        .admin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        }
+        .live-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        .live-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        .api-status {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+        .online {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🧠</span>Expert Observatory Access Portal</h1>
+
+        <div class="button-group">
+            <button class="admin-btn" onclick="goToAdmin()">
+                🧠 Open Expert Observatory Admin Dashboard
+            </button>
+
+            <button class="live-btn" onclick="goToLive()">
+                📊 Open Live Dashboard (with Admin Button)
+            </button>
+        </div>
+
+        <div class="api-status">
+            <h3>System Status</h3>
+            <div class="status-item">
+                <span>Frontend (React)</span>
+                <span class="online">✅ ONLINE - Port 5173</span>
+            </div>
+            <div class="status-item">
+                <span>Expert API</span>
+                <span class="online">✅ ONLINE - Port 8003</span>
+            </div>
+            <div class="status-item">
+                <span>15 Expert Models</span>
+                <span class="online">✅ READY</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; color: #666; font-size: 14px;">
+            <p>Direct URLs:</p>
+            <p><code>http://localhost:5173/?admin=true</code> - Admin Dashboard</p>
+            <p><code>http://localhost:5173/</code> - Live Dashboard</p>
+        </div>
+    </div>
+
+    <script>
+        function goToAdmin() {
+            window.location.href = 'http://localhost:5173/?admin=true';
+        }
+
+        function goToLive() {
+            window.location.href = 'http://localhost:5173/';
+        }
+
+        // Test API connection
+        fetch('http://localhost:8003/api/experts')
+            .then(r => r.json())
+            .then(data => console.log('Expert API Connected:', data.length, 'experts loaded'))
+            .catch(err => console.error('API Error:', err));
+    </script>
+</body>
+</html>

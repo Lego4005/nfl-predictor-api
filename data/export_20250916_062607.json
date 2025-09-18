@@ -1,0 +1,46 @@
+{
+  "export_time": "2025-09-16T06:26:07.675854",
+  "predictions": [
+    {
+      "id": 1,
+      "game_id": "BUF@KC",
+      "home_team": "KC",
+      "away_team": "BUF",
+      "expert_name": "Test Expert",
+      "predicted_home_score": 28.0,
+      "predicted_away_score": 24.0,
+      "actual_home_score": 31,
+      "actual_away_score": 17,
+      "confidence": 0.85,
+      "prediction_time": "2025-09-16T06:26:07.633721",
+      "game_time": null,
+      "season": 2024,
+      "week": 2
+    }
+  ],
+  "results": [
+    {
+      "id": 1,
+      "game_id": "BUF@KC",
+      "home_team": "KC",
+      "away_team": "BUF",
+      "home_score": 31,
+      "away_score": 17,
+      "game_status": "Final",
+      "game_date": "2025-09-16T06:26:07.653565",
+      "season": 2024,
+      "week": 2
+    }
+  ],
+  "accuracy": [
+    {
+      "expert_name": "Test Expert",
+      "total_predictions": 1,
+      "correct_winners": 1,
+      "winner_accuracy": 100.0,
+      "avg_home_error": 3.0,
+      "avg_away_error": 7.0,
+      "avg_total_error": 4.0
+    }
+  ]
+}

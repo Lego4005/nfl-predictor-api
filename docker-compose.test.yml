@@ -1,0 +1,230 @@
+version: '3.8'
+
+services:
+  # Test PostgreSQL Database
+  test-postgres:
+    image: postgres:15
+    container_name: nfl-predictor-test-postgres
+    environment:
+      POSTGRES_DB: nfl_predictor_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    ports:
+      - "5433:5432"
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+      - ./tests/fixtures/sql:/docker-entrypoint-initdb.d
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d nfl_predictor_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Test Redis Cache
+  test-redis:
+    image: redis:7-alpine
+    container_name: nfl-predictor-test-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - test_redis_data:/data
+      - ./tests/fixtures/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - test-network
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # Test Backend API
+  test-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    container_name: nfl-predictor-test-api
+    environment:
+      - ENVIRONMENT=test
+      - DATABASE_URL=postgresql://test_user:test_password@test-postgres:5432/nfl_predictor_test
+      - REDIS_URL=redis://test-redis:6379/0
+      - LOG_LEVEL=DEBUG
+      - TESTING=true
+      - SECRET_KEY=test_secret_key_for_testing_only
+      - NFL_API_KEY=test_nfl_api_key
+      - ESPN_API_KEY=test_espn_api_key
+      - SPORTSDATA_API_KEY=test_sportsdata_api_key
+    ports:
+      - "8001:8000"
+    volumes:
+      - .:/app
+      - test_api_logs:/app/logs
+    networks:
+      - test-network
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+      test-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    command: >
+      sh -c "
+        echo 'Waiting for database migration...' &&
+        alembic upgrade head &&
+        echo 'Starting test server...' &&
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  # Test ML Model Service
+  test-ml-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.ml
+      target: test
+    container_name: nfl-predictor-test-ml
+    environment:
+      - ENVIRONMENT=test
+      - REDIS_URL=redis://test-redis:6379/1
+      - MODEL_PATH=/app/models/test
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - .:/app
+      - test_ml_models:/app/models
+    networks:
+      - test-network
+    depends_on:
+      test-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mock External APIs
+  mock-apis:
+    build:
+      context: ./tests/mocks
+      dockerfile: Dockerfile
+    container_name: nfl-predictor-mock-apis
+    ports:
+      - "8090:8080"  # NFL API mock
+      - "8091:8081"  # ESPN API mock
+      - "8092:8082"  # Weather API mock
+      - "8093:8083"  # Odds API mock
+    environment:
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./tests/fixtures/mock_responses:/app/responses
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # WebSocket Test Server
+  test-websocket:
+    build:
+      context: ./tests/websocket
+      dockerfile: Dockerfile
+    container_name: nfl-predictor-test-websocket
+    ports:
+      - "8085:8080"
+    environment:
+      - LOG_LEVEL=DEBUG
+      - REDIS_URL=redis://test-redis:6379/2
+    volumes:
+      - ./tests/fixtures/websocket:/app/fixtures
+    networks:
+      - test-network
+    depends_on:
+      test-redis:
+        condition: service_healthy
+
+  # Test Load Generator (for load testing)
+  test-load-generator:
+    build:
+      context: ./tests/load
+      dockerfile: Dockerfile
+    container_name: nfl-predictor-load-generator
+    environment:
+      - TARGET_HOST=test-api
+      - TARGET_PORT=8000
+      - USERS=50
+      - SPAWN_RATE=5
+      - RUN_TIME=300s
+    volumes:
+      - ./tests/load:/app
+      - test_load_results:/app/results
+    networks:
+      - test-network
+    depends_on:
+      test-api:
+        condition: service_healthy
+    profiles:
+      - load-test
+
+  # Test Monitoring (for performance tests)
+  test-monitoring:
+    image: prom/prometheus:latest
+    container_name: nfl-predictor-test-prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./tests/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - test_prometheus_data:/prometheus
+    networks:
+      - test-network
+    profiles:
+      - monitoring
+
+  # Test Results Collector
+  test-results:
+    build:
+      context: ./tests/results
+      dockerfile: Dockerfile
+    container_name: nfl-predictor-test-results
+    volumes:
+      - test_results:/app/results
+      - ./test-reports:/app/reports
+    networks:
+      - test-network
+    environment:
+      - RESULTS_PATH=/app/results
+      - REPORTS_PATH=/app/reports
+
+volumes:
+  test_postgres_data:
+    driver: local
+  test_redis_data:
+    driver: local
+  test_api_logs:
+    driver: local
+  test_ml_models:
+    driver: local
+  test_load_results:
+    driver: local
+  test_prometheus_data:
+    driver: local
+  test_results:
+    driver: local
+
+networks:
+  test-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

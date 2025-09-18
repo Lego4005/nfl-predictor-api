@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏈 LAC @ LV - Easy to Read Predictions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-summary {
+            font-size: 1.3em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .consensus-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .consensus-title {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .big-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .big-pick {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .pick-percentage {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .pick-text {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .experts-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .expert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .expert-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 6px solid #4ECDC4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .expert-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .expert-emoji {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .expert-info h3 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .expert-specialty {
+            color: #666;
+            font-style: italic;
+            font-size: 1em;
+        }
+
+        .prediction {
+            margin: 12px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #4ECDC4;
+            font-size: 1.05em;
+        }
+
+        .prediction strong {
+            color: #333;
+        }
+
+        .core-predictions {
+            border-left-color: #FF6B6B !important;
+        }
+
+        .player-props {
+            border-left-color: #4ECDC4 !important;
+        }
+
+        .live-game {
+            border-left-color: #FFD93D !important;
+        }
+
+        .environmental {
+            border-left-color: #6BCF7F !important;
+        }
+
+        .advanced {
+            border-left-color: #A8E6CF !important;
+        }
+
+        .category-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0 10px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .game-title {
+                font-size: 2em;
+            }
+
+            .expert-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .big-picks {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .explanation {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2196f3;
+        }
+
+        .explanation h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="game-title">🏈 Chargers @ Raiders</h1>
+            <div class="game-summary">
+                Tonight's Game • 10:00 PM ET • LV -1.0 • Total 43.5
+            </div>
+
+            <div class="explanation">
+                <h4>🤖 What You're Looking At</h4>
+                <p>Our AI analyzed this game using <strong>15 different expert models</strong>. Each expert has a unique specialty and generated <strong>33+ predictions</strong> for a total of <strong>495 insights</strong>. Below are their picks translated into plain English!</p>
+            </div>
+
+            <div class="quick-stats">
+                <div class="stat-bubble">495 Predictions</div>
+                <div class="stat-bubble">15 AI Experts</div>
+                <div class="stat-bubble">495 Data Points</div>
+                <div class="stat-bubble">Live Analysis</div>
+            </div>
+        </div>
+
+        <!-- Consensus Section -->
+        <div class="consensus-section">
+            <h2 class="consensus-title">🎯 What The Experts Agree On</h2>
+            <div class="big-picks">
+                <div class="big-pick">
+                    <div class="pick-percentage">87%</div>
+                    <div class="pick-text">of experts pick<br><strong>Raiders to Win</strong></div>
+                </div>
+                <div class="big-pick">
+                    <div class="pick-percentage">87%</div>
+                    <div class="pick-text">confidence in<br><strong>Raiders Defense</strong></div>
+                </div>
+                <div class="big-pick">
+                    <div class="pick-percentage">75%</div>
+                    <div class="pick-text">expect<br><strong>Under 43.5</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experts Section -->
+        <div class="experts-section">
+            <h2 class="section-title">🧠 What Each Expert Says</h2>
+            <div class="expert-grid">
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">📊</div>
+                        <div class="expert-info">
+                            <h3>StatisticalSavant</h3>
+                            <div class="expert-specialty">Crunches numbers and historical data</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Chargers Win** (72% chance) - 72% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 31 - Chargers 14** (38% confident)</div><div class="prediction core-predictions">📈 **Take Chargers +1.0** (covers spread by 3.0 pts) - 64% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 45 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Chargers win by 17 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 2nd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">💰</div>
+                        <div class="expert-info">
+                            <h3>SharpBettor</h3>
+                            <div class="expert-specialty">Follows the smart money and line moves</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (65% chance) - 65% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 26 - Chargers 29** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.3 pts) - 58% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 55 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 3 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 2nd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🌤️</div>
+                        <div class="expert-info">
+                            <h3>WeatherWizard</h3>
+                            <div class="expert-specialty">Analyzes weather impact on gameplay</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (64% chance) - 64% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 30 - Chargers 22** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 2.9 pts) - 58% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 52 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 8 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 3rd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🏥</div>
+                        <div class="expert-info">
+                            <h3>InjuryAnalyst</h3>
+                            <div class="expert-specialty">Tracks player health and availability</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (65% chance) - 65% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 28 - Chargers 20** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 2.1 pts) - 58% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 48 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 8 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">📈</div>
+                        <div class="expert-info">
+                            <h3>TrendTracker</h3>
+                            <div class="expert-specialty">Identifies hot and cold streaks</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (64% chance) - 64% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 27 - Chargers 29** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.7 pts) - 57% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 56 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 2 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🏟️</div>
+                        <div class="expert-info">
+                            <h3>DivisionalExpert</h3>
+                            <div class="expert-specialty">Knows division rivalries inside out</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (57% chance) - 57% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 30 - Chargers 28** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.9 pts) - 51% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 58 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 2 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 3rd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🌟</div>
+                        <div class="expert-info">
+                            <h3>PrimetimePerformer</h3>
+                            <div class="expert-specialty">Specializes in prime time games</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (59% chance) - 59% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 25 - Chargers 26** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 0.4 pts) - 53% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 51 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 1 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 3rd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">⬇️</div>
+                        <div class="expert-info">
+                            <h3>UnderExpert</h3>
+                            <div class="expert-specialty">Finds games that stay under totals</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (63% chance) - 63% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 34 - Chargers 23** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 3.3 pts) - 57% confident</div><div class="prediction core-predictions">⬇️ **Bet UNDER 43.5** (predicting 57 total points) - 78% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 11 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">⬆️</div>
+                        <div class="expert-info">
+                            <h3>OverEnthusiast</h3>
+                            <div class="expert-specialty">Spots high-scoring shootouts</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (62% chance) - 62% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 17 - Chargers 29** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 3.1 pts) - 56% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 46 total points) - 82% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 12 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 3rd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🏠</div>
+                        <div class="expert-info">
+                            <h3>HomeFieldHawk</h3>
+                            <div class="expert-specialty">Measures home field advantages</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (69% chance) - 72% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 34 - Chargers 24** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.5 pts) - 62% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 58 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 10 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 2nd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🛣️</div>
+                        <div class="expert-info">
+                            <h3>RoadWarrior</h3>
+                            <div class="expert-specialty">Evaluates road team performance</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Chargers Win** (38% chance) - 62% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 29 - Chargers 26** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.3 pts) - 56% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 55 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 3 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 2nd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">👨‍💼</div>
+                        <div class="expert-info">
+                            <h3>CoachingConnoisseur</h3>
+                            <div class="expert-specialty">Analyzes coaching strategies</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (64% chance) - 64% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 17 - Chargers 14** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.1 pts) - 58% confident</div><div class="prediction core-predictions">⬇️ **Bet UNDER 43.5** (predicting 31 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 3 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🏈</div>
+                        <div class="expert-info">
+                            <h3>QBWhisperer</h3>
+                            <div class="expert-specialty">Focuses on quarterback matchups</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (67% chance) - 67% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 30 - Chargers 19** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 2.1 pts) - 60% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 49 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 11 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">🎯</div>
+                        <div class="expert-info">
+                            <h3>SituationalSpecialist</h3>
+                            <div class="expert-specialty">Masters situational football</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (65% chance) - 65% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 19 - Chargers 29** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.6 pts) - 58% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 48 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 10 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 2nd Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+                <div class="expert-card">
+                    <div class="expert-header">
+                        <div class="expert-emoji">💹</div>
+                        <div class="expert-info">
+                            <h3>MarketMaven</h3>
+                            <div class="expert-specialty">Reads betting market intelligence</div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">🎯 Core Picks</div><div class="prediction core-predictions">🏆 **Raiders Win** (63% chance) - 63% confident</div><div class="prediction core-predictions">📊 **Final Score: Raiders 25 - Chargers 27** (38% confident)</div><div class="prediction core-predictions">📈 **Take Raiders -1.0** (covers spread by 1.7 pts) - 57% confident</div><div class="prediction core-predictions">⬆️ **Bet OVER 43.5** (predicting 52 total points) - 55% confident</div><div class="prediction core-predictions">🎯 **Raiders win by 2 points** - 48% confident</div><div class="category-header">⚡ Other Insights</div><div class="prediction">🏁 **1st Half Winner: Chargers** - 52% confident</div><div class="prediction">⚡ **Highest Scoring: 4th Quarter** - 28% confident</div><div class="prediction">🌤️ **Weather**: 85°F, 3mph wind - low impact on game</div></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 15px;">
+            <p style="color: #666; font-size: 1.1em;">
+                🤖 Generated by AI at 2025-09-15 21:55:42<br>
+                📊 495 total predictions across 15 expert models
+            </p>
+        </div>
+    </div>
+</body>
+</html>

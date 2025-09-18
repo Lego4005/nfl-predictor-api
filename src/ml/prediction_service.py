@@ -40,8 +40,8 @@ class NFLPredictionService:
         self.game_predictor = EnhancedGamePredictor(self.data_pipeline)
         self.ats_predictor = ATSPredictor(self.data_pipeline, self.feature_engine)
         self.totals_predictor = TotalsPredictor(self.data_pipeline, self.feature_engine)
-        self.props_engine = PlayerPropsEngine(self.data_pipeline, self.feature_engine)
-        self.fantasy_optimizer = FantasyOptimizer(self.data_pipeline, self.feature_engine, self.props_engine)
+        self.props_engine = PlayerPropsEngine()
+        self.fantasy_optimizer = FantasyOptimizer()
         
         # Model training status
         self.models_trained = False

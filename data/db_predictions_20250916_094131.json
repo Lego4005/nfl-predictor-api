@@ -1,0 +1,587 @@
+[
+  {
+    "expert_id": 1,
+    "expert_name": "The Analyst",
+    "expert_personality": "conservative",
+    "expert_specialty": "Conservative",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:29.972158",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.8352747841499504,
+      "home_score": 31,
+      "away_score": 26,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Analyst analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 10,
+        "away": 4,
+        "total": 14
+      },
+      "q2": {
+        "home": 6,
+        "away": 3,
+        "total": 9
+      },
+      "q3": {
+        "home": 3,
+        "away": 6,
+        "total": 9
+      },
+      "q4": {
+        "home": 5,
+        "away": 1,
+        "total": 6
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 2,
+    "expert_name": "The Gambler",
+    "expert_personality": "risk-taking high-variance",
+    "expert_specialty": "Risk-Taking",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.084382",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.6054218921697013,
+      "home_score": 30,
+      "away_score": 27,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Gambler analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 7,
+        "away": 17,
+        "total": 24
+      },
+      "q2": {
+        "home": 12,
+        "away": 22,
+        "total": 34
+      },
+      "q3": {
+        "home": 10,
+        "away": 12,
+        "total": 22
+      },
+      "q4": {
+        "home": 15,
+        "away": 9,
+        "total": 24
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 3,
+    "expert_name": "The Rebel",
+    "expert_personality": "contrarian aggressive",
+    "expert_specialty": "Contrarian",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.211729",
+    "game_outcome": {
+      "winner": "LV",
+      "winner_confidence": 0.6130047722816578,
+      "home_score": 30,
+      "away_score": 28,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Rebel analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 3,
+        "away": 10,
+        "total": 13
+      },
+      "q2": {
+        "home": 11,
+        "away": 14,
+        "total": 25
+      },
+      "q3": {
+        "home": 0,
+        "away": 15,
+        "total": 15
+      },
+      "q4": {
+        "home": 10,
+        "away": 8,
+        "total": 18
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 4,
+    "expert_name": "The Hunter",
+    "expert_personality": "value-seeking market-based",
+    "expert_specialty": "Value-Seeking",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.333953",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.5715615441784705,
+      "home_score": 17,
+      "away_score": 28,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Hunter analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 6,
+        "away": 2,
+        "total": 8
+      },
+      "q2": {
+        "home": 5,
+        "away": 3,
+        "total": 8
+      },
+      "q3": {
+        "home": 9,
+        "away": 6,
+        "total": 15
+      },
+      "q4": {
+        "home": 11,
+        "away": 5,
+        "total": 16
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 5,
+    "expert_name": "The Rider",
+    "expert_personality": "momentum trend-based",
+    "expert_specialty": "Momentum",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.432301",
+    "game_outcome": {
+      "winner": "LV",
+      "winner_confidence": 0.645737655113749,
+      "home_score": 21,
+      "away_score": 14,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Rider analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 4,
+        "away": 11,
+        "total": 15
+      },
+      "q2": {
+        "home": 18,
+        "away": 11,
+        "total": 29
+      },
+      "q3": {
+        "home": 3,
+        "away": 8,
+        "total": 11
+      },
+      "q4": {
+        "home": 2,
+        "away": 17,
+        "total": 19
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 6,
+    "expert_name": "The Scholar",
+    "expert_personality": "fundamentalist analytical",
+    "expert_specialty": "Fundamentalist",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.535278",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.7636947157790683,
+      "home_score": 24,
+      "away_score": 21,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Scholar analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 14,
+        "away": 6,
+        "total": 20
+      },
+      "q2": {
+        "home": 12,
+        "away": 16,
+        "total": 28
+      },
+      "q3": {
+        "home": 4,
+        "away": 12,
+        "total": 16
+      },
+      "q4": {
+        "home": 7,
+        "away": 3,
+        "total": 10
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 7,
+    "expert_name": "The Chaos",
+    "expert_personality": "randomness high-variance",
+    "expert_specialty": "Randomness",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.648462",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.8119939246409504,
+      "home_score": 18,
+      "away_score": 19,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Chaos analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 7,
+        "away": 14,
+        "total": 21
+      },
+      "q2": {
+        "home": 10,
+        "away": 28,
+        "total": 38
+      },
+      "q3": {
+        "home": 19,
+        "away": 17,
+        "total": 36
+      },
+      "q4": {
+        "home": 9,
+        "away": 17,
+        "total": 26
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 8,
+    "expert_name": "The Intuition",
+    "expert_personality": "gut-feel situational",
+    "expert_specialty": "Gut-Feel",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.773436",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.7139695140807574,
+      "home_score": 19,
+      "away_score": 16,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Intuition analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 4,
+        "away": 3,
+        "total": 7
+      },
+      "q2": {
+        "home": 10,
+        "away": 21,
+        "total": 31
+      },
+      "q3": {
+        "home": 5,
+        "away": 17,
+        "total": 22
+      },
+      "q4": {
+        "home": 10,
+        "away": 15,
+        "total": 25
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 9,
+    "expert_name": "The Quant",
+    "expert_personality": "statistics analytical",
+    "expert_specialty": "Statistics",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:30.882742",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.8252147991007863,
+      "home_score": 31,
+      "away_score": 17,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Quant analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 4,
+        "away": 10,
+        "total": 14
+      },
+      "q2": {
+        "home": 7,
+        "away": 7,
+        "total": 14
+      },
+      "q3": {
+        "home": 4,
+        "away": 13,
+        "total": 17
+      },
+      "q4": {
+        "home": 4,
+        "away": 5,
+        "total": 9
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 10,
+    "expert_name": "The Reversal",
+    "expert_personality": "mean-reversion",
+    "expert_specialty": "Mean-Reversion",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.012101",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.7093529661139222,
+      "home_score": 28,
+      "away_score": 20,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Reversal analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 10,
+        "away": 1,
+        "total": 11
+      },
+      "q2": {
+        "home": 4,
+        "away": 8,
+        "total": 12
+      },
+      "q3": {
+        "home": 7,
+        "away": 8,
+        "total": 15
+      },
+      "q4": {
+        "home": 0,
+        "away": 7,
+        "total": 7
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 11,
+    "expert_name": "The Fader",
+    "expert_personality": "anti-narrative contrarian",
+    "expert_specialty": "Anti-Narrative",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.114700",
+    "game_outcome": {
+      "winner": "LV",
+      "winner_confidence": 0.6520600444562983,
+      "home_score": 25,
+      "away_score": 20,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Fader analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 8,
+        "away": 3,
+        "total": 11
+      },
+      "q2": {
+        "home": 13,
+        "away": 8,
+        "total": 21
+      },
+      "q3": {
+        "home": 8,
+        "away": 15,
+        "total": 23
+      },
+      "q4": {
+        "home": 5,
+        "away": 11,
+        "total": 16
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 12,
+    "expert_name": "The Sharp",
+    "expert_personality": "smart-money sharp-money",
+    "expert_specialty": "Smart Money",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.212904",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.6254819749026627,
+      "home_score": 29,
+      "away_score": 28,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Sharp analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 12,
+        "away": 2,
+        "total": 14
+      },
+      "q2": {
+        "home": 16,
+        "away": 3,
+        "total": 19
+      },
+      "q3": {
+        "home": 8,
+        "away": 1,
+        "total": 9
+      },
+      "q4": {
+        "home": 7,
+        "away": 7,
+        "total": 14
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 13,
+    "expert_name": "The Underdog",
+    "expert_personality": "upset-seeker underdog-focused",
+    "expert_specialty": "Upset-Seeker",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.320002",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.5838978320751381,
+      "home_score": 29,
+      "away_score": 18,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Underdog analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 2,
+        "away": 10,
+        "total": 12
+      },
+      "q2": {
+        "home": 10,
+        "away": 6,
+        "total": 16
+      },
+      "q3": {
+        "home": 4,
+        "away": 16,
+        "total": 20
+      },
+      "q4": {
+        "home": 9,
+        "away": 3,
+        "total": 12
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 14,
+    "expert_name": "The Consensus",
+    "expert_personality": "crowd-following",
+    "expert_specialty": "Crowd-Following",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.419111",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.6945730220669848,
+      "home_score": 29,
+      "away_score": 23,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Consensus analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 7,
+        "away": 17,
+        "total": 24
+      },
+      "q2": {
+        "home": 7,
+        "away": 5,
+        "total": 12
+      },
+      "q3": {
+        "home": 1,
+        "away": 17,
+        "total": 18
+      },
+      "q4": {
+        "home": 13,
+        "away": 17,
+        "total": 30
+      }
+    },
+    "total_predictions_count": 43
+  },
+  {
+    "expert_id": 15,
+    "expert_name": "The Exploiter",
+    "expert_personality": "inefficiency-hunting analytical",
+    "expert_specialty": "Inefficiency-Hunting",
+    "game_id": "LAC@LV",
+    "timestamp": "2025-09-16T09:41:31.522579",
+    "game_outcome": {
+      "winner": "LAC",
+      "winner_confidence": 0.7104022449474605,
+      "home_score": 22,
+      "away_score": 28,
+      "exact_score_confidence": 0.35,
+      "reasoning": "The Exploiter analysis based on database patterns"
+    },
+    "quarter_predictions": {
+      "q1": {
+        "home": 8,
+        "away": 8,
+        "total": 16
+      },
+      "q2": {
+        "home": 8,
+        "away": 16,
+        "total": 24
+      },
+      "q3": {
+        "home": 3,
+        "away": 7,
+        "total": 10
+      },
+      "q4": {
+        "home": 11,
+        "away": 14,
+        "total": 25
+      }
+    },
+    "total_predictions_count": 43
+  }
+]

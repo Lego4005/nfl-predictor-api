@@ -1,0 +1,59 @@
+# Prometheus configuration for NFL Predictor API monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'nfl-predictor-monitor'
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  - job_name: 'nfl-predictor-api'
+    static_configs:
+      - targets: ['localhost:8000']
+    scrape_interval: 30s
+    metrics_path: /metrics
+    scheme: http
+
+  - job_name: 'nfl-predictor-system'
+    static_configs:
+      - targets: ['localhost:9100']  # node_exporter
+    scrape_interval: 30s
+
+  - job_name: 'nfl-predictor-redis'
+    static_configs:
+      - targets: ['localhost:9121']  # redis_exporter
+    scrape_interval: 30s
+
+  - job_name: 'nfl-predictor-postgres'
+    static_configs:
+      - targets: ['localhost:9187']  # postgres_exporter
+    scrape_interval: 30s
+
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['localhost:9091']
+    honor_labels: true
+
+# Remote write configuration for long-term storage
+remote_write:
+  - url: "http://localhost:8428/api/v1/write"
+    queue_config:
+      max_samples_per_send: 1000
+      batch_send_deadline: 5s
+      max_retries: 3
+
+# Storage configuration
+storage:
+  tsdb:
+    retention.time: 30d
+    retention.size: 10GB
+    wal-compression: true

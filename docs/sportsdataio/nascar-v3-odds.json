@@ -1,0 +1,829 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NASCAR v3 Odds",
+    "version": "1.0"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/nascar/odds",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/RaceOdds/{Raceid}": {
+      "get": {
+        "description": "Returns pre-race for a given race. Only returns the most recently seen odds, not inclusive of line movement.",
+        "operationId": "RaceOdds",
+        "summary": "Race Odds",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "Raceid",
+            "in": "path",
+            "description": "Unique FantasyData Race ID.\nExample:<code>1</code>, <code>2</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/RaceOdds"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/RaceOddsLineMovement/{Raceid}": {
+      "get": {
+        "description": "Returns pre-race for a given race. Only returns the most recently seen odds. This is inclusive of line movement; as it is best suited for viewing historical odds, its cache time is slower than the Race Odds endpoint.",
+        "operationId": "RaceOddsLineMovement",
+        "summary": "Race Odds Line Movement",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "Raceid",
+            "in": "path",
+            "description": "Unique FantasyData Race ID.\nExample:<code>1</code>, <code>2</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/RaceOdds"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/ActiveSportsbooks": {
+      "get": {
+        "description": "A list of all available sportsbooks with their associated unique IDs.",
+        "operationId": "SportsbooksByActive",
+        "summary": "Sportsbooks - by Active",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sportsbook"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingEvents/{season}": {
+      "get": {
+        "description": "The list of current BettingEvents for the given season, from which Betting Market data can be gathered via the Betting Markets by Event endpoint, for all available Betting Market types (e.g. Player Props, Team Props.)",
+        "operationId": "BettingEventsBySeason",
+        "summary": "Betting Events - by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "The season to get BettingEvents. Valid entries are formatted as years such as <code>2023</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingEvent"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingEventsByDate/{date}": {
+      "get": {
+        "description": "The list of current BettingEvents for the given date, from which Betting Market data can be gathered via the Betting Markets by Event endpoint, for all available Betting Market types (e.g. Player Props, Team Props.)",
+        "operationId": "BettingEventsByDate",
+        "summary": "Betting Events - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the race(s).\nExamples: 2023-02-19.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingEvent"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarketsByRaceID/{raceID}": {
+      "get": {
+        "description": "Returns the markets and available outcomes for a given RaceID. Works the same as by BettingEventID but requires less ID mapping.",
+        "operationId": "BettingMarketsByRace",
+        "summary": "Betting Markets - by Race",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "raceID",
+            "in": "path",
+            "description": "The RaceID of the desired race for which to pull all betting markets (includes outcomes/bets).",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "This parameter indicates which <code>BettingOutcome</code> records to return in the payload. By default, this endpoint only returns available outcomes, excluding the unlisted bets. <br><br><b>Important Note:</b> the default parameter of <code>available</code> is much faster and provides the best performance. Passing unlisted will return unlisted odds, but these are cached for much longer and may be several minutes old. For best performance, the default parameter is highly recommended. <br><br>Possible values include: <br><br><code>available</code> - excludes any betting outcomes that have been removed/unlisted by the respective sportsbook. This is more lightweight and delivers odds much faster than using unlisted. <br><br><code>unlisted</code> - includes the most recently available betting outcome per sportsbook, for each listed market, even those outcomes are expired/unlisted or otherwise unavailable from the respective sportsbook. This is a far heavier payload, and it's cached for much longer than available. <br><br>",
+            "type": "string",
+            "default": "available",
+            "enum": [
+              "available",
+              "unlisted"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarket/{marketId}": {
+      "get": {
+        "description": "Returns full line movement for a given BettingMarket. Due to the sheer size of the output and the level of detail, it is intended for historical data purposes and not for the most up-to-the-second lines.",
+        "operationId": "BettingMarket",
+        "summary": "Betting Market",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "marketId",
+            "in": "path",
+            "description": "\nThe MarketId of the desired market for which to pull all outcomes/bets.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/BettingMarket"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarketsByMarketType/{eventID}/{marketTypeID}": {
+      "get": {
+        "description": "Returns Markets and available outcomes for a given event and market type requested. A lighter call than by BettingEventID as it only includes markets tagged with the specific MarketType, a full list of which is available for each sport in its Betting Metadata endpoint.",
+        "operationId": "BettingMarketsByMarketType",
+        "summary": "Betting Markets - by Market Type",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "eventID",
+            "in": "path",
+            "description": "The EventId of the desired event/game for which to pull all betting markets (includes outcomes/bets).",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "marketTypeID",
+            "in": "path",
+            "description": "The Market Type ID of the desired MarketTypes to pull. Some common types include: 1 for Race Lines, 2 for Driver Props, 3 for Head to Head Props, 4 for Group Props, 6 for Race Props",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "This parameter indicates which <code>BettingOutcome</code> records to return in the payload. By default, this endpoint only returns available outcomes, excluding the unlisted bets. <br><br><b>Important Note:</b> the default parameter of <code>available</code> is much faster and provides the best performance. Passing unlisted will return unlisted odds, but these are cached for much longer and may be several minutes old. For best performance, the default parameter is highly recommended. <br><br>Possible values include: <br><br><code>available</code> - excludes any betting outcomes that have been removed/unlisted by the respective sportsbook. This is more lightweight and delivers odds much faster than using unlisted. <br><br><code>unlisted</code> - includes the most recently available betting outcome per sportsbook, for each listed market, even those outcomes are expired/unlisted or otherwise unavailable from the respective sportsbook. This is a far heavier payload, and it's cached for much longer than available. <br><br>",
+            "type": "string",
+            "default": "available",
+            "enum": [
+              "available",
+              "unlisted"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMetaData": {
+      "get": {
+        "description": "Returns the list of MarketTypes, BetTypes, PeriodTypes, OutcomeTypes, and ResultTypes to map the IDs to descriptive names. Also includes a list of the MarketType, BetType & PeriodType combinations which we will have resulting for.",
+        "operationId": "BettingMetadata",
+        "summary": "Betting Metadata",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/BettingEntityMetadataCollection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarkets/{eventId}": {
+      "get": {
+        "description": "Returns the markets of all available types (e.g. Player Props, Team Props) and available outcomes for a given BettingEventID.",
+        "operationId": "BettingMarketsByEvent",
+        "summary": "Betting Markets - by Event",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "The EventId of the desired event/game for which to pull all betting markets (includes outcomes/bets).",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "This parameter indicates which <code>BettingOutcome</code> records to return in the payload. By default, this endpoint only returns available outcomes, excluding the unlisted bets. <br><br><b>Important Note:</b> the default parameter of <code>available</code> is much faster and provides the best performance. Passing unlisted will return unlisted odds, but these are cached for much longer and may be several minutes old. For best performance, the default parameter is highly recommended. <br><br>Possible values include: <br><br><code>available</code> - excludes any betting outcomes that have been removed/unlisted by the respective sportsbook. This is more lightweight and delivers odds much faster than using unlisted. <br><br><code>unlisted</code> - includes the most recently available betting outcome per sportsbook, for each listed market, even those outcomes are expired/unlisted or otherwise unavailable from the respective sportsbook. This is a far heavier payload, and it's cached for much longer than available. <br><br>",
+            "type": "string",
+            "default": "available",
+            "enum": [
+              "available",
+              "unlisted"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "RaceOdds": {
+      "properties": {
+        "RaceID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeriesID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeriesName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Track": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsInProgress": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsOver": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "PreGameOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DriverRaceOdd"
+          }
+        }
+      }
+    },
+    "DriverRaceOdd": {
+      "properties": {
+        "DriverRaceOddID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SportsbookID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DriverName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DriverID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OddsToWin": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsAvailable": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "SportsbookUrl": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Sportsbook": {
+      "properties": {
+        "SportsbookID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "BettingEvent": {
+      "properties": {
+        "BettingEventID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingEventTypeID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingEventType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "RaceID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarkets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingMarket"
+          }
+        }
+      }
+    },
+    "BettingMarket": {
+      "properties": {
+        "BettingMarketID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingEventID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingMarketTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarketType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BettingBetTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingBetType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BettingPeriodTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingPeriodType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DriverID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DriverName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AvailableSportsbooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sportsbook"
+          }
+        },
+        "AnyBetsAvailable": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "BettingOutcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingOutcome"
+          }
+        }
+      }
+    },
+    "BettingOutcome": {
+      "properties": {
+        "BettingOutcomeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarketID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsBook": {
+          "$ref": "#/definitions/Sportsbook"
+        },
+        "BettingOutcomeTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingOutcomeType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PayoutAmerican": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PayoutDecimal": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Value": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Participant": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsAvailable": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsAlternate": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Unlisted": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DriverID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GroupKey": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "IsInPlayRaceOdd": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "SportsbookMarketID": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SportsbookOutcomeID": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "BettingEntityMetadataCollection": {
+      "properties": {
+        "BettingBetTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingMarketTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingPeriodTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingEventTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingOutcomeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        }
+      }
+    },
+    "BettingEntityMetadata": {
+      "properties": {
+        "RecordID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Active": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

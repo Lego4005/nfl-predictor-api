@@ -1,0 +1,1280 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tennis v3 Scores",
+    "version": "1.0"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/tennis/scores",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/Tours": {
+      "get": {
+        "description": "A list of tours on offer, including ATP and WTA",
+        "operationId": "Tours",
+        "summary": "Tours",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tour"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/SeasonsByTourSeason/{tourSeasonId}": {
+      "get": {
+        "description": "For each tour season, a list of competition seasons.",
+        "operationId": "SeasonsByTourSeason",
+        "summary": "Seasons - by Tour Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "tourSeasonId",
+            "in": "path",
+            "description": "The TourSeasonId for which to pull Seasons by TourSeason.  Ex: <code> 1 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Season"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/SeasonsByYear/{year}": {
+      "get": {
+        "description": "A list of seasons for teach tour, by year.",
+        "operationId": "SeasonsByYear",
+        "summary": "Seasons - by Year",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "description": "The year for which to pull Season records.  Ex: <code>2022</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Season"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/SeasonsByCompetition/{competitionId}": {
+      "get": {
+        "description": "Select a CompetitionId to get the IDs of each year/season of that competition.",
+        "operationId": "SeasonsByCompetition",
+        "summary": "Seasons - by Competition",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "competitionId",
+            "in": "path",
+            "description": "The CompetitionId for which to pull Season records.  Ex: <code> 28 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Season"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Venues": {
+      "get": {
+        "description": "A list of venues from across the tennis world, for mapping to their appropriate matches and tournaments.",
+        "operationId": "Venues",
+        "summary": "Venues",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Venue"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Disciplines": {
+      "get": {
+        "description": "Disciplines returns the codes for men's singles, women's doubles etc.",
+        "operationId": "Disciplines",
+        "summary": "Disciplines",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Discipline"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Competitions": {
+      "get": {
+        "description": "A list of all competitions (tournaments) that take place across the ATP and WTA, with their IDs.",
+        "operationId": "Competitions",
+        "summary": "Competitions",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Competition"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Players": {
+      "get": {
+        "description": "Player profiles include basic biographical information, gender etc. Returns all players.",
+        "operationId": "PlayerProfilesAll",
+        "summary": "Player Profiles - All",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Player/{playerid}": {
+      "get": {
+        "description": "Player profiles include basic biographical information, gender etc. Returns a single player based on PlayerId.",
+        "operationId": "PlayerProfile",
+        "summary": "Player Profile",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "The unique PlayerId of the player to pull details.  Ex. <code>160000001</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayersByRank/{discipline}/{gender}": {
+      "get": {
+        "description": "Player profiles include basic biographical information, gender etc. Returns all players with a current ATP or WTA ranking in singles, doubles and mixed doubles.",
+        "operationId": "PlayerProfilesByRank",
+        "summary": "Player Profiles - by Rank",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "discipline",
+            "in": "path",
+            "description": "The Discipline for which to pull player rankings.  Valid Entries are <code> 1, 2, 3, singles, doubles, mixed <code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "path",
+            "description": "The gender for which to pull player rankings.  Valid entries are <code> m, male, men, f, female, women, mixed <code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/RoundsBySeason/{seasonid}": {
+      "get": {
+        "description": "Each round of a current competition's SeasonId.",
+        "operationId": "RoundsBySeason",
+        "summary": "Rounds - by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "seasonid",
+            "in": "path",
+            "description": "The SeasonID for which to pull Round records.  Ex: <code>27</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Round"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/MatchesByRound/{roundid}": {
+      "get": {
+        "description": "All games with date, time, location etc. when a RoundId is called.",
+        "operationId": "ScheduleByMatchesByRound",
+        "summary": "Schedule by Matches - by Round",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "roundid",
+            "in": "path",
+            "description": "The RoundId for which to pull the schedule. Ex. <code> 1 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Match"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/MatchesBySeasonAndDate/{seasonid}/{date}": {
+      "get": {
+        "description": "Select a SeasonId to receive all matches taking place on a given date, regardless of round.",
+        "operationId": "ScheduleBySeasonByDate",
+        "summary": "Schedule by Season - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "seasonid",
+            "in": "path",
+            "description": "The SeasonId for which to pull matches.   Ex: <code>27</code>",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date for which to pull matches. Ex: <code> 2022-06-03 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Match"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/Match/{matchid}": {
+      "get": {
+        "description": "Full scores and gameday info delivered live and post-game. Live data includes set score etc.",
+        "operationId": "ScoresByMatch[LiveFinal]",
+        "summary": "Scores - by Match [Live & Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "matchid",
+            "in": "path",
+            "description": "The MatchId for which to pull details.  Ex: <code> 2 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/Match"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/ContestantsBySeason/{seasonid}": {
+      "get": {
+        "description": "A list of players who will take part in a given season of a competition.",
+        "operationId": "ContestantsBySeason",
+        "summary": "Contestants - by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "seasonid",
+            "in": "path",
+            "description": "The SeasonId for which to pull Contestants.    Ex: <code>27</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contestant"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/ContestantsBySeason/{seasonid}/{discipline}/{gender}": {
+      "get": {
+        "description": "A list of players who will take part in a given season of a competition. Use this to drill down to (for example) just men's doubles players.",
+        "operationId": "ContestantsByDisciplineAndGenderBySeason",
+        "summary": "Contestants by Discipline and Gender - by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "seasonid",
+            "in": "path",
+            "description": "The SeasonId for which to pull Contestants.    Ex: <code>27</code>",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "discipline",
+            "in": "path",
+            "description": "The Discipline for which to pull Contestants.  Valid Entries are <code> 1, 2, 3, singles, doubles, mixed </code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "path",
+            "description": "The Gender for which to pull Contestants.  Valid entries are <code> m, male, men, f, female, women, mixed </code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contestant"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/MatchFinal/{matchid}": {
+      "get": {
+        "description": "The final score of a given match, with game counts for each set.",
+        "operationId": "ScoresByMatch[Final]",
+        "summary": "Scores - by Match [Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "matchid",
+            "in": "path",
+            "description": "The MatchId for which to pull details.  Ex: <code> 2 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "$ref": "#/definitions/Match"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Tour": {
+      "properties": {
+        "TourId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Gender": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TourSeasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TourSeason"
+          }
+        }
+      }
+    },
+    "TourSeason": {
+      "properties": {
+        "TourSeasonId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "TourId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Year": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Season": {
+      "properties": {
+        "SeasonId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "CompetitionId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Year": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CompetitionName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Surface": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "EndDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ATPTourSeasonId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WTATourSeasonId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "MensSinglesWinnerContestantDetails": {
+          "$ref": "#/definitions/Contestant"
+        },
+        "WomensSinglesWinnerContestantDetails": {
+          "$ref": "#/definitions/Contestant"
+        },
+        "MensDoublesWinnerContestantDetails": {
+          "$ref": "#/definitions/Contestant"
+        },
+        "WomensDoublesWinnerContestantDetails": {
+          "$ref": "#/definitions/Contestant"
+        },
+        "MixedDoublesWinnerContestantDetails": {
+          "$ref": "#/definitions/Contestant"
+        }
+      }
+    },
+    "Contestant": {
+      "properties": {
+        "ContestantId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "DisciplineId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "DisciplineType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerAId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayerBId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerAName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerBName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Seeding": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DrawPosition": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PrizeMoney": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Currency": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Winner": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
+    "Venue": {
+      "properties": {
+        "VenueId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "City": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Discipline": {
+      "properties": {
+        "DisciplineId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Competition": {
+      "properties": {
+        "CompetitionId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "AreaId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "AreaName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Gender": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Player": {
+      "properties": {
+        "PlayerId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FirstName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "LastName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CommonName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ShortName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Gender": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BirthDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BirthCity": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BirthCountry": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Nationality": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Height": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Weight": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Hand": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "YearPro": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SinglesWorldRank": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DoublesWorldRank": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Round": {
+      "properties": {
+        "RoundId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "DisciplineId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DisciplineType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Gender": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "EndDate": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Match": {
+      "properties": {
+        "MatchId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "RoundId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "VenueDetails": {
+          "$ref": "#/definitions/Venue"
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantA1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantA2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantBID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantB1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantB2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "WinnerContestantId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreA": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreB": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Duration": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Periods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Period"
+          }
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "MatchOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MatchOdd"
+          }
+        },
+        "GlobalMatchId": {
+          "type": "integer",
+          "x-nullable": false
+        }
+      }
+    },
+    "Period": {
+      "properties": {
+        "PeriodId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Type": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ScoreA": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreB": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "MatchOdd": {
+      "properties": {
+        "MatchOddId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SportsbookId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Sportsbook": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "MatchId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantAId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantA1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantA2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantBId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantB1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantB2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAMoneyline": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantBMoneyline": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalGames": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalGamesOverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalGamesUnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalSets": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalSetsOverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalSetsUnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OddType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAGameSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ContestantAGameSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantBGameSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ContestantBGameSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

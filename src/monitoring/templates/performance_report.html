@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Predictor {{ report_type.title() }} Performance Report</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .metric-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .metric-card.warning {
+            border-left-color: #f6ad55;
+        }
+
+        .metric-card.danger {
+            border-left-color: #fc8181;
+        }
+
+        .metric-card.success {
+            border-left-color: #68d391;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            margin: 0 0 1.5rem 0;
+            color: #2d3748;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .sla-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .sla-metric {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .sla-compliance {
+            font-weight: bold;
+        }
+
+        .sla-compliance.good {
+            color: #38a169;
+        }
+
+        .sla-compliance.warning {
+            color: #d69e2e;
+        }
+
+        .sla-compliance.bad {
+            color: #e53e3e;
+        }
+
+        .trend {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .trend.up {
+            color: #e53e3e;
+        }
+
+        .trend.down {
+            color: #38a169;
+        }
+
+        .recommendations {
+            background: #edf2f7;
+            border-left: 4px solid #4299e1;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+
+        .recommendations h4 {
+            margin: 0 0 1rem 0;
+            color: #2b6cb0;
+        }
+
+        .recommendations ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .recommendations li {
+            margin-bottom: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert.low {
+            background: #bee3f8;
+            border-left: 4px solid #3182ce;
+        }
+
+        .alert.medium {
+            background: #fef5e7;
+            border-left: 4px solid #d69e2e;
+        }
+
+        .alert.high {
+            background: #fed7d7;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .alert.critical {
+            background: #fed7d7;
+            border-left: 4px solid #c53030;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 2rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-healthy {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-degraded {
+            background: #fef5e7;
+            color: #744210;
+        }
+
+        .status-unhealthy {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .bottleneck-item {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #a0aec0;
+        }
+
+        .bottleneck-item.critical {
+            border-left-color: #e53e3e;
+        }
+
+        .bottleneck-item.high {
+            border-left-color: #ed8936;
+        }
+
+        .bottleneck-item.medium {
+            border-left-color: #d69e2e;
+        }
+
+        .bottleneck-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .bottleneck-type {
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .bottleneck-component {
+            font-size: 0.8rem;
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏈 NFL Predictor {{ report_type.title() }} Performance Report</h1>
+        <div class="subtitle">
+            {{ period }}<br>
+            Generated: {{ generated_at | default('N/A') }}
+        </div>
+    </div>
+
+    {% if summary %}
+    <div class="summary-grid">
+        <div class="metric-card {% if summary.average_response_time > 1000 %}danger{% elif summary.average_response_time > 500 %}warning{% else %}success{% endif %}">
+            <h3>Average Response Time</h3>
+            <div class="value">{{ "%.0f"|format(summary.average_response_time) }}ms</div>
+        </div>
+
+        <div class="metric-card {% if summary.average_prediction_accuracy < 0.7 %}danger{% elif summary.average_prediction_accuracy < 0.8 %}warning{% else %}success{% endif %}">
+            <h3>Prediction Accuracy</h3>
+            <div class="value">{{ "%.1f"|format(summary.average_prediction_accuracy * 100) }}%</div>
+        </div>
+
+        <div class="metric-card {% if summary.average_cache_hit_rate < 0.6 %}danger{% elif summary.average_cache_hit_rate < 0.8 %}warning{% else %}success{% endif %}">
+            <h3>Cache Hit Rate</h3>
+            <div class="value">{{ "%.1f"|format(summary.average_cache_hit_rate * 100) }}%</div>
+        </div>
+
+        <div class="metric-card {% if summary.error_rate > 0.05 %}danger{% elif summary.error_rate > 0.01 %}warning{% else %}success{% endif %}">
+            <h3>Error Rate</h3>
+            <div class="value">{{ "%.2f"|format(summary.error_rate * 100) }}%</div>
+        </div>
+
+        <div class="metric-card">
+            <h3>Total API Requests</h3>
+            <div class="value">{{ "{:,}"|format(summary.total_api_requests) }}</div>
+        </div>
+
+        <div class="metric-card">
+            <h3>Total Predictions</h3>
+            <div class="value">{{ "{:,}"|format(summary.total_predictions) }}</div>
+        </div>
+
+        <div class="metric-card {% if summary.peak_cpu_usage > 90 %}danger{% elif summary.peak_cpu_usage > 80 %}warning{% else %}success{% endif %}">
+            <h3>Peak CPU Usage</h3>
+            <div class="value">{{ "%.1f"|format(summary.peak_cpu_usage) }}%</div>
+        </div>
+
+        <div class="metric-card {% if summary.uptime_percentage < 99.5 %}danger{% elif summary.uptime_percentage < 99.9 %}warning{% else %}success{% endif %}">
+            <h3>Uptime</h3>
+            <div class="value">{{ "%.2f"|format(summary.uptime_percentage) }}%</div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sla_compliance %}
+    <div class="section">
+        <h2>🎯 SLA Compliance</h2>
+        {% for metric, compliance_data in sla_compliance.items() %}
+        <div class="sla-item">
+            <div class="sla-metric">{{ metric.replace('_', ' ').title() }}</div>
+            <div>
+                <span class="sla-compliance {% if compliance_data.compliance_rate >= 0.95 %}good{% elif compliance_data.compliance_rate >= 0.9 %}warning{% else %}bad{% endif %}">
+                    {{ "%.1f"|format(compliance_data.compliance_rate * 100) }}%
+                </span>
+                <div class="trend {{ compliance_data.trend }}">{{ compliance_data.trend }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if performance_trends %}
+    <div class="section">
+        <h2>📈 Performance Trends</h2>
+        <div class="summary-grid">
+            {% for metric, trend in performance_trends.items() %}
+            <div class="metric-card">
+                <h3>{{ metric.replace('_', ' ').title() }}</h3>
+                <div class="value">
+                    {{ trend.direction.title() }}
+                    <span class="trend">{{ trend.significance }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if charts %}
+    <div class="section">
+        <h2>📊 Performance Charts</h2>
+
+        {% for chart_name, chart_data in charts.items() %}
+        <div class="chart-container">
+            <h3>{{ chart_name.replace('_', ' ').title() }}</h3>
+            <div id="chart_{{ chart_name }}" style="width: 100%; height: 400px;"></div>
+            <script>
+                Plotly.newPlot('chart_{{ chart_name }}', {{ chart_data | safe }});
+            </script>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if bottleneck_analysis and bottleneck_analysis.total_bottlenecks > 0 %}
+    <div class="section">
+        <h2>🚧 Bottleneck Analysis</h2>
+
+        <div class="summary-grid">
+            <div class="metric-card danger">
+                <h3>Total Bottlenecks</h3>
+                <div class="value">{{ bottleneck_analysis.total_bottlenecks }}</div>
+            </div>
+
+            {% if bottleneck_analysis.most_problematic_type %}
+            <div class="metric-card warning">
+                <h3>Most Common Type</h3>
+                <div class="value">{{ bottleneck_analysis.most_problematic_type.replace('_', ' ').title() }}</div>
+            </div>
+            {% endif %}
+
+            {% if bottleneck_analysis.highest_impact_component %}
+            <div class="metric-card warning">
+                <h3>Most Impacted Component</h3>
+                <div class="value">{{ bottleneck_analysis.highest_impact_component.replace('_', ' ').title() }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if bottleneck_analysis.type_distribution %}
+        <h3>Bottleneck Type Distribution</h3>
+        {% for btype, count in bottleneck_analysis.type_distribution.items() %}
+        <div class="bottleneck-item {% if count > 5 %}critical{% elif count > 3 %}high{% elif count > 1 %}medium{% endif %}">
+            <div class="bottleneck-header">
+                <span class="bottleneck-type">{{ btype.replace('_', ' ') }}</span>
+                <span class="bottleneck-component">{{ count }} occurrences</span>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if recommendations %}
+    <div class="section">
+        <h2>💡 Recommendations</h2>
+        {% for rec in recommendations %}
+        <div class="recommendations">
+            <h4>
+                {{ rec.title }}
+                <span class="status-badge status-{{ rec.priority }}">{{ rec.priority.upper() }}</span>
+            </h4>
+            <p>{{ rec.description }}</p>
+
+            <strong>Suggested Actions:</strong>
+            <ul>
+                {% for action in rec.suggested_actions %}
+                <li>{{ action }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if rec.expected_impact %}
+            <p><strong>Expected Impact:</strong> {{ rec.expected_impact }}</p>
+            {% endif %}
+
+            {% if rec.timeline %}
+            <p><strong>Timeline:</strong> {{ rec.timeline }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if alerts and alerts|length > 0 %}
+    <div class="section">
+        <h2>🚨 Recent Alerts</h2>
+        {% for alert in alerts[:10] %}
+        <div class="alert {{ alert.severity }}">
+            <div>
+                <strong>{{ alert.metric }}</strong>: {{ alert.message }}
+                {% if alert.resolved %}
+                <span class="status-badge status-healthy">Resolved</span>
+                {% endif %}
+            </div>
+            <div>{{ alert.timestamp }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if executive_summary %}
+    <div class="section">
+        <h2>📋 Executive Summary</h2>
+
+        {% if executive_summary.key_achievements %}
+        <h3>Key Achievements</h3>
+        <ul>
+            {% for achievement in executive_summary.key_achievements %}
+            <li>{{ achievement }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if executive_summary.major_issues %}
+        <h3>Major Issues</h3>
+        <ul>
+            {% for issue in executive_summary.major_issues %}
+            <li>{{ issue }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if executive_summary.business_impact %}
+        <h3>Business Impact</h3>
+        <div class="summary-grid">
+            <div class="metric-card">
+                <h3>User Experience Score</h3>
+                <div class="value">{{ "%.1f"|format(executive_summary.business_impact.user_experience_score) }}/10</div>
+            </div>
+            <div class="metric-card">
+                <h3>Reliability Score</h3>
+                <div class="value">{{ "%.1f"|format(executive_summary.business_impact.reliability_score) }}/10</div>
+            </div>
+            <div class="metric-card">
+                <h3>Accuracy Score</h3>
+                <div class="value">{{ "%.1f"|format(executive_summary.business_impact.accuracy_score) }}/10</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if capacity_analysis %}
+    <div class="section">
+        <h2>⚙️ Capacity Analysis</h2>
+
+        <div class="summary-grid">
+            <div class="metric-card">
+                <h3>CPU Capacity Remaining</h3>
+                <div class="value">{{ "%.1f"|format(capacity_analysis.cpu_utilization.capacity_remaining) }}%</div>
+            </div>
+            <div class="metric-card">
+                <h3>Memory Capacity Remaining</h3>
+                <div class="value">{{ "%.1f"|format(capacity_analysis.memory_utilization.capacity_remaining) }}%</div>
+            </div>
+        </div>
+
+        {% if capacity_analysis.warnings %}
+        <h3>Capacity Warnings</h3>
+        {% for warning in capacity_analysis.warnings %}
+        <div class="alert high">
+            <span>{{ warning }}</span>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if cost_analysis %}
+    <div class="section">
+        <h2>💰 Cost Analysis</h2>
+
+        <div class="summary-grid">
+            <div class="metric-card">
+                <h3>Estimated Total Cost</h3>
+                <div class="value">${{ "%.2f"|format(cost_analysis.total_estimated_cost) }}</div>
+            </div>
+            <div class="metric-card">
+                <h3>Compute Cost</h3>
+                <div class="value">${{ "%.2f"|format(cost_analysis.compute_costs.estimated_cost) }}</div>
+            </div>
+            <div class="metric-card">
+                <h3>Network Cost</h3>
+                <div class="value">${{ "%.2f"|format(cost_analysis.network_costs.estimated_cost) }}</div>
+            </div>
+        </div>
+
+        {% if cost_analysis.cost_optimization_opportunities %}
+        <h3>Cost Optimization Opportunities</h3>
+        <ul>
+            {% for opportunity in cost_analysis.cost_optimization_opportunities %}
+            <li>{{ opportunity }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if detailed_metrics %}
+    <div class="section">
+        <h2>📊 Detailed Metrics</h2>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                <thead>
+                    <tr style="background-color: #f7fafc;">
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e2e8f0;">Metric</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">Mean</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">Median</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">Min</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">Max</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">P95</th>
+                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e2e8f0;">P99</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric, stats in detailed_metrics.items() %}
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 0.75rem; font-weight: 600;">{{ metric.replace('_', ' ').title() }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.mean) }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.median) }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.min) }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.max) }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.p95) }}</td>
+                        <td style="padding: 0.75rem; text-align: right;">{{ "%.2f"|format(stats.p99) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>This report was automatically generated by the NFL Predictor Performance Monitoring System.</p>
+        <p>For questions or issues, please contact the system administrators.</p>
+        <p>Report Version: 1.0 | Generated at {{ generated_at | default('N/A') }}</p>
+    </div>
+</body>
+</html>

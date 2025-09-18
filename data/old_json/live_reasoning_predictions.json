@@ -1,0 +1,599 @@
+{
+  "timestamp": "2025-09-16T01:18:01.408390",
+  "game": {
+    "game_id": "LAC_LV_20250916_0117",
+    "away": "LAC",
+    "home": "LV",
+    "away_full": "Los Angeles Chargers",
+    "home_full": "Las Vegas Raiders",
+    "spread": -1.0,
+    "total": 43.5,
+    "current_score": "LAC 21 - LV 20",
+    "time_left": "3:00",
+    "situation": "LAC ball, 1st and 10 at LV 35"
+  },
+  "predictions": [
+    {
+      "expert": "the_analyst",
+      "description": "Pure statistical analysis and data patterns",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 27 - LV 23",
+        "home_score": 23,
+        "away_score": 27,
+        "margin": 4,
+        "home_win_prob": 0.35,
+        "away_win_prob": 0.65,
+        "spread_pick": "LAC",
+        "spread_line": -1.0,
+        "spread_confidence": 0.72,
+        "spread_edge": 0.15,
+        "total_pick": "over",
+        "total_line": 43.5,
+        "predicted_total": 50,
+        "total_confidence": 0.68,
+        "moneyline_pick": "LAC",
+        "moneyline_value": 0.08,
+        "coaching_advantage": "LAC",
+        "playcalling_edge": "slight",
+        "home_field_impact": 2.1,
+        "special_teams_edge": "LAC",
+        "travel_fatigue": "minimal",
+        "next_score_prob": {
+          "LAC": 0.58,
+          "LV": 0.42
+        },
+        "drive_outcome": {
+          "TD": 0.32,
+          "FG": 0.28,
+          "punt": 0.31,
+          "turnover": 0.09
+        },
+        "fourth_down_success": 0.65,
+        "confidence_reasoning": "Statistical trends favor LAC in clutch situations"
+      },
+      "confidence": {
+        "overall": 0.6653333333333333,
+        "winner": 0.7653333333333333,
+        "spread": 0.6153333333333333,
+        "total": 0.5653333333333334
+      },
+      "factors": [
+        {
+          "factor": "late_game_performance",
+          "value": "LAC averages 7.2 points in final 5 minutes vs LV's 4.8",
+          "weight": 0.85,
+          "confidence": 0.9,
+          "source": "season_stats"
+        },
+        {
+          "factor": "possession_value",
+          "value": "Team with ball has 68% win probability with 1-point lead",
+          "weight": 0.75,
+          "confidence": 0.82,
+          "source": "historical_data"
+        },
+        {
+          "factor": "defensive_efficiency",
+          "value": "LAC red zone defense allows 52% TDs vs LV 71%",
+          "weight": 0.7,
+          "confidence": 0.88,
+          "source": "advanced_metrics"
+        }
+      ],
+      "chain_id": "5813ae15-ff8c-4697-b980-5d786780aff0"
+    },
+    {
+      "expert": "the_veteran",
+      "description": "Experience-based wisdom and historical patterns",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 21",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Veteran experience wins tight games"
+      },
+      "confidence": {
+        "overall": 0.5776666666666667,
+        "winner": 0.6776666666666666,
+        "spread": 0.5276666666666666,
+        "total": 0.4776666666666667
+      },
+      "factors": [
+        {
+          "factor": "coaching_experience",
+          "value": "LAC coach 12-3 in games decided by 3 or less",
+          "weight": 0.8,
+          "confidence": 0.85,
+          "source": "coaching_history"
+        },
+        {
+          "factor": "veteran_leadership",
+          "value": "LAC veteran QB performs better under pressure",
+          "weight": 0.75,
+          "confidence": 0.78,
+          "source": "playoff_experience"
+        },
+        {
+          "factor": "divisional_rivalry",
+          "value": "Home team usually responds in division games",
+          "weight": 0.65,
+          "confidence": 0.72,
+          "source": "historical_pattern"
+        }
+      ],
+      "chain_id": "c60c244b-02a2-4afd-b4ca-6c791a50d18a"
+    },
+    {
+      "expert": "the_contrarian",
+      "description": "Fades public opinion and conventional wisdom",
+      "prediction": {
+        "winner": "LV",
+        "final_score": "LAC 21 - LV 24",
+        "spread_pick": "LV",
+        "total_pick": "under",
+        "confidence_reasoning": "Fade the obvious public play"
+      },
+      "confidence": {
+        "overall": 0.5356666666666667,
+        "winner": 0.6356666666666667,
+        "spread": 0.48566666666666675,
+        "total": 0.43566666666666676
+      },
+      "factors": [
+        {
+          "factor": "public_betting",
+          "value": "78% of public money on LAC - too high",
+          "weight": 0.7,
+          "confidence": 0.75,
+          "source": "betting_percentages"
+        },
+        {
+          "factor": "media_narrative",
+          "value": "Everyone expects LAC to close out - fade the obvious",
+          "weight": 0.65,
+          "confidence": 0.68,
+          "source": "sentiment_analysis"
+        },
+        {
+          "factor": "home_desperation",
+          "value": "LV at home, season on the line, crowd energy",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "situational_spot"
+        }
+      ],
+      "chain_id": "7c1e5c70-edb0-42f1-98ce-360a45057da0"
+    },
+    {
+      "expert": "the_gambler",
+      "description": "Gut instincts and betting market feel",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "049ef2dc-0e81-4299-8107-b8e3c93e3569"
+    },
+    {
+      "expert": "the_momentum_rider",
+      "description": "Reads current team energy and flow",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 28 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "over",
+        "confidence_reasoning": "Momentum strongly favors LAC right now"
+      },
+      "confidence": {
+        "overall": 0.58,
+        "winner": 0.6799999999999999,
+        "spread": 0.5299999999999999,
+        "total": 0.48
+      },
+      "factors": [
+        {
+          "factor": "current_drive",
+          "value": "LAC just scored, momentum clearly with them",
+          "weight": 0.9,
+          "confidence": 0.85,
+          "source": "live_observation"
+        },
+        {
+          "factor": "team_body_language",
+          "value": "LV looks deflated after giving up lead",
+          "weight": 0.75,
+          "confidence": 0.7,
+          "source": "visual_cues"
+        },
+        {
+          "factor": "crowd_energy",
+          "value": "Home crowd getting quiet after LAC score",
+          "weight": 0.6,
+          "confidence": 0.75,
+          "source": "atmosphere_read"
+        }
+      ],
+      "chain_id": "fe1641cc-272a-45eb-9cfb-1c000c8696bb"
+    },
+    {
+      "expert": "the_matchup_expert",
+      "description": "Deep statistical matchup analysis",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "5a3e001b-e131-47a5-95e1-e7bf41034dd7"
+    },
+    {
+      "expert": "the_chaos_theorist",
+      "description": "Expects variance and unpredictable outcomes",
+      "prediction": {
+        "winner": "LV",
+        "final_score": "LAC 24 - LV 26",
+        "spread_pick": "LV",
+        "total_pick": "over",
+        "confidence_reasoning": "Chaos favors dramatic comeback"
+      },
+      "confidence": {
+        "overall": 0.545,
+        "winner": 0.645,
+        "spread": 0.49500000000000005,
+        "total": 0.44500000000000006
+      },
+      "factors": [
+        {
+          "factor": "variance_probability",
+          "value": "73% of games this close see lead change in final 3 min",
+          "weight": 0.8,
+          "confidence": 0.9,
+          "source": "chaos_metrics"
+        },
+        {
+          "factor": "special_teams_factor",
+          "value": "ST plays decide 34% of 1-point games",
+          "weight": 0.7,
+          "confidence": 0.75,
+          "source": "unpredictable_events"
+        },
+        {
+          "factor": "officiating_variance",
+          "value": "Refs make 2.3 questionable calls per tight finish",
+          "weight": 0.6,
+          "confidence": 0.65,
+          "source": "referee_analysis"
+        }
+      ],
+      "chain_id": "e2c99d7e-534b-4a2d-84b3-9f7129adf4e0"
+    },
+    {
+      "expert": "the_home_field_guru",
+      "description": "Specializes in venue and crowd effects",
+      "prediction": {
+        "winner": "LV",
+        "final_score": "LAC 21 - LV 23",
+        "spread_pick": "LV",
+        "total_pick": "under",
+        "confidence_reasoning": "Home field advantage in clutch time"
+      },
+      "confidence": {
+        "overall": 0.5666666666666668,
+        "winner": 0.6666666666666667,
+        "spread": 0.5166666666666667,
+        "total": 0.4666666666666668
+      },
+      "factors": [
+        {
+          "factor": "crowd_noise_impact",
+          "value": "Raiders fans create 95dB+ in crucial moments",
+          "weight": 0.8,
+          "confidence": 0.85,
+          "source": "stadium_acoustics"
+        },
+        {
+          "factor": "home_official_bias",
+          "value": "Home teams get 0.7 more favorable calls in final 5 min",
+          "weight": 0.6,
+          "confidence": 0.7,
+          "source": "officiating_stats"
+        },
+        {
+          "factor": "familiar_environment",
+          "value": "LV knows exactly how to manage clock at home",
+          "weight": 0.75,
+          "confidence": 0.8,
+          "source": "home_advantage"
+        }
+      ],
+      "chain_id": "32fbf241-2931-448c-8cde-8bc66bfb366f"
+    },
+    {
+      "expert": "the_weather_watcher",
+      "description": "Focuses on environmental game conditions",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "5a29c818-2610-40bc-a29f-d26003279469"
+    },
+    {
+      "expert": "the_injury_tracker",
+      "description": "Analyzes roster health and availability",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "3cdfb2f1-7f9d-4201-95fb-50e8e89c95ef"
+    },
+    {
+      "expert": "the_referee_reader",
+      "description": "Studies officiating crew tendencies",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "4d15355c-ac8c-460a-97a4-059f8a4276b3"
+    },
+    {
+      "expert": "the_primetime_prophet",
+      "description": "Specializes in nationally televised games",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "5d97db2f-0703-4385-a635-2a45b77ab252"
+    },
+    {
+      "expert": "the_divisional_detective",
+      "description": "Expert in rivalry and division dynamics",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "7a8e844b-67da-43ef-a97b-b4bfc1258768"
+    },
+    {
+      "expert": "the_playoff_predictor",
+      "description": "Reads postseason intensity and pressure",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "6f4749ae-422c-45ab-b5b2-bc3a811dc63e"
+    },
+    {
+      "expert": "the_upset_specialist",
+      "description": "Identifies underdog opportunities",
+      "prediction": {
+        "winner": "LAC",
+        "final_score": "LAC 24 - LV 20",
+        "spread_pick": "LAC",
+        "total_pick": "under",
+        "confidence_reasoning": "Analytics favor current leader"
+      },
+      "confidence": {
+        "overall": 0.635,
+        "winner": 0.735,
+        "spread": 0.585,
+        "total": 0.535
+      },
+      "factors": [
+        {
+          "factor": "win_probability",
+          "value": "LAC has 62% win probability with current lead",
+          "weight": 0.8,
+          "confidence": 0.8,
+          "source": "analytics_model"
+        },
+        {
+          "factor": "time_remaining",
+          "value": "3 minutes allows for 1-2 possessions max",
+          "weight": 0.7,
+          "confidence": 0.9,
+          "source": "game_theory"
+        }
+      ],
+      "chain_id": "277f6f42-62cb-43ed-b567-7de9515ea893"
+    }
+  ],
+  "status": "awaiting_results"
+}

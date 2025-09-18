@@ -1,0 +1,209 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Golf v3 RotoBaller Premium News",
+    "version": "1.0"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/golf/news-rotoballer",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/RotoBallerPremiumNews": {
+      "get": {
+        "description": "RotoBaller's Premium News feed, with the latest updated stories in greater detail.",
+        "operationId": "PremiumNews",
+        "summary": "Premium News",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/News"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/RotoBallerPremiumNewsByDate/{date}": {
+      "get": {
+        "description": "RotoBaller's Premium News feed, with the latest updated stories in greater detail called by date.",
+        "operationId": "PremiumNewsByDate",
+        "summary": "Premium News - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the news.\n<br>Examples: <code>2021-JAN-06</code>, <code>2021-JAN-31</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/News"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/RotoBallerPremiumNewsByPlayerID/{playerid}": {
+      "get": {
+        "description": "Premium News - by Player",
+        "operationId": "PremiumNewsByPlayer",
+        "summary": "Premium News - by Player",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "playerid",
+            "in": "path",
+            "description": "Unique SportsDataIO Player ID.\nExample:<code>40000019</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/News"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "News": {
+      "properties": {
+        "NewsID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Title": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Content": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Url": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Source": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TermsOfUse": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Author": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Categories": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OriginalSource": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OriginalSourceUrl": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

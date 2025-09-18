@@ -5,11 +5,23 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.claude/
+.kiro/
+.swarm/
+.hive-mind/
+.mcp.json
+.swarm/
+.hive-mind/
+
 
 # Build outputs
 dist/
 build/
 *.tsbuildinfo
+
+# TanStack Start/Vinxi build artifacts
+app.config.timestamp_*.js
+*.timestamp_*.js
 
 # Environment variables (CRITICAL - NEVER COMMIT THESE)
 .env
@@ -237,6 +249,9 @@ cache_credentials.json
 *.p12
 *.pfx
 
+# Archive files (old implementations)
+archive/
+
 # Exclude test files from git (they're for development only)
 test_*.py
 *_test.py
@@ -246,3 +261,29 @@ test_api_endpoint.py
 test_logos.py
 test_props.py
 test_complete_integration.py
+
+
+# Claude Flow generated files
+.claude/settings.local.json
+.mcp.json
+claude-flow.config.json
+.swarm/
+.hive-mind/
+memory/claude-flow-data.json
+memory/sessions/*
+!memory/sessions/README.md
+memory/agents/*
+!memory/agents/README.md
+coordination/memory_bank/*
+coordination/subtasks/*
+coordination/orchestration/*
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+claude-flow
+claude-flow.bat
+claude-flow.ps1
+hive-mind-prompt-*.txt

@@ -1,0 +1,886 @@
+{
+  "real_outcome": {
+    "final_score": "LAC 20 - LV 9",
+    "total": 29,
+    "winner": "LAC",
+    "margin": 11,
+    "spread_result": "LAC_covered",
+    "total_result": "under"
+  },
+  "expert_performance": [
+    {
+      "expert": "the_analyst",
+      "accuracy": {
+        "overall_accuracy": 0.4166666666666667,
+        "verifiable_predictions": 12,
+        "verifiable_correct": 5,
+        "total_predictions_made": 18,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": 27,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": 23,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": 4,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "over",
+            "actual": "under",
+            "correct": false
+          },
+          "moneyline_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "predicted_total": {
+            "predicted": 50,
+            "actual": 29,
+            "correct": false,
+            "difference": 21
+          },
+          "final_score": {
+            "predicted": "LAC 27 - LV 23",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          },
+          "home_win_prob": {
+            "predicted": 0.35,
+            "actual": "LAC_won",
+            "correct": false
+          },
+          "away_win_prob": {
+            "predicted": 0.65,
+            "actual": "LAC_won",
+            "correct": true
+          },
+          "coaching_advantage": {
+            "predicted": "LAC",
+            "actual": "LAC_won",
+            "correct": true,
+            "note": "Inferred from game outcome"
+          },
+          "special_teams_edge": {
+            "predicted": "LAC",
+            "actual": "unverifiable",
+            "correct": null,
+            "note": "Requires detailed game analysis"
+          },
+          "playcalling_edge": {
+            "predicted": "slight",
+            "actual": "unverifiable",
+            "correct": null,
+            "note": "Requires detailed game analysis"
+          },
+          "travel_fatigue": {
+            "predicted": "minimal",
+            "actual": "unverifiable",
+            "correct": null,
+            "note": "Requires detailed game analysis"
+          },
+          "next_score_prob": {
+            "predicted": {
+              "LAC": 0.58,
+              "LV": 0.42
+            },
+            "actual": "requires_play_by_play_data",
+            "correct": null,
+            "note": "Needs drive-by-drive analysis"
+          },
+          "drive_outcome": {
+            "predicted": {
+              "TD": 0.32,
+              "FG": 0.28,
+              "punt": 0.31,
+              "turnover": 0.09
+            },
+            "actual": "requires_play_by_play_data",
+            "correct": null,
+            "note": "Needs drive-by-drive analysis"
+          },
+          "fourth_down_success": {
+            "predicted": 0.65,
+            "actual": "requires_play_by_play_data",
+            "correct": null,
+            "note": "Needs drive-by-drive analysis"
+          }
+        }
+      },
+      "description": "Pure statistical analysis and data patterns"
+    },
+    {
+      "expert": "the_veteran",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 21",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Experience-based wisdom and historical patterns"
+    },
+    {
+      "expert": "the_gambler",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Gut instincts and betting market feel"
+    },
+    {
+      "expert": "the_matchup_expert",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Deep statistical matchup analysis"
+    },
+    {
+      "expert": "the_weather_watcher",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Focuses on environmental game conditions"
+    },
+    {
+      "expert": "the_injury_tracker",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Analyzes roster health and availability"
+    },
+    {
+      "expert": "the_referee_reader",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Studies officiating crew tendencies"
+    },
+    {
+      "expert": "the_primetime_prophet",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Specializes in nationally televised games"
+    },
+    {
+      "expert": "the_divisional_detective",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Expert in rivalry and division dynamics"
+    },
+    {
+      "expert": "the_playoff_predictor",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Reads postseason intensity and pressure"
+    },
+    {
+      "expert": "the_upset_specialist",
+      "accuracy": {
+        "overall_accuracy": 0.375,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 3,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Identifies underdog opportunities"
+    },
+    {
+      "expert": "the_momentum_rider",
+      "accuracy": {
+        "overall_accuracy": 0.25,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 2,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LAC",
+            "actual": "LAC",
+            "correct": true
+          },
+          "total_pick": {
+            "predicted": "over",
+            "actual": "under",
+            "correct": false
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 28 - LV 20",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Reads current team energy and flow"
+    },
+    {
+      "expert": "the_contrarian",
+      "accuracy": {
+        "overall_accuracy": 0.125,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 1,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 21 - LV 24",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Fades public opinion and conventional wisdom"
+    },
+    {
+      "expert": "the_home_field_guru",
+      "accuracy": {
+        "overall_accuracy": 0.125,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 1,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "total_pick": {
+            "predicted": "under",
+            "actual": "under",
+            "correct": true
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 21 - LV 23",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Specializes in venue and crowd effects"
+    },
+    {
+      "expert": "the_chaos_theorist",
+      "accuracy": {
+        "overall_accuracy": 0.0,
+        "verifiable_predictions": 8,
+        "verifiable_correct": 0,
+        "total_predictions_made": 8,
+        "detailed_results": {
+          "winner": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "away_score": {
+            "predicted": null,
+            "actual": 20,
+            "correct": false
+          },
+          "home_score": {
+            "predicted": null,
+            "actual": 9,
+            "correct": false
+          },
+          "margin": {
+            "predicted": null,
+            "actual": 11,
+            "correct": false
+          },
+          "spread_pick": {
+            "predicted": "LV",
+            "actual": "LAC",
+            "correct": false
+          },
+          "total_pick": {
+            "predicted": "over",
+            "actual": "under",
+            "correct": false
+          },
+          "moneyline_pick": {
+            "predicted": null,
+            "actual": "LAC",
+            "correct": false
+          },
+          "final_score": {
+            "predicted": "LAC 24 - LV 26",
+            "actual": "LAC 20 - LV 9",
+            "correct": false
+          }
+        }
+      },
+      "description": "Expects variance and unpredictable outcomes"
+    }
+  ],
+  "learning_insights": {
+    "total_prediction_failure_rate": 0.2,
+    "score_overestimation_rate": 0.06666666666666667,
+    "home_field_bias": 0.2,
+    "momentum_reading_success": 0.8
+  },
+  "belief_revisions_triggered": 3,
+  "high_performers": [
+    [
+      "the_analyst",
+      0.4166666666666667
+    ]
+  ],
+  "poor_performers": [
+    [
+      "the_contrarian",
+      0.125
+    ],
+    [
+      "the_home_field_guru",
+      0.125
+    ],
+    [
+      "the_chaos_theorist",
+      0.0
+    ]
+  ],
+  "updated_at": "2025-09-16T01:34:56.069503"
+}

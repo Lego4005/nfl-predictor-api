@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏈 Live NFL Predictions - 15 Expert Panel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .game-info {
+            background: rgba(255,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ff4444;
+        }
+        .experts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .expert-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+        .expert-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+        .expert-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+        .expert-specialty {
+            color: #bbbbbb;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .prediction {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .confidence-bar {
+            background: rgba(0,0,0,0.3);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .confidence-fill {
+            background: linear-gradient(90deg, #ff4444, #ffaa00, #44ff44);
+            height: 100%;
+            width: 70%;
+            transition: width 0.3s ease;
+        }
+        .timestamp {
+            text-align: center;
+            color: #cccccc;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .status {
+            background: rgba(255,165,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid #ffa500;
+        }
+        .reasoning-factors {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .factor {
+            background: rgba(0,0,0,0.2);
+            padding: 5px 10px;
+            margin: 3px 0;
+            border-radius: 5px;
+            border-left: 3px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 LIVE NFL PREDICTIONS 🚨</h1>
+            <h2>15-Expert Hive Mind Panel</h2>
+        </div>
+
+        <div class="game-info">
+            <h3>📊 Current Game Status</h3>
+            <p><strong>Game ID:</strong> LIVE_GAME_20250916_0051</p>
+            <p><strong>Teams:</strong> Current NFL Game</p>
+            <p><strong>⏰ Time Remaining:</strong> 3:00</p>
+            <p><strong>Situation:</strong> Game still in progress</p>
+        </div>
+
+        <div class="status">
+            ⏳ <strong>STATUS:</strong> Awaiting final results - All experts have made their predictions!
+        </div>
+
+        <div class="experts-grid">
+            <!-- Expert 1: The Analyst -->
+            <div class="expert-card">
+                <div class="expert-name">📊 The Analyst</div>
+                <div class="expert-specialty">Pure statistical analysis and data patterns</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 2: The Veteran -->
+            <div class="expert-card">
+                <div class="expert-name">🧓 The Veteran</div>
+                <div class="expert-specialty">Experience-based wisdom and historical patterns</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 3: The Contrarian -->
+            <div class="expert-card">
+                <div class="expert-name">🔄 The Contrarian</div>
+                <div class="expert-specialty">Fades public opinion and conventional wisdom</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 4: The Gambler -->
+            <div class="expert-card">
+                <div class="expert-name">🎰 The Gambler</div>
+                <div class="expert-specialty">Gut instincts and betting market feel</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 5: The Momentum Rider -->
+            <div class="expert-card">
+                <div class="expert-name">🌊 The Momentum Rider</div>
+                <div class="expert-specialty">Reads current team energy and flow</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 6: The Matchup Expert -->
+            <div class="expert-card">
+                <div class="expert-name">⚔️ The Matchup Expert</div>
+                <div class="expert-specialty">Deep statistical matchup analysis</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 7: The Chaos Theorist -->
+            <div class="expert-card">
+                <div class="expert-name">🌪️ The Chaos Theorist</div>
+                <div class="expert-specialty">Expects variance and unpredictable outcomes</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 8: The Home Field Guru -->
+            <div class="expert-card">
+                <div class="expert-name">🏠 The Home Field Guru</div>
+                <div class="expert-specialty">Specializes in venue and crowd effects</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 9: The Weather Watcher -->
+            <div class="expert-card">
+                <div class="expert-name">🌤️ The Weather Watcher</div>
+                <div class="expert-specialty">Focuses on environmental game conditions</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 10: The Injury Tracker -->
+            <div class="expert-card">
+                <div class="expert-name">🏥 The Injury Tracker</div>
+                <div class="expert-specialty">Analyzes roster health and availability</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 11: The Referee Reader -->
+            <div class="expert-card">
+                <div class="expert-name">👨‍⚖️ The Referee Reader</div>
+                <div class="expert-specialty">Studies officiating crew tendencies</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 12: The Primetime Prophet -->
+            <div class="expert-card">
+                <div class="expert-name">📺 The Primetime Prophet</div>
+                <div class="expert-specialty">Specializes in nationally televised games</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 13: The Divisional Detective -->
+            <div class="expert-card">
+                <div class="expert-name">🔍 The Divisional Detective</div>
+                <div class="expert-specialty">Expert in rivalry and division dynamics</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 14: The Playoff Predictor -->
+            <div class="expert-card">
+                <div class="expert-name">🏆 The Playoff Predictor</div>
+                <div class="expert-specialty">Reads postseason intensity and pressure</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+
+            <!-- Expert 15: The Upset Specialist -->
+            <div class="expert-card">
+                <div class="expert-name">💥 The Upset Specialist</div>
+                <div class="expert-specialty">Identifies underdog opportunities</div>
+                <div class="prediction">
+                    <strong>🏆 Final Winner:</strong> Team with better clock management<br>
+                    <strong>📏 Margin:</strong> 3-7 points<br>
+                    <strong>🎯 Key Plays:</strong> 2-3 crucial plays decide it
+                </div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.9em;">Confidence: 70%</div>
+                <div class="reasoning-factors">
+                    <div class="factor">🕐 Clock management (Weight: 0.8)</div>
+                    <div class="factor">⚡ Current momentum (Weight: 0.7)</div>
+                    <div class="factor">💪 Pressure performance (Weight: 0.6)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timestamp">
+            <p><strong>⏰ Predictions Captured:</strong> 2025-09-16 at 00:51:42 UTC</p>
+            <p><strong>📊 Expert Consensus:</strong> All 15 experts predict "Team with better clock management" to win by 3-7 points</p>
+            <p><strong>🎯 Next Step:</strong> Run <code>python3 scripts/process_live_results.py</code> after game ends</p>
+        </div>
+    </div>
+</body>
+</html>

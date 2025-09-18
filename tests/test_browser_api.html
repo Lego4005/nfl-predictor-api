@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Expert Observatory API</title>
+</head>
+<body>
+    <h1>Expert Observatory API Test</h1>
+    <div id="status">Testing...</div>
+    <div id="results"></div>
+
+    <script>
+        async function testAPI() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+
+            try {
+                statusDiv.textContent = 'Fetching from Expert Observatory API...';
+
+                const response = await fetch('http://localhost:8003/api/predictions/recent');
+
+                statusDiv.textContent = `Response: ${response.status} (${response.ok ? 'OK' : 'Error'})`;
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const games = await response.json();
+
+                statusDiv.textContent = `✅ Success! Found ${games.length} games`;
+
+                resultsDiv.innerHTML = `
+                    <h2>Games (${games.length})</h2>
+                    <ul>
+                        ${games.slice(0, 5).map(game =>
+                            `<li>${game.home_team} vs ${game.away_team} - ${game.status}</li>`
+                        ).join('')}
+                        ${games.length > 5 ? '<li>...and more</li>' : ''}
+                    </ul>
+                `;
+
+            } catch (error) {
+                statusDiv.textContent = `❌ Error: ${error.message}`;
+                resultsDiv.innerHTML = `<pre style="color: red;">${error.stack || error.message}</pre>`;
+                console.error('API Test Error:', error);
+            }
+        }
+
+        // Test immediately
+        testAPI();
+    </script>
+</body>
+</html>

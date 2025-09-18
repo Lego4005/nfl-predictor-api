@@ -1,0 +1,264 @@
+# Prometheus Alert Rules for NFL Predictor API
+
+groups:
+  - name: api_performance
+    rules:
+      - alert: HighAPIResponseTime
+        expr: histogram_quantile(0.95, rate(nfl_api_request_duration_seconds_bucket[5m])) > 1.0
+        for: 2m
+        labels:
+          severity: warning
+          service: nfl-predictor-api
+        annotations:
+          summary: "High API response time detected"
+          description: "95th percentile response time is {{ $value }}s for the last 2 minutes"
+
+      - alert: CriticalAPIResponseTime
+        expr: histogram_quantile(0.95, rate(nfl_api_request_duration_seconds_bucket[5m])) > 2.0
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-api
+        annotations:
+          summary: "Critical API response time detected"
+          description: "95th percentile response time is {{ $value }}s, immediate attention required"
+
+      - alert: HighErrorRate
+        expr: rate(nfl_api_requests_total{status=~"4..|5.."}[5m]) / rate(nfl_api_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: nfl-predictor-api
+        annotations:
+          summary: "High API error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} over the last 2 minutes"
+
+      - alert: CriticalErrorRate
+        expr: rate(nfl_api_requests_total{status=~"4..|5.."}[5m]) / rate(nfl_api_requests_total[5m]) > 0.15
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-api
+        annotations:
+          summary: "Critical API error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }}, immediate attention required"
+
+  - name: ml_performance
+    rules:
+      - alert: LowPredictionAccuracy
+        expr: nfl_prediction_accuracy{model_type="overall"} < 0.65
+        for: 5m
+        labels:
+          severity: warning
+          service: nfl-predictor-ml
+        annotations:
+          summary: "Prediction accuracy below threshold"
+          description: "Overall prediction accuracy is {{ $value | humanizePercentage }}, below 65% threshold"
+
+      - alert: CriticalPredictionAccuracy
+        expr: nfl_prediction_accuracy{model_type="overall"} < 0.50
+        for: 2m
+        labels:
+          severity: critical
+          service: nfl-predictor-ml
+        annotations:
+          summary: "Critical prediction accuracy detected"
+          description: "Overall prediction accuracy is {{ $value | humanizePercentage }}, below 50% critical threshold"
+
+      - alert: ModelTrainingFailure
+        expr: increase(nfl_model_training_duration_seconds[1h]) == 0 and hour() > 6 and hour() < 22
+        for: 2h
+        labels:
+          severity: warning
+          service: nfl-predictor-ml
+        annotations:
+          summary: "Model training may have failed"
+          description: "No model training activity detected in the last 2 hours during business hours"
+
+  - name: cache_performance
+    rules:
+      - alert: LowCacheHitRate
+        expr: nfl_cache_hit_rate < 0.60
+        for: 5m
+        labels:
+          severity: warning
+          service: nfl-predictor-cache
+        annotations:
+          summary: "Cache hit rate below optimal"
+          description: "Cache hit rate is {{ $value | humanizePercentage }}, below 60% threshold"
+
+      - alert: CriticalCacheHitRate
+        expr: nfl_cache_hit_rate < 0.30
+        for: 2m
+        labels:
+          severity: critical
+          service: nfl-predictor-cache
+        annotations:
+          summary: "Critical cache hit rate detected"
+          description: "Cache hit rate is {{ $value | humanizePercentage }}, system performance severely impacted"
+
+      - alert: CacheConnectionFailure
+        expr: up{job="nfl-predictor-redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-cache
+        annotations:
+          summary: "Redis cache is down"
+          description: "Cannot connect to Redis cache server"
+
+  - name: system_resources
+    rules:
+      - alert: HighCPUUsage
+        expr: nfl_system_cpu_percent > 80
+        for: 3m
+        labels:
+          severity: warning
+          service: nfl-predictor-system
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% for more than 3 minutes"
+
+      - alert: CriticalCPUUsage
+        expr: nfl_system_cpu_percent > 95
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-system
+        annotations:
+          summary: "Critical CPU usage detected"
+          description: "CPU usage is {{ $value }}%, system may become unresponsive"
+
+      - alert: HighMemoryUsage
+        expr: nfl_system_memory_percent > 85
+        for: 3m
+        labels:
+          severity: warning
+          service: nfl-predictor-system
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% for more than 3 minutes"
+
+      - alert: CriticalMemoryUsage
+        expr: nfl_system_memory_percent > 95
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-system
+        annotations:
+          summary: "Critical memory usage detected"
+          description: "Memory usage is {{ $value }}%, system at risk of OOM"
+
+  - name: database_health
+    rules:
+      - alert: DatabaseConnectionFailure
+        expr: up{job="nfl-predictor-postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-database
+        annotations:
+          summary: "Database is unreachable"
+          description: "Cannot connect to PostgreSQL database"
+
+      - alert: HighDatabaseConnections
+        expr: nfl_database_connections > 80
+        for: 2m
+        labels:
+          severity: warning
+          service: nfl-predictor-database
+        annotations:
+          summary: "High number of database connections"
+          description: "Database has {{ $value }} active connections, approaching limit"
+
+      - alert: CriticalDatabaseConnections
+        expr: nfl_database_connections > 95
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-database
+        annotations:
+          summary: "Critical database connection count"
+          description: "Database has {{ $value }} active connections, at risk of exhausting connection pool"
+
+  - name: data_sources
+    rules:
+      - alert: DataSourceUnavailable
+        expr: nfl_data_source_available == 0
+        for: 2m
+        labels:
+          severity: warning
+          service: nfl-predictor-data
+        annotations:
+          summary: "External data source unavailable"
+          description: "Data source {{ $labels.source }} has been unavailable for 2 minutes"
+
+      - alert: MultipleDataSourcesDown
+        expr: count(nfl_data_source_available == 0) > 1
+        for: 1m
+        labels:
+          severity: critical
+          service: nfl-predictor-data
+        annotations:
+          summary: "Multiple data sources unavailable"
+          description: "{{ $value }} data sources are currently unavailable"
+
+      - alert: StaleDataDetected
+        expr: nfl_data_freshness_seconds > 3600
+        for: 5m
+        labels:
+          severity: warning
+          service: nfl-predictor-data
+        annotations:
+          summary: "Data staleness detected"
+          description: "Data from {{ $labels.source }} is {{ $value | humanizeDuration }} old"
+
+  - name: websocket_health
+    rules:
+      - alert: WebSocketConnectionSpike
+        expr: increase(nfl_websocket_connections[5m]) > 100
+        for: 1m
+        labels:
+          severity: warning
+          service: nfl-predictor-websocket
+        annotations:
+          summary: "WebSocket connection spike detected"
+          description: "WebSocket connections increased by {{ $value }} in the last 5 minutes"
+
+      - alert: WebSocketConnectionDrop
+        expr: decrease(nfl_websocket_connections[5m]) > 50
+        for: 1m
+        labels:
+          severity: warning
+          service: nfl-predictor-websocket
+        annotations:
+          summary: "WebSocket connection drop detected"
+          description: "WebSocket connections decreased by {{ $value }} in the last 5 minutes"
+
+  - name: business_metrics
+    rules:
+      - alert: LowPredictionVolume
+        expr: rate(nfl_api_requests_total{endpoint=~".*predict.*"}[1h]) < 0.1
+        for: 2h
+        labels:
+          severity: warning
+          service: nfl-predictor-business
+        annotations:
+          summary: "Low prediction request volume"
+          description: "Prediction request rate is {{ $value }}/hour, below expected threshold during business hours"
+
+      - alert: SLABreach
+        expr: |
+          (
+            histogram_quantile(0.95, rate(nfl_api_request_duration_seconds_bucket[24h])) > 0.2 or
+            rate(nfl_api_requests_total{status=~"4..|5.."}[24h]) / rate(nfl_api_requests_total[24h]) > 0.01 or
+            avg_over_time(nfl_prediction_accuracy[24h]) < 0.75 or
+            avg_over_time(nfl_cache_hit_rate[24h]) < 0.80
+          )
+        for: 1h
+        labels:
+          severity: critical
+          service: nfl-predictor-sla
+        annotations:
+          summary: "SLA breach detected"
+          description: "One or more SLA targets have been breached over the last 24 hours"

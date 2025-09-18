@@ -1,0 +1,1439 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Soccer v3 Odds",
+    "version": "1.0"
+  },
+  "host": "azure-api.sportsdata.io",
+  "basePath": "/v3/soccer/odds",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/GameOddsByDate/{date}": {
+      "get": {
+        "operationId": "PreGameOddsByDate",
+        "summary": "Pre-Game Odds by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). \n<br>Examples: <code>2017-02-27</code>, <code>2017-09-01</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/GameOddsLineMovement/{gameid}": {
+      "get": {
+        "operationId": "PreGameOddsLineMovement",
+        "summary": "Pre-Game Odds Line Movement",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of a Soccer game.  GameIDs can be found in the Games API.  Valid entries are <code>14060</code>, <code>14061</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/LiveGameOddsByDate/{date}": {
+      "get": {
+        "operationId": "InGameOddsByDate",
+        "summary": "In-Game Odds by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). <br>Examples: <code>2018-06-20</code>, <code>2018-06-23</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/LiveGameOddsLineMovement/{gameid}": {
+      "get": {
+        "operationId": "InGameOddsLineMovement",
+        "summary": "In-Game Odds Line Movement",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of a Soccer game.  GameIDs can be found in the Games API.  Valid entries are <code>14060</code>, <code>14061</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PreGameOddsByDateByCompetition/{competition}/{date}": {
+      "get": {
+        "description": "Gets the games, along with the latest pregame odds from each book, for a given competition and date.",
+        "operationId": "PreGameOddsByDateByCompetition",
+        "summary": "Pre-Game Odds by Date by Competition",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). \n<br>Examples: <code>2017-02-27</code>, <code>2017-09-01</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/ActiveSportsbooks": {
+      "get": {
+        "operationId": "SportsbooksActive",
+        "summary": "Sportsbooks (Active)",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sportsbook"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingEvents/{competition}/{season}": {
+      "get": {
+        "operationId": "BettingEventsBySeason",
+        "summary": "Betting Events by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season<br>Examples: <code>2020</code>, <code>2021</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingEvent"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingFuturesBySeason/{competition}/{season}": {
+      "get": {
+        "operationId": "BettingFuturesBySeason",
+        "summary": "Betting Futures by Season",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "season",
+            "in": "path",
+            "description": "Year of the season<br>Examples: <code>2020</code>, <code>2021</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingEvent"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarket/{marketId}": {
+      "get": {
+        "operationId": "BettingMarket",
+        "summary": "Betting Market",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "marketId",
+            "in": "path",
+            "description": "The MarketId of the desired market for which to pull all outcomes/bets.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "$ref": "#/definitions/BettingMarket"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarkets/{eventId}": {
+      "get": {
+        "operationId": "BettingMarketsByEvent",
+        "summary": "Betting Markets by Event",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "The EventId of the desired event/game for which to pull all betting markets (includes outcomes/bets).\n",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarketsByGameID/{gameid}": {
+      "get": {
+        "operationId": "BettingMarketsByGameid",
+        "summary": "Betting Markets by GameID",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of the desired game for which to pull all betting markets (includes outcomes/bets).",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMarketsByMarketType/{eventId}/{marketTypeID}": {
+      "get": {
+        "operationId": "BettingMarketsByMarketType",
+        "summary": "Betting Markets by Market Type",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "The EventId of the desired event/game for which to pull all betting markets (includes outcomes/bets).",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "marketTypeID",
+            "in": "path",
+            "description": "The Market Type ID of the desired MarketTypes to pull. Some common types include: <code>1</code> for Game Lines, <code>2</code> for Player Props, <code>3</code> for Team Props, <code>6</code> for Game Props",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingMetadata": {
+      "get": {
+        "operationId": "BettingMetadata",
+        "summary": "Betting Metadata",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "$ref": "#/definitions/BettingEntityMetadataCollection"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingEventsByDate/{competition}/{date}": {
+      "get": {
+        "operationId": "BettingEventsByDate",
+        "summary": "Betting Events by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). <br>Examples: <code>2018-11-20</code>, <code>2018-11-23</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingEvent"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/BettingPlayerPropsByGameID/{gameId}": {
+      "get": {
+        "operationId": "BettingPlayerPropsByGameid",
+        "summary": "Betting Player Props by GameID",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "XML, JSON"
+            ]
+          },
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The unique GameID of the game in question.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BettingMarket"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/AlternateMarketGameOddsByDate/{date}": {
+      "get": {
+        "operationId": "PeriodGameOddsByDate",
+        "summary": "Period Game Odds By Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). \n<br>Examples: <code>2022-03-19</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/AlternateMarketGameOddsLineMovement/{gameid}": {
+      "get": {
+        "operationId": "PeriodGameOddsLineMovement",
+        "summary": "Period Game Odds Line Movement",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of a Soccer game.  GameIDs can be found in the Games API.  Valid entries are <code>41323</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/LiveGameOddsByDateByCompetition/{competition}/{date}": {
+      "get": {
+        "operationId": "InGameOddsByDateByCompetition",
+        "summary": "In-Game Odds by Date by Competition",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). <br>Examples: <code>2018-06-20</code>, <code>2018-06-23</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/AlternateMarketGameOddsByDateByCompetition/{competition}/{date}": {
+      "get": {
+        "operationId": "PeriodGameOddsByDateByCompetition",
+        "summary": "Period Game Odds By Date By Competition",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "competition",
+            "in": "path",
+            "description": "An indication of a soccer competition/league. This value can be the CompetitionId or the Competition Key. Possible values include: <code>EPL</code>, <code>1</code>, <code>MLS</code>, <code>8</code>, etc.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s). \n<br>Examples: <code>2017-02-27</code>, <code>2017-09-01</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GameInfo"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "definitions": {
+    "GameInfo": {
+      "properties": {
+        "GameId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "RoundId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Week": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeamId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeamName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GlobalGameId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GlobalAwayTeamId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalHomeTeamId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PregameOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GameOdd"
+          }
+        },
+        "LiveOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GameOdd"
+          }
+        },
+        "HomeTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AlternateMarketPregameOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GameOdd"
+          }
+        }
+      }
+    },
+    "GameOdd": {
+      "properties": {
+        "GameOddId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Sportsbook": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GameId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DrawMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomePointSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AwayPointSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "HomePointSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayPointSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OverUnder": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeamAsianHandicap": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AwayTeamAsianHandicap": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "HomeTeamAsianHandicapPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamAsianHandicapPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AsianTotal": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AsianTotalOverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AsianTotalUnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OddType": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Sportsbook": {
+      "properties": {
+        "SportsbookID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "BettingEvent": {
+      "properties": {
+        "BettingEventID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingEventTypeID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingEventType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StartDate": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "GameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GameStatus": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Quarter": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalAwayTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalHomeTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarkets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingMarket"
+          }
+        },
+        "CompetitionId": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "BettingMarket": {
+      "properties": {
+        "BettingMarketID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingEventID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingMarketTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarketType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BettingBetTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingBetType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "BettingPeriodTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingPeriodType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TeamKey": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AvailableSportsbooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sportsbook"
+          }
+        },
+        "AnyBetsAvailable": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "BettingOutcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingOutcome"
+          }
+        },
+        "ConsensusOutcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConsensusOutcome"
+          }
+        }
+      }
+    },
+    "BettingOutcome": {
+      "properties": {
+        "BettingOutcomeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarketID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsBook": {
+          "$ref": "#/definitions/Sportsbook"
+        },
+        "BettingOutcomeTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingOutcomeType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PayoutAmerican": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PayoutDecimal": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Value": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Participant": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsAvailable": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsAlternate": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Unlisted": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsInPlay": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
+    "ConsensusOutcome": {
+      "properties": {
+        "NumberOfSportsbooks": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BettingOutcomeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingMarketID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsBook": {
+          "$ref": "#/definitions/Sportsbook"
+        },
+        "BettingOutcomeTypeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BettingOutcomeType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PayoutAmerican": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PayoutDecimal": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Value": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Participant": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsAvailable": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "IsAlternate": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Unlisted": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SportsbookUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsInPlay": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
+    "BettingEntityMetadataCollection": {
+      "properties": {
+        "BettingBetTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingMarketTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingPeriodTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingEventTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        },
+        "BettingOutcomeTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BettingEntityMetadata"
+          }
+        }
+      }
+    },
+    "BettingEntityMetadata": {
+      "properties": {
+        "RecordId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  }
+}

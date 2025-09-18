@@ -1,0 +1,562 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "NBA v3 Play-by-Play",
+    "version": "1.0",
+    "description": "NBA play-by-play API."
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/nba/pbp",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/PlayByPlay/{gameid}": {
+      "get": {
+        "description": "Each invididual play, its type and outcome, complete with player and team stats down to the play level, delivered live in real-time, called by game.",
+        "operationId": "PlayByPlay[LiveFinal]",
+        "summary": "Play By Play [Live & Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of an NBA game.  GameIDs can be found in the Games API.  Valid entries are <code>14620</code>, <code>16905</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayByPlay"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayByPlayDelta/{date}/{minutes}": {
+      "get": {
+        "description": "This method returns all play-by-plays for a given season and week, but only returns plays that have changed in the last X minutes as specified in your API call. By definition this is a live endpoint, not final.",
+        "operationId": "PlayByPlayDelta",
+        "summary": "Play By Play Delta",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s).\n<br>Examples: <code>2016-OCT-31</code>, <code>2017-JAN-15</code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "minutes",
+            "in": "path",
+            "description": "Only returns plays that have changed in the last X minutes.  You specify how many minutes in time to go back.  Valid entries are:\n<code>1</code>, <code>2</code> ... <code>all</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayByPlay"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayByPlayFinal/{gameid}": {
+      "get": {
+        "description": "Each invididual play, its type and outcome, complete with player and team stats down to the play level, delivered final (after the game ends), called by game.",
+        "operationId": "PlayByPlay[Final]",
+        "summary": "Play By Play [Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of an NBA game.  GameIDs can be found in the Games API.  Valid entries are <code>14620</code>, <code>16905</code>, etc.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayByPlay"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "PlayByPlay": {
+      "properties": {
+        "Game": {
+          "$ref": "#/definitions/Game"
+        },
+        "Quarters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Quarter"
+          }
+        },
+        "Plays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Play"
+          }
+        }
+      }
+    },
+    "Game": {
+      "properties": {
+        "GameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "HomeTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "StadiumID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Channel": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Attendance": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Quarter": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TimeRemainingMinutes": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TimeRemainingSeconds": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PointSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OverUnder": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AwayTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GlobalAwayTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GlobalHomeTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PointSpreadAwayTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PointSpreadHomeTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "LastPlay": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsClosed": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "Quarters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Quarter"
+          }
+        },
+        "GameEndDateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "NeutralVenue": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "OverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CrewChiefID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UmpireID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RefereeID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AlternateID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DateTimeUTC": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SeriesInfo": {
+          "$ref": "#/definitions/Series"
+        },
+        "InseasonTournament": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
+    "Quarter": {
+      "properties": {
+        "QuarterID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Number": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeScore": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Series": {
+      "properties": {
+        "HomeTeamWins": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "AwayTeamWins": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameNumber": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "MaxLength": {
+          "type": "integer",
+          "x-nullable": false
+        }
+      }
+    },
+    "Play": {
+      "properties": {
+        "PlayID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "QuarterID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "QuarterName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Sequence": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "TimeRemainingMinutes": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TimeRemainingSeconds": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamScore": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PotentialPoints": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Points": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ShotMade": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Category": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Type": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OpponentID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Opponent": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ReceivingTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ReceivingTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Description": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AssistedByPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BlockedByPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "FastBreak": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "SideOfBasket": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SubstituteInPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SubstituteOutPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomePlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ReceivingPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BaselineOffsetPercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "SidelineOffsetPercentage": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "Coordinates": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "StolenByPlayerID": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

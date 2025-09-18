@@ -1,0 +1,36 @@
+# E2E Testing Requirements
+# Web automation and testing
+playwright>=1.40.0
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-playwright>=0.4.3
+pytest-xdist>=3.5.0  # Parallel test execution
+
+# API testing
+httpx>=0.25.0
+websockets>=12.0
+
+# Performance testing
+locust>=2.17.0
+pytest-benchmark>=4.0.0
+
+# Test data and fixtures
+factory-boy>=3.3.0
+faker>=20.0.0
+
+# Database testing
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Configuration and utilities
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+structlog>=23.2.0
+
+# Screenshot and reporting
+pytest-html>=4.1.0
+allure-pytest>=2.13.0
+
+# Mock services
+responses>=0.24.0
+freezegun>=1.2.0

@@ -1,0 +1,381 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "NFL Predictor Performance Dashboard",
+    "tags": ["nfl", "predictor", "performance"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "System Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "nfl_system_cpu_percent",
+            "legendFormat": "CPU %"
+          },
+          {
+            "expr": "nfl_system_memory_percent",
+            "legendFormat": "Memory %"
+          },
+          {
+            "expr": "nfl_websocket_connections",
+            "legendFormat": "WebSocket Connections"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 70
+                },
+                {
+                  "color": "red",
+                  "value": 85
+                }
+              ]
+            },
+            "unit": "percent"
+          }
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "title": "API Response Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(nfl_api_request_duration_seconds_bucket[5m]))*1000",
+            "legendFormat": "95th Percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(nfl_api_request_duration_seconds_bucket[5m]))*1000",
+            "legendFormat": "Median"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "ms",
+            "min": 0
+          }
+        ],
+        "thresholds": [
+          {
+            "value": 200,
+            "colorMode": "critical",
+            "op": "gt",
+            "line": true,
+            "lineColor": "rgba(245, 54, 54, 0.9)",
+            "fillColor": "rgba(245, 54, 54, 0.1)"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 6
+        }
+      },
+      {
+        "title": "Prediction Accuracy",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nfl_prediction_accuracy{model_type=\"overall\"}",
+            "legendFormat": "Overall Accuracy"
+          },
+          {
+            "expr": "nfl_prediction_accuracy{model_type=\"enhanced_ensemble\"}",
+            "legendFormat": "Enhanced Ensemble"
+          },
+          {
+            "expr": "nfl_prediction_accuracy{model_type=\"xgboost\"}",
+            "legendFormat": "XGBoost"
+          },
+          {
+            "expr": "nfl_prediction_accuracy{model_type=\"neural_network\"}",
+            "legendFormat": "Neural Network"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1
+          }
+        ],
+        "thresholds": [
+          {
+            "value": 0.75,
+            "colorMode": "critical",
+            "op": "lt",
+            "line": true,
+            "lineColor": "rgba(245, 54, 54, 0.9)"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 6
+        }
+      },
+      {
+        "title": "Cache Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nfl_cache_hit_rate",
+            "legendFormat": "Hit Rate"
+          },
+          {
+            "expr": "nfl_cache_size_bytes/1024/1024",
+            "legendFormat": "Cache Size (MB)"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1
+          },
+          {
+            "unit": "bytes",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 14
+        }
+      },
+      {
+        "title": "Data Source Status",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "nfl_data_source_available",
+            "legendFormat": "{{source}}"
+          }
+        ],
+        "dataFormat": "time_series_buckets",
+        "heatmap": {
+          "yAxis": {
+            "decimals": 0,
+            "unit": "short"
+          },
+          "color": {
+            "mode": "spectrum",
+            "colorScheme": "interpolateRdYlGn",
+            "exponent": 0.5,
+            "min": 0,
+            "max": 1
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 14
+        }
+      },
+      {
+        "title": "API Request Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(nfl_api_requests_total[5m])",
+            "legendFormat": "{{method}} {{endpoint}} ({{status}})"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "reqps",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 22
+        }
+      },
+      {
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(nfl_api_requests_total{status=~\"4..|5..\"}[5m]) / rate(nfl_api_requests_total[5m])",
+            "legendFormat": "Error Rate"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "percentunit",
+            "min": 0
+          }
+        ],
+        "thresholds": [
+          {
+            "value": 0.05,
+            "colorMode": "critical",
+            "op": "gt",
+            "line": true,
+            "lineColor": "rgba(245, 54, 54, 0.9)"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 22
+        }
+      },
+      {
+        "title": "Database Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nfl_database_connections",
+            "legendFormat": "Active Connections"
+          },
+          {
+            "expr": "rate(nfl_api_request_duration_seconds_sum{endpoint=~\".*db.*\"}[5m]) / rate(nfl_api_request_duration_seconds_count{endpoint=~\".*db.*\"}[5m])",
+            "legendFormat": "Avg DB Query Time"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "short",
+            "min": 0
+          },
+          {
+            "unit": "s",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 30
+        }
+      },
+      {
+        "title": "WebSocket Activity",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nfl_websocket_connections",
+            "legendFormat": "Active Connections"
+          },
+          {
+            "expr": "rate(nfl_websocket_messages_total[5m])",
+            "legendFormat": "Messages/sec ({{type}})"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "short",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 38
+        }
+      },
+      {
+        "title": "Model Training Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nfl_model_training_duration_seconds",
+            "legendFormat": "Training Time - {{model_type}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "s",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 38
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "prometheus",
+          "enable": true,
+          "expr": "changes(nfl_api_requests_total[1m]) > 0",
+          "iconColor": "blue",
+          "tags": ["deployment"],
+          "titleFormat": "Deployment Event"
+        }
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "instance",
+          "type": "query",
+          "query": "label_values(nfl_api_requests_total, instance)",
+          "current": {
+            "value": "All",
+            "text": "All"
+          },
+          "includeAll": true,
+          "multi": true
+        },
+        {
+          "name": "model_type",
+          "type": "query",
+          "query": "label_values(nfl_prediction_accuracy, model_type)",
+          "current": {
+            "value": "All",
+            "text": "All"
+          },
+          "includeAll": true,
+          "multi": true
+        }
+      ]
+    },
+    "schemaVersion": 30,
+    "version": 1
+  }
+}

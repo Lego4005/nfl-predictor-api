@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Main application container
+  nfl-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nfl-predictor
+    ports:
+      - "${FRONTEND_PORT:-4173}:4173"
+      - "${WS_PORT:-8080}:8080"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:4173', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - nfl-network
+    volumes:
+      - ./logs:/app/logs
+      - ./public/logos:/app/public/logos
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Optional: Redis for caching (uncomment if needed)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: nfl-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - nfl-network
+  #   restart: unless-stopped
+  #   command: redis-server --appendonly yes
+
+  # Optional: Nginx reverse proxy (uncomment for production)
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: nfl-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - nfl-app
+  #   networks:
+  #     - nfl-network
+  #   restart: unless-stopped
+
+networks:
+  nfl-network:
+    driver: bridge
+
+volumes:
+  redis-data:

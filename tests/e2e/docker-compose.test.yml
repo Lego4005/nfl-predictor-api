@@ -1,0 +1,146 @@
+version: '3.8'
+
+services:
+  # Test Database
+  test-postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: nfl_predictor_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d nfl_predictor_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - test-network
+
+  # Test Redis
+  test-redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - test_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - test-network
+
+  # NFL Predictor API (Test)
+  nfl-api-test:
+    build:
+      context: ../../../
+      dockerfile: Dockerfile.test
+    environment:
+      - DATABASE_URL=postgresql://test_user:test_pass@test-postgres:5432/nfl_predictor_test
+      - REDIS_URL=redis://test-redis:6379/1
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DEBUG=true
+      - TESTING=true
+      - PYTHONPATH=/app
+    ports:
+      - "8001:8000"
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+      test-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - test-network
+    volumes:
+      - ../../../:/app
+    command: >
+      sh -c "
+        echo 'Waiting for database to be ready...' &&
+        sleep 5 &&
+        python -c 'from database import run_migrations; run_migrations()' &&
+        uvicorn src.api.app:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  # Mock External Services
+  mock-sportsbook-api:
+    build:
+      context: ./mocks
+      dockerfile: Dockerfile.sportsbook
+    ports:
+      - "8002:8000"
+    environment:
+      - MOCK_DELAY_MS=100
+      - MOCK_ERROR_RATE=0.05
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  mock-weather-api:
+    build:
+      context: ./mocks
+      dockerfile: Dockerfile.weather
+    ports:
+      - "8003:8000"
+    environment:
+      - MOCK_DELAY_MS=50
+    networks:
+      - test-network
+
+  # E2E Test Runner
+  e2e-tests:
+    build:
+      context: ../../../
+      dockerfile: Dockerfile.e2e
+    environment:
+      - TEST_ENV=docker
+      - TEST_BASE_URL=http://nfl-api-test:8000
+      - TEST_DATABASE_URL=postgresql://test_user:test_pass@test-postgres:5432/nfl_predictor_test
+      - TEST_REDIS_URL=redis://test-redis:6379/1
+      - TEST_HEADLESS=true
+      - PYTHONPATH=/app
+    volumes:
+      - ../../../:/app
+      - test_results:/app/test-results
+    depends_on:
+      nfl-api-test:
+        condition: service_healthy
+      mock-sportsbook-api:
+        condition: service_healthy
+    networks:
+      - test-network
+    profiles:
+      - test
+    command: >
+      sh -c "
+        echo 'Starting E2E tests...' &&
+        playwright install &&
+        python tests/e2e/scripts/run_tests.py --env docker --html-report --junit-xml
+      "
+
+volumes:
+  test_postgres_data:
+  test_redis_data:
+  test_results:
+
+networks:
+  test-network:
+    driver: bridge

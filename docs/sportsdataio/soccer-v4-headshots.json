@@ -1,0 +1,121 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Soccer v4 Headshots",
+    "version": "1.0"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v4/soccer/headshots",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/Headshots": {
+      "get": {
+        "description": "USA Today/IMAGN cropped action headshots for all active MLS players only, delivered shortly after the season starts.",
+        "operationId": "Headshots",
+        "summary": "Headshots",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Headshot"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Headshot": {
+      "properties": {
+        "PlayerID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "TeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Team": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Position": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PreferredHostedHeadshotUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PreferredHostedHeadshotUpdated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HostedHeadshotWithBackgroundUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HostedHeadshotWithBackgroundUpdated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HostedHeadshotNoBackgroundUrl": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HostedHeadshotNoBackgroundUpdated": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

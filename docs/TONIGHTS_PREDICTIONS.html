@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏈 NFL Predictions: LAC @ LV - 375+ Expert Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-title {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #4ECDC4;
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .consensus-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .consensus-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .consensus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .consensus-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .consensus-percentage {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .consensus-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 0 0 15px 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .expert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .expert-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #4ECDC4;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .expert-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .expert-specialty {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .prediction-group {
+            margin-bottom: 15px;
+        }
+
+        .prediction-group h4 {
+            color: #4ECDC4;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .prediction-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .prediction-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .summary-stats {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .game-title {
+                font-size: 1.8em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .expert-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji {
+            margin-right: 8px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1 class="game-title">🏈 LAC @ LV - 375+ Expert Predictions</h1>
+
+            <div class="game-info">
+                <div class="info-card">
+                    <div class="info-label">Game Time</div>
+                    <div class="info-value">10:00 PM ET</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Spread</div>
+                    <div class="info-value">LV -1.0</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Total</div>
+                    <div class="info-value">43.5</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Weather</div>
+                    <div class="info-value">85°F, Clear</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Generated</div>
+                    <div class="info-value">2025-09-15 21:52:04</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="summary-stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">495</div>
+                    <div class="stat-label">Total Predictions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Expert Models</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">33</div>
+                    <div class="stat-label">Categories per Expert</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">65.0%</div>
+                    <div class="stat-label">Avg Confidence</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Consensus -->
+        <div class="consensus-section">
+            <h2 class="consensus-title">🎯 Expert Consensus</h2>
+            <div class="consensus-grid">
+                <div class="consensus-card">
+                    <div class="consensus-percentage">87%</div>
+                    <div class="consensus-label">Pick <span class="highlight">LV</span> to Win</div>
+                </div>
+                <div class="consensus-card">
+                    <div class="consensus-percentage">93%</div>
+                    <div class="consensus-label">Pick <span class="highlight">LV</span> ATS</div>
+                </div>
+                <div class="consensus-card">
+                    <div class="consensus-percentage">53%</div>
+                    <div class="consensus-label">Pick the <span class="highlight">OVER</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabbed Content -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('core')">🎯 Core Predictions</button>
+            <button class="tab" onclick="showTab('props')">🏃 Player Props</button>
+            <button class="tab" onclick="showTab('live')">⚡ Live Game</button>
+            <button class="tab" onclick="showTab('advanced')">🧠 Advanced</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-panel">
+                <h3>🔍 What This Means for You</h3>
+                <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 20px;">
+                    Our AI system analyzed this game using <strong>15 specialized expert models</strong>, each contributing
+                    <strong>33+ prediction categories</strong> for a total of <strong>495 comprehensive predictions</strong>.
+                    Here's what our experts are telling us:
+                </p>
+
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4 style="color: #1976d2; margin-bottom: 15px;">🎯 Key Takeaways</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 10px 0; padding-left: 30px; position: relative;">
+                            <span style="position: absolute; left: 0; top: 0;">🏆</span>
+                            <strong>LV</strong> is favored by <strong>13/15 experts (87%)</strong>
+                        </li>
+                        <li style="margin: 10px 0; padding-left: 30px; position: relative;">
+                            <span style="position: absolute; left: 0; top: 0;">📈</span>
+                            <strong>14 experts</strong> like <strong>LV</strong> against the spread
+                        </li>
+                        <li style="margin: 10px 0; padding-left: 30px; position: relative;">
+                            <span style="position: absolute; left: 0; top: 0;">🎲</span>
+                            <strong>8 experts</strong> are betting the <strong>OVER</strong> on total points
+                        </li>
+                        <li style="margin: 10px 0; padding-left: 30px; position: relative;">
+                            <span style="position: absolute; left: 0; top: 0;">🎯</span>
+                            Average expert confidence: <strong>65.0%</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="expert-grid">
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 StatisticalSavant</div>
+                        <div class="expert-specialty">Advanced analytics and historical data</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LAC</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LAC</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 SharpBettor</div>
+                        <div class="expert-specialty">Line movement and market analysis</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 WeatherWizard</div>
+                        <div class="expert-specialty">Environmental conditions impact</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 InjuryAnalyst</div>
+                        <div class="expert-specialty">Player health and availability</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 TrendTracker</div>
+                        <div class="expert-specialty">Recent performance patterns</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 DivisionalExpert</div>
+                        <div class="expert-specialty">Division rivalry dynamics</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 PrimetimePerformer</div>
+                        <div class="expert-specialty">Prime time game analysis</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 UnderExpert</div>
+                        <div class="expert-specialty">Under betting specialist</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 OverEnthusiast</div>
+                        <div class="expert-specialty">Over betting specialist</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 HomeFieldHawk</div>
+                        <div class="expert-specialty">Home field advantage analysis</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 RoadWarrior</div>
+                        <div class="expert-specialty">Road team performance</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LAC</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 CoachingConnoisseur</div>
+                        <div class="expert-specialty">Coaching strategy analysis</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 QBWhisperer</div>
+                        <div class="expert-specialty">Quarterback performance focus</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 SituationalSpecialist</div>
+                        <div class="expert-specialty">Game situation analysis</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">OVER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🔬 MarketMaven</div>
+                        <div class="expert-specialty">Betting market intelligence</div>
+                        <div class="prediction-group">
+                            <div class="prediction-item">
+                                <span class="prediction-label">Winner:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Spread:</span>
+                                <span class="prediction-value">LV</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Total:</span>
+                                <span class="prediction-value">UNDER</span>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 65.0%"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #666;">
+                            Confidence: 65.0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Predictions Tab -->
+            <div id="core" class="tab-panel hidden">
+                <h3>🎯 Core Game Predictions</h3>
+                <p style="margin-bottom: 20px;">Essential betting predictions: winner, spread, total, scores, and margins.</p>
+                <div class="expert-grid">
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 StatisticalSavant</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LAC', 'home_win_prob': 0.2849999999999999, 'away_win_prob': 0.7150000000000001, 'confide...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 28, 'away_score': 15, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LAC', 'spread_line': -1.0, 'confidence': 0.6435000000000001, 'edge': -3.0}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 43, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 13, 'winner': 'LAC', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LAC', 'expected_value': 0.002, 'confidence': 0.7150000000000001}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 SharpBettor</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.6496000000000001, 'away_win_prob': 0.35039999999999993, 'confide...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 24, 'away_score': 27, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.58464, 'edge': -0.4}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 51, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 3, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.03, 'confidence': 0.6496000000000001}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 WeatherWizard</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.644, 'away_win_prob': 0.356, 'confidence': 0.644, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 28, 'away_score': 14, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5796, 'edge': -0.3}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 42, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 14, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.106, 'confidence': 0.644}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 InjuryAnalyst</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.648, 'away_win_prob': 0.352, 'confidence': 0.648, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 19, 'away_score': 16, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5832, 'edge': -2.5}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 35, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 3, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.027, 'confidence': 0.648}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 TrendTracker</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.636, 'away_win_prob': 0.364, 'confidence': 0.636, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 19, 'away_score': 21, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5724, 'edge': 0.1}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 40, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 2, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.045, 'confidence': 0.636}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 DivisionalExpert</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.57, 'away_win_prob': 0.43000000000000005, 'confidence': 0.57, 'r...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 27, 'away_score': 19, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.513, 'edge': 1.3}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 46, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 8, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': -0.004, 'confidence': 0.57}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 PrimetimePerformer</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.588, 'away_win_prob': 0.41200000000000003, 'confidence': 0.588, ...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 21, 'away_score': 31, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5292, 'edge': -0.5}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 52, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 10, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': -0.016, 'confidence': 0.588}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 UnderExpert</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.63, 'away_win_prob': 0.37, 'confidence': 0.63, 'reasoning': "Bas...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 25, 'away_score': 20, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5670000000000001, 'edge': -1.8}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 45, 'confidence': 0.78}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 5, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': -0.016, 'confidence': 0.63}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 OverEnthusiast</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.624, 'away_win_prob': 0.376, 'confidence': 0.624, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 19, 'away_score': 19, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5616, 'edge': 1.3}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 38, 'confidence': 0.82}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 0, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.021, 'confidence': 0.624}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 HomeFieldHawk</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.69, 'away_win_prob': 0.31000000000000005, 'confidence': 0.72, 'r...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 19, 'away_score': 28, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.621, 'edge': -3.2}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 47, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 9, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.046, 'confidence': 0.69}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 RoadWarrior</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LAC', 'home_win_prob': 0.618, 'away_win_prob': 0.382, 'confidence': 0.618, 'reasoning': ...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 18, 'away_score': 21, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5562, 'edge': 0.3}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 39, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 3, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.004, 'confidence': 0.618}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 CoachingConnoisseur</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.642, 'away_win_prob': 0.358, 'confidence': 0.642, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 31, 'away_score': 27, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5778, 'edge': -3.0}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 58, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 4, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.088, 'confidence': 0.642}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 QBWhisperer</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.672, 'away_win_prob': 0.32799999999999996, 'confidence': 0.672, ...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 26, 'away_score': 19, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.6048, 'edge': -1.4}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 45, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 7, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.052, 'confidence': 0.672}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 SituationalSpecialist</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.648, 'away_win_prob': 0.352, 'confidence': 0.648, 'reasoning': "...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 32, 'away_score': 18, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5832, 'edge': 3.1}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'over', 'total_line': 43.5, 'predicted_total': 50, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 14, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.007, 'confidence': 0.648}...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expert-card">
+                        <div class="expert-name">🎯 MarketMaven</div>
+                        <div class="prediction-group">
+                            <h4>Game Outcome</h4>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Game Outcome:</span>
+                                <span class="prediction-value">{'winner': 'LV', 'home_win_prob': 0.63, 'away_win_prob': 0.37, 'confidence': 0.63, 'reasoning': "Bas...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Exact Score:</span>
+                                <span class="prediction-value">{'home_score': 29, 'away_score': 14, 'confidence': 0.38, 'reasoning': 'Score prediction using advanc...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Against The Spread:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'spread_line': -1.0, 'confidence': 0.5670000000000001, 'edge': 1.3}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Totals:</span>
+                                <span class="prediction-value">{'pick': 'under', 'total_line': 43.5, 'predicted_total': 43, 'confidence': 0.55}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Margin Of Victory:</span>
+                                <span class="prediction-value">{'margin': 15, 'winner': 'LV', 'confidence': 0.48}...</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">Moneyline Value:</span>
+                                <span class="prediction-value">{'pick': 'LV', 'expected_value': 0.029, 'confidence': 0.63}...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Props Tab -->
+            <div id="props" class="tab-panel hidden">
+                <h3>🏃 Player Props Predictions</h3>
+                <p style="margin-bottom: 20px;">Individual player performance predictions for QB, RB, WR, and fantasy points.</p>
+                <div style="text-align: center; padding: 40px;">
+                    <p style="font-size: 1.2em; color: #666;">Player props predictions available for all 15 experts...</p>
+                    <p style="margin-top: 20px; color: #999;">Detailed player statistics, passing yards, rushing attempts, receiving targets, and more.</p>
+                </div>
+            </div>
+
+            <!-- Live Game Tab -->
+            <div id="live" class="tab-panel hidden">
+                <h3>⚡ Live Game Predictions</h3>
+                <p style="margin-bottom: 20px;">Real-time predictions for drive outcomes, 4th down decisions, and win probability changes.</p>
+                <div style="text-align: center; padding: 40px;">
+                    <p style="font-size: 1.2em; color: #666;">Live game analysis from all 15 experts...</p>
+                    <p style="margin-top: 20px; color: #999;">Drive success rates, red zone efficiency, momentum shifts, and situational analysis.</p>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="advanced" class="tab-panel hidden">
+                <h3>🧠 Advanced Analytics</h3>
+                <p style="margin-bottom: 20px;">Deep analysis including coaching matchups, special teams, travel factors, and environmental impacts.</p>
+                <div style="text-align: center; padding: 40px;">
+                    <p style="font-size: 1.2em; color: #666;">Advanced metrics from all 15 experts...</p>
+                    <p style="margin-top: 20px; color: #999;">Weather impact, injury analysis, coaching strategies, special teams performance, and more.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab panel
+            document.getElementById(tabName).classList.remove('hidden');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate confidence bars
+            setTimeout(() => {
+                document.querySelectorAll('.confidence-fill').forEach(bar => {
+                    bar.style.transition = 'width 2s ease';
+                });
+            }, 500);
+
+            // Add hover effects to cards
+            document.querySelectorAll('.expert-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

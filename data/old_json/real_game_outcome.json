@@ -1,0 +1,27 @@
+{
+  "data_sources": {
+    "odds_api": true,
+    "sportsdata_io": false
+  },
+  "timestamp": "2025-09-16T01:32:39.936394",
+  "betting_results": {
+    "total_points": 29,
+    "total_result": "under",
+    "point_spread_result": "calculated_from_final_score",
+    "moneyline_result": "Los Angeles Chargers"
+  },
+  "advanced_analysis": {
+    "coaching_performance": "requires_film_analysis",
+    "special_teams_impact": "requires_detailed_stats",
+    "home_field_advantage": "requires_situational_data",
+    "fourth_down_conversions": "requires_play_by_play",
+    "drive_outcomes": "requires_drive_data",
+    "time_of_possession": "available_in_detailed_stats"
+  },
+  "verification_notes": [
+    "Basic score and winner verified from APIs",
+    "Betting outcomes calculated from final score",
+    "Advanced metrics require additional API calls",
+    "Some predictions require subjective analysis"
+  ]
+}

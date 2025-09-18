@@ -1,0 +1,182 @@
+{
+  "game": {
+    "home_team": "Kansas City Chiefs",
+    "away_team": "Buffalo Bills",
+    "weather_conditions": "Clear, 45\u00b0F, 8mph wind",
+    "betting_line": -2.5,
+    "total_points": 47.5,
+    "week": 15,
+    "season": 2024
+  },
+  "original_predictions": [
+    {
+      "expert_name": "The Conservative Analyst",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.65,
+      "reasoning": "Home field advantage and recent form favor KC",
+      "factors": [
+        "home_field",
+        "recent_performance",
+        "coaching"
+      ]
+    },
+    {
+      "expert_name": "The Risk Taking Gambler",
+      "predicted_winner": "Buffalo Bills",
+      "confidence": 0.72,
+      "reasoning": "Bills have explosive offense, road warriors this season",
+      "factors": [
+        "offensive_power",
+        "road_record",
+        "motivation"
+      ]
+    },
+    {
+      "expert_name": "The Weather Whisperer",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.58,
+      "reasoning": "Clear conditions favor KC's passing attack",
+      "factors": [
+        "weather_conditions",
+        "passing_offense",
+        "field_conditions"
+      ]
+    },
+    {
+      "expert_name": "The Sharp Bettor",
+      "predicted_winner": "Buffalo Bills",
+      "confidence": 0.68,
+      "reasoning": "Line movement suggests smart money on Bills",
+      "factors": [
+        "betting_trends",
+        "market_analysis",
+        "value_bet"
+      ]
+    },
+    {
+      "expert_name": "The Chaos Theory",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.51,
+      "reasoning": "Chaos favors the home team in primetime",
+      "factors": [
+        "randomness",
+        "primetime_factor",
+        "unpredictability"
+      ]
+    }
+  ],
+  "enhanced_predictions": [
+    {
+      "expert_name": "The Conservative Analyst",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.73,
+      "reasoning": "Home field advantage and recent form favor KC [Memory: 75% success in 8 similar games - Strong in home primetime games, Weather accuracy high]",
+      "factors": [
+        "home_field",
+        "recent_performance",
+        "coaching",
+        "episodic_memory"
+      ]
+    },
+    {
+      "expert_name": "The Risk Taking Gambler",
+      "predicted_winner": "Buffalo Bills",
+      "confidence": 0.6699999999999999,
+      "reasoning": "Bills have explosive offense, road warriors this season [Memory: 58% success in 12 similar games - Struggles with favorites, Strong with road underdogs]",
+      "factors": [
+        "offensive_power",
+        "road_record",
+        "motivation",
+        "episodic_memory"
+      ]
+    },
+    {
+      "expert_name": "The Weather Whisperer",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.7,
+      "reasoning": "Clear conditions favor KC's passing attack [Memory: 80% success in 15 similar games - Excellent clear weather predictions, Wind speed matters]",
+      "factors": [
+        "weather_conditions",
+        "passing_offense",
+        "field_conditions",
+        "episodic_memory"
+      ]
+    },
+    {
+      "expert_name": "The Sharp Bettor",
+      "predicted_winner": "Buffalo Bills",
+      "confidence": 0.78,
+      "reasoning": "Line movement suggests smart money on Bills [Memory: 83% success in 6 similar games - Market inefficiencies spotted, Line movement tracking]",
+      "factors": [
+        "betting_trends",
+        "market_analysis",
+        "value_bet",
+        "episodic_memory"
+      ]
+    },
+    {
+      "expert_name": "The Chaos Theory",
+      "predicted_winner": "Kansas City Chiefs",
+      "confidence": 0.54,
+      "reasoning": "Chaos favors the home team in primetime [Memory: 49% success in 20 similar games - Primetime chaos real, Home field amplified]",
+      "factors": [
+        "randomness",
+        "primetime_factor",
+        "unpredictability",
+        "episodic_memory"
+      ]
+    }
+  ],
+  "belief_revisions": [
+    {
+      "expert_name": "The Conservative Analyst",
+      "revision_type": "confidence_increase",
+      "original_confidence": 0.65,
+      "revised_confidence": 0.73,
+      "confidence_change": 0.07999999999999996,
+      "trigger": "episodic_memory_integration",
+      "reasoning": "Memory insights adjusted confidence by +8.0%"
+    },
+    {
+      "expert_name": "The Risk Taking Gambler",
+      "revision_type": "confidence_decrease",
+      "original_confidence": 0.72,
+      "revised_confidence": 0.6699999999999999,
+      "confidence_change": -0.050000000000000044,
+      "trigger": "episodic_memory_integration",
+      "reasoning": "Memory insights adjusted confidence by -5.0%"
+    },
+    {
+      "expert_name": "The Weather Whisperer",
+      "revision_type": "confidence_increase",
+      "original_confidence": 0.58,
+      "revised_confidence": 0.7,
+      "confidence_change": 0.12,
+      "trigger": "episodic_memory_integration",
+      "reasoning": "Memory insights adjusted confidence by +12.0%"
+    },
+    {
+      "expert_name": "The Sharp Bettor",
+      "revision_type": "confidence_increase",
+      "original_confidence": 0.68,
+      "revised_confidence": 0.78,
+      "confidence_change": 0.09999999999999998,
+      "trigger": "episodic_memory_integration",
+      "reasoning": "Memory insights adjusted confidence by +10.0%"
+    }
+  ],
+  "outcome": {
+    "winner": "Buffalo Bills",
+    "final_score": {
+      "Buffalo Bills": 31,
+      "Kansas City Chiefs": 24
+    },
+    "surprise_factor": 0.7,
+    "key_events": [
+      "Bills forced 3 turnovers",
+      "Josh Allen 2 rushing TDs",
+      "Chiefs kicker missed FG in 4th quarter"
+    ]
+  },
+  "accuracy": 0.4
+}

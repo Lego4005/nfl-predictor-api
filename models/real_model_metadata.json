@@ -1,0 +1,44 @@
+{
+  "training_data": "REAL NFL Games",
+  "data_source": "data/historical/games/historical_games.csv",
+  "feature_columns": [
+    "offensive_advantage",
+    "defensive_advantage",
+    "total_offensive_power",
+    "total_defensive_strength",
+    "home_off_vs_away_def",
+    "away_off_vs_home_def",
+    "spread_magnitude",
+    "total_expectation",
+    "is_dome_numeric"
+  ],
+  "models": {
+    "real_winner_model.pkl": {
+      "type": "XGBoost Classifier",
+      "target": "home_win",
+      "accuracy": 0.6875,
+      "data_type": "Real NFL Games",
+      "trained_date": "2025-09-16T05:57:06.598440"
+    },
+    "real_total_model.pkl": {
+      "type": "Random Forest Regressor",
+      "target": "total_points",
+      "rmse": 1.1182876704540436,
+      "data_type": "Real NFL Games",
+      "trained_date": "2025-09-16T05:57:06.598445"
+    },
+    "real_spread_model.pkl": {
+      "type": "Random Forest Regressor",
+      "target": "point_spread",
+      "rmse": 8.424605871403006,
+      "data_type": "Real NFL Games",
+      "trained_date": "2025-09-16T05:57:06.598447"
+    }
+  },
+  "training_info": {
+    "total_real_games": 256,
+    "teams_analyzed": 32,
+    "features_count": 9,
+    "data_authenticity": "REAL NFL HISTORICAL DATA"
+  }
+}

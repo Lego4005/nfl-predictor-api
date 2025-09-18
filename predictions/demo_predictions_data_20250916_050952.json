@@ -1,0 +1,980 @@
+{
+  "meta": {
+    "week": 3,
+    "season": 2024,
+    "generated_at": "2025-09-16T05:09:52.350834",
+    "total_games": 3,
+    "total_experts": 15,
+    "total_predictions": 1890,
+    "demonstration": true
+  },
+  "predictions": {
+    "afc_championship_preview_bills_chiefs": {
+      "expert_predictions": {
+        "statistical_analyst": {
+          "predicted_winner": "Bills",
+          "confidence": 0.55,
+          "spread_prediction": -4.1,
+          "total_prediction": 48.4,
+          "reasoning_chain": "\n            Statistical Analyst Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The statistical_analyst methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 55.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (statistical_analyst methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 23
+        },
+        "momentum_tracker": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.5700000000000001,
+          "spread_prediction": -3.8,
+          "total_prediction": 49.199999999999996,
+          "reasoning_chain": "\n            Momentum Tracker Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The momentum_tracker methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 57.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (momentum_tracker methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 26,
+          "away_score_prediction": 24
+        },
+        "weather_specialist": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.5900000000000001,
+          "spread_prediction": -3.5,
+          "total_prediction": 50.0,
+          "reasoning_chain": "\n            Weather Specialist Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The weather_specialist methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 59.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (weather_specialist methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 27,
+          "away_score_prediction": 25
+        },
+        "injury_analyst": {
+          "predicted_winner": "Bills",
+          "confidence": 0.6100000000000001,
+          "spread_prediction": -3.2,
+          "total_prediction": 50.8,
+          "reasoning_chain": "\n            Injury Analyst Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The injury_analyst methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 61.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (injury_analyst methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 28,
+          "away_score_prediction": 26
+        },
+        "matchup_expert": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.63,
+          "spread_prediction": -2.9000000000000004,
+          "total_prediction": 51.6,
+          "reasoning_chain": "\n            Matchup Expert Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The matchup_expert methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 63.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (matchup_expert methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 29,
+          "away_score_prediction": 27
+        },
+        "coaching_analyst": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.65,
+          "spread_prediction": -2.6,
+          "total_prediction": 52.4,
+          "reasoning_chain": "\n            Coaching Analyst Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The coaching_analyst methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 65.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (coaching_analyst methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 30,
+          "away_score_prediction": 23
+        },
+        "psychological_profiler": {
+          "predicted_winner": "Bills",
+          "confidence": 0.67,
+          "spread_prediction": -2.3000000000000003,
+          "total_prediction": 53.199999999999996,
+          "reasoning_chain": "\n            Psychological Profiler Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The psychological_profiler methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 67.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (psychological_profiler methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 31,
+          "away_score_prediction": 24
+        },
+        "trend_forecaster": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.6900000000000001,
+          "spread_prediction": -2.0,
+          "total_prediction": 54.0,
+          "reasoning_chain": "\n            Trend Forecaster Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The trend_forecaster methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 69.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (trend_forecaster methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 25
+        },
+        "situational_specialist": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.7100000000000001,
+          "spread_prediction": -1.7000000000000002,
+          "total_prediction": 54.8,
+          "reasoning_chain": "\n            Situational Specialist Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The situational_specialist methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 71.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (situational_specialist methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 26,
+          "away_score_prediction": 26
+        },
+        "data_scientist": {
+          "predicted_winner": "Bills",
+          "confidence": 0.73,
+          "spread_prediction": -1.4000000000000004,
+          "total_prediction": 55.6,
+          "reasoning_chain": "\n            Data Scientist Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The data_scientist methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 73.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (data_scientist methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 27,
+          "away_score_prediction": 27
+        },
+        "vegas_interpreter": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.75,
+          "spread_prediction": -1.1,
+          "total_prediction": 56.4,
+          "reasoning_chain": "\n            Vegas Interpreter Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The vegas_interpreter methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 75.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (vegas_interpreter methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 28,
+          "away_score_prediction": 23
+        },
+        "contrarian_analyst": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.77,
+          "spread_prediction": -0.8000000000000003,
+          "total_prediction": 57.199999999999996,
+          "reasoning_chain": "\n            Contrarian Analyst Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The contrarian_analyst methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 77.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (contrarian_analyst methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 29,
+          "away_score_prediction": 24
+        },
+        "neural_pattern_specialist": {
+          "predicted_winner": "Bills",
+          "confidence": 0.79,
+          "spread_prediction": -0.5000000000000004,
+          "total_prediction": 58.0,
+          "reasoning_chain": "\n            Neural Pattern Specialist Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The neural_pattern_specialist methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 79.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (neural_pattern_specialist methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 30,
+          "away_score_prediction": 25
+        },
+        "ensemble_coordinator": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.81,
+          "spread_prediction": -0.20000000000000018,
+          "total_prediction": 58.800000000000004,
+          "reasoning_chain": "\n            Ensemble Coordinator Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The ensemble_coordinator methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 81.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (ensemble_coordinator methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 31,
+          "away_score_prediction": 26
+        },
+        "meta_analyst": {
+          "predicted_winner": "Chiefs",
+          "confidence": 0.8300000000000001,
+          "spread_prediction": 0.10000000000000009,
+          "total_prediction": 59.6,
+          "reasoning_chain": "\n            Meta Analyst Analysis for Bills @ Chiefs:\n\n            Primary Analysis: Comprehensive evaluation reveals key factors favoring the predicted outcome.\n            The meta_analyst methodology emphasizes specific strengths and weaknesses in this matchup.\n\n            Key Insights:\n            - Offensive efficiency differential strongly impacts game flow\n            - Defensive matchup advantages create strategic opportunities\n            - Recent performance trends indicate momentum shifts\n            - Environmental factors (weather, venue) play crucial role\n            - Historical head-to-head patterns suggest likely scenarios\n\n            Confidence Rationale: 83.0% confidence based on data quality,\n            historical accuracy of this methodology, and strength of predictive signals.\n            ",
+          "key_factors": [
+            "Offensive efficiency advantage (meta_analyst methodology)",
+            "Defensive matchup analysis favors predicted winner",
+            "Recent momentum trends support prediction",
+            "Weather/venue factors align with strengths",
+            "Historical patterns confirm likely outcome"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 27
+        }
+      },
+      "consensus": {
+        "predicted_winner": "Chiefs",
+        "confidence": 0.6900000000000001,
+        "vote_distribution": {
+          "Bills": 5,
+          "Chiefs": 10
+        },
+        "weighted_confidence": 0.6900000000000001,
+        "unanimous": false
+      },
+      "confidence_metrics": {
+        "average": 0.6900000000000001,
+        "std_dev": 0.082,
+        "min": 0.55,
+        "max": 0.8300000000000001
+      },
+      "reasoning_factors": {
+        "team_statistics": {
+          "home_record": "2-0 (1st in AFC West)",
+          "away_record": "2-0 (1st in AFC East)",
+          "home_ppg": 28.5,
+          "away_ppg": 31.0,
+          "home_papg": 18.0,
+          "away_papg": 21.5
+        },
+        "recent_performance": {
+          "home_trend": "Dominant at home, perfect in September (2-0)",
+          "away_trend": "Strong road performance, explosive offense",
+          "momentum": "Both teams riding high with perfect records"
+        },
+        "head_to_head": {
+          "last_meeting": "Bills 24-20 in Buffalo (Week 14, 2023)",
+          "series_record": "Bills lead recent meetings 3-2 since 2020",
+          "avg_total": 48.2,
+          "playoff_history": "Bills eliminated Chiefs in divisional round 2023"
+        },
+        "injury_report": {
+          "home_impact": "Chris Jones (Questionable) - Major defensive impact",
+          "away_impact": "Von Miller (Doubtful) - Pass rush concerns",
+          "key_players": [
+            "Travis Kelce (Probable)",
+            "Stefon Diggs (Full)"
+          ]
+        },
+        "weather_conditions": {
+          "condition": "Clear skies",
+          "temperature": 75,
+          "wind": "5 mph SW (favorable for passing)",
+          "precipitation": 0,
+          "visibility": "Excellent"
+        },
+        "betting_trends": {
+          "public_money_home": 52,
+          "public_money_away": 48,
+          "sharp_money": "Bills receiving professional support",
+          "line_movement": "Moved 0.5 points toward Bills",
+          "total_movement": "Stayed steady at 54.5"
+        },
+        "coaching_matchup": {
+          "home_coach": "Andy Reid - Excellent after bye weeks",
+          "away_coach": "Sean McDermott - Strong preparation vs elite teams",
+          "edge": "Reid's playoff experience vs McDermott's tactical adjustments"
+        },
+        "situational_factors": {
+          "primetime": "Sunday Night Football - both teams excel",
+          "rest": "Both teams coming off standard week",
+          "travel": "Buffalo moderate travel to Kansas City",
+          "importance": "Early season AFC Championship preview"
+        }
+      },
+      "home_team": "Chiefs",
+      "away_team": "Bills",
+      "game_date": "2024-09-16",
+      "game_time": "8:20 PM ET",
+      "venue": "Arrowhead Stadium, Kansas City, MO",
+      "weather": "Clear, 75\u00b0F, 5 mph SW wind"
+    },
+    "nfc_rivalry_49ers_cowboys": {
+      "expert_predictions": {
+        "statistical_analyst": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.48,
+          "spread_prediction": -0.3999999999999999,
+          "total_prediction": 42.8,
+          "reasoning_chain": "\n            Statistical Analyst Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The statistical_analyst approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "statistical_analyst identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 21
+        },
+        "momentum_tracker": {
+          "predicted_winner": "49ers",
+          "confidence": 0.505,
+          "spread_prediction": -0.19999999999999996,
+          "total_prediction": 43.4,
+          "reasoning_chain": "\n            Momentum Tracker Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The momentum_tracker approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "momentum_tracker identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 22
+        },
+        "weather_specialist": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.53,
+          "spread_prediction": 0.0,
+          "total_prediction": 44.0,
+          "reasoning_chain": "\n            Weather Specialist Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The weather_specialist approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "weather_specialist identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 23
+        },
+        "injury_analyst": {
+          "predicted_winner": "49ers",
+          "confidence": 0.5549999999999999,
+          "spread_prediction": 0.20000000000000018,
+          "total_prediction": 44.599999999999994,
+          "reasoning_chain": "\n            Injury Analyst Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The injury_analyst approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "injury_analyst identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 26,
+          "away_score_prediction": 24
+        },
+        "matchup_expert": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.58,
+          "spread_prediction": 0.40000000000000013,
+          "total_prediction": 45.199999999999996,
+          "reasoning_chain": "\n            Matchup Expert Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The matchup_expert approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "matchup_expert identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 27,
+          "away_score_prediction": 25
+        },
+        "coaching_analyst": {
+          "predicted_winner": "49ers",
+          "confidence": 0.605,
+          "spread_prediction": 0.6000000000000001,
+          "total_prediction": 45.8,
+          "reasoning_chain": "\n            Coaching Analyst Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The coaching_analyst approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "coaching_analyst identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 28,
+          "away_score_prediction": 21
+        },
+        "psychological_profiler": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.63,
+          "spread_prediction": 0.8000000000000003,
+          "total_prediction": 46.4,
+          "reasoning_chain": "\n            Psychological Profiler Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The psychological_profiler approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "psychological_profiler identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 22
+        },
+        "trend_forecaster": {
+          "predicted_winner": "49ers",
+          "confidence": 0.655,
+          "spread_prediction": 1.0000000000000004,
+          "total_prediction": 47.0,
+          "reasoning_chain": "\n            Trend Forecaster Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The trend_forecaster approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "trend_forecaster identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 23
+        },
+        "situational_specialist": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.6799999999999999,
+          "spread_prediction": 1.2000000000000002,
+          "total_prediction": 47.599999999999994,
+          "reasoning_chain": "\n            Situational Specialist Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The situational_specialist approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "situational_specialist identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 24
+        },
+        "data_scientist": {
+          "predicted_winner": "49ers",
+          "confidence": 0.705,
+          "spread_prediction": 1.4,
+          "total_prediction": 48.199999999999996,
+          "reasoning_chain": "\n            Data Scientist Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The data_scientist approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "data_scientist identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 26,
+          "away_score_prediction": 25
+        },
+        "vegas_interpreter": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.73,
+          "spread_prediction": 1.6,
+          "total_prediction": 48.8,
+          "reasoning_chain": "\n            Vegas Interpreter Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The vegas_interpreter approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "vegas_interpreter identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 27,
+          "away_score_prediction": 21
+        },
+        "contrarian_analyst": {
+          "predicted_winner": "49ers",
+          "confidence": 0.755,
+          "spread_prediction": 1.8000000000000003,
+          "total_prediction": 49.4,
+          "reasoning_chain": "\n            Contrarian Analyst Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The contrarian_analyst approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "contrarian_analyst identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 28,
+          "away_score_prediction": 22
+        },
+        "neural_pattern_specialist": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.78,
+          "spread_prediction": 2.0000000000000004,
+          "total_prediction": 50.0,
+          "reasoning_chain": "\n            Neural Pattern Specialist Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The neural_pattern_specialist approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "neural_pattern_specialist identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 23
+        },
+        "ensemble_coordinator": {
+          "predicted_winner": "49ers",
+          "confidence": 0.8049999999999999,
+          "spread_prediction": 2.2,
+          "total_prediction": 50.599999999999994,
+          "reasoning_chain": "\n            Ensemble Coordinator Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The ensemble_coordinator approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "ensemble_coordinator identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 24
+        },
+        "meta_analyst": {
+          "predicted_winner": "Cowboys",
+          "confidence": 0.8300000000000001,
+          "spread_prediction": 2.4000000000000004,
+          "total_prediction": 51.199999999999996,
+          "reasoning_chain": "\n            Meta Analyst Assessment for 49ers @ Cowboys:\n\n            This NFC showdown presents unique challenges for prediction due to evenly matched teams.\n            The meta_analyst approach reveals subtle advantages that could determine the outcome.\n\n            Critical Factors:\n            - Home field advantage in dome environment\n            - Injury considerations affecting key position groups\n            - Coaching chess match between elite staffs\n            - Recent form divergence creates prediction opportunity\n            - Playoff implications add motivation factor\n            ",
+          "key_factors": [
+            "meta_analyst identifies key matchup advantages",
+            "Dome environment neutralizes weather factors",
+            "Injury impacts favor predicted winner",
+            "Coaching advantages in specific situations",
+            "Recent form trending supports prediction"
+          ],
+          "home_score_prediction": 25,
+          "away_score_prediction": 25
+        }
+      },
+      "consensus": {
+        "predicted_winner": "Cowboys",
+        "confidence": 0.6549999999999999,
+        "vote_distribution": {
+          "Cowboys": 8,
+          "49ers": 7
+        },
+        "weighted_confidence": 0.6549999999999999,
+        "unanimous": false
+      },
+      "confidence_metrics": {
+        "average": 0.6549999999999999,
+        "std_dev": 0.095,
+        "min": 0.48,
+        "max": 0.8300000000000001
+      },
+      "reasoning_factors": {
+        "team_statistics": {
+          "home_record": "1-1 (2nd in NFC East)",
+          "away_record": "2-0 (1st in NFC West)",
+          "home_ppg": 24.5,
+          "away_ppg": 28.0,
+          "home_papg": 22.0,
+          "away_papg": 18.5
+        },
+        "recent_performance": {
+          "home_trend": "Inconsistent start, home venue provides boost",
+          "away_trend": "Undefeated but showing vulnerabilities",
+          "momentum": "Cowboys need bounce-back, 49ers riding confidence"
+        },
+        "head_to_head": {
+          "last_meeting": "49ers 19-12 (2021 Wild Card)",
+          "series_record": "Cowboys lead all-time but 49ers won recent playoff meeting",
+          "avg_total": 44.8,
+          "postseason": "49ers eliminated Cowboys in dramatic fashion"
+        },
+        "injury_report": {
+          "home_impact": "Trevon Diggs (Full) - Key defensive return",
+          "away_impact": "Christian McCaffrey (IR) - Major offensive loss",
+          "key_players": [
+            "Dak Prescott (Full)",
+            "Brock Purdy (Probable)"
+          ]
+        },
+        "weather_conditions": {
+          "condition": "Dome (controlled environment)",
+          "temperature": 72,
+          "wind": "None",
+          "advantages": "Equal conditions for both teams"
+        },
+        "betting_trends": {
+          "public_money_home": 58,
+          "public_money_away": 42,
+          "sharp_money": "Cowboys getting fade-the-public support",
+          "line_movement": "Cowboys favored by increasing margin"
+        }
+      },
+      "home_team": "Cowboys",
+      "away_team": "49ers",
+      "game_date": "2024-09-16",
+      "game_time": "4:25 PM ET",
+      "venue": "AT&T Stadium, Arlington, TX",
+      "weather": "Dome - controlled environment"
+    },
+    "afc_north_ravens_steelers": {
+      "expert_predictions": {
+        "statistical_analyst": {
+          "predicted_winner": "Ravens",
+          "confidence": 0.51,
+          "spread_prediction": 0.75,
+          "total_prediction": 41.2,
+          "reasoning_chain": "\n            Statistical Analyst Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "statistical_analyst methodology shows slight edge"
+          ],
+          "home_score_prediction": 20,
+          "away_score_prediction": 17
+        },
+        "momentum_tracker": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.528,
+          "spread_prediction": 1.0,
+          "total_prediction": 41.6,
+          "reasoning_chain": "\n            Momentum Tracker Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "momentum_tracker methodology shows slight edge"
+          ],
+          "home_score_prediction": 21,
+          "away_score_prediction": 18
+        },
+        "weather_specialist": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.546,
+          "spread_prediction": 1.25,
+          "total_prediction": 42.0,
+          "reasoning_chain": "\n            Weather Specialist Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "weather_specialist methodology shows slight edge"
+          ],
+          "home_score_prediction": 22,
+          "away_score_prediction": 19
+        },
+        "injury_analyst": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.5640000000000001,
+          "spread_prediction": 1.5,
+          "total_prediction": 42.400000000000006,
+          "reasoning_chain": "\n            Injury Analyst Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "injury_analyst methodology shows slight edge"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 20
+        },
+        "matchup_expert": {
+          "predicted_winner": "Ravens",
+          "confidence": 0.582,
+          "spread_prediction": 1.75,
+          "total_prediction": 42.800000000000004,
+          "reasoning_chain": "\n            Matchup Expert Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "matchup_expert methodology shows slight edge"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 17
+        },
+        "coaching_analyst": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.6,
+          "spread_prediction": 2.0,
+          "total_prediction": 43.2,
+          "reasoning_chain": "\n            Coaching Analyst Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "coaching_analyst methodology shows slight edge"
+          ],
+          "home_score_prediction": 20,
+          "away_score_prediction": 18
+        },
+        "psychological_profiler": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.618,
+          "spread_prediction": 2.25,
+          "total_prediction": 43.6,
+          "reasoning_chain": "\n            Psychological Profiler Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "psychological_profiler methodology shows slight edge"
+          ],
+          "home_score_prediction": 21,
+          "away_score_prediction": 19
+        },
+        "trend_forecaster": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.636,
+          "spread_prediction": 2.5,
+          "total_prediction": 44.0,
+          "reasoning_chain": "\n            Trend Forecaster Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "trend_forecaster methodology shows slight edge"
+          ],
+          "home_score_prediction": 22,
+          "away_score_prediction": 20
+        },
+        "situational_specialist": {
+          "predicted_winner": "Ravens",
+          "confidence": 0.654,
+          "spread_prediction": 2.75,
+          "total_prediction": 44.400000000000006,
+          "reasoning_chain": "\n            Situational Specialist Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "situational_specialist methodology shows slight edge"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 17
+        },
+        "data_scientist": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.6719999999999999,
+          "spread_prediction": 3.0,
+          "total_prediction": 44.800000000000004,
+          "reasoning_chain": "\n            Data Scientist Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "data_scientist methodology shows slight edge"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 18
+        },
+        "vegas_interpreter": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.69,
+          "spread_prediction": 3.25,
+          "total_prediction": 45.2,
+          "reasoning_chain": "\n            Vegas Interpreter Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "vegas_interpreter methodology shows slight edge"
+          ],
+          "home_score_prediction": 20,
+          "away_score_prediction": 19
+        },
+        "contrarian_analyst": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.708,
+          "spread_prediction": 3.5,
+          "total_prediction": 45.6,
+          "reasoning_chain": "\n            Contrarian Analyst Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "contrarian_analyst methodology shows slight edge"
+          ],
+          "home_score_prediction": 21,
+          "away_score_prediction": 20
+        },
+        "neural_pattern_specialist": {
+          "predicted_winner": "Ravens",
+          "confidence": 0.726,
+          "spread_prediction": 3.75,
+          "total_prediction": 46.0,
+          "reasoning_chain": "\n            Neural Pattern Specialist Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "neural_pattern_specialist methodology shows slight edge"
+          ],
+          "home_score_prediction": 22,
+          "away_score_prediction": 17
+        },
+        "ensemble_coordinator": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.744,
+          "spread_prediction": 4.0,
+          "total_prediction": 46.400000000000006,
+          "reasoning_chain": "\n            Ensemble Coordinator Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "ensemble_coordinator methodology shows slight edge"
+          ],
+          "home_score_prediction": 23,
+          "away_score_prediction": 18
+        },
+        "meta_analyst": {
+          "predicted_winner": "Steelers",
+          "confidence": 0.762,
+          "spread_prediction": 4.25,
+          "total_prediction": 46.800000000000004,
+          "reasoning_chain": "\n            Meta Analyst Divisional Analysis for Ravens @ Steelers:\n\n            AFC North divisional games carry unique characteristics requiring specialized analysis.\n            Historical patterns, weather considerations, and defensive strengths create complex dynamics.\n\n            Divisional Game Factors:\n            - Defensive-oriented matchup affects total points projection\n            - Weather conditions significantly impact offensive strategies\n            - Divisional familiarity reduces surprise element\n            - Physical, grinding style expected from both teams\n            - Home field advantage amplified in division games\n            ",
+          "key_factors": [
+            "AFC North divisional dynamics favor defense",
+            "Weather conditions impact passing games",
+            "Home field crucial in divisional matchups",
+            "Physical style reduces offensive explosiveness",
+            "meta_analyst methodology shows slight edge"
+          ],
+          "home_score_prediction": 24,
+          "away_score_prediction": 19
+        }
+      },
+      "consensus": {
+        "predicted_winner": "Steelers",
+        "confidence": 0.6359999999999999,
+        "vote_distribution": {
+          "Steelers": 11,
+          "Ravens": 4
+        },
+        "weighted_confidence": 0.6359999999999999,
+        "unanimous": false
+      },
+      "confidence_metrics": {
+        "average": 0.6359999999999999,
+        "std_dev": 0.067,
+        "min": 0.51,
+        "max": 0.762
+      },
+      "reasoning_factors": {
+        "team_statistics": {
+          "home_record": "1-1 (3rd in AFC North)",
+          "away_record": "2-0 (1st in AFC North)",
+          "home_ppg": 19.5,
+          "away_ppg": 26.0,
+          "defensive_focus": "Both teams emphasize defensive strength"
+        },
+        "recent_performance": {
+          "home_trend": "Defensive improvements, offensive struggles",
+          "away_trend": "Balanced attack led by dynamic QB play",
+          "momentum": "Ravens confident, Steelers desperate for division win"
+        },
+        "head_to_head": {
+          "last_meeting": "Ravens 17-10 (2023 Week 18)",
+          "series_record": "Ravens have won 4 of last 6 meetings",
+          "avg_total": 40.2,
+          "defensive_battles": "Recent games feature strong defensive play"
+        },
+        "injury_report": {
+          "home_impact": "T.J. Watt (Questionable) - Pass rush centerpiece",
+          "away_impact": "Roquan Smith (Full) - Defensive captain healthy",
+          "key_players": [
+            "Kenny Pickett (Full)",
+            "Lamar Jackson (Full)"
+          ]
+        },
+        "weather_conditions": {
+          "condition": "Overcast with light winds",
+          "temperature": 68,
+          "wind": "8 mph NE (slight impact on passing)",
+          "precipitation": 20,
+          "field_conditions": "Good despite recent rain"
+        },
+        "betting_trends": {
+          "public_money_home": 45,
+          "public_money_away": 55,
+          "sharp_money": "Ravens road favorites getting support",
+          "line_movement": "Ravens spread increasing"
+        }
+      },
+      "home_team": "Steelers",
+      "away_team": "Ravens",
+      "game_date": "2024-09-16",
+      "game_time": "1:00 PM ET",
+      "venue": "Heinz Field, Pittsburgh, PA",
+      "weather": "Overcast, 68\u00b0F, 8 mph NE wind"
+    }
+  },
+  "statistics": {
+    "confidence": {
+      "average": 0.6603333333333333,
+      "min": 0.48,
+      "max": 0.8300000000000001,
+      "high_confidence_count": 17
+    },
+    "expert_distribution": {
+      "Bills": 5,
+      "Chiefs": 10,
+      "Cowboys": 8,
+      "49ers": 7,
+      "Ravens": 4,
+      "Steelers": 11
+    },
+    "consensus_data": [
+      {
+        "winner": "Chiefs",
+        "confidence": 0.6900000000000001,
+        "unanimous": false
+      },
+      {
+        "winner": "Cowboys",
+        "confidence": 0.6549999999999999,
+        "unanimous": false
+      },
+      {
+        "winner": "Steelers",
+        "confidence": 0.6359999999999999,
+        "unanimous": false
+      }
+    ]
+  }
+}

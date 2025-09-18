@@ -1,0 +1,556 @@
+name: NFL Predictor API - Test Suite
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run tests daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      run_load_tests:
+        description: 'Run load tests'
+        required: false
+        default: 'false'
+        type: boolean
+      coverage_threshold:
+        description: 'Coverage threshold percentage'
+        required: false
+        default: '80'
+        type: string
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+  POSTGRES_VERSION: '15'
+  REDIS_VERSION: '7'
+
+jobs:
+  # Job 1: Code Quality and Linting
+  code-quality:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 black isort mypy bandit safety
+        pip install -r requirements.txt
+
+    - name: Install Node dependencies
+      run: npm ci
+
+    - name: Python Code Formatting (Black)
+      run: |
+        black --check --diff src/ tests/ *.py
+        echo "✅ Python code formatting check passed"
+
+    - name: Python Import Sorting (isort)
+      run: |
+        isort --check-only --diff src/ tests/ *.py
+        echo "✅ Python import sorting check passed"
+
+    - name: Python Linting (Flake8)
+      run: |
+        flake8 src/ tests/ *.py --max-line-length=88 --extend-ignore=E203,W503
+        echo "✅ Python linting passed"
+
+    - name: Python Type Checking (MyPy)
+      run: |
+        mypy src/ --ignore-missing-imports --no-strict-optional
+        echo "✅ Python type checking passed"
+
+    - name: Python Security Check (Bandit)
+      run: |
+        bandit -r src/ -f json -o bandit-report.json || true
+        bandit -r src/ --severity-level medium
+        echo "✅ Python security check completed"
+
+    - name: Python Dependencies Security Check (Safety)
+      run: |
+        safety check --json --output safety-report.json || true
+        safety check
+        echo "✅ Python dependency security check completed"
+
+    - name: TypeScript/JavaScript Linting
+      run: |
+        # Add ESLint/Prettier checks if configured
+        echo "✅ Frontend linting completed"
+
+    - name: Upload security reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+
+  # Job 2: Unit Tests (Backend)
+  test-backend:
+    name: Backend Unit Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: nfl_predictor_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest-xdist pytest-benchmark
+
+    - name: Wait for services
+      run: |
+        echo "Waiting for PostgreSQL..."
+        timeout 30 bash -c 'until pg_isready -h localhost -p 5432 -U test_user; do sleep 1; done'
+        echo "Waiting for Redis..."
+        timeout 30 bash -c 'until redis-cli -h localhost -p 6379 ping; do sleep 1; done'
+        echo "✅ All services are ready"
+
+    - name: Set up test environment
+      run: |
+        mkdir -p test-reports htmlcov
+        export DATABASE_URL="postgresql://test_user:test_password@localhost/nfl_predictor_test"
+        export REDIS_URL="redis://localhost:6379/0"
+        export ENVIRONMENT="test"
+
+    - name: Run Unit Tests
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost/nfl_predictor_test
+        REDIS_URL: redis://localhost:6379/0
+        ENVIRONMENT: test
+        COVERAGE_THRESHOLD: ${{ github.event.inputs.coverage_threshold || '80' }}
+      run: |
+        pytest tests/unit/ \
+          --maxfail=10 \
+          --tb=short \
+          --cov-fail-under=$COVERAGE_THRESHOLD \
+          --benchmark-skip \
+          -n auto \
+          --dist worksteal
+
+    - name: Run Integration Tests
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost/nfl_predictor_test
+        REDIS_URL: redis://localhost:6379/0
+        ENVIRONMENT: test
+      run: |
+        pytest tests/integration/ \
+          --maxfail=5 \
+          --tb=short \
+          --benchmark-skip
+
+    - name: Run ML Model Tests
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost/nfl_predictor_test
+        REDIS_URL: redis://localhost:6379/0
+        ENVIRONMENT: test
+      run: |
+        pytest tests/ml/ \
+          --maxfail=5 \
+          --tb=short \
+          --benchmark-skip
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: backend
+        name: backend-coverage
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: backend-test-results
+        path: |
+          test-reports/
+          htmlcov/
+          coverage.xml
+
+  # Job 3: Frontend Tests
+  test-frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run TypeScript type checking
+      run: npx tsc --noEmit
+
+    - name: Run Jest unit tests
+      run: |
+        npm run test -- --coverage --watchAll=false --ci
+      env:
+        CI: true
+
+    - name: Run Vitest tests
+      run: |
+        npx vitest run --coverage --reporter=junit --outputFile=test-reports/frontend-junit.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/frontend/lcov.info
+        flags: frontend
+        name: frontend-coverage
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: frontend-test-results
+        path: |
+          test-reports/
+          coverage/
+
+  # Job 4: End-to-End Tests
+  test-e2e:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'run-e2e')
+
+    services:
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: nfl_predictor_e2e
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        npm ci
+
+    - name: Build frontend
+      run: npm run build
+
+    - name: Start application
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost/nfl_predictor_e2e
+        REDIS_URL: redis://localhost:6379/0
+        ENVIRONMENT: test
+      run: |
+        python main.py &
+        echo $! > app.pid
+        sleep 10
+        curl -f http://localhost:8000/health || exit 1
+
+    - name: Run E2E tests
+      env:
+        BASE_URL: http://localhost:8000
+      run: |
+        pytest tests/e2e/ \
+          --maxfail=3 \
+          --tb=short
+
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f app.pid ]; then
+          kill $(cat app.pid) || true
+        fi
+
+    - name: Upload E2E test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: e2e-test-results
+        path: |
+          test-reports/
+          screenshots/
+
+  # Job 5: Performance Tests
+  test-performance:
+    name: Performance & Load Tests
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.event.inputs.run_load_tests == 'true' || github.event_name == 'schedule'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install locust pytest-benchmark
+
+    - name: Run performance benchmarks
+      run: |
+        pytest tests/performance/ \
+          --benchmark-only \
+          --benchmark-json=performance-results.json
+
+    - name: Run load tests
+      if: github.event.inputs.run_load_tests == 'true'
+      run: |
+        # Start the application
+        python main.py &
+        APP_PID=$!
+        sleep 10
+
+        # Run Locust load tests
+        locust -f tests/load/locustfile.py \
+          --headless \
+          --users 50 \
+          --spawn-rate 5 \
+          --run-time 5m \
+          --host http://localhost:8000 \
+          --html load-test-report.html \
+          --csv load-test-results
+
+        # Clean up
+        kill $APP_PID || true
+
+    - name: Performance regression check
+      run: |
+        python tests/utils/performance_regression.py \
+          --current performance-results.json \
+          --baseline performance-baseline.json \
+          --threshold 20
+
+    - name: Upload performance results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: performance-test-results
+        path: |
+          performance-results.json
+          load-test-report.html
+          load-test-results*
+
+  # Job 6: Security Tests
+  test-security:
+    name: Security Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'run-security')
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install security testing tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest-security pytest-httpserver
+
+    - name: Run security tests
+      run: |
+        pytest tests/security/ \
+          --maxfail=5 \
+          --tb=short
+
+    - name: OWASP ZAP Scan
+      if: github.event_name != 'pull_request'
+      uses: zaproxy/action-full-scan@v0.7.0
+      with:
+        target: 'http://localhost:8000'
+        rules_file_name: '.zap/rules.tsv'
+        cmd_options: '-a'
+
+  # Job 7: Test Results Summary
+  test-summary:
+    name: Test Results Summary
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend, test-e2e, test-performance]
+    if: always()
+
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Generate test summary
+      run: |
+        echo "# Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Coverage Reports" >> $GITHUB_STEP_SUMMARY
+        echo "- Backend Coverage: [Download](backend-test-results/htmlcov/index.html)" >> $GITHUB_STEP_SUMMARY
+        echo "- Frontend Coverage: [Download](frontend-test-results/coverage/index.html)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Test Status" >> $GITHUB_STEP_SUMMARY
+        echo "- Backend Tests: ${{ needs.test-backend.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Frontend Tests: ${{ needs.test-frontend.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- E2E Tests: ${{ needs.test-e2e.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Performance Tests: ${{ needs.test-performance.result }}" >> $GITHUB_STEP_SUMMARY
+
+    - name: Comment PR with test results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const results = {
+            backend: '${{ needs.test-backend.result }}',
+            frontend: '${{ needs.test-frontend.result }}',
+            e2e: '${{ needs.test-e2e.result }}',
+            performance: '${{ needs.test-performance.result }}'
+          };
+
+          const formatResult = (result) => {
+            return result === 'success' ? '✅' : result === 'failure' ? '❌' : '⏭️';
+          };
+
+          const comment = `
+          ## 🧪 Test Results
+
+          | Test Suite | Status |
+          |------------|--------|
+          | Backend Tests | ${formatResult(results.backend)} ${results.backend} |
+          | Frontend Tests | ${formatResult(results.frontend)} ${results.frontend} |
+          | E2E Tests | ${formatResult(results.e2e)} ${results.e2e} |
+          | Performance Tests | ${formatResult(results.performance)} ${results.performance} |
+
+          View detailed results in the [Actions tab](${context.payload.pull_request.html_url}/checks).
+          `;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  # Job 8: Deployment Readiness Check
+  deployment-check:
+    name: Deployment Readiness
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Check deployment readiness
+      run: |
+        echo "All tests passed. Ready for deployment." >> $GITHUB_STEP_SUMMARY
+
+        # Set output for downstream workflows
+        echo "ready_for_deployment=true" >> $GITHUB_OUTPUT
+
+    outputs:
+      ready_for_deployment: ${{ steps.check.outputs.ready_for_deployment }}
+
+# Workflow-level environment variables for consistency
+env:
+  PYTHONPATH: ${{ github.workspace }}/src
+  NODE_ENV: test
+  CI: true

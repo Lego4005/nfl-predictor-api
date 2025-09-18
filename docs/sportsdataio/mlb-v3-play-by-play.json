@@ -1,0 +1,766 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MLB v3 Play-by-Play",
+    "version": "1.0",
+    "description": "MLB play-by-play API."
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/mlb/pbp",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/PlayByPlay/{gameid}": {
+      "get": {
+        "description": "Each invididual play, its type and outcome, complete with player and team stats down to the play level, delivered live in real-time, called by game.",
+        "operationId": "PlayByPlay[LiveFinal]",
+        "summary": "Play By Play [Live & Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of an MLB game.  GameIDs can be found in the Games API.  Valid entries are <code>14620</code> or <code>16905</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayByPlay"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayByPlayDelta/{date}/{minutes}": {
+      "get": {
+        "description": "This method returns all play-by-plays for a given season and week, but only returns plays that have changed in the last X minutes as specified in your API call. By definition this is a live endpoint, not final.",
+        "operationId": "PlayByPlayDelta",
+        "summary": "Play By Play Delta",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date of the game(s).\n<br>Examples: <code>2017-JUL-31</code>, <code>2017-SEP-01</code>.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "minutes",
+            "in": "path",
+            "description": "Only returns plays that have changed in the last X minutes.  You specify how many minutes in time to go back.  Valid entries are:\n<code>1</code>, <code>2</code> ... <code>all</code>.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayByPlay"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/PlayByPlayFinal/{gameid}": {
+      "get": {
+        "description": "Each invididual play, its type and outcome, complete with player and team stats down to the play level, delivered final (after the game ends), called by game.",
+        "operationId": "PlayByPlay[Final]",
+        "summary": "Play By Play [Final]",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "gameid",
+            "in": "path",
+            "description": "The GameID of an MLB game.  GameIDs can be found in the Games API.  Valid entries are <code>14620</code> or <code>16905</code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlayByPlay"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "PlayByPlay": {
+      "properties": {
+        "Game": {
+          "$ref": "#/definitions/Game"
+        },
+        "Plays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Play"
+          }
+        }
+      }
+    },
+    "Game": {
+      "properties": {
+        "GameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Season": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SeasonType": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeam": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "HomeTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "RescheduledGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "StadiumID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Channel": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Inning": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InningHalf": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "AwayTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamHits": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamHits": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamErrors": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamErrors": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "WinningPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "LosingPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SavingPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Attendance": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamProbablePitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamProbablePitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Outs": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Balls": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Strikes": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentHitterID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamStartingPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamStartingPitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentPitchingTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "CurrentHittingTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PointSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "OverUnder": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "AwayTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastTempLow": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastTempHigh": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastDescription": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ForecastWindChill": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastWindSpeed": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ForecastWindDirection": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RescheduledFromGameID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RunnerOnFirst": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "RunnerOnSecond": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "RunnerOnThird": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "AwayTeamStartingPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeamStartingPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CurrentPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "CurrentHitter": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "WinningPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "LosingPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SavingPitcher": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DueUpHitterID1": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DueUpHitterID2": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "DueUpHitterID3": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "GlobalGameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GlobalAwayTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GlobalHomeTeamID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PointSpreadAwayTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PointSpreadHomeTeamMoneyLine": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "LastPlay": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "IsClosed": {
+          "type": "boolean",
+          "x-nullable": false
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Innings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Inning"
+          }
+        },
+        "GameEndDateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayRotationNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "NeutralVenue": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "InningDescription": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "OverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "UnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "SeriesInfo": {
+          "$ref": "#/definitions/Series"
+        },
+        "DateTimeUTC": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HomeTeamOpener": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "AwayTeamOpener": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "SuspensionResumeDay": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "SuspensionResumeDateTime": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Inning": {
+      "properties": {
+        "InningID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "InningNumber": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "AwayTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Series": {
+      "properties": {
+        "HomeTeamWins": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "AwayTeamWins": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "GameNumber": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "MaxLength": {
+          "type": "integer",
+          "x-nullable": false
+        }
+      }
+    },
+    "Play": {
+      "properties": {
+        "PlayID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "InningID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "InningNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InningHalf": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PlayNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "InningBatterNumber": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AwayTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HomeTeamRuns": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HitterID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HitterTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PitcherTeamID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HitterName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PitcherName": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "PitcherThrowHand": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HitterBatHand": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "HitterPosition": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Outs": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Balls": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Strikes": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PitchNumberThisAtBat": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Result": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "NumberOfOutsOnPlay": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "RunsBattedIn": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "AtBat": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Strikeout": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Walk": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Hit": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Out": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Sacrifice": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Error": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Description": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Pitches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Pitch"
+          }
+        },
+        "Runner1ID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Runner2ID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Runner3ID": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Pitch": {
+      "properties": {
+        "PitchID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PlayID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "PitchNumberThisAtBat": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "PitcherID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "HitterID": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Outs": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "BallsBeforePitch": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "StrikesBeforePitch": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "Strike": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Ball": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Foul": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Swinging": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "Looking": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

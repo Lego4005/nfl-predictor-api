@@ -1,36 +1,17 @@
 """
-Database package initialization
+Database package for NFL predictor.
 """
 
-from .config import db_config, get_db
-from .models import (
-    Base, User, UserSession, EmailVerification, PasswordReset,
-    SubscriptionTier, Subscription, Payment, AdminUser, FreeAccessGrant,
-    Affiliate, Referral, AffiliatePayout, Prediction, UserPredictionAccess,
-    AccuracyMetric, AuditLog
-)
-from .migrations import run_migrations, seed_database
+from .models import *
 
 __all__ = [
-    'db_config',
-    'get_db',
     'Base',
-    'User',
-    'UserSession',
-    'EmailVerification',
-    'PasswordReset',
-    'SubscriptionTier',
-    'Subscription',
-    'Payment',
-    'AdminUser',
-    'FreeAccessGrant',
-    'Affiliate',
-    'Referral',
-    'AffiliatePayout',
-    'Prediction',
-    'UserPredictionAccess',
-    'AccuracyMetric',
-    'AuditLog',
-    'run_migrations',
-    'seed_database'
+    'HistoricalGame',
+    'TeamStats',
+    'PlayerStats',
+    'BettingData',
+    'Injury',
+    'create_all_tables',
+    'drop_all_tables',
+    'get_performance_indexes'
 ]

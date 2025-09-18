@@ -1,0 +1,46 @@
+{
+  "feature_columns": [
+    "offensive_advantage",
+    "defensive_advantage",
+    "total_offensive",
+    "total_defensive",
+    "weather_impact",
+    "rest_advantage",
+    "home_offensive_vs_away_defensive",
+    "away_offensive_vs_home_defensive",
+    "divisional_multiplier",
+    "primetime_multiplier",
+    "is_dome",
+    "is_divisional",
+    "is_primetime"
+  ],
+  "models": {
+    "game_winner_model.pkl": {
+      "type": "XGBoost Classifier",
+      "target": "home_win",
+      "accuracy": 0.7439024390243902,
+      "trained_date": "2025-09-16T05:47:43.337787"
+    },
+    "total_points_model.pkl": {
+      "type": "Random Forest Regressor",
+      "target": "total_score",
+      "rmse": 6.012055529967335,
+      "trained_date": "2025-09-16T05:47:43.337793"
+    },
+    "point_spread_model.pkl": {
+      "type": "Random Forest Regressor",
+      "target": "point_spread",
+      "rmse": 5.570392349299195,
+      "trained_date": "2025-09-16T05:47:43.337794"
+    }
+  },
+  "training_info": {
+    "total_games": 408,
+    "seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "features_count": 13
+  }
+}

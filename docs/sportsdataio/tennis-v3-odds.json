@@ -1,0 +1,457 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tennis v3 Odds",
+    "version": "1.0"
+  },
+  "host": "api.sportsdata.io",
+  "basePath": "/v3/tennis/odds",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/{format}/MatchOddsByDate/{date}": {
+      "get": {
+        "description": "Returns the most recently available pre-match odds for tennis matches on the given date.",
+        "operationId": "MatchOddsByDate",
+        "summary": "Match Odds - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date for which to pull matches. Ex: <code> 2023-01-03 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Match"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/MatchOddsBySeasonAndDate/{seasonid}/{date}": {
+      "get": {
+        "description": "Returns the most recently available pre-match odds for tennis matches on the given date for a corresponding season record.",
+        "operationId": "MatchOddsBySeasonByDate",
+        "summary": "Match Odds by Season - by Date",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "seasonid",
+            "in": "path",
+            "description": "The SeasonId for which to filter data. Example: <code>27</code>",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "The date for which to pull matches. Ex: <code> 2023-01-03 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Match"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/MatchOddsLineMovement/{matchid}": {
+      "get": {
+        "description": "Returns the full pre-match odds for given match, including all line movement history. This endpoint has a longer cache as it is meant for historical data/line movement rather than the most up to the second line.",
+        "operationId": "MatchOddsLineMovement",
+        "summary": "Match Odds Line Movement",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          },
+          {
+            "name": "matchid",
+            "in": "path",
+            "description": "The MatchId for which to pull details.  Ex: <code> 2 </code>",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Match"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/{format}/ActiveSportsbooks": {
+      "get": {
+        "description": "A list of all available sportsbooks with their associated unique IDs.",
+        "operationId": "SportsbooksByActive",
+        "summary": "Sportsbooks - by Active",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "path",
+            "description": "Desired response format. Valid entries are <code>XML</code> or <code>JSON</code>.",
+            "required": true,
+            "type": "string",
+            "default": "XML",
+            "enum": [
+              "XML",
+              "JSON"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sportsbook"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Match": {
+      "properties": {
+        "MatchId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "RoundId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "VenueDetails": {
+          "$ref": "#/definitions/Venue"
+        },
+        "Day": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "DateTime": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantA1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantA2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantBID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantB1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantB2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "WinnerContestantId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreA": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreB": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Duration": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Periods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Period"
+          }
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "MatchOdds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MatchOdd"
+          }
+        },
+        "GlobalMatchId": {
+          "type": "integer",
+          "x-nullable": false
+        }
+      }
+    },
+    "Venue": {
+      "properties": {
+        "VenueId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "City": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Period": {
+      "properties": {
+        "PeriodId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Type": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ScoreA": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ScoreB": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "MatchOdd": {
+      "properties": {
+        "MatchOddId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SportsbookId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Sportsbook": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "MatchId": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "ContestantAId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantA1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantA2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantBId": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantB1Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantB2Name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAMoneyline": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantBMoneyline": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalGames": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalGamesOverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalGamesUnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalSets": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "TotalSetsOverPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "TotalSetsUnderPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "OddType": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Created": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "Updated": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "ContestantAGameSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ContestantAGameSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        },
+        "ContestantBGameSpread": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ContestantBGameSpreadPayout": {
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Sportsbook": {
+      "properties": {
+        "SportsbookID": {
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Name": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,5008 @@
+{
+  "game": {
+    "home_team": "LV",
+    "away_team": "LAC",
+    "spread": -3.5,
+    "total": 47.5,
+    "weather": {
+      "dome": true
+    },
+    "injuries": {
+      "LAC": [
+        "RB1-Out"
+      ],
+      "LV": []
+    }
+  },
+  "predictions": [
+    {
+      "expert_id": "expert_001",
+      "expert_name": "The Analyst",
+      "expert_personality": "conservative",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620255",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.75,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Analyst analysis based on data-driven fundamental analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 2,
+          "away": 5,
+          "total": 7,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 7,
+          "away": 11,
+          "total": 18,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 1,
+          "away": 12,
+          "total": 13,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 11,
+          "away": 2,
+          "total": 13,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 1,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 3
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 4
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 11
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 9
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_002",
+      "expert_name": "The Gambler",
+      "expert_personality": "risk-taking high-variance",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620327",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Gambler analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 10,
+          "away": 8,
+          "total": 18,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 16,
+          "away": 20,
+          "total": 36,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 2,
+          "away": 2,
+          "total": 4,
+          "winner": "Tie"
+        },
+        "q4": {
+          "home": 2,
+          "away": 11,
+          "total": 13,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 3,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 2
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 4
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 0
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 9
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LV",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_003",
+      "expert_name": "The Rebel",
+      "expert_personality": "contrarian aggressive",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620384",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Rebel analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 4,
+          "away": 5,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 11,
+          "away": 8,
+          "total": 19,
+          "winner": "LV"
+        },
+        "q3": {
+          "home": 2,
+          "away": 7,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 1,
+          "away": 10,
+          "total": 11,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 1,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 1
+        },
+        "q2_spread": {
+          "pick": "LV",
+          "margin": 3
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 5
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 9
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_004",
+      "expert_name": "The Hunter",
+      "expert_personality": "value-seeking market-based",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620435",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Hunter analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 17,
+          "away": 5,
+          "total": 22,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 17,
+          "away": 12,
+          "total": 29,
+          "winner": "LV"
+        },
+        "q3": {
+          "home": 2,
+          "away": 4,
+          "total": 6,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 8,
+          "away": 2,
+          "total": 10,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 3,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 12
+        },
+        "q2_spread": {
+          "pick": "LV",
+          "margin": 5
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 2
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 6
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_005",
+      "expert_name": "The Rider",
+      "expert_personality": "momentum trend-based",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620482",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Rider analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 5,
+          "away": 6,
+          "total": 11,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 10,
+          "away": 20,
+          "total": 30,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 6,
+          "away": 3,
+          "total": 9,
+          "winner": "LV"
+        },
+        "q4": {
+          "home": 1,
+          "away": 10,
+          "total": 11,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 3,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 1
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 10
+        },
+        "q3_spread": {
+          "pick": "LV",
+          "margin": 3
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 9
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_006",
+      "expert_name": "The Scholar",
+      "expert_personality": "fundamentalist analytical",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620528",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Scholar analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 16,
+          "away": 10,
+          "total": 26,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 14,
+          "away": 13,
+          "total": 27,
+          "winner": "LV"
+        },
+        "q3": {
+          "home": 15,
+          "away": 10,
+          "total": 25,
+          "winner": "LV"
+        },
+        "q4": {
+          "home": 1,
+          "away": 4,
+          "total": 5,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 6
+        },
+        "q2_spread": {
+          "pick": "LV",
+          "margin": 1
+        },
+        "q3_spread": {
+          "pick": "LV",
+          "margin": 5
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 3
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_007",
+      "expert_name": "The Chaos",
+      "expert_personality": "randomness high-variance",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620575",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Chaos analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 10,
+          "away": 17,
+          "total": 27,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 35,
+          "away": 25,
+          "total": 60,
+          "winner": "LV"
+        },
+        "q3": {
+          "home": 1,
+          "away": 16,
+          "total": 17,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 0,
+          "away": 11,
+          "total": 11,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 7
+        },
+        "q2_spread": {
+          "pick": "LV",
+          "margin": 10
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 15
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 11
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_008",
+      "expert_name": "The Intuition",
+      "expert_personality": "gut-feel situational",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620626",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Intuition analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 16,
+          "away": 12,
+          "total": 28,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 11,
+          "away": 5,
+          "total": 16,
+          "winner": "LV"
+        },
+        "q3": {
+          "home": 2,
+          "away": 14,
+          "total": 16,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 6,
+          "away": 3,
+          "total": 9,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 1,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 4
+        },
+        "q2_spread": {
+          "pick": "LV",
+          "margin": 6
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 12
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 3
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LV",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_009",
+      "expert_name": "The Quant",
+      "expert_personality": "statistics analytical",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620671",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Quant analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 16,
+          "away": 12,
+          "total": 28,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 3,
+          "away": 6,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 11,
+          "away": 2,
+          "total": 13,
+          "winner": "LV"
+        },
+        "q4": {
+          "home": 9,
+          "away": 3,
+          "total": 12,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 1,
+        "lowest_scoring_quarter": 2,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 4
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 3
+        },
+        "q3_spread": {
+          "pick": "LV",
+          "margin": 9
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 6
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_010",
+      "expert_name": "The Reversal",
+      "expert_personality": "mean-reversion",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620717",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Reversal analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 5,
+          "away": 16,
+          "total": 21,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 7,
+          "away": 12,
+          "total": 19,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 1,
+          "away": 2,
+          "total": 3,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 1,
+          "away": 8,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "highest_scoring_quarter": 1,
+        "lowest_scoring_quarter": 3,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 11
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 5
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 1
+        },
+        "q4_spread": {
+          "pick": "LAC",
+          "margin": 7
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LV",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_011",
+      "expert_name": "The Fader",
+      "expert_personality": "anti-narrative contrarian",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620850",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Fader analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 14,
+          "away": 17,
+          "total": 31,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 9,
+          "away": 19,
+          "total": 28,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 9,
+          "away": 17,
+          "total": 26,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 6,
+          "away": 3,
+          "total": 9,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 1,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 3
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 10
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 8
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 3
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LV",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_012",
+      "expert_name": "The Sharp",
+      "expert_personality": "smart-money sharp-money",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620912",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Sharp analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 4,
+          "away": 5,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 5,
+          "away": 11,
+          "total": 16,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 15,
+          "away": 9,
+          "total": 24,
+          "winner": "LV"
+        },
+        "q4": {
+          "home": 14,
+          "away": 11,
+          "total": 25,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 4,
+        "lowest_scoring_quarter": 1,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 1
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 6
+        },
+        "q3_spread": {
+          "pick": "LV",
+          "margin": 6
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 3
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_013",
+      "expert_name": "The Underdog",
+      "expert_personality": "upset-seeker underdog-focused",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.620964",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Underdog analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 11,
+          "away": 3,
+          "total": 14,
+          "winner": "LV"
+        },
+        "q2": {
+          "home": 11,
+          "away": 13,
+          "total": 24,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 7,
+          "away": 12,
+          "total": 19,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 14,
+          "away": 5,
+          "total": 19,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 1,
+        "q1_spread": {
+          "pick": "LV",
+          "margin": 8
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 2
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 5
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 9
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_014",
+      "expert_name": "The Consensus",
+      "expert_personality": "crowd-following",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.621012",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Consensus analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 4,
+          "away": 17,
+          "total": 21,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 20,
+          "away": 21,
+          "total": 41,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 13,
+          "away": 12,
+          "total": 25,
+          "winner": "LV"
+        },
+        "q4": {
+          "home": 10,
+          "away": 4,
+          "total": 14,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 2,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 13
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 1
+        },
+        "q3_spread": {
+          "pick": "LV",
+          "margin": 1
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 6
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    },
+    {
+      "expert_id": "expert_015",
+      "expert_name": "The Exploiter",
+      "expert_personality": "inefficiency-hunting analytical",
+      "game_id": "LAC@LV",
+      "timestamp": "2025-09-16T09:39:30.621059",
+      "game_outcome": {
+        "winner": "LAC",
+        "winner_confidence": 0.65,
+        "home_score": 23,
+        "away_score": 27,
+        "exact_score_confidence": 0.35,
+        "reasoning": "The Exploiter analysis"
+      },
+      "spread_analysis": {
+        "spread_pick": "LAC",
+        "spread_confidence": 0.58,
+        "spread_value": -3.5,
+        "predicted_margin": 4
+      },
+      "totals_analysis": {
+        "over_under_pick": "Over",
+        "total_confidence": 0.52,
+        "predicted_total": 50,
+        "total_line": 47.5
+      },
+      "moneyline_analysis": {
+        "moneyline_pick": "LAC",
+        "expected_value": 0.08,
+        "implied_probability": 0.62
+      },
+      "quarter_predictions": {
+        "q1": {
+          "home": 3,
+          "away": 6,
+          "total": 9,
+          "winner": "LAC"
+        },
+        "q2": {
+          "home": 4,
+          "away": 7,
+          "total": 11,
+          "winner": "LAC"
+        },
+        "q3": {
+          "home": 10,
+          "away": 15,
+          "total": 25,
+          "winner": "LAC"
+        },
+        "q4": {
+          "home": 4,
+          "away": 3,
+          "total": 7,
+          "winner": "LV"
+        },
+        "highest_scoring_quarter": 3,
+        "lowest_scoring_quarter": 4,
+        "q1_spread": {
+          "pick": "LAC",
+          "margin": 3
+        },
+        "q2_spread": {
+          "pick": "LAC",
+          "margin": 3
+        },
+        "q3_spread": {
+          "pick": "LAC",
+          "margin": 5
+        },
+        "q4_spread": {
+          "pick": "LV",
+          "margin": 1
+        }
+      },
+      "half_predictions": {
+        "first_half_winner": "LAC",
+        "first_half_total": 26,
+        "second_half_winner": "Tie",
+        "second_half_total": 24
+      },
+      "team_statistics": {
+        "passing": {
+          "home_passing_yards": 245,
+          "away_passing_yards": 278,
+          "home_passing_tds": 2,
+          "away_passing_tds": 2
+        },
+        "rushing": {
+          "home_rushing_yards": 95,
+          "away_rushing_yards": 112,
+          "home_rushing_tds": 1,
+          "away_rushing_tds": 1
+        },
+        "total_offense": {
+          "home_total_yards": 340,
+          "away_total_yards": 390,
+          "home_first_downs": 19,
+          "away_first_downs": 22
+        }
+      },
+      "player_props": {
+        "qb_props": {
+          "home_qb_passing_yards": {
+            "line": 245.5,
+            "pick": "Over",
+            "actual": 267
+          },
+          "away_qb_passing_yards": {
+            "line": 267.5,
+            "pick": "Under",
+            "actual": 285
+          },
+          "home_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "away_qb_passing_tds": {
+            "line": 1.5,
+            "pick": "Over",
+            "actual": 2
+          },
+          "home_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_qb_interceptions": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "rb_props": {
+          "home_rb1_rushing_yards": {
+            "line": 65.5,
+            "pick": "Under",
+            "actual": 58
+          },
+          "away_rb1_rushing_yards": {
+            "line": 75.5,
+            "pick": "Over",
+            "actual": 82
+          },
+          "home_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          },
+          "away_rb1_rushing_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          }
+        },
+        "wr_props": {
+          "home_wr1_receiving_yards": {
+            "line": 72.5,
+            "pick": "Over",
+            "actual": 85
+          },
+          "away_wr1_receiving_yards": {
+            "line": 82.5,
+            "pick": "Over",
+            "actual": 94
+          },
+          "home_wr1_receptions": {
+            "line": 5.5,
+            "pick": "Over",
+            "actual": 6
+          },
+          "away_wr1_receptions": {
+            "line": 6.5,
+            "pick": "Under",
+            "actual": 7
+          },
+          "home_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Under",
+            "actual": 0
+          },
+          "away_wr1_receiving_tds": {
+            "line": 0.5,
+            "pick": "Over",
+            "actual": 1
+          }
+        },
+        "anytime_td_scorers": [
+          "Ekeler",
+          "Allen",
+          "Adams",
+          "Jacobs"
+        ],
+        "first_td_scorer": "Ekeler",
+        "last_td_scorer": "Adams"
+      },
+      "special_teams": {
+        "home_field_goals_made": 3,
+        "away_field_goals_made": 2,
+        "longest_field_goal": 48,
+        "special_teams_td": false,
+        "blocked_kick": false,
+        "missed_extra_point": true
+      },
+      "turnovers": {
+        "home_turnovers": 1,
+        "away_turnovers": 2,
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 2
+      },
+      "situational_predictions": {
+        "red_zone_efficiency": {
+          "home": 0.6,
+          "away": 0.55
+        },
+        "third_down_conversion": {
+          "home": 0.42,
+          "away": 0.38
+        },
+        "time_of_possession": {
+          "home": "28:30",
+          "away": "31:30"
+        },
+        "two_minute_drill_success": {
+          "home": true,
+          "away": false
+        }
+      },
+      "game_flow": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "largest_lead": 10,
+        "lead_changes": 3,
+        "comeback_potential": 0.25,
+        "garbage_time_minutes": 0
+      },
+      "coaching_decisions": {
+        "home_fourth_down_attempts": 2,
+        "away_fourth_down_attempts": 1,
+        "home_challenge_success": 1,
+        "away_challenge_success": 0,
+        "aggressive_playcalling_team": "LAC"
+      },
+      "weather_impact": {
+        "impact_level": "None (Dome)",
+        "wind_impact_on_kicking": 0,
+        "precipitation_impact": 0,
+        "temperature_factor": 0
+      },
+      "injury_impact": {
+        "home_injury_impact": -2.5,
+        "away_injury_impact": -0.5,
+        "key_player_out_impact": "LAC RB1 -3 points",
+        "backup_performance_projection": 0.75
+      },
+      "live_predictions": {
+        "opening_drive_result": "Field Goal",
+        "halftime_adjustments_winner": "LAC",
+        "momentum_shifts": 2,
+        "clutch_performance_team": "LAC",
+        "final_drive_needed": false,
+        "overtime_probability": 0.08
+      },
+      "overtime_predictions": {
+        "overtime_probability": 0.08,
+        "overtime_winner": "LAC",
+        "overtime_first_score": "Touchdown"
+      },
+      "time_of_possession": {
+        "home_time_possession": "28:45",
+        "away_time_possession": "31:15",
+        "longest_drive_team": "LAC",
+        "longest_drive_minutes": 7.5
+      },
+      "turnover_predictions": {
+        "home_interceptions": 1,
+        "away_interceptions": 0,
+        "home_fumbles_lost": 0,
+        "away_fumbles_lost": 1,
+        "defensive_touchdowns": 0,
+        "pick_six": false,
+        "strip_sack_fumbles": 1,
+        "total_turnovers": 2
+      },
+      "field_goal_details": {
+        "home_fg_attempts": 3,
+        "home_fg_made": 2,
+        "away_fg_attempts": 2,
+        "away_fg_made": 2,
+        "longest_field_goal": 48,
+        "missed_fg_under_40": false
+      },
+      "scoring_sequence": {
+        "first_team_to_score": "LAC",
+        "last_team_to_score": "LV",
+        "first_score_type": "Field Goal",
+        "last_score_type": "Touchdown"
+      },
+      "defensive_predictions": {
+        "home_sacks": 2,
+        "away_sacks": 3,
+        "home_tackles_for_loss": 6,
+        "away_tackles_for_loss": 7,
+        "home_qb_hits": 8,
+        "away_qb_hits": 10,
+        "defensive_touchdowns": 0,
+        "safeties": 0
+      },
+      "game_dynamics": {
+        "lead_changes": 3,
+        "largest_lead": 10,
+        "largest_lead_team": "LAC",
+        "comeback_completed": false,
+        "fourth_quarter_comeback": false,
+        "game_winning_drive": true
+      },
+      "confidence_breakdown": {
+        "game_outcome": 0.65,
+        "spread": 0.58,
+        "total": 0.52,
+        "player_props": 0.48,
+        "quarters": 0.35,
+        "special_teams": 0.42,
+        "turnovers": 0.55,
+        "defensive": 0.45
+      },
+      "total_predictions_count": 43,
+      "categories_covered": 22
+    }
+  ],
+  "consensus": {
+    "total_predictions_generated": 645,
+    "experts_count": 15,
+    "consensus_winner": "LAC",
+    "winner_agreement": 1.0,
+    "categories_per_expert": 22,
+    "predictions_per_expert": 43
+  },
+  "timestamp": "2025-09-16T09:39:30.621256"
+}

@@ -1,0 +1,340 @@
+{
+  "timestamp": "2025-09-16T04:18:07.213339",
+  "game": {
+    "game_id": "LAC_LV_2024_Week18",
+    "home_team": "LV",
+    "away_team": "LAC",
+    "spread": -3.5,
+    "total": 47.5,
+    "weather": {
+      "dome": true
+    },
+    "injuries": {
+      "LAC": [
+        "RB1"
+      ],
+      "LV": []
+    }
+  },
+  "actual_result": {
+    "winner": "LAC",
+    "away_score": 20,
+    "home_score": 9,
+    "total_points": 29,
+    "margin": 11,
+    "spread_result": "LAC",
+    "total_result": "Under"
+  },
+  "predictions": [
+    {
+      "expert": "The Analyst",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 27,
+        "home_score": 23,
+        "margin": 4,
+        "total_points": 50,
+        "confidence": 0.75,
+        "spread_pick": "LAC",
+        "total_pick": "Over",
+        "moneyline_pick": "LAC",
+        "reasoning": "The Analyst analysis based on data-driven fundamental analysis"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": false
+      }
+    },
+    {
+      "expert": "Pattern Hunter",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 24,
+        "home_score": 20,
+        "margin": 4,
+        "total_points": 44,
+        "confidence": 0.65,
+        "spread_pick": "LAC",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Pattern Hunter analysis based on historical pattern recognition"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": true
+      }
+    },
+    {
+      "expert": "Contrarian Voice",
+      "prediction": {
+        "winner": "LV",
+        "away_score": 17,
+        "home_score": 21,
+        "margin": -4,
+        "total_points": 38,
+        "confidence": 0.72,
+        "spread_pick": "LV",
+        "total_pick": "Under",
+        "moneyline_pick": "LV",
+        "reasoning": "Contrarian Voice analysis based on goes against consensus"
+      },
+      "correct": {
+        "winner": false,
+        "spread": false,
+        "total": true
+      }
+    },
+    {
+      "expert": "Momentum Tracker",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 28,
+        "home_score": 24,
+        "margin": 4,
+        "total_points": 52,
+        "confidence": 0.68,
+        "spread_pick": "LAC",
+        "total_pick": "Over",
+        "moneyline_pick": "LAC",
+        "reasoning": "Momentum Tracker analysis based on recent form and trends"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": false
+      }
+    },
+    {
+      "expert": "Clutch Specialist",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 23,
+        "home_score": 21,
+        "margin": 2,
+        "total_points": 44,
+        "confidence": 0.71,
+        "spread_pick": "Push",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Clutch Specialist analysis based on late game performance"
+      },
+      "correct": {
+        "winner": true,
+        "spread": false,
+        "total": true
+      }
+    },
+    {
+      "expert": "Weather Guru",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 24,
+        "home_score": 17,
+        "margin": 7,
+        "total_points": 41,
+        "confidence": 0.61,
+        "spread_pick": "LAC",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Weather Guru analysis based on weather impact analysis"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": true
+      }
+    },
+    {
+      "expert": "Coaching Scout",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 27,
+        "home_score": 20,
+        "margin": 7,
+        "total_points": 47,
+        "confidence": 0.69,
+        "spread_pick": "LAC",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Coaching Scout analysis based on coaching matchup focus"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": true
+      }
+    },
+    {
+      "expert": "Injury Tracker",
+      "prediction": {
+        "winner": "LV",
+        "away_score": 17,
+        "home_score": 20,
+        "margin": -3,
+        "total_points": 37,
+        "confidence": 0.55,
+        "spread_pick": "Push",
+        "total_pick": "Under",
+        "moneyline_pick": "LV",
+        "reasoning": "Injury Tracker analysis based on injury impact assessment"
+      },
+      "correct": {
+        "winner": false,
+        "spread": false,
+        "total": true
+      }
+    },
+    {
+      "expert": "Value Finder",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 24,
+        "home_score": 23,
+        "margin": 1,
+        "total_points": 47,
+        "confidence": 0.58,
+        "spread_pick": "Push",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Value Finder analysis based on line value identification"
+      },
+      "correct": {
+        "winner": true,
+        "spread": false,
+        "total": true
+      }
+    },
+    {
+      "expert": "Home Field Expert",
+      "prediction": {
+        "winner": "LV",
+        "away_score": 20,
+        "home_score": 23,
+        "margin": -3,
+        "total_points": 43,
+        "confidence": 0.64,
+        "spread_pick": "Push",
+        "total_pick": "Under",
+        "moneyline_pick": "LV",
+        "reasoning": "Home Field Expert analysis based on home advantage specialist"
+      },
+      "correct": {
+        "winner": false,
+        "spread": false,
+        "total": true
+      }
+    },
+    {
+      "expert": "Divisional Specialist",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 31,
+        "home_score": 24,
+        "margin": 7,
+        "total_points": 55,
+        "confidence": 0.77,
+        "spread_pick": "LAC",
+        "total_pick": "Over",
+        "moneyline_pick": "LAC",
+        "reasoning": "Divisional Specialist analysis based on division rivalry expert"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": false
+      }
+    },
+    {
+      "expert": "Primetime Predictor",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 27,
+        "home_score": 24,
+        "margin": 3,
+        "total_points": 51,
+        "confidence": 0.7,
+        "spread_pick": "Push",
+        "total_pick": "Over",
+        "moneyline_pick": "LAC",
+        "reasoning": "Primetime Predictor analysis based on national TV game specialist"
+      },
+      "correct": {
+        "winner": true,
+        "spread": false,
+        "total": false
+      }
+    },
+    {
+      "expert": "Upset Detector",
+      "prediction": {
+        "winner": "LV",
+        "away_score": 24,
+        "home_score": 27,
+        "margin": -3,
+        "total_points": 51,
+        "confidence": 0.81,
+        "spread_pick": "Push",
+        "total_pick": "Over",
+        "moneyline_pick": "LV",
+        "reasoning": "Upset Detector analysis based on underdog specialist"
+      },
+      "correct": {
+        "winner": false,
+        "spread": false,
+        "total": false
+      }
+    },
+    {
+      "expert": "Line Movement Tracker",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 26,
+        "home_score": 21,
+        "margin": 5,
+        "total_points": 47,
+        "confidence": 0.66,
+        "spread_pick": "LAC",
+        "total_pick": "Under",
+        "moneyline_pick": "LAC",
+        "reasoning": "Line Movement Tracker analysis based on betting line analysis"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": true
+      }
+    },
+    {
+      "expert": "Chaos Theorist",
+      "prediction": {
+        "winner": "LAC",
+        "away_score": 35,
+        "home_score": 31,
+        "margin": 4,
+        "total_points": 66,
+        "confidence": 0.89,
+        "spread_pick": "LAC",
+        "total_pick": "Over",
+        "moneyline_pick": "LAC",
+        "reasoning": "Chaos Theorist analysis based on high variance predictions"
+      },
+      "correct": {
+        "winner": true,
+        "spread": true,
+        "total": false
+      }
+    }
+  ],
+  "summary": {
+    "winners_correct": 11,
+    "spread_correct": 8,
+    "total_correct": 9,
+    "consensus": {
+      "avg_away_score": 24.933333333333334,
+      "avg_home_score": 22.6,
+      "avg_confidence": 0.6940000000000001
+    }
+  }
+}

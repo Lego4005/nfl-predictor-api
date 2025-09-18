@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Prediction Consistency Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+        }
+
+        .expert-section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .expert-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-issues {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .contradiction {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .fix {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .issue-type {
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 5px;
+        }
+
+        .fix-type {
+            font-weight: bold;
+            color: #17a2b8;
+            margin-bottom: 5px;
+        }
+
+        .predictions-table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .predictions-table th,
+        .predictions-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .predictions-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .changed {
+            background: #fff3cd;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🔍 Prediction Consistency Report</h1>
+            <p>Analysis of logical contradictions in expert predictions</p>
+            <p style="color: #666;">Generated: 2025-09-15 22:14:33</p>
+        </div>
+
+        <div class="summary">
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Total Experts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Experts with Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">Total Contradictions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Consistent Experts</div>
+            </div>
+        </div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>StatisticalSavant</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LAC wins but score shows LV wins (33-19)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Chargers +1 but score shows Raiders win by 14 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LV</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Raiders -1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>SharpBettor</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (19-29)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -10 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>WeatherWizard</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (24-25)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -1 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-good">
+                <span>InjuryAnalyst</span>
+                <span>✅ Consistent</span>
+            </div>
+            <div style="padding: 20px;"><p style='color: #28a745; font-size: 1.2em;'>✅ No contradictions found - all predictions are logically consistent!</p></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>TrendTracker</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (18-30)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -12 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-good">
+                <span>DivisionalExpert</span>
+                <span>✅ Consistent</span>
+            </div>
+            <div style="padding: 20px;"><p style='color: #28a745; font-size: 1.2em;'>✅ No contradictions found - all predictions are logically consistent!</p></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>PrimetimePerformer</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (26-26)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by 0 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>UnderExpert</span>
+                <span>❌ 3 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by 1 (doesn't cover)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Total Vs Score</div>
+                    <div>Picks Under 43.5 but score totals 49 (Over)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Total Prediction Conflict</div>
+                    <div>Picks Under 43.5 but predicts total of 49</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed total pick to Over 43.5</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed predicted total to 40.5 (supports Under)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>OverEnthusiast</span>
+                <span>❌ 4 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (18-23)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -5 (doesn't cover)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Total Vs Score</div>
+                    <div>Picks Over 43.5 but score totals 41 (Under)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Total Prediction Conflict</div>
+                    <div>Picks Over 43.5 but predicts total of 41</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed total pick to Under 43.5</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed predicted total to 46.5 (supports Over)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-good">
+                <span>HomeFieldHawk</span>
+                <span>✅ Consistent</span>
+            </div>
+            <div style="padding: 20px;"><p style='color: #28a745; font-size: 1.2em;'>✅ No contradictions found - all predictions are logically consistent!</p></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>RoadWarrior</span>
+                <span>❌ 1 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -1 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>CoachingConnoisseur</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (23-26)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by -3 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-issues">
+                <span>QBWhisperer</span>
+                <span>❌ 2 Issues</span>
+            </div>
+            <div style="padding: 20px;"><h4>🚨 Contradictions Found:</h4>
+                <div class="contradiction">
+                    <div class="issue-type">Winner Vs Score</div>
+                    <div>Says LV wins but score shows LAC wins (25-25)</div>
+                </div>
+                <div class="contradiction">
+                    <div class="issue-type">Spread Vs Score</div>
+                    <div>Picks Raiders -1 but score shows they only win by 0 (doesn't cover)</div>
+                </div><h4>🔧 Fixes Applied:</h4>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed game winner to match score: LAC</div>
+                </div>
+                <div class="fix">
+                    <div class="fix-type">Auto-Fixed</div>
+                    <div>Fixed spread pick to Chargers +1 (covers)</div>
+                </div></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-good">
+                <span>SituationalSpecialist</span>
+                <span>✅ Consistent</span>
+            </div>
+            <div style="padding: 20px;"><p style='color: #28a745; font-size: 1.2em;'>✅ No contradictions found - all predictions are logically consistent!</p></div></div>
+        <div class="expert-section">
+            <div class="expert-header status-good">
+                <span>MarketMaven</span>
+                <span>✅ Consistent</span>
+            </div>
+            <div style="padding: 20px;"><p style='color: #28a745; font-size: 1.2em;'>✅ No contradictions found - all predictions are logically consistent!</p></div></div>
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3>🎯 Consistency Rules Applied</h3>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li><strong>Game Winner vs Score:</strong> If expert says "Raiders win", their predicted score must show Raiders winning</li>
+                <li><strong>Spread vs Margin:</strong> If expert picks "Raiders -1", Raiders must win by 2+ points in their score prediction</li>
+                <li><strong>Total vs Score:</strong> If expert says "Over 43.5", their predicted total must be over 43.5</li>
+                <li><strong>Margin Consistency:</strong> Predicted margin must match the point difference in exact score</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
