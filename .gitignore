@@ -213,6 +213,11 @@ training_data/
 historical_data/large/
 *.pkl.large
 
+# Large CSV data files (NFL historical play-by-play data)
+data/nfl_historical/*.csv
+pbp_*.csv
+*.csv.large
+
 # Payment and API credentials
 nmi_credentials.json
 payment_keys.json
