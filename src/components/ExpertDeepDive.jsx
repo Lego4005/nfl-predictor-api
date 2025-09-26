@@ -20,11 +20,11 @@ const ExpertDeepDive = ({ expertId, expertData, onClose, darkMode = false }) => 
 
     try {
       const [historyRes, revisionsRes, memoriesRes, thursdayRes, trendsRes] = await Promise.all([
-        fetch(`http://localhost:8003/api/expert/${expertId}/history`),
-        fetch(`http://localhost:8003/api/expert/${expertId}/belief-revisions`),
-        fetch(`http://localhost:8003/api/expert/${expertId}/episodic-memories`),
-        fetch(`http://localhost:8003/api/expert/${expertId}/thursday-adjustments`),
-        fetch(`http://localhost:8003/api/expert/${expertId}/performance-trends`)
+        fetch(`http://192.168.254.149:8003/api/expert/${expertId}/history`),
+        fetch(`http://192.168.254.149:8003/api/expert/${expertId}/belief-revisions`),
+        fetch(`http://192.168.254.149:8003/api/expert/${expertId}/episodic-memories`),
+        fetch(`http://192.168.254.149:8003/api/expert/${expertId}/thursday-adjustments`),
+        fetch(`http://192.168.254.149:8003/api/expert/${expertId}/performance-trends`)
       ]);
 
       if (!historyRes.ok) throw new Error('Failed to fetch history');

@@ -103,10 +103,12 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
           result = mockApi(path);
         } else if (path === "/games") {
           // Import and use supabaseHelpers for real game data - CACHED
+          console.log('🎯 useApi: Fetching games from supabaseHelpers...');
           const { supabaseHelpers } = await import(
             "../services/supabaseClient.js"
           );
           const rawGames = await supabaseHelpers.getCurrentGames();
+          console.log('🎯 useApi: Received games:', rawGames?.length || 0);
 
           // Transform Supabase data format to match frontend expectations
           result = rawGames.map((game) => {

@@ -1,0 +1,163 @@
+# Supabase Local Development Configuration
+# This file is used by the Supabase CLI for local development
+# For production, these settings are configured in the Supabase dashboard
+
+[api]
+# Port for the local API server
+port = 54321
+# List of schemas to expose in the API
+schemas = ["public", "auth", "storage", "graphql_public"]
+# Extra schemas to add to the search_path for every request
+extra_search_path = ["public", "auth"]
+# Maximum number of rows to return from a table
+max_rows = 1000
+
+[db]
+# Port for the local database
+port = 54322
+# The database major version (must match what's specified in the migration files)
+major_version = 15
+
+[studio]
+# Port for the local Studio instance
+port = 54323
+# Whether to open Studio in the browser automatically
+enabled = true
+# API URL for Studio to connect to
+api_url = "http://localhost:54321"
+
+[inbucket]
+# Port for the local Inbucket instance (email testing)
+port = 54324
+# Whether to open Inbucket in the browser automatically
+enabled = true
+# SMTP port for Inbucket
+smtp_port = 54325
+# POP3 port for Inbucket  
+pop3_port = 54326
+
+[storage]
+# Whether to enable storage
+enabled = true
+# File size limit for storage uploads (in bytes)
+file_size_limit = "50MiB"
+
+[auth]
+# Whether to enable authentication
+enabled = true
+# The base URL of your website
+site_url = "http://localhost:3000"
+# Additional redirect URLs for OAuth
+additional_redirect_urls = ["https://localhost:3000"]
+# JWT expiry time in seconds
+jwt_expiry = 3600
+# Whether to enable email confirmations
+enable_confirmations = false
+# Whether to enable phone confirmations
+enable_phone_confirmations = false
+
+[auth.email]
+# Whether to enable email authentication
+enable_signup = true
+# Whether to double confirm email changes
+double_confirm_changes = true
+# Whether to enable email notifications
+enable_confirmations = false
+
+[auth.sms]
+# Whether to enable SMS authentication
+enable_signup = false
+# Whether to enable SMS confirmations
+enable_confirmations = false
+
+[auth.external.apple]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.azure]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.bitbucket]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.discord]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.facebook]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.github]
+enabled = true
+client_id = "env(GITHUB_CLIENT_ID)"
+secret = "env(GITHUB_CLIENT_SECRET)"
+
+[auth.external.gitlab]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.google]
+enabled = true
+client_id = "env(GOOGLE_CLIENT_ID)"
+secret = "env(GOOGLE_CLIENT_SECRET)"
+
+[auth.external.keycloak]
+enabled = false
+client_id = ""
+secret = ""
+url = ""
+
+[auth.external.linkedin]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.notion]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.twitch]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.twitter]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.slack]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.spotify]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.workos]
+enabled = false
+client_id = ""
+secret = ""
+
+[auth.external.zoom]
+enabled = false
+client_id = ""
+secret = ""
+
+# Local environment variables for development
+[env]
+SUPABASE_URL = "http://localhost:54321"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
+SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU"

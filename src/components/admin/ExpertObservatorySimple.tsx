@@ -64,7 +64,7 @@ const ExpertObservatorySimple: React.FC = () => {
     setLoading(true);
     try {
       // Fetch expert data from our real API
-      const expertsRes = await fetch('http://localhost:8003/api/experts');
+      const expertsRes = await fetch('http://192.168.254.149:8003/api/experts');
       if (expertsRes.ok) {
         const expertsData = await expertsRes.json();
         setExperts(expertsData || []);
@@ -74,7 +74,7 @@ const ExpertObservatorySimple: React.FC = () => {
       }
 
       // Fetch recent predictions from our real API
-      const gamesRes = await fetch('http://localhost:8003/api/predictions/recent');
+      const gamesRes = await fetch('http://192.168.254.149:8003/api/predictions/recent');
       if (gamesRes.ok) {
         const gamesData = await gamesRes.json();
 

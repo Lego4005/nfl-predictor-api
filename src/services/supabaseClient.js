@@ -42,7 +42,7 @@ export const supabaseHelpers = {
       // Use Expert API as primary data source since Supabase has DNS issues
       try {
         console.log('🔄 Fetching games from Expert API...');
-        const response = await fetch('http://localhost:8003/api/predictions/recent');
+        const response = await fetch('http://192.168.254.149:8003/api/predictions/recent');
 
         if (response.ok) {
           const expertData = await response.json();
@@ -57,11 +57,12 @@ export const supabaseHelpers = {
               home_score: 0, // Expert API doesn't have scores yet
               away_score: 0,
               game_time: game.date,
-              status: game.status || 'scheduled',
+              status: game.status === 'upcoming' ? 'scheduled' : (game.status || 'scheduled'),
               status_detail: game.status === 'completed' ? 'Final' : 'Scheduled',
               is_live: game.status === 'live',
               current_period: null,
-              time_remaining: null
+              time_remaining: null,
+              predictions: game.predictions || []
             }));
 
             gamesCache = realGames;

@@ -5,7 +5,7 @@
  */
 
 export class ExpertObservatoryAPI {
-  constructor(baseUrl = 'http://localhost:8003') {
+  constructor(baseUrl = 'http://192.168.254.149:8003') {
     this.baseUrl = baseUrl;
   }
 

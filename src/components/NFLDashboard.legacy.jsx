@@ -408,7 +408,7 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
           result = mockApi(path);
         } else if (path === "/games") {
           // Use Expert Observatory API for game data with real scores
-          const response = await fetch("http://localhost:8003/api/predictions/recent");
+          const response = await fetch("http://192.168.254.149:8003/api/predictions/recent");
           const rawGames = await response.json();
 
           console.log(
