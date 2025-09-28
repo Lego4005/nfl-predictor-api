@@ -477,7 +477,7 @@ export interface UseWebSocketResult {
 
 // Global WebSocket service instance
 export const websocketService = new WebSocketService({
-  url: `ws://localhost:8080`,
+  url: `ws://localhost:8081`,
   autoConnect: false, // Manual connection control
   reconnectAttempts: 5,
   reconnectInterval: 5000,
