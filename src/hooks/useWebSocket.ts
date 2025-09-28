@@ -1,289 +1,265 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { WebSocketMessage, RealtimeUpdate, ComprehensivePrediction, LiveGameData } from '../types/predictions';
+import type { 
+  LiveUpdateMessage, 
+  WebSocketConnectionState,
+  ConsensusResult,
+  ExpertPrediction 
+} from '../types/aiCouncil';
 
-interface WebSocketOptions {
-  url: string;
-  reconnectAttempts?: number;
-  reconnectDelay?: number;
-  heartbeatInterval?: number;
-  onConnect?: () => void;
-  onDisconnect?: () => void;
-  onError?: (error: Event) => void;
+interface UseWebSocketOptions {
+  url?: string;
   autoReconnect?: boolean;
+  maxReconnectAttempts?: number;
+  reconnectInterval?: number;
+  heartbeatInterval?: number;
+  gameId?: string;
 }
 
-interface WebSocketState {
-  isConnected: boolean;
-  isConnecting: boolean;
-  lastMessage: WebSocketMessage | null;
-  connectionAttempts: number;
-  error: string | null;
-}
-
-interface UseWebSocketReturn {
-  isConnected: boolean;
-  isConnecting: boolean;
-  error: string | null;
-  connectionAttempts: number;
+interface WebSocketHookReturn {
+  connectionState: WebSocketConnectionState;
   sendMessage: (message: any) => void;
+  lastMessage: LiveUpdateMessage | null;
+  connect: () => void;
   disconnect: () => void;
-  reconnect: () => void;
-  subscribe: (event: string, callback: (data: any) => void) => () => void;
-  unsubscribe: (event: string) => void;
+  subscribe: (eventType: string, callback: (data: any) => void) => () => void;
 }
 
-export const useWebSocket = (options: WebSocketOptions): UseWebSocketReturn => {
+const useWebSocket = (options: UseWebSocketOptions = {}): WebSocketHookReturn => {
   const {
-    url,
-    reconnectAttempts = 5,
-    reconnectDelay = 5000,
+    url = process.env.REACT_APP_WS_URL || 'ws://localhost:8080',
+    autoReconnect = true,
+    maxReconnectAttempts = 5,
+    reconnectInterval = 3000,
     heartbeatInterval = 30000,
-    onConnect,
-    onDisconnect,
-    onError,
-    autoReconnect = true
+    gameId
   } = options;
 
-  const [state, setState] = useState<WebSocketState>({
-    isConnected: false,
-    isConnecting: false,
-    lastMessage: null,
-    connectionAttempts: 0,
-    error: null
+  const [connectionState, setConnectionState] = useState<WebSocketConnectionState>({
+    connected: false,
+    lastHeartbeat: new Date().toISOString(),
+    reconnectAttempts: 0,
+    latency: 0
   });
 
-  const ws = useRef<WebSocket | null>(null);
-  const reconnectTimer = useRef<NodeJS.Timeout | null>(null);
-  const heartbeatTimer = useRef<NodeJS.Timeout | null>(null);
-  const subscribers = useRef<Map<string, Set<(data: any) => void>>>(new Map());
+  const [lastMessage, setLastMessage] = useState<LiveUpdateMessage | null>(null);
 
-  const clearTimers = useCallback(() => {
-    if (reconnectTimer.current) {
-      clearTimeout(reconnectTimer.current);
-      reconnectTimer.current = null;
-    }
+  const ws = useRef<WebSocket | null>(null);
+  const heartbeatTimer = useRef<NodeJS.Timeout | null>(null);
+  const reconnectTimer = useRef<NodeJS.Timeout | null>(null);
+  const subscribers = useRef<Map<string, Set<(data: any) => void>>>(new Map());
+  const pingTime = useRef<number>(0);
+
+  const cleanup = useCallback(() => {
     if (heartbeatTimer.current) {
       clearInterval(heartbeatTimer.current);
       heartbeatTimer.current = null;
     }
+    if (reconnectTimer.current) {
+      clearTimeout(reconnectTimer.current);
+      reconnectTimer.current = null;
+    }
   }, []);
 
-  const startHeartbeat = useCallback(() => {
-    if (heartbeatTimer.current) {
-      clearInterval(heartbeatTimer.current);
+  const sendHeartbeat = useCallback(() => {
+    if (ws.current?.readyState === WebSocket.OPEN) {
+      pingTime.current = Date.now();
+      ws.current.send(JSON.stringify({
+        type: 'ping',
+        timestamp: new Date().toISOString(),
+        gameId
+      }));
     }
+  }, [gameId]);
 
-    heartbeatTimer.current = setInterval(() => {
-      if (ws.current?.readyState === WebSocket.OPEN) {
-        ws.current.send(JSON.stringify({ type: 'ping', timestamp: Date.now() }));
+  const handleMessage = useCallback((event: MessageEvent) => {
+    try {
+      const message = JSON.parse(event.data);
+
+      // Handle pong responses for latency calculation
+      if (message.type === 'pong') {
+        const latency = Date.now() - pingTime.current;
+        setConnectionState(prev => ({
+          ...prev,
+          latency,
+          lastHeartbeat: new Date().toISOString()
+        }));
+        return;
       }
-    }, heartbeatInterval);
-  }, [heartbeatInterval]);
+
+      // Handle live update messages
+      if (message.type && message.data) {
+        const liveUpdate: LiveUpdateMessage = {
+          type: message.type,
+          gameId: message.gameId || gameId || '',
+          data: message.data,
+          timestamp: message.timestamp || new Date().toISOString(),
+          affectedCategories: message.affectedCategories || [],
+          priority: message.priority || 'medium'
+        };
+
+        setLastMessage(liveUpdate);
+
+        // Notify subscribers
+        const eventSubscribers = subscribers.current.get(message.type);
+        if (eventSubscribers) {
+          eventSubscribers.forEach(callback => callback(message.data));
+        }
+
+        // Also notify 'all' subscribers
+        const allSubscribers = subscribers.current.get('all');
+        if (allSubscribers) {
+          allSubscribers.forEach(callback => callback(liveUpdate));
+        }
+      }
+    } catch (error) {
+      console.error('Error parsing WebSocket message:', error);
+    }
+  }, [gameId]);
 
   const connect = useCallback(() => {
-    if (ws.current?.readyState === WebSocket.OPEN || state.isConnecting) {
+    if (ws.current?.readyState === WebSocket.OPEN) {
       return;
     }
-
-    setState(prev => ({
-      ...prev,
-      isConnecting: true,
-      error: null
-    }));
 
     try {
       ws.current = new WebSocket(url);
 
       ws.current.onopen = () => {
-        setState(prev => ({
+        console.log('WebSocket connected');
+        setConnectionState(prev => ({
           ...prev,
-          isConnected: true,
-          isConnecting: false,
-          connectionAttempts: 0,
-          error: null
+          connected: true,
+          reconnectAttempts: 0
         }));
 
-        startHeartbeat();
-        onConnect?.();
+        // Start heartbeat
+        heartbeatTimer.current = setInterval(sendHeartbeat, heartbeatInterval);
 
-        console.log('WebSocket connected');
-      };
-
-      ws.current.onmessage = (event) => {
-        try {
-          const message: WebSocketMessage = JSON.parse(event.data);
-
-          setState(prev => ({
-            ...prev,
-            lastMessage: message
+        // Subscribe to game updates if gameId provided
+        if (gameId) {
+          ws.current?.send(JSON.stringify({
+            type: 'subscribe',
+            gameId,
+            timestamp: new Date().toISOString()
           }));
-
-          // Handle heartbeat response
-          if (message.event === 'pong') {
-            return;
-          }
-
-          // Notify subscribers
-          const eventSubscribers = subscribers.current.get(message.event);
-          if (eventSubscribers) {
-            eventSubscribers.forEach(callback => callback(message.data));
-          }
-
-          // Notify all subscribers
-          const allSubscribers = subscribers.current.get('*');
-          if (allSubscribers) {
-            allSubscribers.forEach(callback => callback(message));
-          }
-
-        } catch (error) {
-          console.error('Failed to parse WebSocket message:', error);
         }
       };
 
+      ws.current.onmessage = handleMessage;
+
       ws.current.onclose = (event) => {
-        setState(prev => ({
+        console.log('WebSocket disconnected:', event.code, event.reason);
+        setConnectionState(prev => ({
           ...prev,
-          isConnected: false,
-          isConnecting: false
+          connected: false
         }));
 
-        clearTimers();
-        onDisconnect?.();
+        cleanup();
 
-        console.log('WebSocket disconnected:', event.code, event.reason);
-
-        // Attempt to reconnect if enabled and not a manual close
-        if (autoReconnect && event.code !== 1000 && state.connectionAttempts < reconnectAttempts) {
-          setState(prev => ({
-            ...prev,
-            connectionAttempts: prev.connectionAttempts + 1
-          }));
-
-          const delay = reconnectDelay * Math.pow(1.5, state.connectionAttempts);
-          console.log(`Reconnecting in ${delay}ms (attempt ${state.connectionAttempts + 1}/${reconnectAttempts})`);
-
-          reconnectTimer.current = setTimeout(() => {
-            connect();
-          }, delay);
-        } else if (state.connectionAttempts >= reconnectAttempts) {
-          setState(prev => ({
-            ...prev,
-            error: 'Max reconnection attempts reached'
-          }));
+        // Auto-reconnect if enabled and not a normal close
+        if (autoReconnect && event.code !== 1000) {
+          setConnectionState(prev => {
+            const newAttempts = prev.reconnectAttempts + 1;
+            
+            if (newAttempts <= maxReconnectAttempts) {
+              console.log(`Attempting to reconnect (${newAttempts}/${maxReconnectAttempts})...`);
+              
+              reconnectTimer.current = setTimeout(() => {
+                connect();
+              }, reconnectInterval);
+              
+              return {
+                ...prev,
+                reconnectAttempts: newAttempts
+              };
+            } else {
+              console.log('Max reconnection attempts reached');
+              return prev;
+            }
+          });
         }
       };
 
       ws.current.onerror = (error) => {
         console.error('WebSocket error:', error);
-
-        setState(prev => ({
-          ...prev,
-          error: 'Connection error occurred',
-          isConnecting: false
-        }));
-
-        onError?.(error);
       };
 
     } catch (error) {
-      setState(prev => ({
-        ...prev,
-        isConnecting: false,
-        error: 'Failed to create WebSocket connection'
-      }));
-      console.error('Failed to create WebSocket:', error);
+      console.error('Error creating WebSocket connection:', error);
     }
-  }, [url, state.isConnecting, state.connectionAttempts, reconnectAttempts, reconnectDelay, autoReconnect, onConnect, onDisconnect, onError, startHeartbeat, clearTimers]);
+  }, [url, autoReconnect, maxReconnectAttempts, reconnectInterval, heartbeatInterval, gameId, sendHeartbeat, handleMessage, cleanup]);
 
   const disconnect = useCallback(() => {
-    clearTimers();
-
+    cleanup();
     if (ws.current) {
       ws.current.close(1000, 'Manual disconnect');
       ws.current = null;
     }
-
-    setState(prev => ({
+    setConnectionState(prev => ({
       ...prev,
-      isConnected: false,
-      isConnecting: false,
-      connectionAttempts: 0,
-      error: null
+      connected: false,
+      reconnectAttempts: 0
     }));
-  }, [clearTimers]);
+  }, [cleanup]);
 
   const sendMessage = useCallback((message: any) => {
     if (ws.current?.readyState === WebSocket.OPEN) {
-      try {
-        ws.current.send(JSON.stringify(message));
-      } catch (error) {
-        console.error('Failed to send WebSocket message:', error);
-      }
+      ws.current.send(JSON.stringify({
+        ...message,
+        timestamp: new Date().toISOString(),
+        gameId: message.gameId || gameId
+      }));
     } else {
       console.warn('WebSocket is not connected. Message not sent:', message);
     }
-  }, []);
+  }, [gameId]);
 
-  const subscribe = useCallback((event: string, callback: (data: any) => void) => {
-    if (!subscribers.current.has(event)) {
-      subscribers.current.set(event, new Set());
+  const subscribe = useCallback((eventType: string, callback: (data: any) => void): (() => void) => {
+    if (!subscribers.current.has(eventType)) {
+      subscribers.current.set(eventType, new Set());
     }
-
-    subscribers.current.get(event)!.add(callback);
+    
+    const eventSubscribers = subscribers.current.get(eventType)!;
+    eventSubscribers.add(callback);
 
     // Return unsubscribe function
     return () => {
-      const eventSubscribers = subscribers.current.get(event);
-      if (eventSubscribers) {
-        eventSubscribers.delete(callback);
-        if (eventSubscribers.size === 0) {
-          subscribers.current.delete(event);
-        }
+      eventSubscribers.delete(callback);
+      if (eventSubscribers.size === 0) {
+        subscribers.current.delete(eventType);
       }
     };
   }, []);
 
-  const unsubscribe = useCallback((event: string) => {
-    subscribers.current.delete(event);
-  }, []);
-
-  const reconnect = useCallback(() => {
-    disconnect();
-    setState(prev => ({ ...prev, connectionAttempts: 0 }));
-    setTimeout(connect, 1000);
-  }, [disconnect, connect]);
-
-  // Initial connection
+  // Auto-connect on mount
   useEffect(() => {
     connect();
-
     return () => {
       disconnect();
     };
-  }, [url]); // Only reconnect when URL changes
+  }, [connect, disconnect]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      clearTimers();
+      cleanup();
       if (ws.current) {
-        ws.current.close(1000, 'Component unmount');
+        ws.current.close();
       }
     };
-  }, [clearTimers]);
+  }, [cleanup]);
 
   return {
-    isConnected: state.isConnected,
-    isConnecting: state.isConnecting,
-    error: state.error,
-    connectionAttempts: state.connectionAttempts,
+    connectionState,
     sendMessage,
+    lastMessage,
+    connect,
     disconnect,
-    reconnect,
-    subscribe,
-    unsubscribe
+    subscribe
   };
 };
+
+export default useWebSocket;
 
 // Specialized hooks for prediction updates
 export const usePredictionUpdates = (gameIds?: string[]) => {

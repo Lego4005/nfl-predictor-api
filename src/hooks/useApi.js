@@ -102,58 +102,75 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
           await new Promise((resolve) => setTimeout(resolve, 100));
           result = mockApi(path);
         } else if (path === "/games") {
-          // Import and use supabaseHelpers for real game data - CACHED
-          console.log('🎯 useApi: Fetching games from supabaseHelpers...');
-          const { supabaseHelpers } = await import(
-            "../services/supabaseClient.js"
-          );
-          const rawGames = await supabaseHelpers.getCurrentGames();
-          console.log('🎯 useApi: Received games:', rawGames?.length || 0);
+          // Try to get real data first, fallback to mock data if unavailable
+          console.log("🎯 useApi: Fetching games from supabaseHelpers...");
 
-          // Transform Supabase data format to match frontend expectations
-          result = rawGames.map((game) => {
-            // Extract AI prediction data from Supabase
-            const aiPrediction =
-              game.predictions && game.predictions.length > 0
-                ? game.predictions[0]
-                : null;
+          try {
+            const { supabaseHelpers } = await import(
+              "../services/supabaseClient.js"
+            );
+            const rawGames = await supabaseHelpers.getCurrentGames();
+            console.log("🎯 useApi: Received games:", rawGames?.length || 0);
 
-            return {
-              id: game.id,
-              homeTeam: game.home_team,
-              awayTeam: game.away_team,
-              homeScore: game.home_score || 0,
-              awayScore: game.away_score || 0,
-              status: game.status,
-              quarter: game.quarter || 0,
-              clock: game.time_remaining
-                ? game.time_remaining.includes(":")
-                  ? parseInt(game.time_remaining.split(":")[0]) * 60 +
-                    parseInt(game.time_remaining.split(":")[1])
-                  : 0
-                : 0,
-              time: game.time_remaining || "0:00",
-              startTime: game.game_time,
-              prediction: {
-                homeWinProb: aiPrediction?.home_win_prob
-                  ? aiPrediction.home_win_prob / 100
-                  : 0.5,
-                awayWinProb: aiPrediction?.away_win_prob
-                  ? aiPrediction.away_win_prob / 100
-                  : 0.5,
-                line: aiPrediction?.predicted_spread || 0,
-                confidence: aiPrediction?.confidence
-                  ? aiPrediction.confidence / 100
-                  : 0.5,
-                predictedTotal: aiPrediction?.predicted_total || null,
-              },
-              homeWinProb: aiPrediction?.home_win_prob || 50,
-              awayWinProb: aiPrediction?.away_win_prob || 50,
-              // Add AI prediction flags for the card component
-              hasAIPrediction: !!aiPrediction,
-              aiPrediction: aiPrediction,
-            };
-          });
+            if (rawGames && rawGames.length > 0) {
+              // Transform Supabase data format to match frontend expectations
+              result = rawGames.map((game) => {
+                // Extract AI prediction data from Supabase
+                const aiPrediction =
+                  game.predictions && game.predictions.length > 0
+                    ? game.predictions[0]
+                    : null;
+
+                return {
+                  id: game.id,
+                  homeTeam: game.home_team,
+                  awayTeam: game.away_team,
+                  homeScore: game.home_score || 0,
+                  awayScore: game.away_score || 0,
+                  status: game.status,
+                  quarter: game.quarter || 0,
+                  clock: game.time_remaining
+                    ? game.time_remaining.includes(":")
+                      ? parseInt(game.time_remaining.split(":")[0]) * 60 +
+                        parseInt(game.time_remaining.split(":")[1])
+                      : 0
+                    : 0,
+                  time: game.time_remaining || "0:00",
+                  startTime: game.game_time,
+                  prediction: {
+                    homeWinProb: aiPrediction?.home_win_prob
+                      ? aiPrediction.home_win_prob / 100
+                      : 0.5,
+                    awayWinProb: aiPrediction?.away_win_prob
+                      ? aiPrediction.away_win_prob / 100
+                      : 0.5,
+                    line: aiPrediction?.predicted_spread || 0,
+                    confidence: aiPrediction?.confidence
+                      ? aiPrediction.confidence / 100
+                      : 0.5,
+                    predictedTotal: aiPrediction?.predicted_total || null,
+                  },
+                  homeWinProb: aiPrediction?.home_win_prob || 50,
+                  awayWinProb: aiPrediction?.away_win_prob || 50,
+                  // Add AI prediction flags for the card component
+                  hasAIPrediction: !!aiPrediction,
+                  aiPrediction: aiPrediction,
+                };
+              });
+            } else {
+              // No real data available, use mock data for development/demo
+              console.log(
+                "🎯 useApi: No real data available, using mock games for demo"
+              );
+              result = mockApi(path);
+            }
+          } catch (error) {
+            // Connection failed, use mock data for development/demo
+            console.log(
+              "🎯 useApi: API connection failed, using mock games for demo"
+            );
+            result = mockApi(path);
+          }
         } else {
           // For other paths, check if we have specific handlers
           if (!demo) {
@@ -181,8 +198,13 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
       } catch (e) {
         console.error("API Error for", path, ":", e);
         setError(e);
-        // Don't fallback to mock data - show empty instead
-        if (!data) {
+        // For games path, fallback to mock data instead of empty array
+        if (path === "/games") {
+          console.log(
+            "🎯 useApi: Error occurred, using mock games as fallback"
+          );
+          setData(mockApi(path));
+        } else if (!data) {
           setData([]);
         }
       } finally {

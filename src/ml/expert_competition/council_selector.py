@@ -179,41 +179,74 @@ class AICouncilSelector:
         )
     
     def _calculate_accuracy_score(self, expert: Any) -> float:
-        """Calculate accuracy-based score (0.0 to 1.0)"""
+        """Calculate accuracy-based score with enhanced scaling (0.0 to 1.0)"""
         try:
             accuracy = getattr(expert, 'overall_accuracy', 0.5)
             
-            # Convert accuracy to score (50% accuracy = 0.0, 100% accuracy = 1.0)
-            # This ensures that average performance gets neutral score
-            accuracy_score = max(0.0, (accuracy - 0.5) * 2.0)
+            # Enhanced accuracy scoring with better differentiation
+            # 45% accuracy = 0.0, 50% = 0.1, 60% = 0.5, 70% = 0.8, 80%+ = 1.0
+            if accuracy < 0.45:
+                accuracy_score = 0.0
+            elif accuracy < 0.50:
+                # Linear scaling from 0.0 to 0.1 between 45% and 50%
+                accuracy_score = (accuracy - 0.45) * 2.0
+            elif accuracy < 0.60:
+                # Linear scaling from 0.1 to 0.5 between 50% and 60%
+                accuracy_score = 0.1 + (accuracy - 0.50) * 4.0
+            elif accuracy < 0.70:
+                # Linear scaling from 0.5 to 0.8 between 60% and 70%
+                accuracy_score = 0.5 + (accuracy - 0.60) * 3.0
+            else:
+                # Linear scaling from 0.8 to 1.0 between 70% and 80%+
+                accuracy_score = 0.8 + min(0.2, (accuracy - 0.70) * 2.0)
             
-            return min(1.0, accuracy_score)
+            # Bonus for exceptional accuracy (75%+)
+            if accuracy >= 0.75:
+                exceptional_bonus = min(0.1, (accuracy - 0.75) * 2.0)
+                accuracy_score += exceptional_bonus
+            
+            return min(1.0, max(0.0, accuracy_score))
             
         except Exception as e:
             logger.error(f"Failed to calculate accuracy score for {expert.expert_id}: {e}")
             return 0.0
     
     async def _calculate_recent_performance_score(self, expert: Any, window_weeks: int) -> float:
-        """Calculate recent performance score based on trend"""
+        """Calculate recent performance score with enhanced trend analysis"""
         try:
             # Get recent trend indicator
             recent_trend = getattr(expert, 'recent_trend', 'stable')
             
-            # Convert trend to score
-            trend_scores = {
-                'improving': 1.0,
-                'stable': 0.6,
-                'declining': 0.2
+            # Enhanced trend scoring with momentum consideration
+            trend_base_scores = {
+                'improving': 0.85,
+                'stable': 0.55,
+                'declining': 0.25
             }
             
-            base_score = trend_scores.get(recent_trend, 0.5)
+            base_score = trend_base_scores.get(recent_trend, 0.5)
             
             # Adjust based on recent accuracy if available
             recent_accuracy = getattr(expert, 'recent_accuracy', None)
             if recent_accuracy is not None:
-                # Weight recent accuracy with trend
-                accuracy_component = max(0.0, (recent_accuracy - 0.5) * 2.0)
-                base_score = base_score * 0.7 + accuracy_component * 0.3
+                # Weight recent accuracy more heavily
+                accuracy_component = max(0.0, (recent_accuracy - 0.45) * 1.8)  # Adjusted threshold
+                base_score = base_score * 0.6 + accuracy_component * 0.4
+            
+            # Consider performance momentum (rate of improvement/decline)
+            momentum_factor = getattr(expert, 'performance_momentum', 0.0)
+            momentum_adjustment = momentum_factor * 0.15  # Up to 15% boost/penalty
+            base_score += momentum_adjustment
+            
+            # Recent category-specific performance
+            category_performance = getattr(expert, 'recent_category_performance', {})
+            if category_performance:
+                # Bonus for strong recent category performance
+                strong_categories = sum(1 for acc in category_performance.values() if acc > 0.6)
+                total_categories = len(category_performance)
+                if total_categories > 0:
+                    category_bonus = (strong_categories / total_categories) * 0.1
+                    base_score += category_bonus
             
             return min(1.0, max(0.0, base_score))
             
@@ -247,24 +280,73 @@ class AICouncilSelector:
             return 0.5
     
     def _calculate_specialization_score(self, expert: Any) -> float:
-        """Calculate specialization strength score"""
+        """Calculate enhanced specialization strength score"""
         try:
             # Get specialization strengths
             specialization_strength = getattr(expert, 'specialization_strength', {})
             
             if not specialization_strength:
+                # Check for category-specific accuracies as fallback
+                category_accuracies = getattr(expert, 'category_accuracies', {})
+                if category_accuracies:
+                    # Calculate specialization from category performance
+                    return self._calculate_specialization_from_categories(category_accuracies)
                 return 0.5  # Neutral score for no specialization data
             
-            # Calculate average specialization strength
+            # Enhanced specialization calculation
             strengths = list(specialization_strength.values())
-            if strengths:
-                avg_strength = sum(strengths) / len(strengths)
-                return max(0.0, min(1.0, avg_strength))
+            if not strengths:
+                return 0.5
             
-            return 0.5
+            # Calculate multiple specialization metrics
+            avg_strength = sum(strengths) / len(strengths)
+            max_strength = max(strengths)
+            
+            # Specialization variance (high variance = strong specialization)
+            if len(strengths) > 1:
+                variance = sum((s - avg_strength) ** 2 for s in strengths) / len(strengths)
+                specialization_focus = min(1.0, variance * 10)  # Scale variance
+            else:
+                specialization_focus = 0.5
+            
+            # Combined specialization score
+            # 50% average strength, 30% peak strength, 20% specialization focus
+            combined_score = (
+                avg_strength * 0.5 + 
+                max_strength * 0.3 + 
+                specialization_focus * 0.2
+            )
+            
+            return max(0.0, min(1.0, combined_score))
             
         except Exception as e:
             logger.error(f"Failed to calculate specialization score for {expert.expert_id}: {e}")
+            return 0.5
+    
+    def _calculate_specialization_from_categories(self, category_accuracies: Dict[str, float]) -> float:
+        """Calculate specialization score from category-specific accuracies"""
+        try:
+            if not category_accuracies:
+                return 0.5
+            
+            accuracies = list(category_accuracies.values())
+            avg_accuracy = sum(accuracies) / len(accuracies)
+            
+            # Find categories where expert significantly outperforms their average
+            strong_categories = [acc for acc in accuracies if acc > avg_accuracy + 0.1]
+            
+            if not strong_categories:
+                return 0.3  # No strong specializations
+            
+            # Specialization strength based on how much better the strong categories are
+            specialization_strength = sum(strong_categories) / len(strong_categories)
+            specialization_breadth = len(strong_categories) / len(accuracies)
+            
+            # Balance strength and breadth
+            return min(1.0, specialization_strength * 0.7 + specialization_breadth * 0.3)
+            
+        except Exception as e:
+            logger.error(f"Failed to calculate specialization from categories: {e}")
             return 0.5
     
     def get_selection_breakdown(

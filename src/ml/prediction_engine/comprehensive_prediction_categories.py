@@ -230,7 +230,7 @@ class ComprehensivePredictionCategories:
             difficulty_level="medium"
         )
         
-        # Continue with other categories (abbreviated for space)
+        # Continue with other categories
         self._add_betting_market_categories()
         self._add_live_scenario_categories()
         self._add_player_props_categories()

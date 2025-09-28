@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTeam, NFL_TEAMS } from "../data/nflTeams";
 import TeamCard from "./TeamCard";
@@ -14,9 +14,18 @@ import Leaderboard from "./Leaderboard";
 import LiveTicker from "./dashboard/LiveTicker";
 import AnalyticsCharts from "./dashboard/AnalyticsCharts";
 import WsBadge from "./dashboard/WsBadge";
-import { OddsComparisonTable, ValueBetsTable, OddsMovementChart } from "./dashboard/BettingComponents";
+import {
+  OddsComparisonTable,
+  ValueBetsTable,
+  OddsMovementChart,
+} from "./dashboard/BettingComponents";
 import { InjuriesPanel, SystemHealthPanel } from "./dashboard/SystemComponents";
-import { MiniStat, PredictionAccuracyChart, ModelLeaderboard, TeamComparator } from "./dashboard/ChartComponents";
+import {
+  MiniStat,
+  PredictionAccuracyChart,
+  ModelLeaderboard,
+  TeamComparator,
+} from "./dashboard/ChartComponents";
 import { DashboardHeader, LiveGamesBar } from "./dashboard/HeaderComponents";
 import { DesktopTabsList, MobileTabsList } from "./dashboard/TabsComponents";
 
@@ -134,11 +143,17 @@ export default function NFLPredictionDashboard() {
   // Data domains - live ESPN API integration with demo fallback
   const games = useApi("/games", { demo: demoMode });
   const analytics = useApi("/teams/analytics", { demo: demoMode });
-  const accuracy = useApi("/predictions/accuracy", { refreshMs: 60000, demo: demoMode });
+  const accuracy = useApi("/predictions/accuracy", {
+    refreshMs: 60000,
+    demo: demoMode,
+  });
   const odds = useApi("/odds", { demo: demoMode });
   const oddsMovements = useApi("/odds/movements", { demo: demoMode });
   const injuries = useApi("/injuries", { refreshMs: 60000, demo: demoMode });
-  const models = useApi("/models/leaderboard", { refreshMs: 120000, demo: demoMode });
+  const models = useApi("/models/leaderboard", {
+    refreshMs: 120000,
+    demo: demoMode,
+  });
   const health = useApi("/system/health", { refreshMs: 45000, demo: demoMode });
 
   const isLoading =
@@ -170,7 +185,7 @@ export default function NFLPredictionDashboard() {
           <LiveGamesBar games={games.data} connected={connected} />
 
           {/* Live Ticker - Only show during live games */}
-          {games.data?.filter(g => g.status === 'live').length > 0 && (
+          {games.data?.filter((g) => g.status === "live").length > 0 && (
             <LiveTicker events={events} />
           )}
 
@@ -200,7 +215,8 @@ export default function NFLPredictionDashboard() {
                 ) : (
                   <>
                     {/* Live Games Priority Section */}
-                    {games.data?.filter(g => g.status === 'live').length > 0 && (
+                    {games.data?.filter((g) => g.status === "live").length >
+                      0 && (
                       <div className="mb-6">
                         <div className="flex items-center gap-2 mb-3">
                           <Badge className="bg-red-600 text-white animate-pulse">
@@ -208,16 +224,19 @@ export default function NFLPredictionDashboard() {
                             LIVE NOW
                           </Badge>
                           <span className="text-sm font-semibold">
-                            {games.data.filter(g => g.status === 'live').length} Games In Progress
+                            {
+                              games.data.filter((g) => g.status === "live")
+                                .length
+                            }{" "}
+                            Games In Progress
                           </span>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                           {games.data
-                            .filter(g => g.status === 'live')
-                            .map(g => (
+                            .filter((g) => g.status === "live")
+                            .map((g) => (
                               <GameCard key={g.id} game={g} />
-                            ))
-                          }
+                            ))}
                         </div>
                       </div>
                     )}
@@ -225,17 +244,20 @@ export default function NFLPredictionDashboard() {
                     {/* All Games Grid - Dynamic sizing */}
                     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                       {games.data
-                        ?.filter(g => g.status !== 'live') // Don't duplicate live games
+                        ?.filter((g) => g.status !== "live") // Don't duplicate live games
                         .sort((a, b) => {
                           // Sort: scheduled first (by time), then final
-                          if (a.status === 'scheduled' && b.status === 'scheduled') {
+                          if (
+                            a.status === "scheduled" &&
+                            b.status === "scheduled"
+                          ) {
                             return new Date(a.gameTime) - new Date(b.gameTime);
                           }
-                          if (a.status === 'scheduled') return -1;
-                          if (b.status === 'scheduled') return 1;
+                          if (a.status === "scheduled") return -1;
+                          if (b.status === "scheduled") return 1;
                           return 0;
                         })
-                        .map(g => (
+                        .map((g) => (
                           <div
                             key={g.id}
                             onClick={() => {
@@ -250,8 +272,7 @@ export default function NFLPredictionDashboard() {
                           >
                             <GameCard game={g} />
                           </div>
-                        ))
-                      }
+                        ))}
                     </div>
 
                     {/* Show more/less for many games */}
@@ -261,7 +282,9 @@ export default function NFLPredictionDashboard() {
                           variant="outline"
                           onClick={() => setExpandedView(!expandedView)}
                         >
-                          {expandedView ? 'Show Less' : `Show All ${games.data.length} Games`}
+                          {expandedView
+                            ? "Show Less"
+                            : `Show All ${games.data.length} Games`}
                         </Button>
                       </div>
                     )}

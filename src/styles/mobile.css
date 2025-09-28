@@ -178,6 +178,47 @@
   }
 }
 
+/* Dashboard-specific mobile styles */
+.dashboard-card-mobile {
+  background: rgba(17, 17, 17, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  margin: 0.5rem;
+  padding: 1rem;
+}
+
+.dashboard-grid-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-stat-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(30, 30, 30, 0.7);
+}
+
+.dashboard-team-info-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-spread-mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(30, 30, 30, 0.7);
+}
+
 /* Print styles (hide mobile-specific elements) */
 @media print {
   .mobile-card,
