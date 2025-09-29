@@ -27,7 +27,7 @@ class SupabaseHistoricalService:
 
     def __init__(self):
         # Initialize Supabase client
-        self.supabase_url = os.getenv('VITE_SUPABASE_URL', 'https://nypbqzzfmckfadexltzk.supabase.co')
+        self.supabase_url = os.getenv('VITE_SUPABASE_URL', 'https://vaypgzvivahnfegnlinn.supabase.co')
         self.supabase_key = os.getenv('VITE_SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cGJxenpmtWNrZmFkZXhsdHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyMzA5MjcsImV4cCI6MjA1MTgwNjkyN30.7Bf7g7-9mDbTMBg8o-Y7Yqb-ovvQrJkzkNnHlKUWkMQ')
 
         self.supabase: Client = create_client(self.supabase_url, self.supabase_key)

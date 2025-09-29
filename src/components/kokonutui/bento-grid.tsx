@@ -12,7 +12,7 @@
 
 import Anthropic from "@/components/kokonutui/anthropic";
 import AnthropicDark from "@/components/kokonutui/anthropic-dark";
-import Google from "@/components/kokonutui/gemini";
+import { Gemini } from "@/components/icons/gemini";
 import OpenAI from "@/components/kokonutui/open-ai";
 import OpenAIDark from "@/components/kokonutui/open-ai-dark";
 import MistralAI from "@/components/kokonutui/mistral";
@@ -33,7 +33,6 @@ import {
     useTransform,
     type Variants,
 } from "motion/react";
-import Link from "@/components/ui/link";
 import { useState, useEffect, useRef } from "react";
 
 interface BentoItem {
@@ -76,38 +75,38 @@ interface BentoItem {
 const bentoItems: BentoItem[] = [
     {
         id: "main",
-        title: "Building tomorrow's technology",
+        title: "AI Expert Competition Platform",
         description:
-            "We architect and develop enterprise-grade applications that scale seamlessly with cloud-native technologies and microservices.",
+            "15 elite AI experts competing in real-time to predict NFL game outcomes with advanced machine learning models and statistical analysis.",
         href: "#",
         feature: "spotlight",
         spotlightItems: [
-            "Microservices architecture",
-            "Serverless computing",
-            "Container orchestration",
-            "API-first design",
-            "Event-driven systems",
+            "15 competing AI expert models",
+            "Top 5 form the AI Council",
+            "27 prediction categories per game",
+            "Real-time performance tracking",
+            "Weighted consensus predictions",
         ],
         size: "lg",
         className: "col-span-2 row-span-1 md:col-span-2 md:row-span-1",
     },
     {
         id: "stat1",
-        title: "AI Agents & Automation",
+        title: "Live Prediction Engine",
         description:
-            "Intelligent agents that learn, adapt, and automate complex workflows",
+            "Advanced AI algorithms analyzing game data to generate accurate predictions across multiple betting markets",
         href: "#",
         feature: "typing",
         typingText:
-            "const createAgent = async () => {\n  const agent = new AIAgent({\n    model: 'gpt-4-turbo',\n    tools: [codeAnalysis, dataProcessing],\n    memory: new ConversationalMemory()\n  });\n\n  // Train on domain knowledge\n  await agent.learn(domainData);\n\n  return agent;\n};",
+            "const generatePredictions = async (gameData) => {\n  const experts = await loadExpertModels();\n  const predictions = [];\n\n  for (const expert of experts) {\n    const prediction = await expert.analyze({\n      gameData,\n      categories: PREDICTION_CATEGORIES,\n      weights: expert.specializationWeights\n    });\n    predictions.push(prediction);\n  }\n\n  return await councilConsensus(predictions);\n};",
         size: "md",
         className: "col-span-2 row-span-1 col-start-1 col-end-3",
     },
     {
         id: "partners",
-        title: "Trusted partners",
+        title: "AI Expert Models",
         description:
-            "Working with the leading AI and cloud providers to deliver cutting-edge solutions",
+            "Powered by leading AI and machine learning technologies for maximum prediction accuracy",
         icons: true,
         href: "#",
         feature: "icons",
@@ -116,22 +115,52 @@ const bentoItems: BentoItem[] = [
     },
     {
         id: "innovation",
-        title: "Innovation timeline",
+        title: "Prediction Evolution",
         description:
-            "Pioneering the future of AI and cloud computing with breakthrough innovations",
+            "Continuous improvement in NFL prediction accuracy through advanced AI competition and learning",
         href: "#",
         feature: "timeline",
         timeline: [
-            { year: "2020", event: "Launch of Cloud-Native Platform" },
-            { year: "2021", event: "Advanced AI Integration & LLM APIs" },
-            { year: "2022", event: "Multi-Agent Systems & RAG Architecture" },
-            { year: "2023", event: "Autonomous AI Agents & Neural Networks" },
+            { year: "Week 1", event: "Expert Model Competition Launch" },
+            { year: "Week 4", event: "AI Council Formation & Consensus" },
+            { year: "Week 8", event: "Advanced Betting Market Analysis" },
+            { year: "Week 12", event: "Live Game Prediction Updates" },
             {
-                year: "2024",
-                event: "AGI-Ready Infrastructure & Edge Computing",
+                year: "Playoffs",
+                event: "Championship Prediction Accuracy Peak",
             },
         ],
         size: "sm",
+        className: "col-span-1 row-span-1",
+    },
+    {
+        id: "metrics",
+        title: "Performance Metrics",
+        description:
+            "Real-time tracking of AI expert performance across all prediction categories",
+        href: "#",
+        feature: "metrics",
+        metrics: [
+            {
+                label: "Overall Accuracy",
+                value: 68.2,
+                suffix: "%",
+                color: "emerald"
+            },
+            {
+                label: "Council Consensus",
+                value: 89,
+                suffix: "%",
+                color: "blue"
+            },
+            {
+                label: "Expert Competition",
+                value: 95,
+                suffix: "%",
+                color: "violet"
+            }
+        ],
+        size: "md",
         className: "col-span-1 row-span-1",
     },
 ];
@@ -247,7 +276,7 @@ const IconsFeature = () => {
                     <OpenAIDark className="w-7 h-7 hidden dark:block transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    OpenAI
+                    Deep Learning
                 </span>
             </motion.div>
             <motion.div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-gradient-to-b from-neutral-100/80 to-neutral-100 dark:from-neutral-800/80 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 group transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-600">
@@ -256,15 +285,15 @@ const IconsFeature = () => {
                     <AnthropicDark className="w-7 h-7 hidden dark:block transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    Anthropic
+                    Neural Networks
                 </span>
             </motion.div>
             <motion.div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-gradient-to-b from-neutral-100/80 to-neutral-100 dark:from-neutral-800/80 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 group transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-600">
                 <div className="relative w-8 h-8 flex items-center justify-center">
-                    <Google className="w-7 h-7 transition-transform " />
+                    <Gemini className="w-7 h-7 transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    Google
+                    ML Models
                 </span>
             </motion.div>
             <motion.div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-gradient-to-b from-neutral-100/80 to-neutral-100 dark:from-neutral-800/80 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 group transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-600">
@@ -272,7 +301,7 @@ const IconsFeature = () => {
                     <MistralAI className="w-7 h-7 transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    Mistral
+                    Analytics
                 </span>
             </motion.div>
             <motion.div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-gradient-to-b from-neutral-100/80 to-neutral-100 dark:from-neutral-800/80 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 group transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-600">
@@ -280,7 +309,7 @@ const IconsFeature = () => {
                     <DeepSeek className="w-7 h-7 transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    DeepSeek
+                    Predictions
                 </span>
             </motion.div>
             <motion.div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-gradient-to-b from-neutral-100/80 to-neutral-100 dark:from-neutral-800/80 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 group transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-600">
@@ -288,7 +317,7 @@ const IconsFeature = () => {
                     <Plus className="w-6 h-6 text-neutral-600 dark:text-neutral-400 transition-transform " />
                 </div>
                 <span className="text-xs font-medium text-center text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-neutral-200">
-                    More
+                    AI Experts
                 </span>
             </motion.div>
         </div>
@@ -615,10 +644,9 @@ const BentoCard = ({ item }: { item: BentoItem }) => {
                 transformStyle: "preserve-3d",
             }}
         >
-            <Link
-                href={item.href || "#"}
+            <div
                 className={`
-                    group relative flex flex-col gap-4 h-full rounded-xl p-5
+                    group relative flex flex-col gap-4 h-full rounded-xl p-5 cursor-pointer
                     bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 
                     dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30
                     border border-neutral-200/60 dark:border-neutral-800/60
@@ -710,14 +738,14 @@ const BentoCard = ({ item }: { item: BentoItem }) => {
                                 <OpenAIDark className="w-5 h-5 hidden dark:block opacity-70 hover:opacity-100 transition-opacity" />
                                 <AnthropicDark className="w-5 h-5 dark:block hidden opacity-70 hover:opacity-100 transition-opacity" />
                                 <Anthropic className="w-5 h-5 dark:hidden opacity-70 hover:opacity-100 transition-opacity" />
-                                <Google className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
+                                <Gemini className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
                                 <MistralAI className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
                                 <DeepSeek className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
                             </div>
                         )}
                     </div>
                 </div>
-            </Link>
+            </div>
         </motion.div>
     );
 };
@@ -737,15 +765,29 @@ export default function BentoGrid() {
                     <div className="grid md:grid-cols-3 gap-6">
                         <motion.div
                             variants={fadeInUp}
-                            className="md:col-span-1"
+                            className="md:col-span-2"
                         >
                             <BentoCard item={bentoItems[0]} />
                         </motion.div>
                         <motion.div
                             variants={fadeInUp}
+                            className="md:col-span-1"
+                        >
+                            <BentoCard item={bentoItems[4]} />
+                        </motion.div>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <motion.div
+                            variants={fadeInUp}
                             className="md:col-span-2"
                         >
                             <BentoCard item={bentoItems[1]} />
+                        </motion.div>
+                        <motion.div
+                            variants={fadeInUp}
+                            className="md:col-span-1"
+                        >
+                            <BentoCard item={bentoItems[2]} />
                         </motion.div>
                     </div>
                     <div className="grid md:grid-cols-2 gap-6">
@@ -753,7 +795,7 @@ export default function BentoGrid() {
                             variants={fadeInUp}
                             className="md:col-span-1"
                         >
-                            <BentoCard item={bentoItems[2]} />
+                            <BentoCard item={bentoItems[3]} />
                         </motion.div>
                         <motion.div
                             variants={fadeInUp}
@@ -762,14 +804,11 @@ export default function BentoGrid() {
                             <div className="p-5">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
-                                        Voice Assistant
+                                        AI Prediction Assistant
                                     </h3>
                                 </div>
                                 <p className="text-sm text-neutral-600 dark:text-neutral-400 tracking-tight mb-4">
-                                    Interact with our AI using natural voice
-                                    commands. Experience seamless voice-driven
-                                    interactions with advanced speech
-                                    recognition.
+                                    Ask our AI about NFL predictions, expert insights, and game analysis using natural voice commands.
                                 </p>
                                 <AIInput_Voice />
                             </div>

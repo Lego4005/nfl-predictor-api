@@ -45,7 +45,53 @@ const TeamLogo = ({
     return teamMap[teamName] || teamName;
   };
 
-  // Generate logo URLs - Prioritize ESPN logos
+  // Map team abbreviations to SVG file names
+  const getTeamSvgFileName = (abbr) => {
+    const svgMap = {
+      'BUF': 'buffalo_bills',
+      'MIA': 'miami_dolphins',
+      'NE': 'new_england_patriots',
+      'NYJ': 'new_york_jets',
+      'BAL': 'baltimore_ravens',
+      'CIN': 'cincinnati_bengals',
+      'CLE': 'cleveland_browns',
+      'PIT': 'pittsburgh_steelers',
+      'HOU': 'houston_texans',
+      'IND': 'indianapolis_colts',
+      'JAX': 'jacksonville_jaguars',
+      'TEN': 'tennessee_titans',
+      'DEN': 'denver_broncos',
+      'KC': 'kansas_city_chiefs',
+      'LV': 'las_vegas_raiders',
+      'LAC': 'los_angeles_chargers',
+      'DAL': 'dallas_cowboys',
+      'NYG': 'new_york_giants',
+      'PHI': 'philadelphia_eagles',
+      'WSH': 'washington_commanders',
+      'WAS': 'washington_commanders', // Alternative abbreviation
+      'CHI': 'chicago_bears',
+      'DET': 'detroit_lions',
+      'GB': 'green_bay_packers',
+      'MIN': 'minnesota_vikings',
+      'ATL': 'atlanta_falcons',
+      'CAR': 'carolina_panthers',
+      'NO': 'new_orleans_saints',
+      'TB': 'tampa_bay_buccaneers',
+      'ARI': 'arizona_cardinals',
+      'LAR': 'los_angeles_rams',
+      'LA': 'los_angeles_rams', // Alternative for Rams
+      'SF': 'san_francisco_49ers',
+      'SEA': 'seattle_seahawks',
+      'TBD': 'nfl', // For TBD games, use NFL logo
+      'NFL': 'nfl' // Generic NFL logo
+    };
+
+    // Also check if the abbr is already uppercase
+    const upperAbbr = abbr ? abbr.toUpperCase() : null;
+    return svgMap[upperAbbr] || svgMap[abbr] || null;
+  };
+
+  // Generate logo URLs - Prioritize local SVGs
   const getLogoUrls = (abbr) => {
     if (!abbr) return { primary: null, fallback: null, placeholder: null };
 
@@ -53,15 +99,25 @@ const TeamLogo = ({
     const teamAbbr = getTeamAbbr(abbr);
     const abbrLower = teamAbbr.toLowerCase();
     const abbrUpper = teamAbbr.toUpperCase();
+    const svgFileName = getTeamSvgFileName(abbrUpper);
+
+    // Special handling for TBD
+    if (abbrUpper === 'TBD' || abbrUpper === 'TBA') {
+      return {
+        primary: '/nfl_team_svgs/nfl.svg',
+        secondary: null,
+        fallback: null,
+        placeholder: generatePlaceholderSVG('TBD')
+      };
+    }
 
     return {
-      // ESPN logos as primary (real team logos)
-      primary: `https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${abbrLower}.png&h=${dimensions.height}&w=${dimensions.width}`,
+      // Local SVGs as primary
+      primary: svgFileName ? `/nfl_team_svgs/${svgFileName}.svg` : null,
+      // ESPN logos as secondary fallback
+      secondary: `https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${abbrLower}.png&h=${dimensions.height}&w=${dimensions.width}`,
       // Alternative ESPN URL
-      secondary: `https://a.espncdn.com/i/teamlogos/nfl/500/${abbrLower}.png`,
-      // Local logos as fallback
-      fallback: `/logos/${abbrUpper}.svg`,
-      fallbackPng: `/logos/${abbrUpper}.png`,
+      fallback: `https://a.espncdn.com/i/teamlogos/nfl/500/${abbrLower}.png`,
       // Generated placeholder as last resort
       placeholder: generatePlaceholderSVG(abbrUpper)
     };
@@ -94,59 +150,93 @@ const TeamLogo = ({
       return;
     }
 
+    // Debug: Log what team abbreviation we're getting
+    console.log('TeamLogo: Loading logo for:', teamAbbr);
+
     setIsLoading(true);
     setHasErrored(false);
 
     const urls = getLogoUrls(teamAbbr);
+    console.log('TeamLogo: URLs generated:', urls);
 
-    // Try ESPN logo first (real team logos)
-    const img1 = new Image();
-    img1.onload = () => {
-      setCurrentSrc(urls.primary);
-      setIsLoading(false);
-    };
-    img1.onerror = () => {
-      // Try alternative ESPN URL
-      const img2 = new Image();
-      img2.onload = () => {
-        setCurrentSrc(urls.secondary);
+    // If we have a local SVG, try it first
+    if (urls.primary) {
+      const img1 = new Image();
+      img1.onload = () => {
+        console.log('TeamLogo: Successfully loaded local SVG for', teamAbbr);
+        setCurrentSrc(urls.primary);
         setIsLoading(false);
       };
-      img2.onerror = () => {
-        // Try local SVG fallback
-        const img3 = new Image();
-        img3.onload = () => {
-          setCurrentSrc(urls.fallback);
+      img1.onerror = () => {
+        console.log('TeamLogo: Failed to load local SVG for', teamAbbr, 'from', urls.primary);
+        // Try ESPN as fallback
+        const img2 = new Image();
+        img2.onload = () => {
+          setCurrentSrc(urls.secondary);
           setIsLoading(false);
         };
-        img3.onerror = () => {
-          // Try local PNG fallback
-          const img4 = new Image();
-          img4.onload = () => {
-            setCurrentSrc(urls.fallbackPng);
+        img2.onerror = () => {
+          // Try alternative ESPN URL
+          const img3 = new Image();
+          img3.onload = () => {
+            setCurrentSrc(urls.fallback);
             setIsLoading(false);
           };
-          img4.onerror = () => {
+          img3.onerror = () => {
+            console.log('TeamLogo: All sources failed for', teamAbbr, '- using placeholder');
             // Use placeholder
             setCurrentSrc(urls.placeholder);
             setIsLoading(false);
             setHasErrored(true);
             onError && onError();
           };
-          img4.src = urls.fallbackPng;
+          img3.src = urls.fallback;
         };
-        img3.src = urls.fallback;
+        img2.src = urls.secondary;
       };
-      img2.src = urls.secondary;
-    };
-    img1.src = urls.primary;
+      img1.src = urls.primary;
+    } else {
+      console.log('TeamLogo: No local SVG mapping found for', teamAbbr);
+      // No local SVG, try ESPN directly
+      const img1 = new Image();
+      img1.onload = () => {
+        setCurrentSrc(urls.secondary);
+        setIsLoading(false);
+      };
+      img1.onerror = () => {
+        const img2 = new Image();
+        img2.onload = () => {
+          setCurrentSrc(urls.fallback);
+          setIsLoading(false);
+        };
+        img2.onerror = () => {
+          setCurrentSrc(urls.placeholder);
+          setIsLoading(false);
+          setHasErrored(true);
+          onError && onError();
+        };
+        img2.src = urls.fallback;
+      };
+      img1.src = urls.secondary;
+    }
   }, [teamAbbr, size, dimensions.width, dimensions.height]);
+
+  // Skeleton loader element
+  const skeletonElement = (
+    <div
+      className="animate-pulse bg-gradient-to-br from-gray-300 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-lg"
+      style={{
+        width: dimensions.width,
+        height: dimensions.height,
+      }}
+    />
+  );
 
   const logoElement = (
     <img
       src={currentSrc}
       alt={alt || `${teamAbbr} logo`}
-      className={`object-contain transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'} ${className}`}
+      className={`object-contain transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'} ${className}`}
       style={{
         width: dimensions.width,
         height: dimensions.height,
@@ -173,25 +263,25 @@ const TeamLogo = ({
           />
         )}
         <div className="relative">
+          {isLoading && (
+            <div className="absolute inset-0 z-10">
+              {skeletonElement}
+            </div>
+          )}
           {logoElement}
         </div>
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
-          </div>
-        )}
       </motion.div>
     );
   }
 
   return (
     <div className="relative inline-block">
-      {logoElement}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+        <div className="absolute inset-0 z-10">
+          {skeletonElement}
         </div>
       )}
+      {logoElement}
     </div>
   );
 };

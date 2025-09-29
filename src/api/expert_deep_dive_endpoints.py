@@ -11,23 +11,23 @@ import random
 
 router = APIRouter()
 
-# Mock data for expert deep dive - in production this would connect to episodic memory services
+# Standardized expert personalities matching backend ML models
 EXPERT_PERSONALITIES = {
-    "1": {"name": "The Analyst", "personality": "conservative", "emoji": "📊"},
-    "2": {"name": "The Gambler", "personality": "risk_taking", "emoji": "🎲"},
-    "3": {"name": "The Rebel", "personality": "contrarian", "emoji": "😈"},
-    "4": {"name": "The Hunter", "personality": "value_seeking", "emoji": "🎯"},
-    "5": {"name": "The Rider", "personality": "momentum", "emoji": "🏇"},
-    "6": {"name": "The Scholar", "personality": "fundamentalist", "emoji": "📚"},
-    "7": {"name": "The Chaos", "personality": "randomness", "emoji": "🌪️"},
-    "8": {"name": "The Intuition", "personality": "gut_feel", "emoji": "🔮"},
-    "9": {"name": "The Quant", "personality": "statistics", "emoji": "🤖"},
-    "10": {"name": "The Reversal", "personality": "mean_reversion", "emoji": "↩️"},
-    "11": {"name": "The Fader", "personality": "anti_narrative", "emoji": "🚫"},
-    "12": {"name": "The Sharp", "personality": "smart_money", "emoji": "💎"},
-    "13": {"name": "The Underdog", "personality": "upset_seeker", "emoji": "🐕"},
-    "14": {"name": "The Consensus", "personality": "crowd_following", "emoji": "👥"},
-    "15": {"name": "The Exploiter", "personality": "inefficiency_hunting", "emoji": "🔍"}
+    "conservative_analyzer": {"name": "The Analyst", "personality": "conservative", "emoji": "📊"},
+    "risk_taking_gambler": {"name": "The Gambler", "personality": "risk_taking", "emoji": "🎲"},
+    "contrarian_rebel": {"name": "The Rebel", "personality": "contrarian", "emoji": "😈"},
+    "value_hunter": {"name": "The Hunter", "personality": "value_seeking", "emoji": "🎯"},
+    "momentum_rider": {"name": "The Rider", "personality": "momentum", "emoji": "🏇"},
+    "fundamentalist_scholar": {"name": "The Scholar", "personality": "fundamentalist", "emoji": "📚"},
+    "chaos_theory_believer": {"name": "The Chaos", "personality": "randomness", "emoji": "🌪️"},
+    "gut_instinct_expert": {"name": "The Intuition", "personality": "gut_feel", "emoji": "🔮"},
+    "statistics_purist": {"name": "The Quant", "personality": "statistics", "emoji": "🤖"},
+    "trend_reversal_specialist": {"name": "The Reversal", "personality": "mean_reversion", "emoji": "↩️"},
+    "popular_narrative_fader": {"name": "The Fader", "personality": "anti_narrative", "emoji": "🚫"},
+    "sharp_money_follower": {"name": "The Sharp", "personality": "smart_money", "emoji": "💎"},
+    "underdog_champion": {"name": "The Underdog", "personality": "upset_seeker", "emoji": "🐕"},
+    "consensus_follower": {"name": "The Consensus", "personality": "crowd_following", "emoji": "👥"},
+    "market_inefficiency_exploiter": {"name": "The Exploiter", "personality": "inefficiency_hunting", "emoji": "🔍"}
 }
 
 def generate_historical_predictions(expert_id: str, count: int = 10) -> List[Dict]:

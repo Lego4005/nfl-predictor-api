@@ -1,5 +1,6 @@
 import React from 'react'
-import { GAMES, TEAMS } from '../../lib/nfl-data'
+import { useGameDetail } from '@/hooks/useGameDetail'
+import { TEAMS } from '../../lib/nfl-data'
 import { classNames, eloWinProb } from '../../lib/nfl-utils'
 import TeamLogo from '../../components/TeamLogo'
 
@@ -8,63 +9,24 @@ interface GameDetailPageProps {
   onBack: () => void
 }
 
-// Mock games data (this should match the structure from App.tsx)
-const mockGames = [
-  {
-    id: '1',
-    homeTeam: 'DET',
-    awayTeam: 'SF',
-    homeScore: 27,
-    awayScore: 20,
-    status: 'FINAL' as const,
-    network: 'TNF',
-    venue: "Levi's Stadium",
-    time: '8:20 PM',
-    day: 'Thursday Night',
-    spread: { open: '+3', current: '+3.5', model: '+2' },
-    homeSpread: '+3.5',
-    awaySpread: '-3.5'
-  },
-  {
-    id: '2',
-    homeTeam: 'KC',
-    awayTeam: 'BUF',
-    status: 'SCHEDULED' as const,
-    network: 'CBS',
-    venue: 'GEHA Field at Arrowhead',
-    time: '1:00 PM',
-    day: 'Sunday Early',
-    spread: { open: '+3', current: '+3.5', model: '+2' },
-    homeSpread: '+3.5',
-    awaySpread: '-3.5',
-    pk: 'PK'
-  },
-  {
-    id: '3',
-    homeTeam: 'CIN',
-    awayTeam: 'BAL',
-    status: 'LIVE' as const,
-    network: 'CBS',
-    venue: 'Paycor Stadium',
-    time: '1:00 PM',
-    day: 'Sunday Early',
-    spread: { open: '+1', current: '+0.5', model: '+0.5' },
-    homeSpread: '+0.5',
-    awaySpread: '-0.5',
-    pk: 'PK',
-    homeScore: 14,
-    awayScore: 21
-  }
-]
-
 function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
-  // Find the game data
-  const game = mockGames.find(g => g.id === gameId)
+  // Fetch the real game data using the custom hook
+  const { data: game, isLoading, error } = useGameDetail(gameId)
 
-  if (!game) {
+  if (isLoading) {
+    return (
+      <div className="glass rounded-xl p-8 text-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+        <p className="text-muted-foreground">Loading game details...</p>
+      </div>
+    )
+  }
+
+  if (error || !game) {
     return (
       <div className="glass rounded-xl p-8 text-center">
         <h2 className="text-lg font-bold text-white mb-2">Game Not Found</h2>
+        <p className="text-muted-foreground mb-4">Sorry, we couldn't find the details for this game.</p>
         <button
           onClick={onBack}
           className="px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30 transition-colors"
@@ -75,12 +37,18 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
     )
   }
 
-  const homeTeam = TEAMS[game.homeTeam]
-  const awayTeam = TEAMS[game.awayTeam]
+  const homeTeam = TEAMS[game.home_team]
+  const awayTeam = TEAMS[game.away_team]
 
-  // Mock additional game data
-  const gameDate = new Date()
-  gameDate.setDate(gameDate.getDate() + (game.id === '1' ? -1 : 0))
+  // Use actual game date
+  const gameDate = new Date(game.game_time)
+
+  // Create safe spread object with fallbacks
+  const spread = {
+    open: game.spread?.open || '+3.0',
+    current: game.spread?.current || '+3.5',
+    model: game.spread?.model || '+2.0'
+  }
 
   const projectedWinner = homeTeam?.elo > awayTeam?.elo ? 'home' : 'away'
   const modelSpread = eloWinProb(homeTeam?.elo || 1500, awayTeam?.elo || 1500)
@@ -119,21 +87,21 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>📅</span>
-              <span>{gameDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} • {game.time}</span>
+              <span>{gameDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} • {gameDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>🏠</span>
-              <span>{game.venue}</span>
+              <span>{game.venue || 'TBD'}</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>📅</span>
-              <span>Week 3</span>
+              <span>Week {game.week}</span>
             </div>
           </div>
 
           <div className="text-right">
             <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-sm font-medium">
-              {game.network}
+              {game.network || 'TBD'}
             </span>
           </div>
         </div>
@@ -142,11 +110,11 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
         <div className="grid grid-cols-3 gap-6 items-center">
           {/* Away Team */}
           <div className="text-center">
-            <TeamLogo teamAbbr={game.awayTeam} size="xlarge" className="mx-auto mb-3" />
+            <TeamLogo teamAbbr={game.away_team} size="xlarge" className="mx-auto mb-3" />
             <h2 className="text-xl font-bold text-white mb-1">{awayTeam?.name}</h2>
             <p className="text-sm text-muted-foreground">nfelo: {awayTeam?.elo}</p>
             <div className="text-2xl font-bold text-white mt-2">
-              {game.awayScore ?? '—'}
+              {game.away_score ?? '—'}
             </div>
           </div>
 
@@ -167,11 +135,11 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
 
           {/* Home Team */}
           <div className="text-center">
-            <TeamLogo teamAbbr={game.homeTeam} size="xlarge" className="mx-auto mb-3" />
+            <TeamLogo teamAbbr={game.home_team} size="xlarge" className="mx-auto mb-3" />
             <h2 className="text-xl font-bold text-white mb-1">{homeTeam?.name}</h2>
             <p className="text-sm text-muted-foreground">nfelo: {homeTeam?.elo}</p>
             <div className="text-2xl font-bold text-white mt-2">
-              {game.homeScore ?? '—'}
+              {game.home_score ?? '—'}
             </div>
           </div>
         </div>
@@ -187,7 +155,7 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
           <div className="mb-6">
             <div className="text-sm text-muted-foreground mb-2">Projected Winner</div>
             <div className="flex items-center gap-3">
-              <TeamLogo teamAbbr={projectedWinner === 'home' ? game.homeTeam : game.awayTeam} size="medium" className="" />
+              <TeamLogo teamAbbr={projectedWinner === 'home' ? game.home_team : game.away_team} size="medium" className="" />
               <div>
                 <div className="text-white font-medium">
                   {projectedWinner === 'home' ? homeTeam?.name : awayTeam?.name}
@@ -201,11 +169,11 @@ function GameDetailPage({ gameId, onBack }: GameDetailPageProps) {
           <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="text-center">
               <div className="text-xs text-muted-foreground">Opening</div>
-              <div className="text-white font-bold">{game.spread.open}</div>
+              <div className="text-white font-bold">{spread.open}</div>
             </div>
             <div className="text-center">
               <div className="text-xs text-muted-foreground">Current</div>
-              <div className="text-white font-bold">{game.spread.current}</div>
+              <div className="text-white font-bold">{spread.current}</div>
             </div>
             <div className="text-center">
               <div className="text-xs text-muted-foreground">Model</div>

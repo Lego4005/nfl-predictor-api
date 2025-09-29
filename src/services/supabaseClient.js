@@ -4,11 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 // Check if we're in browser or Node.js environment
 const isBrowser = typeof window !== 'undefined';
 const supabaseUrl = isBrowser
-  ? (import.meta?.env?.VITE_SUPABASE_URL || 'https://nypbqzzfmckfadexltzk.supabase.co')
-  : (process.env.VITE_SUPABASE_URL || 'https://nypbqzzfmckfadexltzk.supabase.co');
+  ? import.meta?.env?.VITE_SUPABASE_URL ||
+    "https://vaypgzvivahnfegnlinn.supabase.co"
+  : process.env.VITE_SUPABASE_URL || "https://vaypgzvivahnfegnlinn.supabase.co";
 const supabaseAnonKey = isBrowser
-  ? (import.meta?.env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cGJxenpmtWNrZmFkZXhsdHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyMzA5MjcsImV4cCI6MjA1MTgwNjkyN30.7Bf7g7-9mDbTMBg8o-Y7Yqb-ovvQrJkzkNnHlKUWkMQ')
-  : (process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cGJxenpmtWNrZmFkZXhsdHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyMzA5MjcsImV4cCI6MjA1MTgwNjkyN30.7Bf7g7-9mDbTMBg8o-Y7Yqb-ovvQrJkzkNnHlKUWkMQ');
+  ? import.meta?.env?.VITE_SUPABASE_ANON_KEY ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZheXBnenZpdmFobmZlZ25saW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4NzEzMjIsImV4cCI6MjA3MzQ0NzMyMn0.RISVGvci0v8GD1DtmnOD9lgJSYyfErDg1c__24K82ws"
+  : process.env.VITE_SUPABASE_ANON_KEY ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZheXBnenZpdmFobmZlZ25saW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4NzEzMjIsImV4cCI6MjA3MzQ0NzMyMn0.RISVGvci0v8GD1DtmnOD9lgJSYyfErDg1c__24K82ws";
 
 // Create Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {

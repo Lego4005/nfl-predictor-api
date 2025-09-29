@@ -79,23 +79,23 @@ class EpisodicMemoryManager:
             raise
 
     def _load_expert_personalities(self) -> Dict[str, Dict[str, Any]]:
-        """Load expert personality profiles for memory encoding"""
+        """Load expert personality profiles for memory encoding using standardized IDs"""
         return {
-            "1": {"name": "The Analyst", "memory_style": "analytical", "emotion_intensity": 0.6},
-            "2": {"name": "The Gambler", "memory_style": "outcome_focused", "emotion_intensity": 0.9},
-            "3": {"name": "The Rebel", "memory_style": "contrarian", "emotion_intensity": 0.8},
-            "4": {"name": "The Hunter", "memory_style": "opportunity_seeking", "emotion_intensity": 0.7},
-            "5": {"name": "The Rider", "memory_style": "momentum_based", "emotion_intensity": 0.8},
-            "6": {"name": "The Scholar", "memory_style": "systematic", "emotion_intensity": 0.5},
-            "7": {"name": "The Chaos", "memory_style": "random", "emotion_intensity": 1.0},
-            "8": {"name": "The Intuition", "memory_style": "feeling_based", "emotion_intensity": 0.9},
-            "9": {"name": "The Quant", "memory_style": "data_driven", "emotion_intensity": 0.4},
-            "10": {"name": "The Reversal", "memory_style": "pattern_seeking", "emotion_intensity": 0.7},
-            "11": {"name": "The Fader", "memory_style": "narrative_resistant", "emotion_intensity": 0.6},
-            "12": {"name": "The Sharp", "memory_style": "professional", "emotion_intensity": 0.5},
-            "13": {"name": "The Underdog", "memory_style": "upset_focused", "emotion_intensity": 0.8},
-            "14": {"name": "The Consensus", "memory_style": "group_oriented", "emotion_intensity": 0.6},
-            "15": {"name": "The Exploiter", "memory_style": "edge_seeking", "emotion_intensity": 0.7}
+            "conservative_analyzer": {"name": "The Analyst", "memory_style": "analytical", "emotion_intensity": 0.6},
+            "risk_taking_gambler": {"name": "The Gambler", "memory_style": "outcome_focused", "emotion_intensity": 0.9},
+            "contrarian_rebel": {"name": "The Rebel", "memory_style": "contrarian", "emotion_intensity": 0.8},
+            "value_hunter": {"name": "The Hunter", "memory_style": "opportunity_seeking", "emotion_intensity": 0.7},
+            "momentum_rider": {"name": "The Rider", "memory_style": "momentum_based", "emotion_intensity": 0.8},
+            "fundamentalist_scholar": {"name": "The Scholar", "memory_style": "systematic", "emotion_intensity": 0.5},
+            "chaos_theory_believer": {"name": "The Chaos", "memory_style": "random", "emotion_intensity": 1.0},
+            "gut_instinct_expert": {"name": "The Intuition", "memory_style": "feeling_based", "emotion_intensity": 0.9},
+            "statistics_purist": {"name": "The Quant", "memory_style": "data_driven", "emotion_intensity": 0.4},
+            "trend_reversal_specialist": {"name": "The Reversal", "memory_style": "pattern_seeking", "emotion_intensity": 0.7},
+            "popular_narrative_fader": {"name": "The Fader", "memory_style": "narrative_resistant", "emotion_intensity": 0.6},
+            "sharp_money_follower": {"name": "The Sharp", "memory_style": "professional", "emotion_intensity": 0.5},
+            "underdog_champion": {"name": "The Underdog", "memory_style": "upset_focused", "emotion_intensity": 0.8},
+            "consensus_follower": {"name": "The Consensus", "memory_style": "group_oriented", "emotion_intensity": 0.6},
+            "market_inefficiency_exploiter": {"name": "The Exploiter", "memory_style": "edge_seeking", "emotion_intensity": 0.7}
         }
 
     async def create_episodic_memory(self, expert_id: str, game_id: str,

@@ -47,6 +47,28 @@ const GameCard = ({ game }) => {
   // Determine winners for final games
   const homeWon = game.status === 'final' && game.homeScore > game.awayScore;
   const awayWon = game.status === 'final' && game.awayScore > game.homeScore;
+  const isTie = game.status === "final" && game.homeScore === game.awayScore;
+
+  // Winner highlighting helper
+  const getWinnerStyle = (isWinner, isLoser) => {
+    if (isWinner) {
+      return "text-green-600 dark:text-green-400 font-black text-3xl sm:text-4xl drop-shadow-lg";
+    }
+    if (isLoser) {
+      return "text-gray-400 dark:text-gray-600 font-normal text-xl sm:text-2xl opacity-60";
+    }
+    return "font-black text-xl sm:text-2xl";
+  };
+
+  const getTeamContainerStyle = (isWinner, isLoser) => {
+    if (isWinner) {
+      return "bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700 rounded-lg p-2";
+    }
+    if (isLoser) {
+      return "opacity-60";
+    }
+    return "";
+  };
 
   return (
     <motion.div
@@ -64,13 +86,17 @@ const GameCard = ({ game }) => {
           <div
             className="flex-1"
             style={{
-              background: awayTeam?.gradient || `linear-gradient(135deg, ${awayTeam?.primaryColor || '#3b82f6'} 0%, ${awayTeam?.secondaryColor || '#1d4ed8'} 100%)`
+              background:
+                awayTeam?.gradient ||
+                `linear-gradient(135deg, ${awayTeam?.primaryColor || "#3b82f6"} 0%, ${awayTeam?.secondaryColor || "#1d4ed8"} 100%)`,
             }}
           />
           <div
             className="flex-1"
             style={{
-              background: homeTeam?.gradient || `linear-gradient(135deg, ${homeTeam?.primaryColor || '#ef4444'} 0%, ${homeTeam?.secondaryColor || '#dc2626'} 100%)`
+              background:
+                homeTeam?.gradient ||
+                `linear-gradient(135deg, ${homeTeam?.primaryColor || "#ef4444"} 0%, ${homeTeam?.secondaryColor || "#dc2626"} 100%)`,
             }}
           />
         </div>
@@ -92,52 +118,93 @@ const GameCard = ({ game }) => {
           <div className="flex items-center justify-between gap-2">
             {/* Away Team - Mobile Optimized */}
             <motion.div
-              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
+              className={`flex items-center gap-2 sm:gap-3 flex-shrink-0 transition-all duration-300 ${getTeamContainerStyle(awayWon, homeWon)}`}
               whileHover={{ x: -2 }}
             >
               <TeamLogo
                 teamAbbr={game.awayTeam}
                 size="medium"
                 showGlow={true}
-                className="w-8 h-8 sm:w-12 sm:h-12"
+                className={`w-8 h-8 sm:w-12 sm:h-12 ${awayWon ? "ring-2 ring-green-400 ring-offset-2" : ""}`}
                 style={{
-                  '--team-primary': awayTeam?.primaryColor,
-                  '--team-secondary': awayTeam?.secondaryColor
+                  "--team-primary": awayTeam?.primaryColor,
+                  "--team-secondary": awayTeam?.secondaryColor,
                 }}
               />
               <div className="hidden sm:block">
-                <div className="font-bold responsive-text-sm">{game.awayTeam}</div>
-                <div className="responsive-text-xs text-muted-foreground">{awayTeam?.city}</div>
+                <div
+                  className={`font-bold responsive-text-sm ${awayWon ? "text-green-600 dark:text-green-400" : awayWon === false && game.status === "final" ? "text-gray-500" : ""}`}
+                >
+                  {game.awayTeam}
+                </div>
+                <div className="responsive-text-xs text-muted-foreground">
+                  {awayTeam?.city}
+                </div>
               </div>
-              <div className="responsive-text-xl sm:text-2xl font-black">{game.awayScore || 0}</div>
+              <div className={`relative ${getWinnerStyle(awayWon, homeWon)}`}>
+                {game.awayScore || 0}
+                {awayWon && (
+                  <Trophy className="absolute -top-1 -right-6 w-4 h-4 text-yellow-500 animate-bounce" />
+                )}
+              </div>
             </motion.div>
 
             {/* VS & Mobile Team Names */}
             <div className="flex flex-col items-center gap-1 flex-1">
-              <div className="responsive-text-xs text-muted-foreground font-medium">@</div>
+              <div className="responsive-text-xs text-muted-foreground font-medium">
+                @
+              </div>
               <div className="sm:hidden text-center">
-                <div className="responsive-text-xs font-semibold">{game.awayTeam} @ {game.homeTeam}</div>
+                <div className="responsive-text-xs font-semibold">
+                  {game.awayTeam} @ {game.homeTeam}
+                </div>
+                {/* Winner Badge for Mobile */}
+                {game.status === "final" && !isTie && (
+                  <div className="mt-1">
+                    <Badge className="bg-green-600 text-white text-xs">
+                      🏆 {homeWon ? game.homeTeam : game.awayTeam} Wins
+                    </Badge>
+                  </div>
+                )}
+                {isTie && (
+                  <div className="mt-1">
+                    <Badge className="bg-yellow-600 text-white text-xs">
+                      🤝 Tie Game
+                    </Badge>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Home Team - Mobile Optimized */}
             <motion.div
-              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
+              className={`flex items-center gap-2 sm:gap-3 flex-shrink-0 transition-all duration-300 ${getTeamContainerStyle(homeWon, awayWon)}`}
               whileHover={{ x: 2 }}
             >
-              <div className="responsive-text-xl sm:text-2xl font-black">{game.homeScore || 0}</div>
+              <div className={`relative ${getWinnerStyle(homeWon, awayWon)}`}>
+                {game.homeScore || 0}
+                {homeWon && (
+                  <Trophy className="absolute -top-1 -left-6 w-4 h-4 text-yellow-500 animate-bounce" />
+                )}
+              </div>
               <div className="hidden sm:block text-right">
-                <div className="font-bold responsive-text-sm">{game.homeTeam}</div>
-                <div className="responsive-text-xs text-muted-foreground">{homeTeam?.city}</div>
+                <div
+                  className={`font-bold responsive-text-sm ${homeWon ? "text-green-600 dark:text-green-400" : homeWon === false && game.status === "final" ? "text-gray-500" : ""}`}
+                >
+                  {game.homeTeam}
+                </div>
+                <div className="responsive-text-xs text-muted-foreground">
+                  {homeTeam?.city}
+                </div>
               </div>
               <TeamLogo
                 teamAbbr={game.homeTeam}
                 size="medium"
                 showGlow={true}
-                className="w-8 h-8 sm:w-12 sm:h-12"
+                className={`w-8 h-8 sm:w-12 sm:h-12 ${homeWon ? "ring-2 ring-green-400 ring-offset-2" : ""}`}
                 style={{
-                  '--team-primary': homeTeam?.primaryColor,
-                  '--team-secondary': homeTeam?.secondaryColor
+                  "--team-primary": homeTeam?.primaryColor,
+                  "--team-secondary": homeTeam?.secondaryColor,
                 }}
               />
             </motion.div>
@@ -150,20 +217,30 @@ const GameCard = ({ game }) => {
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mb-2">
                 <div
                   className={`h-full transition-all duration-500 ${
-                    game.prediction.confidence >= 0.7 ? 'bg-green-500' :
-                    game.prediction.confidence >= 0.5 ? 'bg-yellow-500' : 'bg-red-500'
+                    game.prediction.confidence >= 0.7
+                      ? "bg-green-500"
+                      : game.prediction.confidence >= 0.5
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
                   }`}
-                  style={{ width: `${(game.prediction.confidence || 0.5) * 100}%` }}
+                  style={{
+                    width: `${(game.prediction.confidence || 0.5) * 100}%`,
+                  }}
                 />
               </div>
 
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <Brain className="w-4 h-4 text-purple-600" />
-                  <span className="responsive-text-xs font-medium text-purple-600 dark:text-purple-400">AI Pick</span>
+                  <span className="responsive-text-xs font-medium text-purple-600 dark:text-purple-400">
+                    AI Pick
+                  </span>
                 </div>
-                <Badge className={`responsive-text-xs ${getConfidenceColor(game.prediction.confidence)}`}>
-                  {getConfidenceText(game.prediction.confidence)} ({(game.prediction.confidence * 100).toFixed(0)}%)
+                <Badge
+                  className={`responsive-text-xs ${getConfidenceColor(game.prediction.confidence)}`}
+                >
+                  {getConfidenceText(game.prediction.confidence)} (
+                  {(game.prediction.confidence * 100).toFixed(0)}%)
                 </Badge>
               </div>
               <div className="mt-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
@@ -173,7 +250,10 @@ const GameCard = ({ game }) => {
                 {game.prediction.line !== 0 && (
                   <div className="flex items-center gap-1 responsive-text-xs text-muted-foreground">
                     <Target className="w-3 h-3" />
-                    <span>Spread: {game.prediction.line > 0 ? '+' : ''}{game.prediction.line.toFixed(1)}</span>
+                    <span>
+                      Spread: {game.prediction.line > 0 ? "+" : ""}
+                      {game.prediction.line.toFixed(1)}
+                    </span>
                   </div>
                 )}
               </div>
@@ -186,7 +266,7 @@ const GameCard = ({ game }) => {
               <>
                 <div className="flex items-center gap-2">
                   <Badge variant="destructive" className="animate-pulse">
-                    Q{game.quarter || 1} • {game.time || '15:00'}
+                    Q{game.quarter || 1} • {game.time || "15:00"}
                   </Badge>
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <Volume2 className="w-3 h-3" />
@@ -195,26 +275,69 @@ const GameCard = ({ game }) => {
                         key={i}
                         className="w-0.5 bg-green-500"
                         animate={{ height: [2, 8, 2] }}
-                        transition={{ duration: 0.5, delay: i * 0.1, repeat: Infinity }}
+                        transition={{
+                          duration: 0.5,
+                          delay: i * 0.1,
+                          repeat: Infinity,
+                        }}
                       />
                     ))}
                   </div>
                 </div>
               </>
-            ) : game.status === 'scheduled' ? (
+            ) : game.status === "scheduled" ? (
               <div className="text-muted-foreground">
-                Kickoff: {new Date(game.startTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+                Kickoff:{" "}
+                {new Date(game.startTime).toLocaleTimeString([], {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
               </div>
             ) : (
-              <Badge variant="secondary">FINAL</Badge>
+              <div className="flex items-center gap-2">
+                <Badge
+                  variant={game.status === "final" ? "default" : "secondary"}
+                >
+                  {game.status === "final" ? "FINAL" : "FINAL"}
+                </Badge>
+                {/* Winner Badge for Desktop */}
+                {game.status === "final" && !isTie && (
+                  <Badge className="bg-green-600 text-white">
+                    🏆{" "}
+                    {homeWon
+                      ? homeTeam?.name || game.homeTeam
+                      : awayTeam?.name || game.awayTeam}{" "}
+                    Wins
+                  </Badge>
+                )}
+                {isTie && (
+                  <Badge className="bg-yellow-600 text-white">
+                    🤝 Tie Game
+                  </Badge>
+                )}
+              </div>
             )}
 
-            {/* Weather Widget - Mobile Optimized */}
+            {/* Weather Widget - Real Data */}
             <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 bg-blue-500/10 rounded-full self-start sm:self-auto">
               <Cloud className="w-3 h-3 text-blue-500" />
-              <span className="responsive-text-xs">72°F</span>
+              <span className="responsive-text-xs">
+                {game.temperature ? `${game.temperature}°F` : "72°F"}
+              </span>
               <Wind className="w-3 h-3 text-gray-500" />
-              <span className="responsive-text-xs">8mph</span>
+              <span className="responsive-text-xs">
+                {game.windSpeed && game.windDirection
+                  ? `${game.windSpeed}mph ${game.windDirection}`
+                  : "8mph"}
+              </span>
+              {game.precipitation && game.precipitation !== "Clear" && (
+                <>
+                  <Droplets className="w-3 h-3 text-blue-600" />
+                  <span className="responsive-text-xs">
+                    {game.precipitation}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </CardHeader>
@@ -223,22 +346,29 @@ const GameCard = ({ game }) => {
           {/* Momentum/Winner Bar */}
           <div className="mb-3">
             {/* Always show bar - determine type based on game data */}
-            {(game.homeScore && game.awayScore && game.homeScore !== game.awayScore) ? (
+            {game.homeScore &&
+            game.awayScore &&
+            game.homeScore !== game.awayScore ? (
               <>
                 {/* Winner Bar for games with final scores */}
                 <div className="flex items-center justify-between text-xs mb-1">
                   <span className="text-muted-foreground">Winner</span>
                   <span className="font-medium flex items-center gap-1">
                     <Trophy className="w-3 h-3 text-yellow-500" />
-                    {game.homeScore > game.awayScore ? homeTeam?.name : awayTeam?.name}
+                    {game.homeScore > game.awayScore
+                      ? homeTeam?.name
+                      : awayTeam?.name}
                   </span>
                 </div>
                 <div className="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full"
                     style={{
-                      background: game.homeScore > game.awayScore ? homeTeam?.gradient : awayTeam?.gradient,
-                      width: '100%'
+                      background:
+                        game.homeScore > game.awayScore
+                          ? homeTeam?.gradient
+                          : awayTeam?.gradient,
+                      width: "100%",
                     }}
                   />
                 </div>
@@ -248,23 +378,29 @@ const GameCard = ({ game }) => {
                 {/* Momentum Bar for live games */}
                 <div className="flex items-center justify-between text-xs mb-1">
                   <span className="text-muted-foreground">Momentum</span>
-                  <span className="font-medium">{momentum > 50 ? homeTeam?.name : awayTeam?.name}</span>
+                  <span className="font-medium">
+                    {momentum > 50 ? homeTeam?.name : awayTeam?.name}
+                  </span>
                 </div>
                 <div className="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   {/* Away team gradient on left side */}
                   <div
                     className="absolute h-full left-0 rounded-full"
                     style={{
-                      background: awayTeam?.gradient || `linear-gradient(135deg, ${awayTeam?.primaryColor || '#3b82f6'} 0%, ${awayTeam?.secondaryColor || '#1d4ed8'} 100%)`,
-                      width: `${100 - momentum}%`
+                      background:
+                        awayTeam?.gradient ||
+                        `linear-gradient(135deg, ${awayTeam?.primaryColor || "#3b82f6"} 0%, ${awayTeam?.secondaryColor || "#1d4ed8"} 100%)`,
+                      width: `${100 - momentum}%`,
                     }}
                   />
                   {/* Home team gradient on right side */}
                   <div
                     className="absolute h-full right-0 rounded-full"
                     style={{
-                      background: homeTeam?.gradient || `linear-gradient(135deg, ${homeTeam?.primaryColor || '#ef4444'} 0%, ${homeTeam?.secondaryColor || '#dc2626'} 100%)`,
-                      width: `${momentum}%`
+                      background:
+                        homeTeam?.gradient ||
+                        `linear-gradient(135deg, ${homeTeam?.primaryColor || "#ef4444"} 0%, ${homeTeam?.secondaryColor || "#dc2626"} 100%)`,
+                      width: `${momentum}%`,
                     }}
                   />
                 </div>
@@ -281,15 +417,19 @@ const GameCard = ({ game }) => {
                   <div
                     className="absolute h-full left-0 rounded-full"
                     style={{
-                      background: awayTeam?.gradient || `linear-gradient(135deg, ${awayTeam?.primaryColor || '#3b82f6'} 0%, ${awayTeam?.secondaryColor || '#1d4ed8'} 100%)`,
-                      width: '50%'
+                      background:
+                        awayTeam?.gradient ||
+                        `linear-gradient(135deg, ${awayTeam?.primaryColor || "#3b82f6"} 0%, ${awayTeam?.secondaryColor || "#1d4ed8"} 100%)`,
+                      width: "50%",
                     }}
                   />
                   <div
                     className="absolute h-full right-0 rounded-full"
                     style={{
-                      background: homeTeam?.gradient || `linear-gradient(135deg, ${homeTeam?.primaryColor || '#ef4444'} 0%, ${homeTeam?.secondaryColor || '#dc2626'} 100%)`,
-                      width: '50%'
+                      background:
+                        homeTeam?.gradient ||
+                        `linear-gradient(135deg, ${homeTeam?.primaryColor || "#ef4444"} 0%, ${homeTeam?.secondaryColor || "#dc2626"} 100%)`,
+                      width: "50%",
                     }}
                   />
                 </div>
@@ -299,45 +439,73 @@ const GameCard = ({ game }) => {
 
           {/* Win Probability - Mobile Optimized */}
           <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-3">
-            <div className={`text-center p-2 rounded-lg ${
-              awayWon ? 'bg-green-100 dark:bg-green-900/30' :
-              game.status === 'final' ? 'bg-red-100 dark:bg-red-900/30' :
-              'bg-gray-100 dark:bg-gray-800'
-            }`}>
+            <div
+              className={`text-center p-2 rounded-lg ${
+                awayWon
+                  ? "bg-green-100 dark:bg-green-900/30"
+                  : game.status === "final"
+                    ? "bg-red-100 dark:bg-red-900/30"
+                    : "bg-gray-100 dark:bg-gray-800"
+              }`}
+            >
               <div className="responsive-text-xs text-gray-600 dark:text-gray-300 mb-1 flex items-center justify-center gap-1">
                 Win %
-                {awayTrend === 'up' && <TrendingUp className="w-3 h-3 text-green-500" />}
-                {awayTrend === 'down' && <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />}
+                {awayTrend === "up" && (
+                  <TrendingUp className="w-3 h-3 text-green-500" />
+                )}
+                {awayTrend === "down" && (
+                  <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />
+                )}
                 {awayWon && <Trophy className="w-3 h-3 text-yellow-500" />}
               </div>
-              <div className={`responsive-text-lg font-bold ${
-                awayWon ? 'text-green-600 dark:text-green-400' :
-                game.status === 'final' ? 'text-red-600 dark:text-red-400' :
-                awayTrend === 'up' ? 'text-green-600 dark:text-green-400' :
-                awayTrend === 'down' ? 'text-red-600 dark:text-red-400' :
-                'text-blue-600 dark:text-blue-400'
-              }`}>
+              <div
+                className={`responsive-text-lg font-bold ${
+                  awayWon
+                    ? "text-green-600 dark:text-green-400"
+                    : game.status === "final"
+                      ? "text-red-600 dark:text-red-400"
+                      : awayTrend === "up"
+                        ? "text-green-600 dark:text-green-400"
+                        : awayTrend === "down"
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-blue-600 dark:text-blue-400"
+                }`}
+              >
                 {game.awayWinProb || 45}%
               </div>
             </div>
-            <div className={`text-center p-2 rounded-lg ${
-              homeWon ? 'bg-green-100 dark:bg-green-900/30' :
-              game.status === 'final' ? 'bg-red-100 dark:bg-red-900/30' :
-              'bg-gray-100 dark:bg-gray-800'
-            }`}>
+            <div
+              className={`text-center p-2 rounded-lg ${
+                homeWon
+                  ? "bg-green-100 dark:bg-green-900/30"
+                  : game.status === "final"
+                    ? "bg-red-100 dark:bg-red-900/30"
+                    : "bg-gray-100 dark:bg-gray-800"
+              }`}
+            >
               <div className="responsive-text-xs text-gray-600 dark:text-gray-300 mb-1 flex items-center justify-center gap-1">
                 Win %
-                {homeTrend === 'up' && <TrendingUp className="w-3 h-3 text-green-500" />}
-                {homeTrend === 'down' && <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />}
+                {homeTrend === "up" && (
+                  <TrendingUp className="w-3 h-3 text-green-500" />
+                )}
+                {homeTrend === "down" && (
+                  <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />
+                )}
                 {homeWon && <Trophy className="w-3 h-3 text-yellow-500" />}
               </div>
-              <div className={`responsive-text-lg font-bold ${
-                homeWon ? 'text-green-600 dark:text-green-400' :
-                game.status === 'final' ? 'text-red-600 dark:text-red-400' :
-                homeTrend === 'up' ? 'text-green-600 dark:text-green-400' :
-                homeTrend === 'down' ? 'text-red-600 dark:text-red-400' :
-                'text-blue-600 dark:text-blue-400'
-              }`}>
+              <div
+                className={`responsive-text-lg font-bold ${
+                  homeWon
+                    ? "text-green-600 dark:text-green-400"
+                    : game.status === "final"
+                      ? "text-red-600 dark:text-red-400"
+                      : homeTrend === "up"
+                        ? "text-green-600 dark:text-green-400"
+                        : homeTrend === "down"
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-blue-600 dark:text-blue-400"
+                }`}
+              >
                 {game.homeWinProb || 55}%
               </div>
             </div>
@@ -349,9 +517,8 @@ const GameCard = ({ game }) => {
               <span className="text-muted-foreground">Spread: </span>
               <span className="font-bold">
                 {game.hasAIPrediction && game.prediction.line !== 0
-                  ? `${game.homeTeam} ${game.prediction.line > 0 ? '+' : ''}${game.prediction.line.toFixed(1)}`
-                  : `${homeTeam?.abbreviation} -3.5`
-                }
+                  ? `${game.homeTeam} ${game.prediction.line > 0 ? "+" : ""}${game.prediction.line.toFixed(1)}`
+                  : `${homeTeam?.abbreviation} -3.5`}
               </span>
             </div>
             <div className="responsive-text-xs text-center">
@@ -359,8 +526,7 @@ const GameCard = ({ game }) => {
               <span className="font-bold">
                 {game.hasAIPrediction && game.prediction.predictedTotal
                   ? game.prediction.predictedTotal.toFixed(1)
-                  : '48.5'
-                }
+                  : "48.5"}
               </span>
             </div>
             <div className="responsive-text-xs text-center sm:text-right">
@@ -371,23 +537,49 @@ const GameCard = ({ game }) => {
 
           {/* Key Stats - Mobile Optimized */}
           <div className="mt-auto">
-            {(isLive || game.status === 'final') ? (
+            {isLive || game.status === "final" ? (
               <div className="grid grid-cols-3 gap-1 sm:gap-2 text-center">
                 <div className="p-1">
-                  <div className="responsive-text-xs text-muted-foreground">Yards</div>
-                  <div className="responsive-text-sm font-bold">245/312</div>
+                  <div className="responsive-text-xs text-muted-foreground">
+                    Stadium
+                  </div>
+                  <div className="responsive-text-sm font-bold">
+                    {game.stadium ? game.stadium.split(" ")[0] : "Stadium"}
+                  </div>
                 </div>
                 <div className="p-1">
-                  <div className="responsive-text-xs text-muted-foreground">TOP</div>
-                  <div className="responsive-text-sm font-bold">14:23/15:37</div>
+                  <div className="responsive-text-xs text-muted-foreground">
+                    Attendance
+                  </div>
+                  <div className="responsive-text-sm font-bold">
+                    {game.attendance
+                      ? `${(game.attendance / 1000).toFixed(0)}k`
+                      : "TBD"}
+                  </div>
                 </div>
                 <div className="p-1">
-                  <div className="responsive-text-xs text-muted-foreground">Turnovers</div>
-                  <div className="responsive-text-sm font-bold">1/0</div>
+                  <div className="responsive-text-xs text-muted-foreground">
+                    Network
+                  </div>
+                  <div className="responsive-text-sm font-bold">
+                    {game.network || "TBD"}
+                  </div>
                 </div>
               </div>
             ) : (
-              <div className="h-[40px] sm:h-[52px]"></div>
+              <div className="text-center p-2">
+                <div className="responsive-text-xs text-muted-foreground">
+                  Venue
+                </div>
+                <div className="responsive-text-sm font-bold">
+                  {game.stadium || "TBD Stadium"}
+                </div>
+                <div className="responsive-text-xs text-muted-foreground">
+                  {game.city && game.state
+                    ? `${game.city}, ${game.state}`
+                    : "TBD Location"}
+                </div>
+              </div>
             )}
           </div>
         </CardContent>

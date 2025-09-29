@@ -1,6 +1,6 @@
 import React from 'react'
 import { classNames } from '../../lib/nfl-utils'
-import TeamLogo from '../../components/TeamLogo'
+import TeamLogo from '@/components/ui/TeamLogo'
 
 interface TeamData {
   abbr: string
@@ -30,7 +30,7 @@ function TeamCard({ team, onClick }: TeamCardProps) {
       <div className="flex items-center justify-between">
         {/* Team Info */}
         <div className="flex items-center gap-4">
-          <TeamLogo teamAbbr={team.abbr} size="large" className="" />
+          <TeamLogo team={team.abbr} size="lg" showBackground variant="gradient" />
           <div className="flex-1">
             <h3 className="font-bold text-foreground text-base">{team.name}</h3>
             <p className="text-sm text-muted-foreground">{team.division}</p>

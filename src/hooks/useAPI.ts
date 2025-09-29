@@ -48,7 +48,7 @@ export const useCouncilMembers = () => {
     queryKey: queryKeys.councilMembers(),
     queryFn: () => nflAPI.aiCouncil.getCouncilMembers(),
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
@@ -58,7 +58,7 @@ export const useConsensusResults = (gameId: string) => {
     queryFn: () => nflAPI.aiCouncil.getConsensusResults(gameId),
     enabled: !!gameId,
     staleTime: 2 * 60 * 1000, // 2 minutes
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -67,7 +67,7 @@ export const useVoteWeights = (expertIds?: string[]) => {
     queryKey: queryKeys.voteWeights(expertIds),
     queryFn: () => nflAPI.aiCouncil.getVoteWeights(expertIds),
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
@@ -77,7 +77,7 @@ export const useAICouncilData = (gameId: string) => {
     queryFn: () => nflAPI.getDashboardData(gameId),
     enabled: !!gameId,
     staleTime: 2 * 60 * 1000, // 2 minutes
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -88,17 +88,24 @@ export const useExpertPredictions = (gameId: string) => {
     queryFn: () => nflAPI.expertPredictions.getExpertPredictions(gameId),
     enabled: !!gameId,
     staleTime: 60 * 1000, // 1 minute
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
-export const useExpertPredictionsByCategory = (gameId: string, categoryIds: string[]) => {
+export const useExpertPredictionsByCategory = (
+  gameId: string,
+  categoryIds: string[]
+) => {
   return useQuery({
     queryKey: queryKeys.expertByCategory(gameId, categoryIds),
-    queryFn: () => nflAPI.expertPredictions.getExpertPredictionsByCategory(gameId, categoryIds),
+    queryFn: () =>
+      nflAPI.expertPredictions.getExpertPredictionsByCategory(
+        gameId,
+        categoryIds
+      ),
     enabled: !!gameId && categoryIds.length > 0,
     staleTime: 60 * 1000, // 1 minute
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -109,46 +116,48 @@ export const useExpertBattleData = (expertIds: string[]) => {
     queryFn: () => nflAPI.getExpertBattleData(expertIds),
     enabled: expertIds.length >= 2,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
 export const useHeadToHeadComparison = (
   expert1Id: string,
   expert2Id: string,
-  timeRange: 'week' | 'month' | 'season' | 'all_time' = 'all_time'
+  timeRange: "week" | "month" | "season" | "all_time" = "all_time"
 ) => {
   return useQuery({
     queryKey: queryKeys.headToHead(expert1Id, expert2Id, timeRange),
-    queryFn: () => nflAPI.expertBattles.getHeadToHeadRecord(expert1Id, expert2Id, timeRange),
+    queryFn: () =>
+      nflAPI.expertBattles.getHeadToHeadRecord(expert1Id, expert2Id, timeRange),
     enabled: !!expert1Id && !!expert2Id,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
 // Expert Performance Hooks
 export const useExpertPerformance = (
   expertId: string,
-  timeframe: 'daily' | 'weekly' | 'monthly' | 'seasonal' = 'weekly'
+  timeframe: "daily" | "weekly" | "monthly" | "seasonal" = "weekly"
 ) => {
   return useQuery({
     queryKey: queryKeys.expertPerformance(expertId, timeframe),
-    queryFn: () => nflAPI.expertPerformance.getExpertPerformance(expertId, timeframe),
+    queryFn: () =>
+      nflAPI.expertPerformance.getExpertPerformance(expertId, timeframe),
     enabled: !!expertId,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
 export const useAllExpertPerformance = (
-  timeframe: 'daily' | 'weekly' | 'monthly' | 'seasonal' = 'weekly'
+  timeframe: "daily" | "weekly" | "monthly" | "seasonal" = "weekly"
 ) => {
   return useQuery({
     queryKey: queryKeys.allExpertPerformance(timeframe),
     queryFn: () => nflAPI.expertPerformance.getAllExpertPerformance(timeframe),
     staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 
@@ -158,22 +167,22 @@ export const useSystemHealth = () => {
     queryKey: queryKeys.systemHealth(),
     queryFn: () => nflAPI.systemHealth.getSystemHealth(),
     staleTime: 30 * 1000, // 30 seconds
-    cacheTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 2 * 60 * 1000, // 2 minutes
     refetchInterval: 30 * 1000, // Refetch every 30 seconds
   });
 };
 
 // Games Hooks
 export const useGames = (
-  status?: 'scheduled' | 'live' | 'final',
+  status?: "scheduled" | "live" | "final",
   week?: number
 ) => {
   return useQuery({
     queryKey: queryKeys.games(status, week),
     queryFn: () => nflAPI.gameData.getGames(status, week),
-    staleTime: status === 'live' ? 30 * 1000 : 5 * 60 * 1000, // 30s for live, 5min for others
-    cacheTime: 10 * 60 * 1000, // 10 minutes
-    refetchInterval: status === 'live' ? 30 * 1000 : undefined, // Auto-refetch live games
+    staleTime: status === "live" ? 30 * 1000 : 5 * 60 * 1000, // 30s for live, 5min for others
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchInterval: status === "live" ? 30 * 1000 : undefined, // Auto-refetch live games
   });
 };
 
@@ -183,7 +192,7 @@ export const useGame = (gameId: string) => {
     queryFn: () => nflAPI.gameData.getGame(gameId),
     enabled: !!gameId,
     staleTime: 60 * 1000, // 1 minute
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -192,7 +201,7 @@ export const useLiveGames = () => {
     queryKey: queryKeys.liveGames(),
     queryFn: () => nflAPI.gameData.getLiveGames(),
     staleTime: 15 * 1000, // 15 seconds
-    cacheTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 2 * 60 * 1000, // 2 minutes
     refetchInterval: 15 * 1000, // Refetch every 15 seconds
   });
 };

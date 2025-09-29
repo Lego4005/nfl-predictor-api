@@ -102,23 +102,23 @@ class PredictionVisualizationService:
             "next_score_prob": "Next Score Probability"
         }
 
-        # Expert display names
+        # Standardized expert display names matching ML backend
         self.expert_display_names = {
-            "the_analyst": "The Analyst",
-            "pattern_hunter": "Pattern Hunter",
-            "contrarian_voice": "Contrarian Voice",
-            "momentum_tracker": "Momentum Tracker",
-            "clutch_specialist": "Clutch Specialist",
-            "weather_guru": "Weather Guru",
-            "coaching_scout": "Coaching Scout",
-            "injury_tracker": "Injury Tracker",
-            "value_finder": "Value Finder",
-            "home_field_expert": "Home Field Expert",
-            "divisional_specialist": "Divisional Specialist",
-            "primetime_predictor": "Primetime Predictor",
-            "upset_detector": "Upset Detector",
-            "line_movement_tracker": "Line Movement Tracker",
-            "chaos_theorist": "Chaos Theorist"
+            "conservative_analyzer": "The Analyst",
+            "risk_taking_gambler": "The Gambler",
+            "contrarian_rebel": "The Rebel",
+            "value_hunter": "The Hunter",
+            "momentum_rider": "The Rider",
+            "fundamentalist_scholar": "The Scholar",
+            "chaos_theory_believer": "The Chaos",
+            "gut_instinct_expert": "The Intuition",
+            "statistics_purist": "The Quant",
+            "trend_reversal_specialist": "The Reversal",
+            "popular_narrative_fader": "The Fader",
+            "sharp_money_follower": "The Sharp",
+            "underdog_champion": "The Underdog",
+            "consensus_follower": "The Consensus",
+            "market_inefficiency_exploiter": "The Exploiter"
         }
 
     async def get_expert_performance_dashboard_data(self, days_back: int = 30) -> Dict[str, Any]:

@@ -137,6 +137,39 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
                     : 0,
                   time: game.time_remaining || "0:00",
                   startTime: game.game_time,
+
+                  // Rich schema fields
+                  week: game.week,
+                  season: game.season,
+                  stadium: game.stadium,
+                  city: game.city,
+                  state: game.state,
+                  venue: game.venue || `${game.stadium}`,
+                  network: game.network,
+                  timezone: game.timezone,
+                  espnGameId: game.espn_game_id,
+
+                  // Weather data
+                  temperature: game.temperature,
+                  windSpeed: game.wind_speed,
+                  windDirection: game.wind_direction,
+                  humidity: game.humidity,
+                  precipitation: game.precipitation,
+
+                  // Game flags
+                  isPrimetime: game.is_primetime,
+                  isPlayoff: game.is_playoff,
+                  isInternational: game.is_international,
+                  isLive: game.is_live,
+                  isFinished: game.is_finished,
+                  overtime: game.overtime,
+                  overtimePeriods: game.overtime_periods,
+
+                  // Attendance and metadata
+                  attendance: game.attendance,
+                  gameType: game.game_type,
+                  dayOfWeek: game.day_of_week,
+
                   prediction: {
                     homeWinProb: aiPrediction?.home_win_prob
                       ? aiPrediction.home_win_prob / 100
@@ -246,6 +279,39 @@ function useApi(path, { refreshMs = 30000, demo = false } = {}) {
                 : 0,
               time: game.time_remaining || "0:00",
               startTime: game.game_time,
+
+              // Rich schema fields
+              week: game.week,
+              season: game.season,
+              stadium: game.stadium,
+              city: game.city,
+              state: game.state,
+              venue: game.venue || `${game.stadium}`,
+              network: game.network,
+              timezone: game.timezone,
+              espnGameId: game.espn_game_id,
+
+              // Weather data
+              temperature: game.temperature,
+              windSpeed: game.wind_speed,
+              windDirection: game.wind_direction,
+              humidity: game.humidity,
+              precipitation: game.precipitation,
+
+              // Game flags
+              isPrimetime: game.is_primetime,
+              isPlayoff: game.is_playoff,
+              isInternational: game.is_international,
+              isLive: game.is_live,
+              isFinished: game.is_finished,
+              overtime: game.overtime,
+              overtimePeriods: game.overtime_periods,
+
+              // Attendance and metadata
+              attendance: game.attendance,
+              gameType: game.game_type,
+              dayOfWeek: game.day_of_week,
+
               prediction: {
                 homeWinProb: aiPrediction?.home_win_prob
                   ? aiPrediction.home_win_prob / 100

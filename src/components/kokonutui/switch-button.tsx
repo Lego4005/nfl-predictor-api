@@ -102,7 +102,7 @@ export default function SwitchButton({
                             <span
                                 className={cn(
                                     "absolute -bottom-px left-0 w-full h-px",
-                                    "bg-linear-to-r from-zinc-400/0 via-zinc-400/50 to-zinc-400/0",
+                                    "bg-gradient-to-r from-zinc-400/0 via-zinc-400/50 to-zinc-400/0",
                                     "dark:from-zinc-600/0 dark:via-zinc-600/50 dark:to-zinc-600/0",
                                     "opacity-0 group-hover:opacity-100",
                                     "transition-opacity duration-200"
@@ -120,7 +120,7 @@ export default function SwitchButton({
                             <span
                                 className={cn(
                                     "absolute -bottom-px left-0 w-full h-px",
-                                    "bg-linear-to-r from-zinc-400/0 via-zinc-400/50 to-zinc-400/0",
+                                    "bg-gradient-to-r from-zinc-400/0 via-zinc-400/50 to-zinc-400/0",
                                     "dark:from-zinc-600/0 dark:via-zinc-600/50 dark:to-zinc-600/0",
                                     "opacity-0 group-hover:opacity-100",
                                     "transition-opacity duration-200"

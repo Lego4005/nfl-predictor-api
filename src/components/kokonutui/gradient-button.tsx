@@ -31,6 +31,7 @@ interface GradientButtonProps
     label?: string;
     className?: string;
     variant?: ColorVariant;
+    children?: React.ReactNode;
 }
 
 const gradientColors: Record<ColorVariant, GradientColors> = {
@@ -100,6 +101,7 @@ export default function GradientButton({
     label = "Welcome",
     className,
     variant = "emerald",
+    children,
     ...props
 }: GradientButtonProps) {
     const colors = gradientColors[variant];
@@ -115,7 +117,7 @@ export default function GradientButton({
         >
             <div
                 className={cn(
-                    "absolute inset-0 rounded-lg p-[2px] bg-linear-to-b",
+                    "absolute inset-0 rounded-lg p-[2px] bg-gradient-to-b",
                     "dark:bg-none",
                     colors.light.border,
                     colors.dark.border
@@ -140,21 +142,21 @@ export default function GradientButton({
 
             <div
                 className={cn(
-                    "absolute inset-[2px] bg-linear-to-r rounded-lg opacity-90",
+                    "absolute inset-[2px] bg-gradient-to-r rounded-lg opacity-90",
                     colors.light.base,
                     "dark:from-[#0C1F21] dark:via-[#0C1F21] dark:to-[#0C1F21]"
                 )}
             />
             <div
                 className={cn(
-                    "absolute inset-[2px] bg-linear-to-b rounded-lg opacity-80",
+                    "absolute inset-[2px] bg-gradient-to-b rounded-lg opacity-80",
                     colors.light.overlay,
                     colors.dark.overlay
                 )}
             />
             <div
                 className={cn(
-                    "absolute inset-[2px] bg-linear-to-br rounded-lg",
+                    "absolute inset-[2px] bg-gradient-to-br rounded-lg",
                     colors.light.accent,
                     colors.dark.accent
                 )}
@@ -169,21 +171,34 @@ export default function GradientButton({
             />
 
             <div className="relative flex items-center justify-center gap-2">
-                <span
-                    className={cn(
-                        "text-lg font-light bg-linear-to-b bg-clip-text text-transparent tracking-tighter",
-                        colors.light.text,
-                        colors.dark.text,
-                        `dark:drop-shadow-[0_0_12px_${colors.dark.textGlow}]`
-                    )}
-                >
-                    {label}
-                </span>
+                {children ? (
+                    <span
+                        className={cn(
+                            "text-lg font-light bg-gradient-to-b bg-clip-text text-transparent tracking-tighter flex items-center gap-2",
+                            colors.light.text,
+                            colors.dark.text,
+                            `dark:drop-shadow-[0_0_12px_${colors.dark.textGlow}]`
+                        )}
+                    >
+                        {children}
+                    </span>
+                ) : (
+                    <span
+                        className={cn(
+                            "text-lg font-light bg-gradient-to-b bg-clip-text text-transparent tracking-tighter",
+                            colors.light.text,
+                            colors.dark.text,
+                            `dark:drop-shadow-[0_0_12px_${colors.dark.textGlow}]`
+                        )}
+                    >
+                        {label}
+                    </span>
+                )}
             </div>
 
             <div
                 className={cn(
-                    "absolute inset-[2px] opacity-0 transition-opacity duration-300 bg-linear-to-r group-hover:opacity-100 rounded-lg",
+                    "absolute inset-[2px] opacity-0 transition-opacity duration-300 bg-gradient-to-r group-hover:opacity-100 rounded-lg",
                     colors.light.hover,
                     colors.dark.hover
                 )}
