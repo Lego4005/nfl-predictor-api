@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getTeam } from '../data/nflTeams';
+import TeamLogo from "./TeamLogo";
 import {
   Trophy, TrendingUp, TrendingDown, Minus,
   ArrowUp, ArrowDown, Crown, Target
@@ -98,9 +99,13 @@ const PowerRankings = ({ analytics }) => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <div className={`flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-all duration-200 ${
-                  team.rank === 1 ? 'bg-gradient-to-r from-yellow-500/10 to-orange-500/10' : ''
-                }`}>
+                <div
+                  className={`flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-all duration-200 ${
+                    team.rank === 1
+                      ? "bg-gradient-to-r from-yellow-500/10 to-orange-500/10"
+                      : ""
+                  }`}
+                >
                   <div className="flex items-center gap-3">
                     {/* Rank */}
                     <div className="flex items-center gap-2 min-w-[60px]">
@@ -110,7 +115,9 @@ const PowerRankings = ({ analytics }) => {
                       <div className="flex flex-col items-center">
                         {getMovementIcon(team.movement)}
                         {team.movement !== 0 && (
-                          <span className={`text-xs ${getMovementColor(team.movement)}`}>
+                          <span
+                            className={`text-xs ${getMovementColor(team.movement)}`}
+                          >
                             {Math.abs(team.movement)}
                           </span>
                         )}
@@ -120,18 +127,22 @@ const PowerRankings = ({ analytics }) => {
                     {/* Team Info */}
                     <div className="flex items-center gap-3">
                       {teamData && (
-                        <img
-                          src={teamData.logo}
-                          alt={team.team}
-                          className="w-8 h-8 object-contain"
+                        <TeamLogo
+                          teamAbbr={team.team}
+                          size="medium"
+                          className=""
                         />
                       )}
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-semibold">{team.team}</span>
-                          {team.rank === 1 && <Crown className="w-4 h-4 text-yellow-500" />}
+                          {team.rank === 1 && (
+                            <Crown className="w-4 h-4 text-yellow-500" />
+                          )}
                         </div>
-                        <div className="text-xs text-muted-foreground">{team.record}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {team.record}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -140,7 +151,9 @@ const PowerRankings = ({ analytics }) => {
                   <div className="flex items-center gap-4">
                     {/* ELO */}
                     <div className="text-right">
-                      <div className="text-sm font-semibold">{Math.round(team.elo)}</div>
+                      <div className="text-sm font-semibold">
+                        {Math.round(team.elo)}
+                      </div>
                       <div className="text-xs text-muted-foreground">ELO</div>
                     </div>
 
@@ -155,7 +168,9 @@ const PowerRankings = ({ analytics }) => {
                     {/* Trend */}
                     <div className="flex items-center gap-1">
                       {getTrendIcon(team.trend)}
-                      <span className="text-xs text-muted-foreground">Trend</span>
+                      <span className="text-xs text-muted-foreground">
+                        Trend
+                      </span>
                     </div>
                   </div>
                 </div>
