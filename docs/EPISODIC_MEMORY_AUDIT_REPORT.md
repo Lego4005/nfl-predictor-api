@@ -35,6 +35,7 @@
 ## 🔍 Diagnostic Results
 
 ### Test 1: Episodic Memories
+
 **Status**: ❌ FAILED
 **Database Records**: 0
 **Expected**: 64 memories (one per game)
@@ -46,6 +47,7 @@ WHERE expert_id = 'conservative_analyzer';
 ```
 
 **Analysis**: No memories are being stored because:
+
 - Migration `011_expert_episodic_memory_system.sql` not applied
 - Code uses asyncpg (localhost PostgreSQL) instead of Supabase client
 - Schema cache doesn't recognize table columns
@@ -53,6 +55,7 @@ WHERE expert_id = 'conservative_analyzer';
 ---
 
 ### Test 2: Learned Principles
+
 **Status**: ❌ FAILED
 **Database Records**: 0
 **Expected**: 5-10 principles discovered
@@ -64,6 +67,7 @@ WHERE expert_id = 'conservative_analyzer' AND is_active = TRUE;
 ```
 
 **Analysis**: No pattern discovery because:
+
 - No episodic memories to analyze
 - Principle extraction logic exists but never executed
 - No feedback loop from outcomes to principles
@@ -71,6 +75,7 @@ WHERE expert_id = 'conservative_analyzer' AND is_active = TRUE;
 ---
 
 ### Test 3: Belief Revisions
+
 **Status**: ❌ FAILED
 **Database Records**: 0
 **Expected**: 3-5 revisions across 4 weeks
@@ -82,6 +87,7 @@ WHERE expert_id = 'conservative_analyzer';
 ```
 
 **Analysis**: No belief changes because:
+
 - Belief revision service not initialized properly
 - No comparison between sequential predictions
 - RevisionType detection logic not triggered
@@ -89,6 +95,7 @@ WHERE expert_id = 'conservative_analyzer';
 ---
 
 ### Test 4: Reasoning Chain Evolution
+
 **Status**: ⚠️  PARTIAL SUCCESS
 **Database Records**: 64 chains logged
 **Evolution**: Minimal (factors unchanged Week 1 → Week 4)
@@ -100,6 +107,7 @@ WHERE expert_id = 'conservative_analyzer';
 ```
 
 **Analysis**:
+
 - ✅ Reasoning chains ARE being logged
 - ❌ Chains are NOT being used for learning
 - ❌ No factor weight adjustments detected
@@ -108,6 +116,7 @@ WHERE expert_id = 'conservative_analyzer';
 ---
 
 ### Test 5: Discovered Factors
+
 **Status**: ❌ FAILED
 **Database Records**: 0
 **Expected**: 2-3 new predictive factors
@@ -119,6 +128,7 @@ WHERE expert_id = 'conservative_analyzer' AND is_active = TRUE;
 ```
 
 **Analysis**: No factor discovery because:
+
 - Statistical correlation analysis not running
 - No post-game analysis of failed factors
 - Discovery logic exists but never executed
@@ -126,6 +136,7 @@ WHERE expert_id = 'conservative_analyzer' AND is_active = TRUE;
 ---
 
 ### Test 6: Confidence Calibration
+
 **Status**: ❌ FAILED
 **Database Records**: 0
 **Expected**: Calibration data across confidence buckets
@@ -137,6 +148,7 @@ WHERE expert_id = 'conservative_analyzer';
 ```
 
 **Analysis**: No calibration tracking because:
+
 - Calibration service not initialized
 - No bucketing of predictions by confidence level
 - No accuracy tracking per confidence bucket
@@ -156,6 +168,7 @@ WHERE expert_id = 'conservative_analyzer';
 
 **File**: `src/ml/supabase_memory_services.py`
 **Components**:
+
 - `SupabaseEpisodicMemoryManager` - Stores/retrieves game experiences
 - `SupabaseBeliefRevisionService` - Tracks belief changes
 - `SupabaseLessonExtractor` - Extracts lessons from outcomes
@@ -167,6 +180,7 @@ WHERE expert_id = 'conservative_analyzer';
 
 **File**: `scripts/supabase_memory_journey.py`
 **Features**:
+
 - Memory retrieval before each prediction
 - Lesson extraction after each game
 - Belief revision detection
@@ -179,6 +193,7 @@ WHERE expert_id = 'conservative_analyzer';
 
 **File**: `docs/self_healing_design.md`
 **Components**:
+
 - Failure detection (rolling 5-game window)
 - Root cause analysis (factor weight analysis)
 - Automatic correction (weight adjustment)
@@ -234,6 +249,7 @@ python3 scripts/validate_learning_system.py
 ```
 
 **Expected Results**:
+
 - ✅ Memory storage test: PASS
 - ✅ Memory retrieval test: PASS
 - ✅ Lesson extraction test: PASS
@@ -252,6 +268,7 @@ python3 scripts/supabase_memory_journey.py
 ```
 
 **Expected Outputs**:
+
 - 5 episodic memories stored
 - 5+ lessons learned
 - 1-2 learned principles discovered
@@ -271,6 +288,7 @@ python3 scripts/supabase_memory_journey.py
 ```
 
 **Hypothesis Testing**:
+
 - H0: Memory makes no difference (accuracies equal)
 - H1: Memory improves accuracy (memory > baseline)
 - H2: Memory hurts accuracy (memory < baseline)
@@ -279,7 +297,8 @@ python3 scripts/supabase_memory_journey.py
 
 ## 📊 Success Metrics
 
-### Learning is REAL if:
+### Learning is REAL if
+
 1. ✅ Episodic memories accumulate (target: 64+)
 2. ✅ Learned principles emerge with >70% success rate
 3. ✅ Belief revisions show p < 0.05 statistical significance
@@ -287,7 +306,8 @@ python3 scripts/supabase_memory_journey.py
 5. ✅ Week 5 accuracy maintains Week 4 improvement (>80%)
 6. ✅ Self-healing triggers and improves accuracy
 
-### Learning is FAKE if:
+### Learning is FAKE if
+
 1. ❌ Memory tables stay empty/sparse
 2. ❌ No learned principles with >60% success rate
 3. ❌ No belief revisions or low impact scores (<0.3)
@@ -318,18 +338,21 @@ python3 scripts/supabase_memory_journey.py
 ## 🏆 Next Steps
 
 ### Immediate (Today)
+
 1. Apply migration `011_expert_episodic_memory_system.sql`
 2. Run `python3 scripts/check_database_schema.py` to verify
 3. Run `python3 scripts/validate_learning_system.py`
 4. Run `python3 scripts/supabase_memory_journey.py`
 
 ### Short-term (This Week)
+
 1. Validate Week 5 predictions show persistent learning
 2. Compare accuracy: baseline vs memory-enabled
 3. Tune self-healing thresholds based on results
 4. Document learning patterns discovered
 
 ### Medium-term (Next Sprint)
+
 1. Scale to all 15 experts
 2. Implement expert knowledge sharing
 3. Add principle cross-validation
@@ -363,6 +386,7 @@ The system is **67% complete** and ready for the final push. Once the database m
 - ✅ Learning will be transparent
 
 **Estimated Time to Full Deployment**: 2-3 days
+
 1. Day 1: Apply migration, run validation
 2. Day 2: Test learning journey, tune parameters
 3. Day 3: Scale to all experts, deploy to production
