@@ -95,19 +95,202 @@ class PersonalityDrivenExpert(ABC):
         """Process universal data through this expert's personality lens"""
         pass
 
+    def retrieve_relevant_memories(self, game_context: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Retrieve relevant memories for the current game context (sync wrapper)"""
+        if not self.memory_service:
+            return []
+
+        try:
+            import asyncio
+            # Try to get existing event loop or create new one
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # If loop is already running, return empty for now
+                    # (proper async version should be used in async context)
+                    logger.warning(f"{self.name}: Cannot retrieve memories in running event loop - use async version")
+                    return []
+                memories = loop.run_until_complete(
+                    self.memory_service.retrieve_memories(self.expert_id, game_context, limit=5)
+                )
+            except RuntimeError:
+                # No event loop, create one
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    memories = loop.run_until_complete(
+                        self.memory_service.retrieve_memories(self.expert_id, game_context, limit=5)
+                    )
+                finally:
+                    loop.close()
+
+            logger.info(f"🧠 {self.name}: Retrieved {len(memories)} relevant memories")
+            return memories
+        except Exception as e:
+            logger.warning(f"⚠️ {self.name}: Could not retrieve memories: {e}")
+            return []
+
+    def apply_memory_insights(self, prediction: Dict[str, Any], memories: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Apply memory insights to adjust prediction"""
+        if not memories:
+            return prediction
+
+        adjusted_prediction = prediction.copy()
+
+        # Analyze memory patterns for success rate
+        total_memories = len(memories)
+        successful_memories = 0
+        similar_confidence_levels = []
+
+        for memory in memories:
+            try:
+                # Check if this memory represents a successful prediction
+                prediction_data = memory.get('prediction_data', {})
+                if isinstance(prediction_data, str):
+                    import json
+                    prediction_data = json.loads(prediction_data)
+
+                actual_outcome = memory.get('actual_outcome', {})
+                if isinstance(actual_outcome, str):
+                    import json
+                    actual_outcome = json.loads(actual_outcome)
+
+                # Check if prediction was correct
+                if prediction_data.get('winner') == actual_outcome.get('winner'):
+                    successful_memories += 1
+
+                # Track confidence levels from similar situations
+                similar_confidence_levels.append(prediction_data.get('confidence', 0.5))
+            except Exception as e:
+                logger.debug(f"Error parsing memory: {e}")
+                continue
+
+        success_rate = successful_memories / total_memories if total_memories > 0 else 0.5
+
+        # Calculate confidence adjustment
+        confidence_adjustment = self.calculate_memory_influenced_confidence(
+            prediction.get('winner_confidence', 0.5),
+            memories
+        )
+
+        # Apply adjustment
+        adjusted_prediction['winner_confidence'] = max(0.1, min(0.95,
+            prediction['winner_confidence'] + confidence_adjustment))
+
+        # Add memory metadata
+        adjusted_prediction['memory_enhanced'] = True
+        adjusted_prediction['memories_consulted'] = total_memories
+        adjusted_prediction['memory_success_rate'] = success_rate
+        adjusted_prediction['confidence_adjustment'] = confidence_adjustment
+
+        # Add learned principles
+        learned_principles = []
+        if success_rate > 0.7:
+            learned_principles.append(f"High success rate ({success_rate:.0%}) in similar situations")
+        elif success_rate < 0.3:
+            learned_principles.append(f"Low success rate ({success_rate:.0%}) - exercising caution")
+
+        adjusted_prediction['learned_principles'] = learned_principles
+
+        logger.info(f"🎯 {self.name}: Applied memory insights - confidence adjusted by {confidence_adjustment:+.3f}")
+
+        return adjusted_prediction
+
+    def calculate_memory_influenced_confidence(self, base_confidence: float, memories: List[Dict[str, Any]]) -> float:
+        """Calculate confidence adjustment based on memory patterns"""
+        if not memories:
+            return 0.0
+
+        total_memories = len(memories)
+        successful_predictions = 0
+        high_confidence_successes = 0
+        high_confidence_failures = 0
+
+        for memory in memories:
+            try:
+                prediction_data = memory.get('prediction_data', {})
+                if isinstance(prediction_data, str):
+                    import json
+                    prediction_data = json.loads(prediction_data)
+
+                actual_outcome = memory.get('actual_outcome', {})
+                if isinstance(actual_outcome, str):
+                    import json
+                    actual_outcome = json.loads(actual_outcome)
+
+                was_successful = prediction_data.get('winner') == actual_outcome.get('winner')
+                memory_confidence = prediction_data.get('confidence', 0.5)
+
+                if was_successful:
+                    successful_predictions += 1
+                    if memory_confidence > 0.7:
+                        high_confidence_successes += 1
+                else:
+                    if memory_confidence > 0.7:
+                        high_confidence_failures += 1
+            except Exception as e:
+                logger.debug(f"Error analyzing memory: {e}")
+                continue
+
+        # Calculate success rate
+        success_rate = successful_predictions / total_memories if total_memories > 0 else 0.5
+
+        # Conservative adjustment based on historical performance
+        adjustment = 0.0
+
+        # Pattern 1: Overall success rate
+        if success_rate > 0.7:
+            adjustment += 0.05  # Boost confidence
+        elif success_rate < 0.3:
+            adjustment -= 0.05  # Reduce confidence
+
+        # Pattern 2: High confidence track record
+        if base_confidence > 0.7:
+            if high_confidence_successes > high_confidence_failures:
+                adjustment += 0.03  # Validated high confidence
+            elif high_confidence_failures > high_confidence_successes:
+                adjustment -= 0.03  # Overconfidence in past
+
+        # Pattern 3: Consistency check
+        if total_memories >= 5:
+            recent_success = successful_predictions / total_memories
+            if recent_success > 0.8:
+                adjustment += 0.02  # Consistent success
+            elif recent_success < 0.2:
+                adjustment -= 0.02  # Consistent failure pattern
+
+        # Limit total adjustment to maintain stability
+        return max(-0.15, min(0.15, adjustment))
+
     def make_personality_driven_prediction(self, universal_data: UniversalGameData) -> Dict[str, Any]:
         """Make prediction based on personality-driven interpretation of universal data"""
 
-        # Step 1: Process all data through personality lens
+        # Step 1: Retrieve relevant memories before prediction (if memory service available)
+        memories = []
+        if self.memory_service:
+            game_context = {
+                'home_team': universal_data.home_team,
+                'away_team': universal_data.away_team,
+                'weather': universal_data.weather,
+                'injuries': universal_data.injuries,
+                'line_movement': universal_data.line_movement
+            }
+            memories = self.retrieve_relevant_memories(game_context)
+
+        # Step 2: Process all data through personality lens
         personality_weights = self.process_through_personality_lens(universal_data)
 
-        # Step 2: Apply personality-specific decision making
+        # Step 3: Apply personality-specific decision making
         prediction_components = self._generate_personality_predictions(universal_data, personality_weights)
 
-        # Step 3: Synthesize final outcome
+        # Step 4: Synthesize final outcome
         final_prediction = self._synthesize_personality_outcome(prediction_components)
 
-        # Step 4: Record decision in memory
+        # Step 5: Apply memory insights to adjust prediction (if memories available)
+        if memories:
+            final_prediction = self.apply_memory_insights(final_prediction, memories)
+
+        # Step 6: Record decision in memory
         self._record_personality_decision(universal_data, prediction_components, final_prediction)
 
         return final_prediction
