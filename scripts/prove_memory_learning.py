@@ -212,7 +212,7 @@ class MemoryLearningExperiment:
             'away_team': game.get('away_team', 'UNKNOWN'),
             'week': game.get('week', 1),
             'season': game.get('season', 2025),
-            'game_time': game.get('game_time_et', 'Unknown'),
+            'game_time': game.get('game_time', game.get('game_time_et', 'Unknown')),
             'location': game.get('location', 'Unknown'),
 
             # Actual outcomes
