@@ -1,3 +1,4 @@
+<docs>
 # API Reference
 
 <cite>
@@ -9,7 +10,18 @@
 - [websocket_manager.py](file://src/websocket/websocket_manager.py)
 - [websocket_events.py](file://src/websocket/websocket_events.py)
 - [api.types.ts](file://src/types/api.types.ts)
+- [main_with_access_control.py](file://src/main_with_access_control.py) - *Updated in recent commit*
+- [server.ts](file://tests/frontend/mocks/server.ts) - *Added authentication examples*
 </cite>
+
+## Update Summary
+**Changes Made**   
+- Added authentication and subscription tier details based on new API endpoints
+- Updated security considerations with JWT authentication details
+- Enhanced rate limiting section with subscription-based rate limits
+- Added new API status endpoint information
+- Updated client implementation guidelines with authentication flow
+- Added authentication request/response examples
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -23,10 +35,11 @@
 9. [Performance Optimization](#performance-optimization)
 
 ## Introduction
-The NFL Predictor API provides comprehensive access to AI-driven football predictions, expert analysis, and real-time game data. The API is built on FastAPI and offers both RESTful and WebSocket interfaces for accessing prediction data, betting insights, and live game updates. The system supports high-performance batch processing, real-time updates, and detailed expert analysis with comprehensive data models.
+The NFL Predictor API provides comprehensive access to AI-driven football predictions, expert analysis, and real-time game data. The API is built on FastAPI and offers both RESTful and WebSocket interfaces for accessing prediction data, betting insights, and live game updates. The system supports high-performance batch processing, real-time updates, and detailed expert analysis with comprehensive data models. The API now includes JWT-based authentication and subscription tier-based access control.
 
 **Section sources**
 - [app.py](file://src/api/app.py#L1-L227)
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
 
 ## REST API Endpoints
 
@@ -317,6 +330,29 @@ Response:
 **Section sources**
 - [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
 
+### Authentication Example: Login Request
+```json
+{
+  "username": "user@example.com",
+  "password": "SecurePassword123!"
+}
+```
+
+Response:
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "subscription_tier": "monthly"
+}
+```
+
+**Section sources**
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
+- [server.ts](file://tests/frontend/mocks/server.ts#L52-L113)
+
 ### WebSocket Example: Game Update
 ```json
 {
@@ -342,24 +378,35 @@ Response:
 ## Rate Limiting and Error Handling
 
 ### Rate Limiting Strategy
-The API implements rate limiting to ensure fair usage and system stability.
+The API implements subscription-tier-based rate limiting to ensure fair usage and system stability.
 
 ```mermaid
 flowchart LR
-A[Client Request] --> B{Rate Limit Check}
-B --> |Within Limits| C[Process Request]
-B --> |Exceeded| D[Return 429 Error]
-C --> E[Update Rate Counter]
-D --> F[Retry-After Header]
-F --> G[Client Waits]
-G --> A
+A[Client Request] --> B{Subscription Tier Check}
+B --> |Free| C[10 requests/hour]
+B --> |Daily| D[100 requests/hour]
+B --> |Weekly| E[500 requests/hour]
+B --> |Monthly| F[2000 requests/hour]
+B --> |Season| G[10000 requests/hour]
+C --> H{Within Limits?}
+D --> H
+E --> H
+F --> H
+G --> H
+H --> |Yes| I[Process Request]
+H --> |No| J[Return 429 Error]
+I --> K[Update Rate Counter]
+J --> L[Retry-After Header]
+L --> M[Client Waits]
+M --> A
 ```
 
-The rate limiting is implemented using Redis for distributed rate tracking across multiple instances.
+The rate limiting is implemented using Redis for distributed rate tracking across multiple instances. Each subscription tier has different rate limits and feature access.
 
 **Section sources**
 - [app.py](file://src/api/app.py#L1-L227)
 - [middleware/rate_limiting.py](file://src/middleware/rate_limiting.py#L1-L50)
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
 
 ### Error Handling Codes
 The API returns standardized error codes for different failure scenarios.
@@ -451,10 +498,26 @@ class NFLPredictorClient:
             }
             async with session.get(url, headers=self.headers, params=params) as response:
                 return await response.json()
+    
+    def authenticate(self, username: str, password: str):
+        url = f"{self.base_url}/api/auth/login"
+        payload = {
+            "username": username,
+            "password": password
+        }
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            data = response.json()
+            self.api_key = data["access_token"]
+            self.headers["Authorization"] = f"Bearer {self.api_key}"
+            return data
+        else:
+            raise Exception(f"Authentication failed: {response.status_code}")
 ```
 
 **Section sources**
 - [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
 
 ### REST API Client (JavaScript)
 ```javascript
@@ -495,11 +558,34 @@ class NFLPredictorClient {
 
         return await response.json();
     }
+    
+    async login(username, password) {
+        const response = await fetch(
+            `${this.baseUrl}/api/auth/login`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            }
+        );
+        
+        if (!response.ok) {
+            throw new Error(`Login failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        this.apiKey = data.access_token;
+        this.headers.Authorization = `Bearer ${this.apiKey}`;
+        return data;
+    }
 }
 ```
 
 **Section sources**
 - [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
 
 ### WebSocket Client (JavaScript)
 ```javascript
@@ -571,126 +657,4 @@ class NFLPredictorWebSocket {
                 event_type: 'heartbeat',
                 data: { client_time: new Date().toISOString() }
             }));
-            setTimeout(() => this._sendHeartbeat(), 30000); // Every 30 seconds
-        }
-    }
-
-    _dispatchEvent(message) {
-        const listeners = this.listeners.get(message.event_type) || new Set();
-        for (const listener of listeners) {
-            listener(message);
-        }
-    }
-
-    _reconnect() {
-        setTimeout(() => {
-            this.connect();
-        }, 5000);
-    }
-}
-```
-
-**Section sources**
-- [websocket_manager.py](file://src/websocket/websocket_manager.py#L1-L364)
-- [websocket_events.py](file://src/websocket/websocket_events.py#L1-L120)
-
-## Security Considerations
-
-### API Key Management
-The API uses bearer token authentication with API keys for access control.
-
-```mermaid
-sequenceDiagram
-participant Client
-participant API
-participant AuthService
-Client->>API : Request with Authorization : Bearer <api_key>
-API->>AuthService : Validate API key
-AuthService->>AuthService : Check key validity and permissions
-AuthService-->>API : Return validation result
-alt Valid Key
-API-->>Client : Process request
-else Invalid Key
-API-->>Client : 401 Unauthorized
-end
-```
-
-API keys should be stored securely and never exposed in client-side code or public repositories. The system supports key rotation and revocation through the configuration system.
-
-**Section sources**
-- [app.py](file://src/api/app.py#L1-L227)
-- [config/key_rotation.py](file://config/key_rotation.py#L1-L30)
-
-### Data Privacy
-The API implements data privacy measures to protect user information and prediction data.
-
-```mermaid
-flowchart LR
-A[Client Data] --> B[Encryption in Transit]
-B --> C[Secure Storage]
-C --> D[Access Control]
-D --> E[Audit Logging]
-E --> F[Data Retention Policy]
-```
-
-All data is transmitted over HTTPS with TLS 1.3 encryption. Sensitive data is encrypted at rest using AES-256. Access to data is controlled through role-based access control (RBAC) with detailed audit logging.
-
-**Section sources**
-- [app.py](file://src/api/app.py#L1-L227)
-- [middleware/rate_limiting.py](file://src/middleware/rate_limiting.py#L1-L50)
-
-## Performance Optimization
-
-### High-Frequency API Consumer Tips
-For clients making high-frequency API calls, the following optimization strategies are recommended:
-
-```mermaid
-flowchart TD
-A[High-Frequency Client] --> B[Use Batch Endpoints]
-A --> C[Implement Local Caching]
-A --> D[Use WebSocket for Real-Time Data]
-A --> E[Optimize Request Frequency]
-A --> F[Use Compression]
-B --> G[Reduce Number of Requests]
-C --> H[Reduce API Calls]
-D --> I[Eliminate Polling]
-E --> J[Avoid Rate Limiting]
-F --> K[Reduce Bandwidth]
-G --> L[Improved Performance]
-H --> L
-I --> L
-J --> L
-K --> L
-```
-
-**Section sources**
-- [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
-- [websocket_manager.py](file://src/websocket/websocket_manager.py#L1-L364)
-
-### Caching Strategies
-The API implements a multi-layer caching strategy to optimize performance.
-
-```mermaid
-flowchart LR
-A[Client Request] --> B{Cache Layer}
-B --> C[CDN Cache]
-B --> D[API Gateway Cache]
-B --> E[Redis Cache]
-B --> F[Database Cache]
-C --> |Hit| G[Return Response]
-D --> |Hit| G
-E --> |Hit| G
-F --> |Hit| G
-C --> |Miss| D
-D --> |Miss| E
-E --> |Miss| F
-F --> |Miss| H[Generate Response]
-H --> I[Store in Caches]
-I --> G
-```
-
-Clients can leverage the caching system by paying attention to the `cached` flag in responses and implementing appropriate cache invalidation strategies based on the `timestamp` field.
-
-**Section sources**
-- [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
-- [websocket_manager.py](file://src/websocket/websocket_manager.py#L1-L364)
+            setTimeout(() => this._sendHeartbeat(), 30000); //
