@@ -505,7 +505,7 @@ class ExpertMemoryDatabase:
 class ConservativeAnalyzer(PersonalityDrivenExpert):
     """The Conservative Analyzer: Risk-averse, analytical, prefers proven patterns"""
 
-    def __init__(self):
+    def __init__(self, memory_service=None):
         personality = PersonalityProfile(
             traits={
                 'risk_tolerance': PersonalityTrait('risk_tolerance', 0.2, 0.8, 0.9),
@@ -526,7 +526,8 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
         super().__init__(
             expert_id="conservative_analyzer",
             name="The Analyst",
-            personality_profile=personality
+            personality_profile=personality,
+            memory_service=memory_service
         )
 
     def process_through_personality_lens(self, universal_data: UniversalGameData) -> Dict[str, float]:
