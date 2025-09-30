@@ -32,15 +32,20 @@ class SupabaseEpisodicMemoryManager:
     async def store_memory(self, expert_id: str, game_id: str, memory_data: Dict[str, Any]) -> bool:
         """Store episodic memory"""
         try:
+            import hashlib
+            # Generate memory_id from expert+game
+            memory_id = hashlib.md5(f"{expert_id}_{game_id}".encode()).hexdigest()[:32]
+
             memory_record = {
+                'memory_id': memory_id,
                 'expert_id': expert_id,
                 'game_id': game_id,
                 'memory_type': memory_data.get('memory_type', 'prediction_outcome'),
                 'emotional_state': memory_data.get('emotional_state', 'neutral'),
-                'prediction_data': json.dumps(memory_data.get('prediction_data', {})),
-                'actual_outcome': json.dumps(memory_data.get('actual_outcome', {})),
-                'contextual_factors': json.dumps(memory_data.get('contextual_factors', [])),
-                'lessons_learned': json.dumps(memory_data.get('lessons_learned', [])),
+                'prediction_data': memory_data.get('prediction_data', {}),
+                'actual_outcome': memory_data.get('actual_outcome', {}),
+                'contextual_factors': memory_data.get('contextual_factors', []),
+                'lessons_learned': memory_data.get('lessons_learned', []),
                 'emotional_intensity': memory_data.get('emotional_intensity', 0.5),
                 'memory_vividness': memory_data.get('memory_vividness', 0.5),
                 'retrieval_count': 0,
