@@ -1,0 +1,125 @@
+{
+  "overall_performance": {
+    "total_runtime": 17.357555150985718,
+    "total_operations": 6,
+    "success_rate": 1.0
+  },
+  "database_performance": {
+    "total_queries": 1,
+    "successful_queries": 1,
+    "query_success_rate": 1.0,
+    "avg_query_time": 0.42347049713134766,
+    "query_details": [
+      {
+        "type": "connection_test",
+        "duration": 0.42347049713134766,
+        "success": true,
+        "timestamp": 1759241270.1265972,
+        "details": {
+          "result_count": 1
+        }
+      }
+    ]
+  },
+  "expert_performance": {
+    "total_predictions": 1,
+    "avg_prediction_time": 7.128715515136719e-05,
+    "prediction_details": [
+      {
+        "game": {
+          "season": 2020,
+          "week": 5,
+          "home_team": "KC",
+          "away_team": "LV"
+        },
+        "prediction": {
+          "expert_name": "The Analyst",
+          "personality_profile": {
+            "risk_tolerance": 0.2,
+            "analytics_trust": 0.9,
+            "contrarian_tendency": 0.3,
+            "recent_bias": 0.2,
+            "confidence_level": 0.4,
+            "optimism": 0.3,
+            "chaos_comfort": 0.1,
+            "market_trust": 0.8,
+            "authority_respect": 0.8
+          },
+          "winner_prediction": "away",
+          "winner_confidence": 0.7946,
+          "spread_prediction": 11.1,
+          "total_prediction": 47.8,
+          "key_factors": [
+            "Low risk tolerance",
+            "High analytics trust",
+            "Low chaos comfort"
+          ],
+          "reasoning": "Conservative approach: Avoiding uncertainty and seeking safe plays"
+        },
+        "timing": 7.128715515136719e-05,
+        "context": {
+          "home_team": "KC",
+          "away_team": "LV",
+          "weather_available": true,
+          "weather_temp": 80,
+          "weather_wind": 16,
+          "team_stats_available": true,
+          "line_movement_available": true,
+          "public_betting_available": false,
+          "head_to_head_available": true,
+          "recent_news_available": false,
+          "coaching_info_available": true
+        },
+        "timestamp": 1759241270.9122133
+      }
+    ]
+  },
+  "error_analysis": {
+    "total_errors": 0,
+    "error_types": {},
+    "error_details": []
+  },
+  "timing_breakdown": {
+    "database_connection": {
+      "duration": 0.42347049713134766,
+      "timestamp": 1759241270.126528,
+      "details": {
+        "url": "https://vaypgzvivahnfegnlinn.s...",
+        "test_query_success": true
+      }
+    },
+    "services_initialization": {
+      "duration": 0.005764484405517578,
+      "timestamp": 1759241270.1323676,
+      "details": {}
+    },
+    "expert_initialization": {
+      "duration": 0.0015177726745605469,
+      "timestamp": 1759241270.1339095,
+      "details": {
+        "memory_enabled": true,
+        "expert_id": "conservative_analyzer",
+        "expert_name": "The Analyst"
+      }
+    },
+    "total_setup": {
+      "duration": 0.43090105056762695,
+      "timestamp": 1759241270.1339564,
+      "details": {}
+    },
+    "universal_data_build": {
+      "duration": 0.7781064510345459,
+      "timestamp": 1759241270.9120882,
+      "details": {}
+    },
+    "mini_backtest": {
+      "duration": 16.148277759552002,
+      "timestamp": 1759241287.060514,
+      "details": {
+        "total_games": 16,
+        "overall_accuracy": 0.125,
+        "correct_winners": 0
+      }
+    }
+  }
+}
