@@ -188,7 +188,7 @@ class SupabaseLessonExtractor:
         return lessons
 
 
-async def store_learned_principle(supabase: Client, expert_id: str, principle: Dict[str, Any]) -> bool:
+async def store_learned_principle(supabase: Client, expert_id: str, principle: Dict[str, Any]) -> Optional[str]:
     """Store a learned principle"""
     try:
         principle_record = {
