@@ -207,10 +207,11 @@ async def store_learned_principle(supabase: Client, expert_id: str, principle: D
 
         result = supabase.table('expert_learned_principles').insert(principle_record).execute()
 
-        if result.data:
-            logger.info(f"✅ Stored learned principle for {expert_id}")
-            return True
-        return False
+        if result.data and len(result.data) > 0:
+            principle_id = result.data[0].get('id')
+            logger.info(f"✅ Stored learned principle for {expert_id}: {principle_id}")
+            return principle_id
+        return None
 
     except Exception as e:
         logger.error(f"❌ Error storing principle: {e}")
