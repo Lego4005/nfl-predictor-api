@@ -148,23 +148,24 @@ class MemoryLearningExperiment:
         """Store expert configurations in Supabase"""
         try:
             for expert in self.experts:
+                # Simplified expert data (only required fields)
                 expert_data = {
                     'expert_id': expert.expert_id,
                     'name': expert.name,
                     'personality_traits': [expert.personality_type],
                     'decision_style': expert.group,
-                    'risk_tolerance': 'variable',
-                    'confidence_style': 'calibrated',
+                    'risk_tolerance': 'moderate',
                     'is_active': True
                 }
 
                 # Upsert to avoid duplicates
-                self.supabase.table('personality_experts').upsert(expert_data).execute()
+                self.supabase.table('personality_experts').upsert(expert_data, on_conflict='expert_id').execute()
 
             logger.info("📝 Stored expert configurations in Supabase")
 
         except Exception as e:
             logger.warning(f"⚠️ Could not store expert configs: {e}")
+            logger.info("Continuing without expert storage (memory storage may fail)")
 
     def load_real_games(self, limit: int = 40, season: int = 2025) -> List[Dict]:
         """Load real completed NFL games from Supabase"""
