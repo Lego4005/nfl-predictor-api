@@ -140,24 +140,12 @@ Respond ONLY with the JSON object, no other text."""
 
             # Query Claude and collect response
             response_text = ""
-            message_count = 0
             async for message in query(prompt=prompt):
-                message_count += 1
-                print(f"Debug: Message {message_count}: {type(message).__name__}")
-                print(f"Debug: Message attributes: {dir(message)}")
-
-                # Try different ways to extract text
-                if hasattr(message, 'text'):
-                    print(f"Debug: Found .text attribute: {message.text[:100] if message.text else 'empty'}")
-                    response_text += message.text
-                elif hasattr(message, 'content'):
-                    print(f"Debug: Found .content attribute: {str(message.content)[:100]}")
-                    if isinstance(message.content, str):
-                        response_text += message.content
-                    elif isinstance(message.content, list):
-                        for block in message.content:
-                            if hasattr(block, 'text'):
-                                response_text += block.text
+                # Extract text from AssistantMessage content blocks
+                if hasattr(message, 'content') and isinstance(message.content, list):
+                    for block in message.content:
+                        if hasattr(block, 'text'):
+                            response_text += block.text
 
             print(f"📝 Claude response ({len(response_text)} chars): {response_text[:200]}...")
 
@@ -218,8 +206,7 @@ Respond ONLY with the JSON object, no other text."""
                 'bet_amount': prediction['bet_amount'],
                 'reasoning_summary': prediction['reasoning'][:500],  # Truncate if too long
                 'prediction_timestamp': datetime.utcnow().isoformat(),
-                'model_version': 'claude-3-5-sonnet-20241022',
-                'bankroll_at_prediction': self.current_bankroll
+                'model_version': 'claude-3-5-sonnet-20241022'
             }
 
             result = self.supabase.table('expert_predictions_comprehensive') \
@@ -250,7 +237,7 @@ Respond ONLY with the JSON object, no other text."""
                 'game_id': game_id,
                 'expert_id': self.expert_id,
                 'reasoning_text': prediction['reasoning'],
-                'confidence_level': prediction['confidence'],
+                'confidence': prediction['confidence'],
                 'key_factors': self._extract_key_factors(prediction['reasoning']),
                 'timestamp': datetime.utcnow().isoformat()
             }
