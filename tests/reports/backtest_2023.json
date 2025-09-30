@@ -1,0 +1,4880 @@
+{
+  "timestamp": "2025-09-29T20:07:38.731410",
+  "experts": [
+    {
+      "expert_id": "quant_master",
+      "name": "The Quant Master",
+      "archetype": "data_driven",
+      "starting_bankroll": 10000,
+      "min_confidence_threshold": 0.7,
+      "kelly_fraction": 0.25
+    },
+    {
+      "expert_id": "veteran",
+      "name": "The Veteran",
+      "archetype": "experience",
+      "starting_bankroll": 10000,
+      "min_confidence_threshold": 0.75,
+      "kelly_fraction": 0.2
+    },
+    {
+      "expert_id": "gambler",
+      "name": "The Gambler",
+      "archetype": "high_risk",
+      "starting_bankroll": 10000,
+      "min_confidence_threshold": 0.65,
+      "kelly_fraction": 0.4
+    },
+    {
+      "expert_id": "contrarian",
+      "name": "The Rebel",
+      "archetype": "contrarian",
+      "starting_bankroll": 10000,
+      "min_confidence_threshold": 0.7,
+      "kelly_fraction": 0.3
+    },
+    {
+      "expert_id": "conservative",
+      "name": "The Conservative",
+      "archetype": "safe",
+      "starting_bankroll": 10000,
+      "min_confidence_threshold": 0.8,
+      "kelly_fraction": 0.15
+    }
+  ],
+  "results": [
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G1",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.70575441024005,
+      "bet_amount": 955.2106537602629,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -955.2106537602629
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G1",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7962912056573304,
+      "bet_amount": 1144.4230637607877,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1144.4230637607877
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G1",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7516677733795767,
+      "bet_amount": 1914.0092963884445,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1914.0092963884445
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G1",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7680357504858909,
+      "bet_amount": 1538.6252280611127,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1398.7502073282842
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G2",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7885450439745763,
+      "bet_amount": 1257.1004314890533,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1257.1004314890533
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G2",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9284074616866924,
+      "bet_amount": 1617.198140722311,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1470.1801279293736
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G2",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7029448802262126,
+      "bet_amount": 1286.4090840895713,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1169.462803717792
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G3",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.726036366170803,
+      "bet_amount": 826.8118627240333,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 751.6471479309394
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G3",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.767203216079637,
+      "bet_amount": 905.2644584311939,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -905.2644584311939
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G3",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8923414207401376,
+      "bet_amount": 1911.2341663081859,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1911.2341663081859
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G3",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8306739776240746,
+      "bet_amount": 2429.7448272675388,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2208.8589338795805
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G4",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8239612297408601,
+      "bet_amount": 1345.6255505358063,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1223.295955032551
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G4",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8072707448467951,
+      "bet_amount": 946.5142186866723,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -946.5142186866723
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G4",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7605688978436107,
+      "bet_amount": 1520.408752288225,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1382.1897748074773
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G4",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.858350952273906,
+      "bet_amount": 2955.4143889851316,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 2686.7403536228467
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G5",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7290713973766396,
+      "bet_amount": 1052.04547292372,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1052.04547292372
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G5",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7659824975067078,
+      "bet_amount": 712.3748736663623,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 647.6135215148748
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G5",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8978371025457402,
+      "bet_amount": 1805.425288008044,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1805.425288008044
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G5",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7669125828023744,
+      "bet_amount": 2674.668900616087,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2431.5171823782607
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G6",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7895931482196099,
+      "bet_amount": 1215.4439128713711,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1215.4439128713711
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G6",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.77815617635496,
+      "bet_amount": 1444.3402304064352,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1444.3402304064352
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G7",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7648465141871095,
+      "bet_amount": 948.468476785469,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -948.468476785469
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G7",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8133955389349427,
+      "bet_amount": 930.6115760080144,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -930.6115760080144
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G7",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8131974771291244,
+      "bet_amount": 1155.4721843251482,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1050.4292584774073
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G7",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7393309416766713,
+      "bet_amount": 2701.3578597579394,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 2455.7798725072175
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G8",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7287266176515693,
+      "bet_amount": 704.3008571554248,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 640.2735065049316
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G8",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8001149874359225,
+      "bet_amount": 779.9374029216806,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -779.9374029216806
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G8",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.884817720336461,
+      "bet_amount": 1365.5580360206297,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1365.5580360206297
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G8",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8891989547639315,
+      "bet_amount": 4470.221870686796,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4470.221870686796
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G9",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7300827570907312,
+      "bet_amount": 778.2993390842229,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -778.2993390842229
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G9",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.82981900311786,
+      "bet_amount": 763.5433396888408,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 694.1303088080371
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G9",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9005256906228785,
+      "bet_amount": 1092.4464288165038,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 993.1331171059126
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G10",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8355202716807352,
+      "bet_amount": 1048.7633947701709,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 953.4212679728826
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G10",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7934818464681169,
+      "bet_amount": 751.4950812332148,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 683.1773465756498
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G10",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8421321427841567,
+      "bet_amount": 1291.0730522376864,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1173.702774761533
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G10",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7705453883133466,
+      "bet_amount": 2779.469425625263,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2526.790386932057
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G11",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7399652648377125,
+      "bet_amount": 835.4606441167886,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 759.5096764698078
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G11",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8200565112209782,
+      "bet_amount": 910.5540995361224,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -910.5540995361224
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G11",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9147519376454016,
+      "bet_amount": 1525.813607189993,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1387.10327926363
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G11",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7214215203717003,
+      "bet_amount": 2540.665240485787,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2309.695673168897
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G12",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8311420304211916,
+      "bet_amount": 1310.4132897300606,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1310.4132897300606
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G12",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8232694891805102,
+      "bet_amount": 805.90632046836,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -805.90632046836
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G12",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8059040001409575,
+      "bet_amount": 1803.234263042719,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1803.234263042719
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G12",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8308618166587658,
+      "bet_amount": 4394.515629321863,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3995.014208474421
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G13",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7653540803015161,
+      "bet_amount": 863.730034215454,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 785.2091220140491
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G13",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8393019418501938,
+      "bet_amount": 1442.5874104341751,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1311.4431003947045
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G14",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7735296133372406,
+      "bet_amount": 995.9079216862494,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 905.3708378965904
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G14",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8061245973173378,
+      "bet_amount": 1704.8760305131161,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1549.8873004664692
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G15",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8366542278123724,
+      "bet_amount": 1396.356250392466,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1269.41477308406
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G15",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7626984239994059,
+      "bet_amount": 562.0382669756542,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 510.94387906877654
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G15",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9103197469817823,
+      "bet_amount": 2014.8534906064099,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1831.6849914603727
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G15",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7368402115898466,
+      "bet_amount": 3585.0517509989168,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3259.1379554535606
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W1_G16",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.755535238014138,
+      "bet_amount": 1188.7203269515596,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1188.7203269515596
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W1_G16",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7570624103318722,
+      "bet_amount": 598.8335515071738,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -598.8335515071738
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W1_G16",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9417378553689852,
+      "bet_amount": 2381.190488898484,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2164.718626271349
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W1_G16",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7648203984838682,
+      "bet_amount": 4550.782084326267,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4137.074622114788
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G17",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7347426243018325,
+      "bet_amount": 950.418398917048,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 864.0167262882254
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G17",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.830930982238389,
+      "bet_amount": 711.2332718002119,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -711.2332718002119
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G17",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.819312474524408,
+      "bet_amount": 2814.1342141527543,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2558.3038310479583
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G18",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7324819117188989,
+      "bet_amount": 1034.8877502302716,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1034.8877502302716
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G18",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.761412835874376,
+      "bet_amount": 3318.923590847565,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3318.923590847565
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G18",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8251201511562241,
+      "bet_amount": 6474.68877070007,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 5886.080700636427
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G19",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7562233425383681,
+      "bet_amount": 1026.356602064465,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 933.0514564222409
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G19",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8231189995971995,
+      "bet_amount": 603.7331265775863,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -603.7331265775863
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G19",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8904064856426244,
+      "bet_amount": 2662.010262192833,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2420.009329266212
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G19",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7029520573479455,
+      "bet_amount": 4513.791547245065,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4513.791547245065
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G20",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7987710966708852,
+      "bet_amount": 1348.9411095839262,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1348.9411095839262
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G20",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.825054998161696,
+      "bet_amount": 531.2520170178337,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -531.2520170178337
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G20",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9224584701717153,
+      "bet_amount": 3146.0121280460753,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3146.0121280460753
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G20",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7476207171086131,
+      "bet_amount": 5002.842735035902,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4548.038850032638
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G21",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7022809693179329,
+      "bet_amount": 749.1752703691734,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 681.0684276083394
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G21",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9204962956026455,
+      "bet_amount": 2516.8097024368603,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2288.008820397146
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G21",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7693638356499318,
+      "bet_amount": 6192.443848720876,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 5629.494407928069
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G22",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7617970842211339,
+      "bet_amount": 1084.1030133530896,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 985.5481939573542
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G22",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7566273808146714,
+      "bet_amount": 358.630954992527,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 326.02814090229725
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G22",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8901156691358095,
+      "bet_amount": 2974.4114665162897,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -2974.4114665162897
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G22",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8839278992252128,
+      "bet_amount": 9131.684548048595,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -9131.684548048595
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G23",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7840954873579155,
+      "bet_amount": 1320.354057626224,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1200.3218705692946
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G23",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7741582503830531,
+      "bet_amount": 419.9160871398286,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 381.74189739984416
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G23",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9066140712838398,
+      "bet_amount": 2379.5291732130318,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2379.5291732130318
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G23",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7611469136537484,
+      "bet_amount": 5461.571242297024,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -5461.571242297024
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G24",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7071532542777661,
+      "bet_amount": 1045.5862951464633,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1045.5862951464633
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G24",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8406301140579956,
+      "bet_amount": 1903.6233385704254,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1730.5666714276595
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G24",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8817944368273094,
+      "bet_amount": 6213.033389979471,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 5648.2121727086105
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G25",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.721804777382609,
+      "bet_amount": 1020.456003529273,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1020.456003529273
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G25",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.784268901032321,
+      "bet_amount": 478.6347984584655,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 435.1225440531505
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G25",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7654263804735444,
+      "bet_amount": 2249.7366728559573,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2045.2151571417794
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G26",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8013685488470633,
+      "bet_amount": 1281.8237409494504,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1165.2943099540457
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G26",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7951518962935641,
+      "bet_amount": 548.2222195916524,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 498.3838359924113
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G26",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8505335973322213,
+      "bet_amount": 2658.7797042843135,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2658.7797042843135
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G27",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.764654761612137,
+      "bet_amount": 1259.6162247871732,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1145.1056588974302
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G27",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8207584297396859,
+      "bet_amount": 662.1155616494783,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 601.9232378631621
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G27",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9368151478332826,
+      "bet_amount": 2127.0237634274504,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2127.0237634274504
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G28",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8318242986536802,
+      "bet_amount": 1796.084152453905,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1632.8037749580953
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G28",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8089523380013842,
+      "bet_amount": 1701.6190107419604,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1701.6190107419604
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G29",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8428036382643025,
+      "bet_amount": 2133.5552310026765,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1939.5956645478877
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G29",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.857399906412191,
+      "bet_amount": 1361.2952085935683,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1237.5410987214257
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G30",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7084210713205258,
+      "bet_amount": 1422.740650857189,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1422.740650857189
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G30",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7632190981041701,
+      "bet_amount": 1608.8034283378533,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1462.5485712162304
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G30",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7239143778916903,
+      "bet_amount": 4628.310984481165,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4207.5554404374225
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G31",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7681322477486108,
+      "bet_amount": 1700.4209720946385,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1545.8372473587622
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G31",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8244768277014749,
+      "bet_amount": 746.4176086729514,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -746.4176086729514
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G31",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9140508710302732,
+      "bet_amount": 1901.3131425810993,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1901.3131425810993
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G31",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8279471586399504,
+      "bet_amount": 7840.725639424442,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 7127.932399476766
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W2_G32",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7269393683053622,
+      "bet_amount": 1578.582503463057,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1435.0750031482337
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W2_G32",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8442441377523908,
+      "bet_amount": 695.0359047508804,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 631.8508225008003
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W2_G32",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.762142637267901,
+      "bet_amount": 1521.0505140648795,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1521.0505140648795
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W2_G32",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8833034983361653,
+      "bet_amount": 9609.773392504032,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 8736.15762954912
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G33",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8370548518767288,
+      "bet_amount": 2670.3262467528266,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -2670.3262467528266
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G33",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7974673912732229,
+      "bet_amount": 666.1978091856588,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -666.1978091856588
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G33",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8022579099604021,
+      "bet_amount": 1216.8404112519036,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1106.2185556835486
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G33",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.778858865127545,
+      "bet_amount": 9124.27936492899,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 8294.799422662718
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G34",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7209966763694373,
+      "bet_amount": 1404.5228453963985,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1404.5228453963985
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G34",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.814502432091199,
+      "bet_amount": 626.3314587851922,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -626.3314587851922
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G34",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8478626139074404,
+      "bet_amount": 1438.0841223886134,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1307.3492021714667
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G34",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7634366036147361,
+      "bet_amount": 9824.779555219031,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 8931.617777471845
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G35",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7922682186127689,
+      "bet_amount": 1714.2205399419245,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1558.3823090381131
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G35",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8665744780986706,
+      "bet_amount": 1699.553962822907,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1545.0490571117334
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G35",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7914351532270248,
+      "bet_amount": 12478.635977053236,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 11344.21452459385
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G36",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8271399298939707,
+      "bet_amount": 2185.060923202791,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1986.4190210934462
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G36",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.753044369094684,
+      "bet_amount": 433.6106230119962,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 394.1914754654511
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G36",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8191879124259062,
+      "bet_amount": 2008.5637742452536,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1825.9670674956851
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G36",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8920588937546339,
+      "bet_amount": 17071.131263359537,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -17071.131263359537
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G37",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7173813986168521,
+      "bet_amount": 1596.278280533469,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1596.278280533469
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G37",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7697330793638603,
+      "bet_amount": 505.89346565771336,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 459.90315059792124
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G37",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8629105012221279,
+      "bet_amount": 2373.7571877443906,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -2373.7571877443906
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G38",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7980757374536507,
+      "bet_amount": 2031.8713362007948,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2031.8713362007948
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G38",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7946794421416576,
+      "bet_amount": 1899.0057501955125,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1726.3688638141023
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G38",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7550083363724382,
+      "bet_amount": 9945.999698529813,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 9041.817907754375
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G39",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7162843362576669,
+      "bet_amount": 1220.6095309141788,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1109.645028103799
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G39",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.827292975409635,
+      "bet_amount": 682.9215501426618,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -682.9215501426618
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G39",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9082158293745043,
+      "bet_amount": 2244.279522958333,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 2040.2541117803028
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G39",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7080242041632172,
+      "bet_amount": 8974.127957455175,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 8158.298143141068
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G40",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.817961299125269,
+      "bet_amount": 2036.7722358787291,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2036.7722358787291
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G40",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7507103116564862,
+      "bet_amount": 445.50813031609266,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -445.50813031609266
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G40",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8314883798736914,
+      "bet_amount": 2652.330345314394,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2411.209404831267
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G40",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8519127276215981,
+      "bet_amount": 17096.92822086672,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 15542.662018969746
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G41",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7769086467868809,
+      "bet_amount": 1481.8742865835463,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1481.8742865835463
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G41",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7551649539915313,
+      "bet_amount": 410.9648889002937,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 373.60444445481244
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G41",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8011758408728366,
+      "bet_amount": 3134.572226280647,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2849.611114800588
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G41",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8358625500029684,
+      "bet_amount": 19861.30167070722,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -19861.30167070722
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G42",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8305893888599365,
+      "bet_amount": 1557.5007341426403,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1557.5007341426403
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G42",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9457521614090882,
+      "bet_amount": 3704.494449240765,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -3704.494449240765
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G43",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7972759567644584,
+      "bet_amount": 1164.7604914857889,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1164.7604914857889
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G43",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7981955078172025,
+      "bet_amount": 530.4565596342443,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 482.2332360311311
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G43",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8333443269868652,
+      "bet_amount": 2963.595559392612,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2694.1777812660107
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G43",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8274250629381082,
+      "bet_amount": 15525.253352663103,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -15525.253352663103
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G44",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.829595804027949,
+      "bet_amount": 1115.4305504677914,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1115.4305504677914
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G44",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8413677030990747,
+      "bet_amount": 678.236769053212,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 616.5788809574655
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G44",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8599522282798137,
+      "bet_amount": 3502.4311156458134,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3184.028286950739
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G44",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7092768450632773,
+      "bet_amount": 7669.754640567799,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 6972.504218697998
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G45",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8144831049242431,
+      "bet_amount": 890.0845180812724,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -890.0845180812724
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G45",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7654025206645512,
+      "bet_amount": 4139.236773035961,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3762.9425209417827
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G45",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8094995654567003,
+      "bet_amount": 13069.276339799379,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 11881.160308908526
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G46",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8327350514656493,
+      "bet_amount": 801.61545601026,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 728.7413236456908
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G46",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.886033840687093,
+      "bet_amount": 4891.825277224318,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 4447.113888385743
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G46",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7131596213638651,
+      "bet_amount": 10079.385922507472,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -10079.385922507472
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G47",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7492910605034883,
+      "bet_amount": 671.3576019938512,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 610.3250927216828
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G47",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8155024853801374,
+      "bet_amount": 5781.248054901466,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -5781.248054901466
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W3_G47",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8254717101972255,
+      "bet_amount": 14142.365783241688,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -14142.365783241688
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W3_G48",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8109549427069455,
+      "bet_amount": 946.9654004384088,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -946.9654004384088
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W3_G48",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7631694242201473,
+      "bet_amount": 573.2072566304485,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 521.0975060276804
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W3_G48",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9430372709975037,
+      "bet_amount": 4624.998443921173,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4204.544039928339
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G49",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.828064938301213,
+      "bet_amount": 852.1291120911567,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -852.1291120911567
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G49",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7587749112484096,
+      "bet_amount": 5394.055863627087,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -5394.055863627087
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G49",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7395137476047312,
+      "bet_amount": 8190.67255033011,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -8190.67255033011
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G50",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.754059168510437,
+      "bet_amount": 541.8546427552831,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -541.8546427552831
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G50",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7517748508137088,
+      "bet_amount": 595.8128041452985,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -595.8128041452985
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G50",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8858917414237388,
+      "bet_amount": 4387.096079181424,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -4387.096079181424
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G50",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7797117380933452,
+      "bet_amount": 8396.574573593378,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 7633.249612357616
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G51",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8486856437860132,
+      "bet_amount": 672.1237702361651,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -672.1237702361651
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G51",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7894669006536003,
+      "bet_amount": 627.8467117193829,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -627.8467117193829
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G51",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8194848165352911,
+      "bet_amount": 3509.676863345139,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3190.6153303137626
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G51",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8543070206600406,
+      "bet_amount": 11943.047596763578,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 10857.315997057798
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G52",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7514382198708719,
+      "bet_amount": 390.610101827741,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 355.1000925706736
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G52",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.83499543863775,
+      "bet_amount": 653.3891364668538,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 593.9901240607761
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G52",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8086197620581397,
+      "bet_amount": 4147.799929407891,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3770.727208552628
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G52",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8099199638715655,
+      "bet_amount": 12720.673019735435,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 11564.248199759486
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G53",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8416678827811798,
+      "bet_amount": 604.701464475257,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 549.7286040684154
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G53",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7768353437078417,
+      "bet_amount": 4901.945371118417,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4456.313973744015
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G53",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8404838387491234,
+      "bet_amount": 16386.68780398569,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -16386.68780398569
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G54",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.717751839039449,
+      "bet_amount": 424.933782387294,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -424.933782387294
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G54",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8139943626659766,
+      "bet_amount": 681.6878222901149,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -681.6878222901149
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G54",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8601157694810542,
+      "bet_amount": 5793.20816586722,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 5266.5528780611085
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G54",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8987274474683464,
+      "bet_amount": 13150.022875329894,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -13150.022875329894
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G55",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7989805947937536,
+      "bet_amount": 541.5205912065061,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 492.2914465513692
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G55",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.851821517927346,
+      "bet_amount": 6846.518741479441,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 6224.107946799491
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G55",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7215427647707642,
+      "bet_amount": 6552.49553747064,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 5956.814124973309
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G56",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8259038226390687,
+      "bet_amount": 672.5811113206191,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 611.4373739278356
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G56",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8290876110081665,
+      "bet_amount": 629.7403033839893,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 572.4911848945356
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G56",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.84157455031541,
+      "bet_amount": 8091.340330839339,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 7355.763937126671
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G56",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.862154010765332,
+      "bet_amount": 11711.381125258577,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -11711.381125258577
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G57",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8251735892970424,
+      "bet_amount": 767.6945814804478,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 697.9041649822253
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G57",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8258559599913002,
+      "bet_amount": 695.6998668944913,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 632.4544244495374
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G57",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.945424906534589,
+      "bet_amount": 9562.493118264674,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 8693.175562058794
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G57",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7275710839220606,
+      "bet_amount": 6013.549808671116,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -6013.549808671116
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G58",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8291957472317755,
+      "bet_amount": 889.8340399729949,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 808.9400363390862
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G58",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9129858666722924,
+      "bet_amount": 11301.128230676433,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -11301.128230676433
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G58",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7728168067103045,
+      "bet_amount": 6405.499216379843,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -6405.499216379843
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G59",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8461579900830297,
+      "bet_amount": 1076.1579089395266,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 978.3253717632059
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G59",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8197662779450254,
+      "bet_amount": 9040.902584541145,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -9040.902584541145
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G59",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7685267528439129,
+      "bet_amount": 5307.593560858886,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -5307.593560858886
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G60",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7624737447767118,
+      "bet_amount": 919.3616038312463,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -919.3616038312463
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G60",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7633598073332095,
+      "bet_amount": 7232.722067632916,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -7232.722067632916
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G60",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7871574394934961,
+      "bet_amount": 4831.090021419318,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4391.9000194721075
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G61",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.711556796527175,
+      "bet_amount": 632.6047459709121,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 575.09522360992
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G61",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8209638001054314,
+      "bet_amount": 763.3651602388956,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -763.3651602388956
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G61",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8263301464477135,
+      "bet_amount": 5786.177654106334,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -5786.177654106334
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G61",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7388900988182723,
+      "bet_amount": 4540.73649591606,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4127.9422690146
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G62",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7199033001355671,
+      "bet_amount": 719.9334710505746,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -719.9334710505746
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G62",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7608246417863531,
+      "bet_amount": 532.88234017998,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -532.88234017998
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G62",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8932634152295797,
+      "bet_amount": 4628.942123285066,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 4208.1292029864235
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G62",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8733547238318984,
+      "bet_amount": 7527.744840722235,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 6843.404400656576
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G63",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7794183818348971,
+      "bet_amount": 841.824337406906,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 765.2948521880963
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G63",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9329153993401023,
+      "bet_amount": 5470.567963882351,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 4973.24360352941
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G63",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7249724098565492,
+      "bet_amount": 5637.336621556148,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -5637.336621556148
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W4_G64",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7679674684457932,
+      "bet_amount": 902.2095336110085,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 820.1904851009168
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W4_G64",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7864825420215223,
+      "bet_amount": 531.7801313316779,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -531.7801313316779
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W4_G64",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8871002483433134,
+      "bet_amount": 6465.216684588233,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -6465.216684588233
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W4_G64",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7097031005648771,
+      "bet_amount": 4549.228311589875,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 4135.662101445341
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G65",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7496397073577155,
+      "bet_amount": 931.7274868755509,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -931.7274868755509
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G65",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7823782906232348,
+      "bet_amount": 465.7203683923441,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -465.7203683923441
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G65",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7915491643601871,
+      "bet_amount": 5172.173347670587,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 4701.975770609624
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G65",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7860515529775115,
+      "bet_amount": 7100.90734096223,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -7100.90734096223
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G66",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8059640889235251,
+      "bet_amount": 1026.0920897921071,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1026.0920897921071
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G66",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9255361234798746,
+      "bet_amount": 6112.568501792512,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 5556.88045617501
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G67",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7542315198382805,
+      "bet_amount": 713.8318674977523,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 648.938061361593
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G67",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8005962997778547,
+      "bet_amount": 444.3934811208251,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -444.3934811208251
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G67",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8703875344273695,
+      "bet_amount": 7223.944593027514,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -7223.944593027514
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G67",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8323289624380528,
+      "bet_amount": 6973.808700257593,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -6973.808700257593
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G68",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7599437326526862,
+      "bet_amount": 811.977068884952,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 738.1609717135927
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G68",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8449763356052775,
+      "bet_amount": 455.7033390424429,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 414.27576276585717
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G68",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8624808591091861,
+      "bet_amount": 5779.155674422011,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -5779.155674422011
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G69",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8172173059513737,
+      "bet_amount": 1122.6250691869827,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1020.5682447154388
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G69",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8358504548374179,
+      "bet_amount": 497.0484517113302,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -497.0484517113302
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G69",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9452983572555673,
+      "bet_amount": 4623.324539537609,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4623.324539537609
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G69",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7151718111506389,
+      "bet_amount": 3484.8249339831063,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3484.8249339831063
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G70",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8252642674642267,
+      "bet_amount": 1314.9329778243243,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1314.9329778243243
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G70",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8420596481839279,
+      "bet_amount": 440.5010377409076,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -440.5010377409076
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G70",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8913754871854083,
+      "bet_amount": 3698.6596316300875,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3362.417846936443
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G70",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.824276916396718,
+      "bet_amount": 4812.037951790812,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -4812.037951790812
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G71",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8223295255195678,
+      "bet_amount": 1096.051513998263,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 996.4104672711483
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G71",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8132140380306887,
+      "bet_amount": 347.0319727151453,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 315.483611559223
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G71",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8360143019216554,
+      "bet_amount": 4371.143201017376,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3973.7665463794324
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G71",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8008084084097639,
+      "bet_amount": 3596.440321781876,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3269.491201619887
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G72",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7911106306311094,
+      "bet_amount": 1121.2569977748833,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1019.3245434317121
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G72",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7660348682451256,
+      "bet_amount": 5165.8965102932625,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -5165.8965102932625
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G72",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7288972262819602,
+      "bet_amount": 3085.2103560503024,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3085.2103560503024
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G73",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7030183045957294,
+      "bet_amount": 847.6358889111201,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 770.578080828291
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G73",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7765277120530258,
+      "bet_amount": 336.5264570105535,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 305.9331427368668
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G73",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7856458648930416,
+      "bet_amount": 4132.71720823461,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3757.015643849645
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G74",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7395138835422141,
+      "bet_amount": 1107.5195215833278,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1107.5195215833278
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G74",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8454331260990471,
+      "bet_amount": 469.6088266315389,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -469.6088266315389
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G74",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9402162679892275,
+      "bet_amount": 4884.120337004539,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4884.120337004539
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G74",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8896367505447906,
+      "bet_amount": 4158.631200546558,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 3780.573818678689
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G75",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7476503990645158,
+      "bet_amount": 1019.1441400613903,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1019.1441400613903
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G75",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8154238873164488,
+      "bet_amount": 368.2749929196734,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -368.2749929196734
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G75",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8124732733490534,
+      "bet_amount": 3907.296269603631,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -3907.296269603631
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G76",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7932428532367647,
+      "bet_amount": 1082.5654141393504,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1082.5654141393504
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G76",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9274393625700924,
+      "bet_amount": 3125.837015682905,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3125.837015682905
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G76",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8800592620760563,
+      "bet_amount": 4914.745964282295,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4914.745964282295
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G77",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7427504299156849,
+      "bet_amount": 755.2558022488854,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 686.5961838626231
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G77",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7694232610296141,
+      "bet_amount": 272.191130186084,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -272.191130186084
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G77",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9486681524923992,
+      "bet_amount": 2500.669612546324,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2273.336011405749
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G77",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7800060348237945,
+      "bet_amount": 3173.0347367978898,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3173.0347367978898
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G78",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7512006269216408,
+      "bet_amount": 866.3715742120136,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -866.3715742120136
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G78",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7993641664797756,
+      "bet_amount": 273.8704013382194,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -273.8704013382194
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G78",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7883267174732197,
+      "bet_amount": 2955.336814827474,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 2686.6698316613397
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G78",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7700319971833558,
+      "bet_amount": 2557.3030360435655,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2557.3030360435655
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G79",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7401366906515655,
+      "bet_amount": 725.8220721301233,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -725.8220721301233
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G79",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7677911821339053,
+      "bet_amount": 214.4262679895584,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 194.93297089959853
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G79",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9042450414202212,
+      "bet_amount": 3492.6707811597416,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3175.155255599765
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G79",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7530156292764505,
+      "bet_amount": 2011.2943557462506,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -2011.2943557462506
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W5_G80",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7870292500546096,
+      "bet_amount": 782.8546285670805,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -782.8546285670805
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W5_G80",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7669257550703314,
+      "bet_amount": 233.57005189563108,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -233.57005189563108
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W5_G80",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.91579574469124,
+      "bet_amount": 4127.701832279695,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -4127.701832279695
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W5_G80",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8154047155671611,
+      "bet_amount": 2189.2767513921744,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -2189.2767513921744
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G81",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7921864912483979,
+      "bet_amount": 687.8904518298912,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 625.3549562089919
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G81",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7617237360787199,
+      "bet_amount": 205.23304823807766,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -205.23304823807766
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G81",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8668901515147271,
+      "bet_amount": 3302.161465823756,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 3001.964968930687
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G82",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8301287835216024,
+      "bet_amount": 885.710332494289,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -885.710332494289
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G82",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8297711766959577,
+      "bet_amount": 237.559883870817,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -237.559883870817
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G82",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9216880614596594,
+      "bet_amount": 3902.5544596098935,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -3902.5544596098935
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G82",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7112539687889168,
+      "bet_amount": 1148.788377330093,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1148.788377330093
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G83",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7894519838892845,
+      "bet_amount": 644.5717416177516,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -644.5717416177516
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G83",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8133913131335307,
+      "bet_amount": 195.94888835086456,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -195.94888835086456
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G83",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9246797421626257,
+      "bet_amount": 3122.0435676879147,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -3122.0435676879147
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G83",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7928687625210942,
+      "bet_amount": 1454.2518823785117,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1454.2518823785117
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G84",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8431238373772921,
+      "bet_amount": 666.7485205468679,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -666.7485205468679
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G84",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8440519252307999,
+      "bet_amount": 190.3402685267828,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -190.3402685267828
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G84",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8822543349468197,
+      "bet_amount": 2497.6348541503316,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -2497.6348541503316
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G84",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8384224334227719,
+      "bet_amount": 1412.225579236137,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1283.8414356692153
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G85",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7652457429096644,
+      "bet_amount": 419.62107244636866,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 381.4737022239715
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G85",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7949216847323305,
+      "bet_amount": 139.46557032873184,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -139.46557032873184
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G85",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9460333699426791,
+      "bet_amount": 1998.107883320265,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1998.107883320265
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G85",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7164035540277439,
+      "bet_amount": 1020.2845891979919,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 927.5314447254472
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G86",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8062233464469979,
+      "bet_amount": 547.4010424599574,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 497.63731132723393
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G86",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8245505408241256,
+      "bet_amount": 1598.486306656212,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1598.486306656212
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G86",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7021445487266548,
+      "bet_amount": 1048.9553434057693,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 953.5957667325175
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G87",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7596329106828187,
+      "bet_amount": 518.7061973156199,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 471.5510884687453
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G87",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9487545017087441,
+      "bet_amount": 1278.7890453249697,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1162.5354957499724
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G87",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7130954460037943,
+      "bet_amount": 1227.084249033957,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1227.084249033957
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G88",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7614862498644726,
+      "bet_amount": 581.6229937335007,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -581.6229937335007
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G88",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8293990657231569,
+      "bet_amount": 139.30135904055254,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 126.63759912777503
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G88",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9221432510563394,
+      "bet_amount": 1511.2961444749642,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1511.2961444749642
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G89",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8045346293260459,
+      "bet_amount": 601.2474652935791,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 546.5886048123447
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G89",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7545270518758627,
+      "bet_amount": 117.44270759305205,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 106.76609781186549
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G89",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.821328989201576,
+      "bet_amount": 1209.0369155799713,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1099.1244687090648
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G90",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.823671290527341,
+      "bet_amount": 728.2817521443089,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -728.2817521443089
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G90",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8200761858704482,
+      "bet_amount": 164.09446246465725,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -164.09446246465725
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G90",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8042887313546939,
+      "bet_amount": 1428.8618093217842,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1428.8618093217842
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G91",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8029022961698112,
+      "bet_amount": 571.129036552206,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -571.129036552206
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G91",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8770810666235346,
+      "bet_amount": 1143.0894474574275,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1143.0894474574275
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G92",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7483393687866889,
+      "bet_amount": 392.1490707951197,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 356.4991552682906
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G92",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7786036400733825,
+      "bet_amount": 123.56356156537835,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -123.56356156537835
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G92",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9048107277445391,
+      "bet_amount": 914.471557965942,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -914.471557965942
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G92",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8829079633492869,
+      "bet_amount": 1812.583823106784,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1647.8034755516217
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G93",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8058505162924916,
+      "bet_amount": 545.3816334837873,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 495.80148498526114
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G93",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8193704340462862,
+      "bet_amount": 127.9949684167428,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -127.9949684167428
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G93",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.882380218716248,
+      "bet_amount": 731.5772463727536,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -731.5772463727536
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G93",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7647249990731302,
+      "bet_amount": 1625.6386587722516,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1625.6386587722516
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G94",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8459322291235888,
+      "bet_amount": 706.7346753979072,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -706.7346753979072
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G94",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9223325751543667,
+      "bet_amount": 585.2617970982029,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 532.0561791801845
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G94",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8045722804457109,
+      "bet_amount": 1606.9745217376683,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1606.9745217376683
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G95",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7845977922935052,
+      "bet_amount": 475.4056456941068,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -475.4056456941068
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G95",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8147155873255321,
+      "bet_amount": 691.6730329342398,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 628.7936663038544
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G95",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7250624382639037,
+      "bet_amount": 948.1445274968534,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 861.9495704516848
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W6_G96",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7342572319004396,
+      "bet_amount": 331.11178345229945,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 301.01071222936315
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W6_G96",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8235936530466634,
+      "bet_amount": 113.7081052367023,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 103.37100476063844
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W6_G96",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8726914693176032,
+      "bet_amount": 817.4317661950107,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -817.4317661950107
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W6_G96",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7443037452469039,
+      "bet_amount": 1158.5289314109707,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1053.2081194645189
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G97",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7232909172165415,
+      "bet_amount": 345.38189901990194,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -345.38189901990194
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G97",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8183335543511597,
+      "bet_amount": 124.4999529489544,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -124.4999529489544
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G97",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8280756653193823,
+      "bet_amount": 653.9454129560086,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -653.9454129560086
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G98",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8438768900922098,
+      "bet_amount": 496.1279660474271,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 451.02542367947916
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G98",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8944913579072176,
+      "bet_amount": 523.1563303648068,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -523.1563303648068
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G98",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7859703922143587,
+      "bet_amount": 1551.404647940806,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1551.404647940806
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G99",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8093803855737588,
+      "bet_amount": 510.275698465071,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 463.88699860460997
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G99",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9040655849269846,
+      "bet_amount": 418.5250642918454,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -418.5250642918454
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G99",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7883658348474483,
+      "bet_amount": 1307.0069473316362,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1307.0069473316362
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G100",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7298765462553877,
+      "bet_amount": 418.3990170514538,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 380.3627427740489
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G100",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8233488004008165,
+      "bet_amount": 110.95707370107559,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -110.95707370107559
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G100",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8168371133702459,
+      "bet_amount": 334.82005143347635,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 304.38186493952395
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G100",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7192161296953877,
+      "bet_amount": 804.4809785645672,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 731.3463441496065
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G101",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7488065891097828,
+      "bet_amount": 501.76438813906736,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -501.76438813906736
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G101",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7509757447643396,
+      "bet_amount": 73.56183363249686,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 66.87439421136078
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G101",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7998524320815856,
+      "bet_amount": 395.69642442138115,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -395.69642442138115
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G101",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7980785444272146,
+      "bet_amount": 1255.5232608472377,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1255.5232608472377
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G102",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8116169109535456,
+      "bet_amount": 566.0212131920083,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 514.5647392654621
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G102",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.80222379193517,
+      "bet_amount": 316.5571395371049,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -316.5571395371049
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G103",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8219322691201181,
+      "bet_amount": 666.8448975877866,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 606.2226341707151
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G103",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9432484956236629,
+      "bet_amount": 253.2457116296839,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 230.22337420880353
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G103",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7628588867377244,
+      "bet_amount": 905.2147990319489,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 822.9225445744989
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G104",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7250352828256456,
+      "bet_amount": 514.1479328547146,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -514.1479328547146
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G104",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7901621482566206,
+      "bet_amount": 93.73243610658163,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -93.73243610658163
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G104",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8122926352837543,
+      "bet_amount": 299.2903864714446,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -299.2903864714446
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G104",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8610114150080644,
+      "bet_amount": 1366.7202266192496,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1242.4729332902268
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G105",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7202079197659067,
+      "bet_amount": 448.8002731751572,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -448.8002731751572
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G105",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7731283170787632,
+      "bet_amount": 77.92295411065325,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 70.83904919150295
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G105",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.897681891237541,
+      "bet_amount": 239.4323091771557,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -239.4323091771557
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G105",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8453754212705977,
+      "bet_amount": 1615.214813277295,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1468.377102979359
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G106",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7736540117276258,
+      "bet_amount": 512.0643464032607,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -512.0643464032607
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G106",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8312795784213354,
+      "bet_amount": 191.54584734172454,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 174.13258849247686
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G106",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7101264291197682,
+      "bet_amount": 1120.3243409994209,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1018.4766736358372
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G107",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7243839608237951,
+      "bet_amount": 357.1626015138864,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 324.69327410353304
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G107",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.847386281108681,
+      "bet_amount": 110.75897920348116,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 100.68998109407377
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G107",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.773601668244518,
+      "bet_amount": 226.3723650402199,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -226.3723650402199
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G108",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8296491125580943,
+      "bet_amount": 596.7427307068695,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 542.4933915516995
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G108",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7774131933293084,
+      "bet_amount": 97.53232852184775,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 88.66575320167976
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G108",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.9220206991227089,
+      "bet_amount": 181.09789203217593,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -181.09789203217593
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G108",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8583052975802067,
+      "bet_amount": 2112.585568600334,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 1920.5323350912129
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G109",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7269422301997456,
+      "bet_amount": 454.19894451317884,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -454.19894451317884
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G109",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8021476016202007,
+      "bet_amount": 117.4100298960719,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 106.73639081461081
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G109",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8208696487043106,
+      "bet_amount": 144.87831362574076,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -144.87831362574076
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G110",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7986223342082183,
+      "bet_amount": 548.9432785857205,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -548.9432785857205
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W7_G110",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.807111443796714,
+      "bet_amount": 132.20412614365569,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 120.18556922150516
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G110",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8166406700851323,
+      "bet_amount": 115.90265090059262,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -115.90265090059262
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G111",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7550515865829853,
+      "bet_amount": 395.26710920326946,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -395.26710920326946
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G111",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8058271276280937,
+      "bet_amount": 92.7221207204741,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 84.29283701861281
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G111",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7695471468708093,
+      "bet_amount": 1932.6231739991968,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1932.6231739991968
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W7_G112",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8096670841052335,
+      "bet_amount": 429.3027741129455,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -429.3027741129455
+    },
+    {
+      "expert_id": "gambler",
+      "game_id": "2023_W7_G112",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.9191282892496807,
+      "bet_amount": 109.58068812419666,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -109.58068812419666
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W7_G112",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7216587739678358,
+      "bet_amount": 1315.1093695755796,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 1195.553972341436
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G113",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8054829581449533,
+      "bet_amount": 359.53435303487214,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -359.53435303487214
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G113",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7909046792389249,
+      "bet_amount": 1976.5645978588361,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1976.5645978588361
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G114",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7942968673737851,
+      "bet_amount": 294.2001900101457,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -294.2001900101457
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G114",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7627963043696205,
+      "bet_amount": 123.58782544548679,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -123.58782544548679
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G114",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7047207083494644,
+      "bet_amount": 1113.5066436256109,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1113.5066436256109
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G115",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7447481075663939,
+      "bet_amount": 206.18254212972818,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -206.18254212972818
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G115",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8110361275120259,
+      "bet_amount": 133.62516583343213,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -133.62516583343213
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G115",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8679921736168412,
+      "bet_amount": 1731.2639469901355,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1731.2639469901355
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G116",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8292293456953655,
+      "bet_amount": 251.96102552011985,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -251.96102552011985
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G116",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7894339179415472,
+      "bet_amount": 1158.8621612447128,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1158.8621612447128
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G117",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7592496272509694,
+      "bet_amount": 163.08621591006863,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -163.08621591006863
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G117",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7889816132921801,
+      "bet_amount": 963.2911757854216,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 875.7192507140196
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G118",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7866036140299643,
+      "bet_amount": 159.53345809207315,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -159.53345809207315
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G118",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.846166461147357,
+      "bet_amount": 1328.38257548597,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1328.38257548597
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G119",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.741949344550824,
+      "bet_amount": 114.15503721431219,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -114.15503721431219
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G119",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7993780738783276,
+      "bet_amount": 922.4723598635966,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -922.4723598635966
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G120",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8378776134755316,
+      "bet_amount": 145.53284751543018,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -145.53284751543018
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G120",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8282279847536737,
+      "bet_amount": 124.53851146456043,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 113.21682860414585
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G120",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7404800034907997,
+      "bet_amount": 599.3899572898509,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 544.8999611725917
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G121",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8114048960650676,
+      "bet_amount": 111.29227066938306,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -111.29227066938306
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G122",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7277498210604967,
+      "bet_amount": 67.00391919189036,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 60.91265381080942
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G122",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7845181483394367,
+      "bet_amount": 119.05365895668436,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 108.23059905153123
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G122",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8977754606346334,
+      "bet_amount": 987.1915806505749,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 897.4468915005226
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G123",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7800713981343753,
+      "bet_amount": 92.38903779966297,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -92.38903779966297
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G123",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8238197737559295,
+      "bet_amount": 150.63842824703386,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 136.9440256791217
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G123",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8794436126509607,
+      "bet_amount": 1166.6809589506795,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1166.6809589506795
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G124",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8337596570164829,
+      "bet_amount": 96.71114743815465,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -96.71114743815465
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G124",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7102194733777317,
+      "bet_amount": 548.0519655748652,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 498.2290596135138
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G125",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.826795455533018,
+      "bet_amount": 79.15455441725899,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 71.95868583387181
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G125",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7808393466131278,
+      "bet_amount": 836.3545643236112,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -836.3545643236112
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G126",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8281381142485736,
+      "bet_amount": 91.00234155184623,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -91.00234155184623
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G126",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8148569312971379,
+      "bet_amount": 162.87811253665524,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -162.87811253665524
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G127",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.748915908874014,
+      "bet_amount": 56.55806111560184,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -56.55806111560184
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G127",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7897078016014035,
+      "bet_amount": 130.61418569132704,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -130.61418569132704
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G127",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7196789050221235,
+      "bet_amount": 534.1391222762721,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 485.5810202511565
+    },
+    {
+      "expert_id": "quant_master",
+      "game_id": "2023_W8_G128",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7856263275811489,
+      "bet_amount": 58.00744550272867,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 52.73404136611697
+    },
+    {
+      "expert_id": "veteran",
+      "game_id": "2023_W8_G128",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7779343323212339,
+      "bet_amount": 110.89007026207895,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -110.89007026207895
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W8_G128",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7581611903255979,
+      "bet_amount": 710.7729009536527,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -710.7729009536527
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G129",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7876444544122375,
+      "bet_amount": 682.051832326246,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -682.051832326246
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G130",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8715378406918622,
+      "bet_amount": 684.2709236127757,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -684.2709236127757
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G131",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8435194087036639,
+      "bet_amount": 547.4167388902206,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 497.65158080929143
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G132",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8023629956184616,
+      "bet_amount": 567.6594470231724,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 516.0540427483386
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G134",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7468134724192041,
+      "bet_amount": 526.9577218409432,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 479.0524744008575
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G135",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8282095680630184,
+      "bet_amount": 811.1653381406989,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 737.4230346733626
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G137",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7776581567584496,
+      "bet_amount": 794.3880330856827,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 722.1709391688024
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G139",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8398848003090068,
+      "bet_amount": 1132.9226892547651,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1132.9226892547651
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G140",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.816222526026056,
+      "bet_amount": 839.4017111446549,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 763.0924646769589
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G141",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8934380578595902,
+      "bet_amount": 1063.92110833479,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -1063.92110833479
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G142",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7453374566895101,
+      "bet_amount": 593.9343745695107,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 539.940340517737
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G143",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7785384999888346,
+      "bet_amount": 769.598290934365,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -769.598290934365
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W9_G144",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8044531360374116,
+      "bet_amount": 711.8235275082865,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 647.1122977348059
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G145",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8984368446586326,
+      "bet_amount": 934.6277561314678,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -934.6277561314678
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G147",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7883610604370174,
+      "bet_amount": 623.0881668294008,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 566.443788026728
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G149",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7981814510578391,
+      "bet_amount": 744.1300116412888,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 676.4818287648079
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G150",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7838128989401525,
+      "bet_amount": 815.9699140374023,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -815.9699140374023
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G151",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8932790961337912,
+      "bet_amount": 833.0933454560009,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 757.3575867781826
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G152",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7256584052188672,
+      "bet_amount": 626.0099461354388,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -626.0099461354388
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G153",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8296364217379844,
+      "bet_amount": 827.8712877432396,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 752.6102615847632
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G155",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7564846944510019,
+      "bet_amount": 740.1717145065237,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 672.8833768241125
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G156",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8639285481570872,
+      "bet_amount": 1144.461601266325,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1144.461601266325
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G157",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7737675255678632,
+      "bet_amount": 720.8896840530336,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -720.8896840530336
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G158",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7985450551633433,
+      "bet_amount": 667.5751241182738,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -667.5751241182738
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G159",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8301276030625494,
+      "bet_amount": 615.4881042022746,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 559.5346401838859
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W10_G160",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7157655609283474,
+      "bet_amount": 453.3650757467255,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 412.15006886065953
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G161",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8923773895612497,
+      "bet_amount": 832.2132611877076,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 756.5575101706432
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G162",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8532421628447447,
+      "bet_amount": 983.5247632218363,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 894.1134211107603
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G164",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.88336801097164,
+      "bet_amount": 1162.3474474439884,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -1162.3474474439884
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G165",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8186268943324846,
+      "bet_amount": 863.5541495855704,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -863.5541495855704
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G166",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7952089223831569,
+      "bet_amount": 647.3083149831659,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -647.3083149831659
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G168",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7226189319456039,
+      "bet_amount": 393.1003187643177,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 357.3639261493797
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G170",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8673066031808099,
+      "bet_amount": 699.1782502713194,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -699.1782502713194
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G171",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8737489187229889,
+      "bet_amount": 559.3426002170554,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -559.3426002170554
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G172",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8810439862605534,
+      "bet_amount": 447.4740801736443,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -447.4740801736443
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G174",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7466744193309593,
+      "bet_amount": 251.31018559865328,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -251.31018559865328
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G175",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7826059665094951,
+      "bet_amount": 250.8537896867032,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -250.8537896867032
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W11_G176",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7494308569792054,
+      "bet_amount": 183.04012977827807,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 166.4001179802528
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G177",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7992898120590142,
+      "bet_amount": 252.3684430055084,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -252.3684430055084
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G178",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7329370633146839,
+      "bet_amount": 158.33283016869842,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -158.33283016869842
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G179",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8590191823911356,
+      "bet_amount": 208.68623804305335,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 189.71476185732124
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G180",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8580572009646411,
+      "bet_amount": 246.6291904145176,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 224.20835492228872
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G184",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.848678262752561,
+      "bet_amount": 291.47086139897533,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 264.9735103627048
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G185",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8749432916381493,
+      "bet_amount": 344.4655634715163,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 313.150512246833
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G187",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8557548609528052,
+      "bet_amount": 407.0956659208829,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -407.0956659208829
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G188",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8630405844411613,
+      "bet_amount": 325.67653273670635,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 296.06957521518757
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G190",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8454424752025302,
+      "bet_amount": 384.89044777974385,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 349.9004070724944
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W12_G192",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7293693927183675,
+      "bet_amount": 294.5348480077444,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -294.5348480077444
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G193",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8153859601940067,
+      "bet_amount": 363.6789774790803,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 330.61725225370935
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G194",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.759338283112972,
+      "bet_amount": 342.82955752217674,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -342.82955752217674
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G195",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8284602526745886,
+      "bet_amount": 377.64244190511533,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -377.64244190511533
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G196",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7698059125286151,
+      "bet_amount": 246.40885627539365,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 224.00805115944877
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G197",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7451593825693135,
+      "bet_amount": 252.9590157428199,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -252.9590157428199
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G198",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8645685483564731,
+      "bet_amount": 312.202417241303,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -312.202417241303
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G200",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.7265348119309243,
+      "bet_amount": 159.49413896835094,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -159.49413896835094
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G201",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7462417514663358,
+      "bet_amount": 152.6482943737684,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 138.77117670342582
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G203",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8421923497604143,
+      "bet_amount": 245.61734134005738,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -245.61734134005738
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G204",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.817419002914691,
+      "bet_amount": 181.73126071812678,
+      "actual_result": "AWAY_COVERS",
+      "correct": false,
+      "payout": -181.73126071812678
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G206",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.8883235118205861,
+      "bet_amount": 160.14762092842057,
+      "actual_result": "HOME_COVERS",
+      "correct": false,
+      "payout": -160.14762092842057
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G207",
+      "prediction": "HOME_COVERS",
+      "confidence": 0.8815761133051047,
+      "bet_amount": 128.11809674273644,
+      "actual_result": "HOME_COVERS",
+      "correct": true,
+      "payout": 116.47099703885131
+    },
+    {
+      "expert_id": "contrarian",
+      "game_id": "2023_W13_G208",
+      "prediction": "AWAY_COVERS",
+      "confidence": 0.7241730867119116,
+      "bet_amount": 95.5631474404331,
+      "actual_result": "AWAY_COVERS",
+      "correct": true,
+      "payout": 86.8755885822119
+    }
+  ],
+  "final_bankrolls": {
+    "quant_master": 474.7481015580948,
+    "veteran": 928.0638924019299,
+    "gambler": 438.3227524967866,
+    "contrarian": 843.9370693347454,
+    "conservative": 10000
+  },
+  "eliminated_experts": [
+    "gambler",
+    "quant_master",
+    "veteran",
+    "contrarian"
+  ]
+}
