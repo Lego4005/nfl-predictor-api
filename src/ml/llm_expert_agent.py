@@ -187,7 +187,7 @@ Respond ONLY with the JSON object, no other text."""
 
     async def store_prediction(self, game_id: str, prediction: Dict[str, Any]) -> bool:
         """
-        Store prediction in expert_predictions_comprehensive table.
+        Store prediction in expert_reasoning_chains table.
 
         Args:
             game_id: Game identifier
@@ -198,59 +198,42 @@ Respond ONLY with the JSON object, no other text."""
         """
 
         try:
-            prediction_data = {
-                'game_id': game_id,
-                'expert_id': self.expert_id,
-                'predicted_winner': prediction['winner'],
-                'confidence': prediction['confidence'],
-                'bet_amount': prediction['bet_amount'],
-                'reasoning_summary': prediction['reasoning'][:500],  # Truncate if too long
-                'prediction_timestamp': datetime.utcnow().isoformat(),
-                'model_version': 'claude-3-5-sonnet-20241022'
-            }
-
-            result = self.supabase.table('expert_predictions_comprehensive') \
-                .insert(prediction_data) \
-                .execute()
-
-            print(f"✅ Prediction stored in database")
-            return True
-
-        except Exception as e:
-            print(f"❌ Error storing prediction: {e}")
-            return False
-
-    async def store_reasoning_chain(self, game_id: str, prediction: Dict[str, Any]) -> bool:
-        """
-        Store detailed reasoning in expert_reasoning_chains table.
-
-        Args:
-            game_id: Game identifier
-            prediction: Prediction dict from generate_prediction()
-
-        Returns:
-            True if stored successfully, False otherwise
-        """
-
-        try:
+            # Store in expert_reasoning_chains with the schema it expects
             reasoning_data = {
                 'game_id': game_id,
                 'expert_id': self.expert_id,
-                'reasoning_text': prediction['reasoning'],
-                'confidence': prediction['confidence'],
-                'key_factors': self._extract_key_factors(prediction['reasoning']),
-                'timestamp': datetime.utcnow().isoformat()
+                'prediction': {
+                    'winner': prediction['winner'],
+                    'bet_amount': prediction['bet_amount']
+                },
+                'confidence_scores': {
+                    'overall': prediction['confidence'],
+                    'winner': prediction['confidence']
+                },
+                'reasoning_factors': [
+                    {
+                        'factor': factor,
+                        'value': factor,
+                        'weight': 1.0,
+                        'confidence': prediction['confidence'],
+                        'source': 'llm_reasoning'
+                    }
+                    for factor in self._extract_key_factors(prediction['reasoning'])
+                ],
+                'internal_monologue': prediction['reasoning'],
+                'model_version': 'claude-3-5-sonnet-20241022',
+                'prediction_timestamp': datetime.utcnow().isoformat()
             }
 
             result = self.supabase.table('expert_reasoning_chains') \
                 .insert(reasoning_data) \
                 .execute()
 
-            print(f"✅ Reasoning chain stored in database")
+            print(f"✅ Prediction and reasoning stored in database")
             return True
 
         except Exception as e:
-            print(f"❌ Error storing reasoning chain: {e}")
+            print(f"❌ Error storing prediction: {e}")
             return False
 
     def _extract_key_factors(self, reasoning: str) -> list:
@@ -295,11 +278,10 @@ Respond ONLY with the JSON object, no other text."""
             print(f"❌ Failed to generate prediction")
             return None
 
-        # Store prediction
-        stored_pred = await self.store_prediction(game_id, prediction)
-        stored_reasoning = await self.store_reasoning_chain(game_id, prediction)
+        # Store prediction (includes reasoning in expert_reasoning_chains table)
+        stored = await self.store_prediction(game_id, prediction)
 
-        if stored_pred and stored_reasoning:
+        if stored:
             print(f"✅ Prediction complete and stored!")
             return prediction
         else:
