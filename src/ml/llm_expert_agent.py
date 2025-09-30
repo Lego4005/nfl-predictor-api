@@ -140,12 +140,26 @@ Respond ONLY with the JSON object, no other text."""
 
             # Query Claude and collect response
             response_text = ""
+            message_count = 0
             async for message in query(prompt=prompt):
-                # Collect text from assistant messages
-                if hasattr(message, 'text'):
-                    response_text += message.text
+                message_count += 1
+                print(f"Debug: Message {message_count}: {type(message).__name__}")
+                print(f"Debug: Message attributes: {dir(message)}")
 
-            print(f"📝 Claude response: {response_text[:200]}...")
+                # Try different ways to extract text
+                if hasattr(message, 'text'):
+                    print(f"Debug: Found .text attribute: {message.text[:100] if message.text else 'empty'}")
+                    response_text += message.text
+                elif hasattr(message, 'content'):
+                    print(f"Debug: Found .content attribute: {str(message.content)[:100]}")
+                    if isinstance(message.content, str):
+                        response_text += message.content
+                    elif isinstance(message.content, list):
+                        for block in message.content:
+                            if hasattr(block, 'text'):
+                                response_text += block.text
+
+            print(f"📝 Claude response ({len(response_text)} chars): {response_text[:200]}...")
 
             # Parse JSON from response
             # Sometimes Claude wraps JSON in markdown code blocks, so extract it
