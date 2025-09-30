@@ -194,11 +194,42 @@ Respond ONLY with the JSON object, no other text."""
 
             print(f"✅ Data fetched: {game_data.away_team} @ {game_data.home_team}")
 
+            # Debug: Check what data we got
+            print(f"📊 Team stats available: {bool(game_data.team_stats)}")
+            print(f"📊 Odds available: {bool(game_data.odds)}")
+            if game_data.team_stats and 'home_stats' in game_data.team_stats:
+                home_stats = game_data.team_stats['home_stats']
+                print(f"📊 Home team PPG: {home_stats.get('points_avg', 'N/A')}")
+
             # Step 2: Build enhanced prompt with real stats
             prompt = self.build_enhanced_prompt(game_data)
 
-            # Step 3: Generate prediction using LLM
-            prediction = await self.generate_prediction({'prompt': prompt})
+            # Step 3: Generate prediction using LLM (call parent's method directly with our prompt)
+            from claude_code_sdk import query
+            import json
+
+            response_text = ""
+            async for message in query(prompt=prompt):
+                if hasattr(message, 'content') and isinstance(message.content, list):
+                    for block in message.content:
+                        if hasattr(block, 'text'):
+                            response_text += block.text
+
+            print(f"📝 Claude response ({len(response_text)} chars): {response_text[:200]}...")
+
+            # Parse JSON from response
+            if "```json" in response_text:
+                json_start = response_text.find("```json") + 7
+                json_end = response_text.find("```", json_start)
+                json_text = response_text[json_start:json_end].strip()
+            elif "```" in response_text:
+                json_start = response_text.find("```") + 3
+                json_end = response_text.find("```", json_start)
+                json_text = response_text[json_start:json_end].strip()
+            else:
+                json_text = response_text.strip()
+
+            prediction = json.loads(json_text)
 
             if not prediction:
                 return None
