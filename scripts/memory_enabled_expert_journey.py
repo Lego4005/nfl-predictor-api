@@ -19,7 +19,7 @@ import logging
 import sys
 import os
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple
 import json
 from pathlib import Path
 
