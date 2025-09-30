@@ -1,0 +1,170 @@
+{
+  "config": {
+    "num_simulations": 1000,
+    "num_weeks": 18,
+    "starting_bankroll": 10000.0,
+    "base_accuracy": 0.55
+  },
+  "experts": [
+    {
+      "expert_id": "quant_master",
+      "name": "The Quant Master",
+      "base_accuracy": 0.58,
+      "risk_tolerance": 1.0
+    },
+    {
+      "expert_id": "veteran",
+      "name": "The Veteran",
+      "base_accuracy": 0.56,
+      "risk_tolerance": 0.8
+    },
+    {
+      "expert_id": "gambler",
+      "name": "The Gambler",
+      "base_accuracy": 0.52,
+      "risk_tolerance": 1.6
+    },
+    {
+      "expert_id": "contrarian",
+      "name": "The Rebel",
+      "base_accuracy": 0.54,
+      "risk_tolerance": 1.2
+    },
+    {
+      "expert_id": "conservative",
+      "name": "The Conservative",
+      "base_accuracy": 0.56,
+      "risk_tolerance": 0.6
+    },
+    {
+      "expert_id": "momentum",
+      "name": "The Momentum Trader",
+      "base_accuracy": 0.53,
+      "risk_tolerance": 1.3
+    },
+    {
+      "expert_id": "value",
+      "name": "The Value Hunter",
+      "base_accuracy": 0.57,
+      "risk_tolerance": 0.9
+    },
+    {
+      "expert_id": "emotional",
+      "name": "The Hot Head",
+      "base_accuracy": 0.51,
+      "risk_tolerance": 1.5
+    }
+  ],
+  "statistics": {
+    "quant_master": {
+      "name": "The Quant Master",
+      "mean_final_bankroll": 173790.60568811282,
+      "median_final_bankroll": 24208.38586006995,
+      "std_final_bankroll": 932013.2191662573,
+      "min_final_bankroll": 354.3217284771936,
+      "max_final_bankroll": 26476004.789326914,
+      "elimination_probability": 0.103,
+      "profit_probability": 0.691,
+      "ruin_probability": 0.0,
+      "roi_mean": 1637.9060568811283,
+      "roi_median": 142.0838586006995
+    },
+    "veteran": {
+      "name": "The Veteran",
+      "mean_final_bankroll": 59044.209690753516,
+      "median_final_bankroll": 12194.009288485126,
+      "std_final_bankroll": 215246.5275651339,
+      "min_final_bankroll": 364.4860659408913,
+      "max_final_bankroll": 3969917.7593132206,
+      "elimination_probability": 0.141,
+      "profit_probability": 0.545,
+      "ruin_probability": 0.0,
+      "roi_mean": 490.44209690753513,
+      "roi_median": 21.940092884851257
+    },
+    "gambler": {
+      "name": "The Gambler",
+      "mean_final_bankroll": 5113.860958744329,
+      "median_final_bankroll": 709.2961497561474,
+      "std_final_bankroll": 44623.417297819804,
+      "min_final_bankroll": 81.23742280711963,
+      "max_final_bankroll": 913948.7388048393,
+      "elimination_probability": 0.909,
+      "profit_probability": 0.039,
+      "ruin_probability": 0.0,
+      "roi_mean": -48.86139041255671,
+      "roi_median": -92.90703850243852
+    },
+    "contrarian": {
+      "name": "The Rebel",
+      "mean_final_bankroll": 42688.740135643944,
+      "median_final_bankroll": 868.5985476311241,
+      "std_final_bankroll": 512056.684778577,
+      "min_final_bankroll": 117.68779406759381,
+      "max_final_bankroll": 13307000.304347835,
+      "elimination_probability": 0.657,
+      "profit_probability": 0.184,
+      "ruin_probability": 0.0,
+      "roi_mean": 326.88740135643945,
+      "roi_median": -91.31401452368877
+    },
+    "conservative": {
+      "name": "The Conservative",
+      "mean_final_bankroll": 27619.250431143588,
+      "median_final_bankroll": 15190.468610305365,
+      "std_final_bankroll": 45724.59284328391,
+      "min_final_bankroll": 631.5296263094872,
+      "max_final_bankroll": 838360.2076806461,
+      "elimination_probability": 0.017,
+      "profit_probability": 0.644,
+      "ruin_probability": 0.0,
+      "roi_mean": 176.19250431143587,
+      "roi_median": 51.90468610305364
+    },
+    "momentum": {
+      "name": "The Momentum Trader",
+      "mean_final_bankroll": 16626.373113852256,
+      "median_final_bankroll": 756.5732631615065,
+      "std_final_bankroll": 289759.4658225188,
+      "min_final_bankroll": 87.34696328511995,
+      "max_final_bankroll": 9077094.91621698,
+      "elimination_probability": 0.822,
+      "profit_probability": 0.077,
+      "ruin_probability": 0.0,
+      "roi_mean": 66.26373113852256,
+      "roi_median": -92.43426736838494
+    },
+    "value": {
+      "name": "The Value Hunter",
+      "mean_final_bankroll": 109523.57264245393,
+      "median_final_bankroll": 18495.20018019222,
+      "std_final_bankroll": 355515.27947705734,
+      "min_final_bankroll": 317.6762101830502,
+      "max_final_bankroll": 6276107.121009022,
+      "elimination_probability": 0.092,
+      "profit_probability": 0.626,
+      "ruin_probability": 0.0,
+      "roi_mean": 995.2357264245393,
+      "roi_median": 84.9520018019222
+    },
+    "emotional": {
+      "name": "The Hot Head",
+      "mean_final_bankroll": 3417.65690034592,
+      "median_final_bankroll": 652.0494321688491,
+      "std_final_bankroll": 39803.760692548116,
+      "min_final_bankroll": 48.00765729237901,
+      "max_final_bankroll": 1122150.4158906492,
+      "elimination_probability": 0.938,
+      "profit_probability": 0.023,
+      "ruin_probability": 0.0,
+      "roi_mean": -65.8234309965408,
+      "roi_median": -93.4795056783115
+    },
+    "overall": {
+      "total_simulations": 1000,
+      "avg_eliminations_per_season": 3.679,
+      "min_eliminations": 0,
+      "max_eliminations": 8
+    }
+  }
+}
