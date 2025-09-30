@@ -543,3 +543,9 @@ class ReasoningChainLogger:
             .execute()
 
         return result.data[0] if result.data else chain_data
+
+    async def close(self):
+        """Close any open connections and cleanup resources"""
+        # Currently no resources to close (Supabase handles its own connections)
+        # Method exists for API consistency with other services
+        logger.info("✅ Reasoning Chain Logger closed")
