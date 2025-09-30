@@ -142,7 +142,11 @@ Output your prediction as a JSON object with this exact structure:
     "confidence": 0.65,
     "bet_amount": 50.00,
     "reasoning": "Your detailed reasoning for this prediction...",
-    "key_factors": ["factor1", "factor2", "factor3"]
+    "key_factors": [
+        {{"factor": "defensive_strength", "value": 0.9, "description": "Specific stat difference"}},
+        {{"factor": "offensive_efficiency", "value": 0.7, "description": "Specific stat difference"}},
+        {{"factor": "home_advantage", "value": 0.6, "description": "Home field impact"}}
+    ]
 }}
 
 Where:
@@ -150,7 +154,18 @@ Where:
 - confidence: Your confidence level (0.0 to 1.0)
 - bet_amount: How much to bet from your ${self.current_bankroll} bankroll
 - reasoning: Detailed explanation of your prediction (reference specific stats!)
-- key_factors: List of 3-5 main factors that drove your decision
+- key_factors: Array of factor objects, each with:
+  * factor: One of these standard categories:
+    - "defensive_strength" (points allowed, defensive efficiency)
+    - "offensive_efficiency" (scoring ability, yards per game)
+    - "red_zone_efficiency" (red zone conversion rates)
+    - "third_down_conversion" (third down success rates)
+    - "turnover_differential" (turnover margin advantage)
+    - "home_advantage" (home field impact)
+    - "recent_momentum" (win/loss streaks, recent form)
+    - "special_teams" (kicking, returns, field position)
+  * value: Importance of this factor (0.0-1.0, where 1.0 = critically important, 0.5 = moderate, 0.3 = minor)
+  * description: Brief explanation of the specific stat (e.g., "PHI allows 11 PPG less than DAL")
 
 Respond ONLY with the JSON object, no other text."""
 

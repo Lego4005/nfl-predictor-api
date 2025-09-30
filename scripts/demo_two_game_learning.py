@@ -126,25 +126,19 @@ async def main():
     print(f"   Base Confidence: {pred1['confidence']*100:.1f}% (no ML adjustment)")
     print()
 
-    # Extract factors from reasoning
-    factors_used = []
-    reasoning_lower = pred1['reasoning'].lower()
-    factor_map = {
-        'defense': 'defensive_strength',
-        'offense': 'offensive_output',
-        'red zone': 'red_zone_efficiency',
-        'third down': 'third_down_conversion',
-        'home': 'home_advantage',
-        'turnover': 'turnover_differential'
-    }
+    # Use structured factors from LLM (no keyword matching needed!)
+    factors_used = pred1.get('key_factors', [])
 
-    for keyword, factor in factor_map.items():
-        if keyword in reasoning_lower:
-            # Estimate factor value based on confidence
-            factors_used.append({
-                'factor': factor,
-                'value': pred1['confidence']
-            })
+    # Ensure factors have proper format for learning engine
+    if factors_used and isinstance(factors_used[0], dict):
+        # Already in correct format: [{"factor": "...", "value": 0.9, "description": "..."}]
+        print(f"   Factors identified by LLM:")
+        for f in factors_used:
+            print(f"     - {f['factor']}: {f['value']:.2f} ({f.get('description', 'N/A')})")
+    else:
+        # Fallback if old format (shouldn't happen with new prompt)
+        print(f"   Warning: Using fallback factor extraction")
+        factors_used = [{'factor': str(f), 'value': pred1['confidence']} for f in factors_used]
 
     print("="*80)
     print("🧠 LEARNING FROM GAME 1")
@@ -196,15 +190,15 @@ async def main():
     # Apply ML adjustment based on learning
     base_confidence2 = pred2['confidence']
 
-    # Extract factors for Game 2
-    factors_used2 = []
-    reasoning_lower2 = pred2['reasoning'].lower()
-    for keyword, factor in factor_map.items():
-        if keyword in reasoning_lower2:
-            factors_used2.append({
-                'factor': factor,
-                'value': pred2['confidence']
-            })
+    # Use structured factors from LLM for Game 2
+    factors_used2 = pred2.get('key_factors', [])
+
+    if factors_used2 and isinstance(factors_used2[0], dict):
+        print(f"   Factors identified by LLM:")
+        for f in factors_used2:
+            print(f"     - {f['factor']}: {f['value']:.2f} ({f.get('description', 'N/A')})")
+    else:
+        factors_used2 = [{'factor': str(f), 'value': pred2['confidence']} for f in factors_used2]
 
     # Get adjusted confidence from learning engine
     adjusted_confidence2 = learning_engine.get_adjusted_confidence(
