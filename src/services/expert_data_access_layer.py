@@ -355,7 +355,8 @@ class ExpertDataAccessLayer:
             task_names.append("odds_skip")
 
         if filters.weather:
-            tasks.append(self._fetch_weather(home_team, season, week))
+            # Estimate game time from week/season if not provided
+            tasks.append(self._fetch_weather(home_team, season, week, game_time=None))
             task_names.append("weather")
         else:
             async def skip_weather():
@@ -653,13 +654,51 @@ class ExpertDataAccessLayer:
         self,
         home_team: str,
         season: int,
-        week: int
+        week: int,
+        game_time: Optional[datetime] = None
     ) -> Optional[Dict]:
-        """Fetch weather conditions"""
-        # TODO: Integrate with existing WeatherIngestionService
-        # For now, return placeholder
-        logger.info(f"Weather data not yet integrated for {home_team}")
-        return None
+        """Fetch weather conditions from Tomorrow.io"""
+        try:
+            from .tomorrow_weather_service import TomorrowWeatherService
+
+            # Initialize weather service
+            weather_service = TomorrowWeatherService()
+
+            # If no game_time provided, use current time + 3 days as estimate
+            if not game_time:
+                from datetime import timedelta
+                game_time = datetime.utcnow() + timedelta(days=3)
+
+            # Generate game_id
+            game_id = f"{season}_W{week}_{home_team}"
+
+            # Fetch weather
+            weather_data = await weather_service.get_game_weather(
+                game_id=game_id,
+                home_team=home_team,
+                game_time=game_time
+            )
+
+            if weather_data:
+                return {
+                    'temperature': weather_data.temperature,
+                    'wind_speed': weather_data.wind_speed,
+                    'wind_direction': weather_data.wind_direction,
+                    'precipitation': weather_data.precipitation,
+                    'humidity': weather_data.humidity,
+                    'conditions': weather_data.conditions,
+                    'field_conditions': weather_data.field_conditions,
+                    'dome_stadium': weather_data.dome_stadium,
+                    'forecast_confidence': weather_data.forecast_confidence,
+                    'data_source': weather_data.data_source
+                }
+
+            logger.info(f"No weather data available for {home_team}")
+            return None
+
+        except Exception as e:
+            logger.error(f"Error fetching weather for {home_team}: {e}")
+            return None
 
     async def _fetch_injuries(
         self,

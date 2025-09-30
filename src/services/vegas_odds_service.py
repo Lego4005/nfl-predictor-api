@@ -42,7 +42,7 @@ class VegasOddsService:
     Service for fetching Vegas odds from The Odds API.
 
     Features:
-    - Free tier: 500 requests/day
+    - Premium tier: 20,000 requests/month
     - Fetches from multiple sportsbooks
     - Detects line movements > 3 points
     - Identifies sharp money (line moves against public)
@@ -71,7 +71,7 @@ class VegasOddsService:
         self.redis = redis_client
         self.base_url = "https://api.the-odds-api.com/v4/sports/americanfootball_nfl"
         self.request_count = 0
-        self.max_daily_requests = 500
+        self.max_monthly_requests = 20000
 
         # Preferred sportsbooks (most liquid markets)
         self.preferred_books = [
@@ -130,7 +130,7 @@ class VegasOddsService:
         """
         try:
             # Check rate limit
-            if self.request_count >= self.max_daily_requests:
+            if self.request_count >= self.max_monthly_requests:
                 logger.error("The Odds API rate limit reached")
                 return None
 
@@ -439,7 +439,7 @@ class VegasOddsService:
         """Get current API usage statistics"""
         return {
             "requests_today": self.request_count,
-            "daily_limit": self.max_daily_requests,
-            "remaining": self.max_daily_requests - self.request_count,
-            "percentage_used": (self.request_count / self.max_daily_requests) * 100
+            "monthly_limit": self.max_monthly_requests,
+            "remaining": self.max_monthly_requests - self.request_count,
+            "percentage_used": (self.request_count / self.max_monthly_requests) * 100
         }

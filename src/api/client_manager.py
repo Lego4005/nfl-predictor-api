@@ -103,7 +103,7 @@ class APIClientManager:
         self.configs[DataSource.ODDS_API] = APIConfig(
             base_url="https://api.the-odds-api.com/v4",
             api_key=os.getenv("ODDS_API_KEY"),
-            rate_limit=500,  # requests per month for free tier
+            rate_limit=20000,  # requests per month for premium tier
             timeout=30,
             max_retries=3
         )

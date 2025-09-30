@@ -383,7 +383,7 @@ class OddsAPIClient:
                 "totals": "/sports/americanfootball_nfl/odds?markets=totals"
             },
             "rate_limits": {
-                "free_tier": "500 requests/month",
-                "paid_tier": "Variable based on plan"
+                "premium_tier": "20,000 requests/month",
+                "free_tier": "500 requests/month"
             }
         }

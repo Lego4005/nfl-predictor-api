@@ -1,0 +1,38 @@
+{
+  "7be9d31d-90b4-4beb-8dfe-f8cef3d3dfb4": {
+    "game_id": "7be9d31d-90b4-4beb-8dfe-f8cef3d3dfb4",
+    "temperature": 72.0,
+    "wind_speed": 0.0,
+    "wind_direction": null,
+    "precipitation": null,
+    "humidity": 50.0,
+    "conditions": "Indoor",
+    "field_conditions": "dry",
+    "dome_stadium": true,
+    "forecast_confidence": 1.0,
+    "data_source": "Tomorrow.io",
+    "fetched_at": "2025-09-30T07:20:42.387676+00:00",
+    "game_time": "2025-09-07T17:00:00+00:00",
+    "hours_before_game": 0,
+    "week": 1,
+    "home_team": "NO"
+  },
+  "91ef2c88-640e-480c-bed2-6e5a81d4bea9": {
+    "game_id": "91ef2c88-640e-480c-bed2-6e5a81d4bea9",
+    "temperature": 72.0,
+    "wind_speed": 0.0,
+    "wind_direction": null,
+    "precipitation": null,
+    "humidity": 50.0,
+    "conditions": "Indoor",
+    "field_conditions": "dry",
+    "dome_stadium": true,
+    "forecast_confidence": 1.0,
+    "data_source": "Tomorrow.io",
+    "fetched_at": "2025-09-30T07:20:42.387844+00:00",
+    "game_time": "2025-09-14T17:00:00+00:00",
+    "hours_before_game": 0,
+    "week": 2,
+    "home_team": "NO"
+  }
+}
