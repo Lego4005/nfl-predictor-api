@@ -321,11 +321,16 @@ class BacktestRunner:
         print(f"\nExpert Results:")
         for expert_metrics in metrics['expert_metrics']:
             if expert_metrics['expert_id'] not in self.eliminated_experts:
+                final_bankroll = self.bankrolls.get(expert_metrics['expert_id'], 0)
+                expert_config = next((e for e in self.experts if e.expert_id == expert_metrics['expert_id']), None)
+                starting_bankroll = expert_config.starting_bankroll if expert_config else 10000
+                net_profit = final_bankroll - starting_bankroll
+
                 print(f"\n  {expert_metrics['expert_id']}:")
                 print(f"    Accuracy: {expert_metrics['accuracy']:.2f}%")
                 print(f"    ROI: {expert_metrics['roi']:.2f}%")
-                print(f"    Final Bankroll: ${self.bankrolls[expert_metrics['expert_id']]:,.2f}")
-                print(f"    Net Profit: ${expert_metrics['net_profit']:+,.2f}")
+                print(f"    Final Bankroll: ${final_bankroll:,.2f}")
+                print(f"    Net Profit: ${net_profit:+,.2f}")
                 print(f"    Calibration (ECE): {expert_metrics['ece']:.3f}")
 
         if self.eliminated_experts:
