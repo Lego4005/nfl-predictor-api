@@ -1,0 +1,30 @@
+{
+  "game_id": "KC_BAL_2024-01-15",
+  "expert": "The Analyst",
+  "expert_id": "conservative_analyzer",
+  "timestamp": "2025-09-30T05:35:19.985302",
+  "prediction": {
+    "expert_name": "The Analyst",
+    "personality_profile": {
+      "risk_tolerance": 0.2,
+      "analytics_trust": 0.9,
+      "contrarian_tendency": 0.3,
+      "recent_bias": 0.2,
+      "confidence_level": 0.4,
+      "optimism": 0.3,
+      "chaos_comfort": 0.1,
+      "market_trust": 0.8,
+      "authority_respect": 0.8
+    },
+    "winner_prediction": "away",
+    "winner_confidence": 0.25770000000000004,
+    "spread_prediction": 3.6,
+    "total_prediction": 43.6,
+    "key_factors": [
+      "Low risk tolerance",
+      "High analytics trust",
+      "Low chaos comfort"
+    ],
+    "reasoning": "Conservative approach: Avoiding uncertainty and seeking safe plays"
+  }
+}
