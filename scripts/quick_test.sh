@@ -51,7 +51,7 @@ try:
 
     memory = {
         'memory_id': test_id,
-        'expert_id': 'test_quick',
+        'expert_id': 'conservative_analyzer',
         'game_id': 'test_game_' + test_id,
         'memory_type': 'prediction_outcome',
         'emotional_state': 'satisfaction',
