@@ -295,12 +295,33 @@ class ExpertDataAccessLayer:
                 logger.error(f"Failed to parse game_id {game_id}: {e}")
                 raise
 
-        # Convert expert_id string to enum
-        try:
-            expert_enum = ExpertPersonality(expert_id)
-        except ValueError:
-            logger.warning(f"Unknown expert_id: {expert_id}, using THE_ANALYST")
-            expert_enum = ExpertPersonality.THE_ANALYST
+        # Map expert_id to personality enum
+        expert_id_map = {
+            'conservative_analyzer': ExpertPersonality.THE_ANALYST,
+            'risk_taking_gambler': ExpertPersonality.THE_GAMBLER,
+            'contrarian_rebel': ExpertPersonality.CONTRARIAN_REBEL,
+            'value_hunter': ExpertPersonality.THE_ANALYST,
+            'momentum_rider': ExpertPersonality.MOMENTUM_TRACKER,
+            'fundamentalist_scholar': ExpertPersonality.THE_ANALYST,
+            'chaos_theory_believer': ExpertPersonality.GUT_INSTINCT,
+            'gut_instinct_expert': ExpertPersonality.GUT_INSTINCT,
+            'statistics_purist': ExpertPersonality.THE_ANALYST,
+            'trend_reversal_specialist': ExpertPersonality.CONTRARIAN_REBEL,
+            'popular_narrative_fader': ExpertPersonality.CONTRARIAN_REBEL,
+            'sharp_money_follower': ExpertPersonality.THE_GAMBLER,
+            'underdog_champion': ExpertPersonality.UNDERDOG_CHAMPION,
+            'consensus_follower': ExpertPersonality.FAVORITE_FANATIC,
+            'market_inefficiency_exploiter': ExpertPersonality.THE_ANALYST
+        }
+
+        expert_enum = expert_id_map.get(expert_id)
+        if not expert_enum:
+            # Try converting expert_id to enum directly
+            try:
+                expert_enum = ExpertPersonality(expert_id)
+            except ValueError:
+                logger.warning(f"Unknown expert_id: {expert_id}, using THE_ANALYST")
+                expert_enum = ExpertPersonality.THE_ANALYST
 
         # Get personality filter config
         filters = self.personality_filters.get(
@@ -538,6 +559,15 @@ class ExpertDataAccessLayer:
                         return result
                     else:
                         logger.error(f"The Odds API error: {response.status}")
+                        # Fallback to mock odds if API auth fails
+                        if response.status == 401:
+                            logger.warning(f"Odds API auth failed (401), using mock odds")
+                            return {
+                                'spread': {'home': -3.0, 'away': +3.0},
+                                'total': {'line': 45.0},
+                                'moneyline': {'home': -140, 'away': +120},
+                                'bookmaker': 'MOCK_ODDS_DATA'
+                            }
                         return {}
 
         except Exception as e:
