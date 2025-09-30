@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Two-Game Learning Demo
+Two-Game Learning Demo - Fast Version
 
 Shows:
 1. Game 1: Predict with no learning history
@@ -87,7 +87,7 @@ async def main():
 
     # Initialize learning for this expert
     await learning_engine.initialize_expert(expert_config['expert_id'], [
-        'defensive_strength', 'offensive_output', 'red_zone_efficiency',
+        'defensive_strength', 'offensive_efficiency', 'red_zone_efficiency',
         'third_down_conversion', 'home_advantage', 'turnover_differential'
     ])
 
@@ -123,20 +123,17 @@ async def main():
     print(f"   Predicted: {pred1['winner']} ({pred1['confidence']*100:.1f}% confidence)")
     print(f"   Actual: {actual_winner1}")
     print(f"   Result: {'✅ CORRECT' if is_correct1 else '❌ WRONG'}")
-    print(f"   Base Confidence: {pred1['confidence']*100:.1f}% (no ML adjustment)")
+    print(f"   Base Confidence: {pred1['confidence']*100:.1f}% (no ML adjustment yet)")
     print()
 
-    # Use structured factors from LLM (no keyword matching needed!)
+    # Use structured factors from LLM
     factors_used = pred1.get('key_factors', [])
 
-    # Ensure factors have proper format for learning engine
     if factors_used and isinstance(factors_used[0], dict):
-        # Already in correct format: [{"factor": "...", "value": 0.9, "description": "..."}]
         print(f"   Factors identified by LLM:")
-        for f in factors_used:
+        for f in factors_used[:3]:
             print(f"     - {f['factor']}: {f['value']:.2f} ({f.get('description', 'N/A')})")
     else:
-        # Fallback if old format (shouldn't happen with new prompt)
         print(f"   Warning: Using fallback factor extraction")
         factors_used = [{'factor': str(f), 'value': pred1['confidence']} for f in factors_used]
 
@@ -195,7 +192,7 @@ async def main():
 
     if factors_used2 and isinstance(factors_used2[0], dict):
         print(f"   Factors identified by LLM:")
-        for f in factors_used2:
+        for f in factors_used2[:3]:
             print(f"     - {f['factor']}: {f['value']:.2f} ({f.get('description', 'N/A')})")
     else:
         factors_used2 = [{'factor': str(f), 'value': pred2['confidence']} for f in factors_used2]
