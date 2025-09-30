@@ -9,21 +9,25 @@
 ## 🎯 Strategy Overview
 
 ### **Phase A: Quick Win (2 days)**
+
 Get the entire system running end-to-end with real data flow.
 
 **Goal**: Validate all infrastructure, identify integration issues, generate training data for Phase B.
 
 ### **Phase B: Expert AI (3 weeks)**
+
 Build reinforcement learning agents that learn from outcomes and improve over time.
 
 **Goal**: Transform static experts into learning AI agents with personality-consistent behavior.
 
 ### **Phase C: Polish (2 weeks)**
+
 Add calibration, monitoring, performance optimization, and security hardening.
 
 **Goal**: Production-ready system with high reliability and user trust.
 
 ### **Phase D: Deployment (1 week)**
+
 Production infrastructure setup and launch.
 
 **Goal**: Live system serving real users.
@@ -35,6 +39,7 @@ Production infrastructure setup and launch.
 ### **Objective**: Validate Infrastructure & Enable Training Data Generation
 
 **Why Phase A First?**
+
 - Identifies integration bugs before Phase B complexity
 - Generates real prediction data for RL training
 - Validates API performance under load
@@ -43,6 +48,7 @@ Production infrastructure setup and launch.
 ### **A.1: Database Migrations (3 hours)**
 
 #### **Step 1: Test in Local Environment (1 hour)**
+
 ```bash
 # Setup local PostgreSQL + Redis
 docker-compose up -d postgres redis
@@ -64,6 +70,7 @@ psql postgresql://localhost:5432/nfl_test -c "
 ```
 
 **Validation Checklist**:
+
 - [ ] All 6 new tables created
 - [ ] Triggers working (update_elimination_risk_level)
 - [ ] Helper functions exist (calculate_payout)
@@ -71,6 +78,7 @@ psql postgresql://localhost:5432/nfl_test -c "
 - [ ] No SQL errors in logs
 
 #### **Step 2: Apply to Supabase Production (1 hour)**
+
 ```bash
 # Backup existing database first!
 pg_dump $SUPABASE_DATABASE_URL > backup_before_migration.sql
@@ -83,6 +91,7 @@ psql $SUPABASE_DATABASE_URL -f migrations/001_create_betting_tables.sql
 ```
 
 #### **Step 3: Seed Initial Data (1 hour)**
+
 ```sql
 -- Insert 15 expert models if not exist
 -- Insert initial bankrolls ($10,000 starting balance)
@@ -95,11 +104,13 @@ psql $SUPABASE_DATABASE_URL -f migrations/001_create_betting_tables.sql
 ### **A.2: API Key Configuration (1 hour)**
 
 #### **Step 1: Create .env File**
+
 ```bash
 cp .env.example .env
 ```
 
 #### **Step 2: Configure All Keys**
+
 ```bash
 # Supabase
 SUPABASE_URL=https://your-project.supabase.co
@@ -125,6 +136,7 @@ ODDS_API_KEY=get_from_theoddsapi.com
 ```
 
 #### **Step 3: Test API Keys (30 min)**
+
 ```bash
 # Test weather API
 python -c "
@@ -270,6 +282,7 @@ class ExpertDataAccessLayer:
 ```
 
 **Deliverable**:
+
 - File created: `/src/services/expert_data_access_layer.py` (300 lines)
 - Unit tests: `/tests/services/test_expert_data_access.py` (20 tests)
 - Documentation: Updated `/docs/DATA_INGESTION_SETUP.md`
@@ -359,6 +372,7 @@ monitor = BasicMonitor()
 ```
 
 **Integration**:
+
 ```python
 # In src/api/routers/experts.py
 from src.monitoring.basic_monitor import monitor
@@ -370,6 +384,7 @@ async def get_experts():
 ```
 
 **Dashboard Endpoint**:
+
 ```python
 # Add to src/api/main.py
 @app.get("/api/v1/monitoring/summary")
@@ -630,6 +645,7 @@ test('Confidence Pool E2E Flow', async ({ page }) => {
 ### **Objective**: Transform Static Experts into Learning AI Agents
 
 **Why Phase B Critical?**
+
 - Current experts are rule-based (no learning)
 - Need RL to improve accuracy over time
 - Personality-consistent behavior requires ML models
@@ -637,12 +653,14 @@ test('Confidence Pool E2E Flow', async ({ page }) => {
 
 ### **B.1: Real NFL Data Acquisition (2 days)**
 
-#### **Data Sources**:
+#### **Data Sources**
+
 1. **nflfastR** (play-by-play, EPA, CPOE)
 2. **ESPN API** (scores, standings, stats)
 3. **Pro Football Reference** (historical matchups)
 
-#### **Tasks**:
+#### **Tasks**
+
 ```python
 # Create: /src/data/nfl_data_loader.py
 
@@ -697,6 +715,7 @@ training_data.to_csv('training_data_2023_2024.csv', index=False)
 ```
 
 **Deliverable**:
+
 - `/src/data/nfl_data_loader.py` (400 lines)
 - `/data/training_data_2023_2024.csv` (570 games)
 - Data quality report
@@ -789,6 +808,7 @@ class FeatureEngineer:
 ```
 
 **Deliverable**:
+
 - Feature engineering pipeline (500 lines)
 - Feature documentation (what each feature means)
 - Feature importance analysis
@@ -885,6 +905,7 @@ PERSONALITIES = {
 ```
 
 **Deliverable**:
+
 - 15 complete personality configurations
 - Behavioral trait validation
 - Documentation of each personality's strategy
@@ -1053,6 +1074,7 @@ class ExpertAgent:
 ```
 
 **Deliverable**:
+
 - Base expert agent class (600 lines)
 - Custom RL environment for NFL (400 lines)
 - Reward function design
@@ -1172,6 +1194,7 @@ if __name__ == "__main__":
 ```
 
 **Deliverable**:
+
 - Training pipeline (500 lines)
 - Evaluation metrics
 - Model checkpoints
@@ -1493,18 +1516,21 @@ class ProductionMonitor:
 ### **C.4: Performance Optimization (3 days)**
 
 #### **Database Optimization**
+
 - Add missing indexes
 - Query optimization
 - Connection pooling
 - Read replicas for reporting
 
 #### **API Optimization**
+
 - Response compression
 - Pagination optimization
 - Batch endpoints
 - CDN for static assets
 
 #### **Cache Strategy**
+
 - Multi-tier caching (memory + Redis)
 - Cache warming
 - Intelligent invalidation
@@ -1577,8 +1603,11 @@ class NFLPredictionUser(HttpUser):
 ## 🚀 Phase D: Deployment (1 Week = 7 Days)
 
 ### **D.1: Docker Containerization (2 days)**
+
 ### **D.2: CI/CD Pipeline (2 days)**
+
 ### **D.3: Production Hosting (2 days)**
+
 ### **D.4: Launch & Monitoring (1 day)**
 
 ---

@@ -1,0 +1,1402 @@
+{
+  "test_timestamp": "2025-09-29T20:41:38.445287",
+  "sportsdata_io": {
+    "authenticated": true,
+    "available_endpoints": [
+      "Scores (Game results)",
+      "Team Stats (Season)",
+      "Team Stats (Game)",
+      "Player Stats (Season)",
+      "Player Stats (Game)",
+      "Injuries",
+      "Schedules",
+      "Box Scores",
+      "Play-by-Play",
+      "Projected Stats",
+      "Depth Charts",
+      "Stadium Details",
+      "Team Trends"
+    ],
+    "scores": {
+      "success": true,
+      "data": [
+        {
+          "GameKey": "202410411",
+          "SeasonType": 1,
+          "Season": 2024,
+          "Week": 4,
+          "Date": "2024-09-30T20:15:00",
+          "AwayTeam": "SEA",
+          "HomeTeam": "DET",
+          "AwayScore": 23,
+          "HomeScore": 33,
+          "Channel": "ABC",
+          "PointSpread": -3.5,
+          "OverUnder": 36.6,
+          "Quarter": "F",
+          "TimeRemaining": null,
+          "Possession": null,
+          "Down": null,
+          "Distance": "Scrambled",
+          "YardLine": null,
+          "YardLineTerritory": null,
+          "RedZone": null,
+          "AwayScoreQuarter1": 0,
+          "AwayScoreQuarter2": 4,
+          "AwayScoreQuarter3": 10,
+          "AwayScoreQuarter4": 5,
+          "AwayScoreOvertime": 0,
+          "HomeScoreQuarter1": 4,
+          "HomeScoreQuarter2": 11,
+          "HomeScoreQuarter3": 11,
+          "HomeScoreQuarter4": 4,
+          "HomeScoreOvertime": 0,
+          "HasStarted": true,
+          "IsInProgress": false,
+          "IsOver": true,
+          "Has1stQuarterStarted": true,
+          "Has2ndQuarterStarted": true,
+          "Has3rdQuarterStarted": true,
+          "Has4thQuarterStarted": true,
+          "IsOvertime": false,
+          "DownAndDistance": null,
+          "QuarterDescription": "Final",
+          "StadiumID": 21,
+          "LastUpdated": "2024-11-05T17:15:36",
+          "GeoLat": null,
+          "GeoLong": null,
+          "ForecastTempLow": 63,
+          "ForecastTempHigh": 67,
+          "ForecastDescription": "Few Clouds",
+          "ForecastWindChill": 63,
+          "ForecastWindSpeed": 1,
+          "AwayTeamMoneyLine": 143,
+          "HomeTeamMoneyLine": -172,
+          "Canceled": false,
+          "Closed": true,
+          "LastPlay": "Scrambled",
+          "Day": "2024-09-30T00:00:00",
+          "DateTime": "2024-09-30T20:15:00",
+          "AwayTeamID": 30,
+          "HomeTeamID": 11,
+          "GlobalGameID": 18717,
+          "GlobalAwayTeamID": 30,
+          "GlobalHomeTeamID": 11,
+          "PointSpreadAwayTeamMoneyLine": -87,
+          "PointSpreadHomeTeamMoneyLine": -86,
+          "ScoreID": 18717,
+          "Status": "Final",
+          "GameEndDateTime": "2024-09-30T23:25:14",
+          "HomeRotationNumber": 227,
+          "AwayRotationNumber": 227,
+          "NeutralVenue": false,
+          "RefereeID": 59,
+          "OverPayout": -86,
+          "UnderPayout": -86,
+          "HomeTimeouts": null,
+          "AwayTimeouts": null,
+          "DateTimeUTC": "2024-10-01T00:15:00",
+          "Attendance": 66658,
+          "IsClosed": true,
+          "StadiumDetails": {
+            "StadiumID": 21,
+            "Name": "Ford Field",
+            "City": "Detroit",
+            "State": "MI",
+            "Country": "USA",
+            "Capacity": 65000,
+            "PlayingSurface": "Artificial",
+            "GeoLat": 42.340021,
+            "GeoLong": -83.045556,
+            "Type": "Dome"
+          }
+        },
+        {
+          "GameKey": "202410419",
+          "SeasonType": 1,
+          "Season": 2024,
+          "Week": 4,
+          "Date": "2024-09-30T19:30:00",
+          "AwayTeam": "TEN",
+          "HomeTeam": "MIA",
+          "AwayScore": 24,
+          "HomeScore": 7,
+          "Channel": "ESPN",
+          "PointSpread": -1.9,
+          "OverUnder": 29.2,
+          "Quarter": "F",
+          "TimeRemaining": null,
+          "Possession": null,
+          "Down": null,
+          "Distance": "Scrambled",
+          "YardLine": null,
+          "YardLineTerritory": null,
+          "RedZone": null,
+          "AwayScoreQuarter1": 0,
+          "AwayScoreQuarter2": 5,
+          "AwayScoreQuarter3": 6,
+          "AwayScoreQuarter4": 7,
+          "AwayScoreOvertime": 0,
+          "HomeScoreQuarter1": 0,
+          "HomeScoreQuarter2": 2,
+          "HomeScoreQuarter3": 2,
+          "HomeScoreQuarter4": 4,
+          "HomeScoreOvertime": 0,
+          "HasStarted": true,
+          "IsInProgress": false,
+          "IsOver": true,
+          "Has1stQuarterStarted": true,
+          "Has2ndQuarterStarted": true,
+          "Has3rdQuarterStarted": true,
+          "Has4thQuarterStarted": true,
+          "IsOvertime": false,
+          "DownAndDistance": null,
+          "QuarterDescription": "Final",
+          "StadiumID": 2,
+          "LastUpdated": "2024-11-05T17:15:36",
+          "GeoLat": null,
+          "GeoLong": null,
+          "ForecastTempLow": 83,
+          "ForecastTempHigh": 85,
+          "ForecastDescription": "Overcast Clouds",
+          "ForecastWindChill": 83,
+          "ForecastWindSpeed": 8,
+          "AwayTeamMoneyLine": 99,
+          "HomeTeamMoneyLine": -118,
+          "Canceled": false,
+          "Closed": true,
+          "LastPlay": "Scrambled",
+          "Day": "2024-09-30T00:00:00",
+          "DateTime": "2024-09-30T19:30:00",
+          "AwayTeamID": 34,
+          "HomeTeamID": 19,
+          "GlobalGameID": 18718,
+          "GlobalAwayTeamID": 34,
+          "GlobalHomeTeamID": 19,
+          "PointSpreadAwayTeamMoneyLine": -80,
+          "PointSpreadHomeTeamMoneyLine": -92,
+          "ScoreID": 18718,
+          "Status": "Final",
+          "GameEndDateTime": "2024-09-30T22:45:27",
+          "HomeRotationNumber": 226,
+          "AwayRotationNumber": 225,
+          "NeutralVenue": false,
+          "RefereeID": 10,
+          "OverPayout": -85,
+          "UnderPayout": -86,
+          "HomeTimeouts": null,
+          "AwayTimeouts": null,
+          "DateTimeUTC": "2024-09-30T23:30:00",
+          "Attendance": 65291,
+          "IsClosed": true,
+          "StadiumDetails": {
+            "StadiumID": 2,
+            "Name": "Hard Rock Stadium",
+            "City": "Miami Gardens",
+            "State": "FL",
+            "Country": "USA",
+            "Capacity": 64767,
+            "PlayingSurface": "Grass",
+            "GeoLat": 25.958056,
+            "GeoLong": -80.238889,
+            "Type": "Outdoor"
+          }
+        }
+      ],
+      "count": 16
+    },
+    "team_stats": {
+      "success": true,
+      "sample": {
+        "SeasonType": 1,
+        "Season": 2024,
+        "Team": "ARI",
+        "Score": 400,
+        "OpponentScore": 379,
+        "TotalScore": 779,
+        "Temperature": 102,
+        "Humidity": 94,
+        "WindSpeed": 14,
+        "OverUnder": 78.0,
+        "PointSpread": 2.2,
+        "ScoreQuarter1": 86,
+        "ScoreQuarter2": 123,
+        "ScoreQuarter3": 80,
+        "ScoreQuarter4": 111,
+        "ScoreOvertime": 0,
+        "TimeOfPossession": "30:45",
+        "FirstDowns": 596,
+        "FirstDownsByRushing": 228,
+        "FirstDownsByPassing": 320,
+        "FirstDownsByPenalty": 49,
+        "OffensivePlays": 1734,
+        "OffensiveYards": 10195,
+        "OffensiveYardsPerPlay": 16.5,
+        "Touchdowns": 70,
+        "RushingAttempts": 775,
+        "RushingYards": 4103,
+        "RushingYardsPerAttempt": 14.9,
+        "RushingTouchdowns": 33,
+        "PassingAttempts": 909,
+        "PassingCompletions": 626,
+        "PassingYards": 6092,
+        "PassingTouchdowns": 35,
+        "PassingInterceptions": 18,
+        "PassingYardsPerAttempt": 11.2,
+        "PassingYardsPerCompletion": 16.2,
+        "CompletionPercentage": 115.3,
+        "PasserRating": 153.8,
+        "ThirdDownAttempts": 323,
+        "ThirdDownConversions": 139,
+        "ThirdDownPercentage": 72.0,
+        "FourthDownAttempts": 30,
+        "FourthDownConversions": 13,
+        "FourthDownPercentage": 74.3,
+        "RedZoneAttempts": 95,
+        "RedZoneConversions": 54,
+        "GoalToGoAttempts": 0,
+        "GoalToGoConversions": 0,
+        "ReturnYards": 358,
+        "Penalties": 154,
+        "PenaltyYards": 1349,
+        "Fumbles": 35,
+        "FumblesLost": 15,
+        "TimesSacked": 50,
+        "TimesSackedYards": 368,
+        "QuarterbackHits": 127,
+        "TacklesForLoss": 146,
+        "Safeties": 6,
+        "Punts": 90,
+        "PuntYards": 4290,
+        "PuntAverage": 79.5,
+        "Giveaways": 33,
+        "Takeaways": 28,
+        "TurnoverDifferential": -5,
+        "OpponentScoreQuarter1": 74,
+        "OpponentScoreQuarter2": 144,
+        "OpponentScoreQuarter3": 74,
+        "OpponentScoreQuarter4": 81,
+        "OpponentScoreOvertime": 6,
+        "OpponentTimeOfPossession": "31:39",
+        "OpponentFirstDowns": 576,
+        "OpponentFirstDownsByRushing": 208,
+        "OpponentFirstDownsByPassing": 335,
+        "OpponentFirstDownsByPenalty": 33,
+        "OpponentOffensivePlays": 1749,
+        "OpponentOffensiveYards": 9748,
+        "OpponentOffensiveYardsPerPlay": 15.7,
+        "OpponentTouchdowns": 67,
+        "OpponentRushingAttempts": 778,
+        "OpponentRushingYards": 3597,
+        "OpponentRushingYardsPerAttempt": 12.9,
+        "OpponentRushingTouchdowns": 30,
+        "OpponentPassingAttempts": 902,
+        "OpponentPassingCompletions": 619,
+        "OpponentPassingYards": 6150,
+        "OpponentPassingTouchdowns": 33,
+        "OpponentPassingInterceptions": 15,
+        "OpponentPassingYardsPerAttempt": 11.4,
+        "OpponentPassingYardsPerCompletion": 16.6,
+        "OpponentCompletionPercentage": 114.8,
+        "OpponentPasserRating": 155.8,
+        "OpponentThirdDownAttempts": 348,
+        "OpponentThirdDownConversions": 152,
+        "OpponentThirdDownPercentage": 73.3,
+        "OpponentFourthDownAttempts": 40,
+        "OpponentFourthDownConversions": 23,
+        "OpponentFourthDownPercentage": 97.6,
+        "OpponentRedZoneAttempts": 95,
+        "OpponentRedZoneConversions": 50,
+        "OpponentGoalToGoAttempts": 0,
+        "OpponentGoalToGoConversions": 0,
+        "OpponentReturnYards": 720,
+        "OpponentPenalties": 167,
+        "OpponentPenaltyYards": 1344,
+        "OpponentFumbles": 37,
+        "OpponentFumblesLost": 13,
+        "OpponentTimesSacked": 69,
+        "OpponentTimesSackedYards": 429,
+        "OpponentQuarterbackHits": 89,
+        "OpponentTacklesForLoss": 102,
+        "OpponentSafeties": 0,
+        "OpponentPunts": 85,
+        "OpponentPuntYards": 4165,
+        "OpponentPuntAverage": 81.7,
+        "OpponentGiveaways": 28,
+        "OpponentTakeaways": 33,
+        "OpponentTurnoverDifferential": 8,
+        "RedZonePercentage": 93.9,
+        "GoalToGoPercentage": 0.0,
+        "QuarterbackHitsDifferential": 39,
+        "TacklesForLossDifferential": 44,
+        "QuarterbackSacksDifferential": 18,
+        "TacklesForLossPercentage": 31.3,
+        "QuarterbackHitsPercentage": 21.9,
+        "TimesSackedPercentage": 5.2,
+        "OpponentRedZonePercentage": 88.1,
+        "OpponentGoalToGoPercentage": 0.0,
+        "OpponentQuarterbackHitsDifferential": -39,
+        "OpponentTacklesForLossDifferential": -44,
+        "OpponentQuarterbackSacksDifferential": -18,
+        "OpponentTacklesForLossPercentage": 22.1,
+        "OpponentQuarterbackHitsPercentage": 15.4,
+        "OpponentTimesSackedPercentage": 11.9,
+        "Kickoffs": 146,
+        "KickoffsInEndZone": 134,
+        "KickoffTouchbacks": 119,
+        "PuntsHadBlocked": 0,
+        "PuntNetAverage": 72.8,
+        "ExtraPointKickingAttempts": 62,
+        "ExtraPointKickingConversions": 60,
+        "ExtraPointsHadBlocked": 3,
+        "ExtraPointPassingAttempts": 6,
+        "ExtraPointPassingConversions": 0,
+        "ExtraPointRushingAttempts": 8,
+        "ExtraPointRushingConversions": 8,
+        "FieldGoalAttempts": 64,
+        "FieldGoalsMade": 57,
+        "FieldGoalsHadBlocked": 3,
+        "PuntReturns": 35,
+        "PuntReturnYards": 338,
+        "KickReturns": 42,
+        "KickReturnYards": 1187,
+        "InterceptionReturns": 15,
+        "InterceptionReturnYards": 20,
+        "OpponentKickoffs": 149,
+        "OpponentKickoffsInEndZone": 124,
+        "OpponentKickoffTouchbacks": 100,
+        "OpponentPuntsHadBlocked": 0,
+        "OpponentPuntNetAverage": 75.0,
+        "OpponentExtraPointKickingAttempts": 64,
+        "OpponentExtraPointKickingConversions": 59,
+        "OpponentExtraPointsHadBlocked": 0,
+        "OpponentExtraPointPassingAttempts": 6,
+        "OpponentExtraPointPassingConversions": 3,
+        "OpponentExtraPointRushingAttempts": 0,
+        "OpponentExtraPointRushingConversions": 0,
+        "OpponentFieldGoalAttempts": 64,
+        "OpponentFieldGoalsMade": 57,
+        "OpponentFieldGoalsHadBlocked": 0,
+        "OpponentPuntReturns": 35,
+        "OpponentPuntReturnYards": 358,
+        "OpponentKickReturns": 25,
+        "OpponentKickReturnYards": 788,
+        "OpponentInterceptionReturns": 18,
+        "OpponentInterceptionReturnYards": 231,
+        "SoloTackles": 1058,
+        "AssistedTackles": 814,
+        "Sacks": 69,
+        "SackYards": 429,
+        "PassesDefended": 105,
+        "FumblesForced": 28,
+        "FumblesRecovered": 13,
+        "FumbleReturnYards": 0,
+        "FumbleReturnTouchdowns": 0,
+        "InterceptionReturnTouchdowns": 0,
+        "BlockedKicks": 0,
+        "PuntReturnTouchdowns": 0,
+        "PuntReturnLong": 45,
+        "KickReturnTouchdowns": 3,
+        "KickReturnLong": 161,
+        "BlockedKickReturnYards": 0,
+        "BlockedKickReturnTouchdowns": 0,
+        "FieldGoalReturnYards": 0,
+        "FieldGoalReturnTouchdowns": 0,
+        "PuntNetYards": 3932,
+        "OpponentSoloTackles": 1066,
+        "OpponentAssistedTackles": 763,
+        "OpponentSacks": 50,
+        "OpponentSackYards": 368,
+        "OpponentPassesDefended": 126,
+        "OpponentFumblesForced": 27,
+        "OpponentFumblesRecovered": 15,
+        "OpponentFumbleReturnYards": 33,
+        "OpponentFumbleReturnTouchdowns": 0,
+        "OpponentInterceptionReturnTouchdowns": 3,
+        "OpponentBlockedKicks": 3,
+        "OpponentPuntReturnTouchdowns": 0,
+        "OpponentPuntReturnLong": 65,
+        "OpponentKickReturnTouchdowns": 0,
+        "OpponentKickReturnLong": 89,
+        "OpponentBlockedKickReturnYards": 102,
+        "OpponentBlockedKickReturnTouchdowns": 3,
+        "OpponentFieldGoalReturnYards": 0,
+        "OpponentFieldGoalReturnTouchdowns": 0,
+        "OpponentPuntNetYards": 3827,
+        "TeamName": "Cardinals",
+        "Games": 17,
+        "PassingDropbacks": 959,
+        "OpponentPassingDropbacks": 971,
+        "TeamSeasonID": 241000001,
+        "TwoPointConversionReturns": 0,
+        "OpponentTwoPointConversionReturns": 1,
+        "TeamID": 1,
+        "GlobalTeamID": 1,
+        "TeamStatID": 241000001
+      },
+      "count": 32
+    },
+    "player_stats": {
+      "success": true,
+      "sample": {
+        "GameKey": "202410414",
+        "PlayerID": 22492,
+        "SeasonType": 1,
+        "Season": 2024,
+        "GameDate": "2024-09-29T13:00:00",
+        "Week": 4,
+        "Team": "PIT",
+        "Opponent": "IND",
+        "HomeOrAway": "AWAY",
+        "Number": 2,
+        "Name": "Justin Fields",
+        "Position": "QB",
+        "PositionCategory": "OFF",
+        "Activated": 1,
+        "Played": 1,
+        "Started": 1,
+        "PassingAttempts": 37.8,
+        "PassingCompletions": 24.5,
+        "PassingYards": 347.3,
+        "PassingCompletionPercentage": 72.0,
+        "PassingYardsPerAttempt": 10.2,
+        "PassingYardsPerCompletion": 15.8,
+        "PassingTouchdowns": 1.2,
+        "PassingInterceptions": 0.0,
+        "PassingRating": 115.8,
+        "PassingLong": 42.3,
+        "PassingSacks": 5.0,
+        "PassingSackYards": 33.4,
+        "RushingAttempts": 11.1,
+        "RushingYards": 61.2,
+        "RushingYardsPerAttempt": 6.8,
+        "RushingTouchdowns": 2.5,
+        "RushingLong": 13.4,
+        "ReceivingTargets": 0.0,
+        "Receptions": 0.0,
+        "ReceivingYards": 0.0,
+        "ReceivingYardsPerReception": 0.0,
+        "ReceivingTouchdowns": 0.0,
+        "ReceivingLong": 0.0,
+        "Fumbles": 2.5,
+        "FumblesLost": 1.2,
+        "PuntReturns": 0.0,
+        "PuntReturnYards": 0.0,
+        "PuntReturnYardsPerAttempt": 0.0,
+        "PuntReturnTouchdowns": 0.0,
+        "PuntReturnLong": 0.0,
+        "KickReturns": 0.0,
+        "KickReturnYards": 0.0,
+        "KickReturnYardsPerAttempt": 0.0,
+        "KickReturnTouchdowns": 0.0,
+        "KickReturnLong": 0.0,
+        "SoloTackles": 0.0,
+        "AssistedTackles": 0.0,
+        "TacklesForLoss": 0.0,
+        "Sacks": 0.0,
+        "SackYards": 0.0,
+        "QuarterbackHits": 0.0,
+        "PassesDefended": 0.0,
+        "FumblesForced": 0.0,
+        "FumblesRecovered": 0.0,
+        "FumbleReturnYards": 0.0,
+        "FumbleReturnTouchdowns": 0.0,
+        "Interceptions": 0.0,
+        "InterceptionReturnYards": 0.0,
+        "InterceptionReturnTouchdowns": 0.0,
+        "BlockedKicks": 0.0,
+        "SpecialTeamsSoloTackles": 0.0,
+        "SpecialTeamsAssistedTackles": 0.0,
+        "MiscSoloTackles": 0.0,
+        "MiscAssistedTackles": 0.0,
+        "Punts": 0.0,
+        "PuntYards": 0.0,
+        "PuntAverage": 0.0,
+        "FieldGoalsAttempted": 0.0,
+        "FieldGoalsMade": 0.0,
+        "FieldGoalsLongestMade": 0.0,
+        "ExtraPointsMade": 0.0,
+        "TwoPointConversionPasses": 0.0,
+        "TwoPointConversionRuns": 0.0,
+        "TwoPointConversionReceptions": 0.0,
+        "FantasyPoints": 35.6,
+        "FantasyPointsPPR": 35.6,
+        "ReceptionPercentage": 0.0,
+        "ReceivingYardsPerTarget": 0.0,
+        "Tackles": 0.0,
+        "OffensiveTouchdowns": 2.5,
+        "DefensiveTouchdowns": 0.0,
+        "SpecialTeamsTouchdowns": 0.0,
+        "Touchdowns": 2.5,
+        "FantasyPosition": "QB",
+        "FieldGoalPercentage": 0.0,
+        "PlayerGameID": 991180875,
+        "FumblesOwnRecoveries": 0.0,
+        "FumblesOutOfBounds": 0.0,
+        "KickReturnFairCatches": 0.0,
+        "PuntReturnFairCatches": 0.0,
+        "PuntTouchbacks": 0.0,
+        "PuntInside20": 0.0,
+        "PuntNetAverage": 0.0,
+        "ExtraPointsAttempted": 0.0,
+        "BlockedKickReturnTouchdowns": 0.0,
+        "FieldGoalReturnTouchdowns": 0.0,
+        "Safeties": 0.0,
+        "FieldGoalsHadBlocked": 0.0,
+        "PuntsHadBlocked": 0.0,
+        "ExtraPointsHadBlocked": 0.0,
+        "PuntLong": 0.0,
+        "BlockedKickReturnYards": 0.0,
+        "FieldGoalReturnYards": 0.0,
+        "PuntNetYards": 0.0,
+        "SpecialTeamsFumblesForced": 0.0,
+        "SpecialTeamsFumblesRecovered": 0.0,
+        "MiscFumblesForced": 0.0,
+        "MiscFumblesRecovered": 0.0,
+        "ShortName": "Justin Fields",
+        "PlayingSurface": "Artificial",
+        "IsGameOver": true,
+        "SafetiesAllowed": 0.0,
+        "Stadium": "Lucas Oil Stadium",
+        "Temperature": 73,
+        "Humidity": 53,
+        "WindSpeed": 9,
+        "FanDuelSalary": 7568,
+        "DraftKingsSalary": 6122,
+        "FantasyDataSalary": 6122,
+        "OffensiveSnapsPlayed": 78,
+        "DefensiveSnapsPlayed": 0,
+        "SpecialTeamsSnapsPlayed": 0,
+        "OffensiveTeamSnaps": 78,
+        "DefensiveTeamSnaps": 73,
+        "SpecialTeamsTeamSnaps": 30,
+        "VictivSalary": null,
+        "TwoPointConversionReturns": 0.0,
+        "FantasyPointsFanDuel": 38.9,
+        "FieldGoalsMade0to19": 0.0,
+        "FieldGoalsMade20to29": 0.0,
+        "FieldGoalsMade30to39": 0.0,
+        "FieldGoalsMade40to49": 0.0,
+        "FieldGoalsMade50Plus": 0.0,
+        "FantasyPointsDraftKings": 40.0,
+        "YahooSalary": 29,
+        "FantasyPointsYahoo": 35.6,
+        "InjuryStatus": "Scrambled",
+        "InjuryBodyPart": "Scrambled",
+        "InjuryStartDate": null,
+        "InjuryNotes": "Scrambled",
+        "FanDuelPosition": "Scrambled",
+        "DraftKingsPosition": "Scrambled",
+        "YahooPosition": "Scrambled",
+        "OpponentRank": 29,
+        "OpponentPositionRank": 21,
+        "InjuryPractice": "Scrambled",
+        "InjuryPracticeDescription": "Scrambled",
+        "DeclaredInactive": false,
+        "FantasyDraftSalary": null,
+        "FantasyDraftPosition": null,
+        "TeamID": 28,
+        "OpponentID": 14,
+        "Day": "2024-09-29T00:00:00",
+        "DateTime": "2024-09-29T13:00:00",
+        "GlobalGameID": 18729,
+        "GlobalTeamID": 28,
+        "GlobalOpponentID": 14,
+        "ScoreID": 18729,
+        "FantasyPointsFantasyDraft": 40.0,
+        "OffensiveFumbleRecoveryTouchdowns": null,
+        "SnapCountsConfirmed": true,
+        "Updated": "2024-10-04T12:54:16",
+        "ScoringDetails": [
+          {
+            "GameKey": "202410414",
+            "SeasonType": 1,
+            "PlayerID": 22492,
+            "Team": "PIT",
+            "Season": 2024,
+            "Week": 4,
+            "ScoringType": "RushingTouchdown",
+            "Length": 6,
+            "ScoringDetailID": 520873,
+            "PlayerGameID": 991180875,
+            "ScoringPlayID": 176896
+          },
+          {
+            "GameKey": "202410414",
+            "SeasonType": 1,
+            "PlayerID": 22492,
+            "Team": "PIT",
+            "Season": 2024,
+            "Week": 4,
+            "ScoringType": "RushingTouchdown",
+            "Length": 2,
+            "ScoringDetailID": 520886,
+            "PlayerGameID": 991180875,
+            "ScoringPlayID": 176906
+          },
+          {
+            "GameKey": "202410414",
+            "SeasonType": 1,
+            "PlayerID": 22492,
+            "Team": "PIT",
+            "Season": 2024,
+            "Week": 4,
+            "ScoringType": "PassingTouchdown",
+            "Length": 10,
+            "ScoringDetailID": 520897,
+            "PlayerGameID": 991180875,
+            "ScoringPlayID": 176915
+          }
+        ]
+      },
+      "count": 1742
+    },
+    "injuries": {
+      "success": false,
+      "error": "{ \"statusCode\": 404, \"message\": \"Resource not found\" }"
+    }
+  },
+  "odds_api": {
+    "authenticated": true,
+    "available_markets": [
+      "h2h (Moneyline/Head-to-Head)",
+      "spreads (Point Spreads)",
+      "totals (Over/Under)",
+      "h2h_lay (Lay Odds)",
+      "outrights (Futures)"
+    ],
+    "odds": {
+      "success": true,
+      "games_count": 16,
+      "sample": {
+        "id": "bc76fb8d846588ed46297aaab4e83de9",
+        "sport_key": "americanfootball_nfl",
+        "sport_title": "NFL",
+        "commence_time": "2025-09-29T23:16:00Z",
+        "home_team": "Miami Dolphins",
+        "away_team": "New York Jets",
+        "bookmakers": [
+          {
+            "key": "draftkings",
+            "title": "DraftKings",
+            "last_update": "2025-09-30T00:41:21Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -315
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 230
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -115,
+                    "point": -5.5
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -115,
+                    "point": 5.5
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": -120,
+                    "point": 34.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": -110,
+                    "point": 34.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "betmgm",
+            "title": "BetMGM",
+            "last_update": "2025-09-30T00:41:21Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -300
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 230
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -110,
+                    "point": -5.5
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -118,
+                    "point": 5.5
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:41:21Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": -115,
+                    "point": 34.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": -115,
+                    "point": 34.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "fanduel",
+            "title": "FanDuel",
+            "last_update": "2025-09-30T00:41:26Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:41:26Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -360
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 260
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:41:26Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -118,
+                    "point": -5.5
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -112,
+                    "point": 5.5
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:41:26Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": 102,
+                    "point": 35.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": -136,
+                    "point": 35.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "mybookieag",
+            "title": "MyBookie.ag",
+            "last_update": "2025-09-30T00:41:11Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:41:10Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -333
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 255
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:41:10Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -111,
+                    "point": -5.5
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -111,
+                    "point": 5.5
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:41:10Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": -111,
+                    "point": 35.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": -118,
+                    "point": 35.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "betrivers",
+            "title": "BetRivers",
+            "last_update": "2025-09-30T00:41:05Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:41:05Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -360
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 245
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:41:05Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -120,
+                    "point": -6.0
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -118,
+                    "point": 6.0
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:41:05Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": -118,
+                    "point": 34.5
+                  },
+                  {
+                    "name": "Under",
+                    "price": -120,
+                    "point": 34.5
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "bovada",
+            "title": "Bovada",
+            "last_update": "2025-09-30T00:40:55Z",
+            "markets": [
+              {
+                "key": "h2h",
+                "last_update": "2025-09-30T00:40:55Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -350
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": 250
+                  }
+                ]
+              },
+              {
+                "key": "spreads",
+                "last_update": "2025-09-30T00:40:55Z",
+                "outcomes": [
+                  {
+                    "name": "Miami Dolphins",
+                    "price": -115,
+                    "point": -5.5
+                  },
+                  {
+                    "name": "New York Jets",
+                    "price": -115,
+                    "point": 5.5
+                  }
+                ]
+              },
+              {
+                "key": "totals",
+                "last_update": "2025-09-30T00:40:55Z",
+                "outcomes": [
+                  {
+                    "name": "Over",
+                    "price": -120,
+                    "point": 34.0
+                  },
+                  {
+                    "name": "Under",
+                    "price": -110,
+                    "point": 34.0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "requests_remaining": "492"
+    },
+    "player_props": {
+      "success": false,
+      "error": "{\"message\":\"Markets not supported by this endpoint: player_pass_tds, player_pass_yds, player_rush_yds\",\"error_code\":\"INVALID_MARKET\",\"details_url\":\"https://the-odds-api.com/liveapi/guides/v4/api-error-codes.html#invalid-market\"}\n"
+    }
+  },
+  "prediction_mapping": {
+    "mapping": {
+      "winner": {
+        "name": "Game Winner",
+        "category": "outcome",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (scores)",
+          "The Odds API (moneyline)"
+        ],
+        "notes": "Historical data available for training"
+      },
+      "spread": {
+        "name": "Point Spread",
+        "category": "outcome",
+        "status": "\u2705",
+        "sources": [
+          "The Odds API"
+        ],
+        "notes": "Live odds available"
+      },
+      "total": {
+        "name": "Total Points (Over/Under)",
+        "category": "outcome",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (scores)",
+          "The Odds API (totals)"
+        ],
+        "notes": "Historical + live odds"
+      },
+      "margin": {
+        "name": "Victory Margin",
+        "category": "outcome",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (scores)",
+          "The Odds API (moneyline)"
+        ],
+        "notes": "Historical data available for training"
+      },
+      "moneyline": {
+        "name": "Moneyline",
+        "category": "outcome",
+        "status": "\u2705",
+        "sources": [
+          "The Odds API"
+        ],
+        "notes": "Live odds available"
+      },
+      "q1_winner": {
+        "name": "Q1 Winner",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "q1_total": {
+        "name": "Q1 Total Points",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "q2_winner": {
+        "name": "Q2 Winner",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "q2_total": {
+        "name": "Q2 Total Points",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "half_winner": {
+        "name": "First Half Winner",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "half_total": {
+        "name": "First Half Total",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "q3_winner": {
+        "name": "Q3 Winner",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "q4_winner": {
+        "name": "Q4 Winner",
+        "category": "quarter",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (scores - need quarter breakdown)"
+        ],
+        "notes": "Need to verify quarter-by-quarter data availability"
+      },
+      "team_touchdowns": {
+        "name": "Team Touchdowns",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_field_goals": {
+        "name": "Team Field Goals",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_turnovers": {
+        "name": "Team Turnovers",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_penalties": {
+        "name": "Team Penalties",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_rushing_yards": {
+        "name": "Team Rushing Yards",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_passing_yards": {
+        "name": "Team Passing Yards",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_total_yards": {
+        "name": "Team Total Yards",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_first_downs": {
+        "name": "Team First Downs",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_third_down_pct": {
+        "name": "Team 3rd Down %",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "team_time_possession": {
+        "name": "Time of Possession",
+        "category": "team_performance",
+        "status": "\u2705",
+        "sources": [
+          "SportsData.io (team stats)"
+        ],
+        "notes": "Season and game-level stats available"
+      },
+      "qb_pass_yards": {
+        "name": "QB Passing Yards",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "qb_pass_tds": {
+        "name": "QB Passing TDs",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "qb_interceptions": {
+        "name": "QB Interceptions",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "rb_rush_yards": {
+        "name": "RB Rushing Yards",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "rb_rush_tds": {
+        "name": "RB Rushing TDs",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "wr_rec_yards": {
+        "name": "WR Receiving Yards",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "wr_receptions": {
+        "name": "WR Receptions",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "wr_rec_tds": {
+        "name": "WR Receiving TDs",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "te_rec_yards": {
+        "name": "TE Receiving Yards",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "k_field_goals": {
+        "name": "Kicker Field Goals Made",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "def_sacks": {
+        "name": "Defensive Sacks",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "def_interceptions": {
+        "name": "Defensive Interceptions",
+        "category": "player_props",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (historical)"
+        ],
+        "notes": "Historical available, live props limited"
+      },
+      "first_score_type": {
+        "name": "First Score Type",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "longest_td": {
+        "name": "Longest Touchdown",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "safety_scored": {
+        "name": "Safety Scored",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "overtime": {
+        "name": "Game Goes to Overtime",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "successful_2pt": {
+        "name": "Successful 2-Point Conversion",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "punt_return_td": {
+        "name": "Punt Return TD",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "kick_return_td": {
+        "name": "Kick Return TD",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      },
+      "defensive_td": {
+        "name": "Defensive TD",
+        "category": "special",
+        "status": "\u26a0\ufe0f",
+        "sources": [
+          "SportsData.io (play-by-play may be needed)"
+        ],
+        "notes": "Requires detailed play-by-play data - needs verification"
+      }
+    },
+    "gaps": []
+  },
+  "gaps": []
+}
