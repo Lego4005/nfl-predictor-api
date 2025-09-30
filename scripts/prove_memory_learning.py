@@ -176,7 +176,7 @@ class MemoryLearningExperiment:
                 .eq('season', season)\
                 .not_.is_('home_score', 'null')\
                 .not_.is_('away_score', 'null')\
-                .order('game_time_et')\
+                .order('game_time')\ # Fixed column name
                 .limit(limit)\
                 .execute()
 
