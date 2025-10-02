@@ -1,17 +1,25 @@
 # Product Overview
 
-NFL Predictor is a sports analytics dashboard that provides AI-powered predictions for NFL games and fantasy football. The application serves as a frontend interface for displaying weekly NFL predictions including:
+## NFL AI Prediction Platform
 
-- **Game Predictions**: Straight-up picks, against-the-spread (ATS), and over/under totals
-- **Player Props**: Individual player performance predictions with confidence scores
-- **Fantasy Football**: Value picks and optimal lineup recommendations for DFS platforms
-- **Data Export**: Multiple download formats (JSON, CSV, PDF) for analysis
+A comprehensive NFL prediction and betting analytics platform that combines AI-powered expert systems with real-time data to provide intelligent game predictions and betting insights.
 
-The system operates on a weekly basis covering all 18 weeks of the NFL season, with real-time data fetching from a FastAPI backend. The application is designed for sports bettors, fantasy football players, and NFL analysts who need data-driven insights for decision making.
+## Core Features
 
-## Key Features
-- Week-by-week navigation (Weeks 1-18)
-- Tabbed interface for different prediction types
-- Confidence scoring for all predictions
-- Multi-format data export capabilities
-- Responsive design for desktop and mobile use
+- **AI Expert System**: 15+ AI experts with distinct personalities making predictions across multiple categories (spread, totals, winner, props)
+- **Real-time Data**: Live NFL game data, scores, and odds integration via ESPN API and Supabase
+- **Prediction Dashboard**: React-based frontend displaying live games, predictions, and expert consensus
+- **Expert Competition**: AI experts compete against each other with performance tracking and rankings
+- **Memory System**: Episodic memory allowing experts to learn from past predictions and outcomes
+- **Betting Analytics**: ROI tracking, bankroll management, and betting slip functionality
+
+## Target Users
+
+- Sports bettors seeking data-driven insights
+- NFL fans interested in AI-powered predictions
+- Analytics enthusiasts tracking prediction accuracy
+- Researchers studying AI decision-making in sports betting
+
+## Technology Focus
+
+The platform emphasizes real-time performance, prediction accuracy, and user experience through modern web technologies and AI/ML integration.

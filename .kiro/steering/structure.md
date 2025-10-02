@@ -1,43 +1,122 @@
 # Project Structure
 
-## Root Level
-- `package.json` - Frontend dependencies and npm scripts
-- `vite.config.js` - Vite build configuration
-- `index.html` - Main HTML entry point
-- `main.py` - FastAPI backend server
+## Root Directory Organization
+
+```
+nfl-predictor-api/
+├── src/                    # Main source code
+├── scripts/                # Utility and automation scripts
+├── docs/                   # Documentation and guides
+├── tests/                  # Test suites
+├── data/                   # Data files and exports
+├── models/                 # ML models and metadata
+├── public/                 # Static assets (logos, images)
+├── archive/                # Legacy/deprecated code
+└── config/                 # Configuration files
+```
+
+## Source Code Structure (`src/`)
+
+### Frontend Components
+- `src/components/` - Reusable React components
+- `src/pages/` - Page-level components
+- `src/hooks/` - Custom React hooks
+- `src/lib/` - Utility libraries and helpers
+- `src/styles/` - CSS and styling files
+- `src/types/` - TypeScript type definitions
+
+### Backend Services
+- `src/api/` - FastAPI routes and endpoints
+- `src/services/` - Business logic services
+- `src/database/` - Database models and queries
+- `src/ml/` - Machine learning and AI components
+- `src/websocket/` - WebSocket server implementation
+- `src/cache/` - Caching layer implementation
+
+### AI/ML Components
+- `src/ml/expert_competition/` - AI expert system framework
+- `src/ml/models/` - ML model implementations
+- `src/prompts/` - LLM prompts and templates
+- `src/analytics/` - Data analysis and metrics
+
+## Key Directories
+
+### Scripts (`scripts/`)
+Automation and utility scripts organized by function:
+- Data fetching and synchronization
+- Testing and validation
+- Database migrations and setup
+- AI model training and evaluation
+- Deployment and monitoring
+
+### Documentation (`docs/`)
+- Implementation guides and API documentation
+- System architecture and design decisions
+- Testing procedures and memory system guides
+- Deployment and production setup instructions
+
+### Configuration Files
+- `package.json` - Node.js dependencies and scripts
 - `requirements.txt` - Python dependencies
-- `README.md` - Deployment and setup instructions
+- `docker-compose.yml` - Container orchestration
+- `ecosystem.config.js` - PM2 process management
+- `vite.config.js` - Frontend build configuration
+- `tailwind.config.js` - Styling configuration
 
-## Frontend Structure (`src/`)
+## File Naming Conventions
+
+### Frontend
+- Components: PascalCase (`NFLDashboard.jsx`)
+- Hooks: camelCase with `use` prefix (`useGameData.js`)
+- Utilities: camelCase (`formatGameTime.js`)
+- Types: PascalCase (`GameData.ts`)
+
+### Backend
+- Services: snake_case (`expert_system_api.py`)
+- Models: snake_case (`game_prediction.py`)
+- Scripts: snake_case (`fetch_nfl_data.py`)
+- Tests: `test_` prefix (`test_expert_system.py`)
+
+## Import Path Conventions
+
+### Frontend
+```typescript
+// Use @ alias for src imports
+import { GameCard } from '@/components/GameCard'
+import { useGameData } from '@/hooks/useGameData'
 ```
-src/
-├── main.jsx          # React app entry point
-├── App.jsx           # Root component wrapper
-├── NFLDashboard.jsx  # Main dashboard component
-└── pages/
-    └── Dashboard.jsx # Alternative dashboard (unused)
+
+### Backend
+```python
+# Relative imports within src/
+from src.ml.expert_competition import ExpertCompetitionFramework
+from src.services.supabase_service import SupabaseService
 ```
 
-## Component Architecture
-- **Single Page Application**: All functionality in NFLDashboard.jsx
-- **Tabbed Interface**: main | props | fantasy | lineup tabs
-- **Reusable Components**: Card, Section, Table components defined inline
-- **State Management**: Local component state with hooks
+## Environment Files
+- `.env` - Main environment configuration
+- `.env.example` - Template for required variables
+- `.env.production` - Production-specific settings
+- `.env.production.template` - Production template
 
-## API Integration
-- **Base URL**: Configurable via VITE_API_BASE environment variable
-- **Endpoints**: `/v1/best-picks/2025/{week}` for data, `/v1/best-picks/2025/{week}/download` for exports
-- **Cache Busting**: Timestamp query parameter for fresh data
-- **Error Handling**: Loading states and error messages
+## Data Organization
+- `data/historical/` - Historical NFL data
+- `data/raw/` - Raw data files
+- `models/experts/` - AI expert model files
+- `memory/` - Episodic memory databases
+- `public/logos/` - Team logos and assets
 
-## Data Flow
-1. User selects week → API call triggered
-2. Data fetched and stored in component state
-3. Tabbed interface renders different data sections
-4. Download buttons trigger direct API calls
+## Testing Structure
+- `tests/` - Main test directory
+- `src/__tests__/` - Component-level tests
+- `scripts/test_*.py` - Integration tests
+- `playwright.config.js` - E2E test configuration
 
-## Styling Approach
-- **No CSS Framework**: Pure inline styles throughout
-- **Design System**: Consistent spacing, colors, and typography
-- **Responsive**: Flexbox layouts with mobile considerations
-- **Theme**: Clean, minimal design with card-based layout
+## Archive Policy
+The `archive/` directory contains deprecated code that should not be modified:
+- Old dashboard implementations
+- Legacy backend services
+- Outdated migration scripts
+- Reference implementations
+
+When working on the codebase, always check if similar functionality exists in `archive/` before creating new implementations.
