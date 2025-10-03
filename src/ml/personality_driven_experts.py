@@ -18,6 +18,7 @@ from datetime import datetime, timedelta
 import logging
 import json
 import sqlite3
+import os
 from abc import ABC, abstractmethod
 import math
 import random
@@ -267,17 +268,49 @@ class PersonalityDrivenExpert(ABC):
     def make_personality_driven_prediction(self, universal_data: UniversalGameData) -> Dict[str, Any]:
         """Make prediction based on personality-driven interpretation of universal data"""
 
+        # Step 0: Validate and fix input data to prevent null handling errors
+        try:
+            from ..validation.data_validator import validate_and_fix_universal_data
+            validation_result = validate_and_fix_universal_data(universal_data)
+
+            if validation_result.fixes_applied:
+                logger.info(f"🔧 {self.name}: Applied {len(validation_result.fixes_applied)} data fixes before prediction")
+                for fix in validation_result.fixes_applied[:3]:  # Log first 3 fixes
+                    logger.debug(f"  • {fix}")
+                if len(validation_result.fixes_applied) > 3:
+                    logger.debug(f"  • ... and {len(validation_result.fixes_applied) - 3} more fixes")
+
+            if validation_result.errors:
+                logger.error(f"❌ {self.name}: {len(validation_result.errors)} validation errors")
+                for error in validation_result.errors:
+                    logger.error(f"  • {error}")
+
+                if not validation_result.is_valid:
+                    # Return a safe default prediction instead of crashing
+                    logger.warning(f"⚠️  {self.name}: Using safe default prediction due to validation errors")
+                    return self._get_safe_default_prediction()
+
+        except ImportError:
+            logger.warning(f"⚠️  {self.name}: DataValidator not available, proceeding without validation")
+        except Exception as e:
+            logger.error(f"❌ {self.name}: Data validation failed: {e}")
+            # Continue without validation rather than failing completely
+
         # Step 1: Retrieve relevant memories before prediction (if memory service available)
         memories = []
         if self.memory_service:
-            game_context = {
-                'home_team': universal_data.home_team,
-                'away_team': universal_data.away_team,
-                'weather': universal_data.weather,
-                'injuries': universal_data.injuries,
-                'line_movement': universal_data.line_movement
-            }
-            memories = self.retrieve_relevant_memories(game_context)
+            try:
+                game_context = {
+                    'home_team': universal_data.home_team,
+                    'away_team': universal_data.away_team,
+                    'weather': universal_data.weather,
+                    'injuries': universal_data.injuries,
+                    'line_movement': universal_data.line_movement
+                }
+                memories = self.retrieve_relevant_memories(game_context)
+            except Exception as e:
+                logger.warning(f"⚠️  {self.name}: Error retrieving memories: {e}")
+                memories = []
 
         # Step 2: Process all data through personality lens
         personality_weights = self.process_through_personality_lens(universal_data)
@@ -292,10 +325,44 @@ class PersonalityDrivenExpert(ABC):
         if memories:
             final_prediction = self.apply_memory_insights(final_prediction, memories)
 
-        # Step 6: Record decision in memory
-        self._record_personality_decision(universal_data, prediction_components, final_prediction)
+        # Step 6: Validate final prediction before returning
+        try:
+            from ..validation.data_validator import validate_prediction_data
+            prediction_validation = validate_prediction_data(final_prediction)
+
+            if prediction_validation.fixes_applied:
+                logger.info(f"🔧 {self.name}: Applied {len(prediction_validation.fixes_applied)} prediction fixes")
+                for fix in prediction_validation.fixes_applied:
+                    logger.debug(f"  • {fix}")
+
+        except ImportError:
+            logger.debug(f"{self.name}: Prediction validation not available")
+        except Exception as e:
+            logger.warning(f"⚠️  {self.name}: Prediction validation failed: {e}")
+
+        # Step 7: Record decision in memory
+        try:
+            self._record_personality_decision(universal_data, prediction_components, final_prediction)
+        except Exception as e:
+            logger.warning(f"⚠️  {self.name}: Error recording decision: {e}")
 
         return final_prediction
+
+    def _get_safe_default_prediction(self) -> Dict[str, Any]:
+        """Return a safe default prediction when data validation fails"""
+        return {
+            'expert_name': self.name,
+            'expert_id': self.expert_id,
+            'winner_prediction': 'home',  # Default to home team
+            'winner_confidence': 0.5,     # Neutral confidence
+            'total_prediction': 45.0,     # League average
+            'spread_prediction': 0.0,     # Even game
+            'reasoning': 'Safe default prediction due to data validation errors',
+            'validation_failed': True,
+            'personality_profile': {
+                trait_name: trait.value for trait_name, trait in self.personality.traits.items()
+            }
+        }
 
     def _generate_personality_predictions(self, data: UniversalGameData, weights: Dict[str, float]) -> Dict[str, float]:
         """Generate predictions using personality-weighted data interpretation"""
@@ -334,9 +401,19 @@ class PersonalityDrivenExpert(ABC):
         if not weather:
             return 0.5
 
-        temp = weather.get('temperature', 70)
-        wind = weather.get('wind_speed', 0)
-        conditions = weather.get('conditions', 'Clear').lower()
+        # Safe null handling for weather data
+        temp = weather.get('temperature')
+        if temp is None or not isinstance(temp, (int, float)):
+            temp = 70  # Default temperature
+
+        wind = weather.get('wind_speed')
+        if wind is None or not isinstance(wind, (int, float)):
+            wind = 0  # Default wind speed
+
+        conditions = weather.get('conditions')
+        if conditions is None or not isinstance(conditions, str):
+            conditions = 'Clear'
+        conditions = conditions.lower()
 
         # Base weather impact
         base_impact = 0.0
@@ -417,9 +494,28 @@ class PersonalityDrivenExpert(ABC):
         if not line_movement:
             return 0.5
 
-        opening_line = line_movement.get('opening_line', 0)
-        current_line = line_movement.get('current_line', 0)
-        public_percentage = line_movement.get('public_percentage', 50)
+        # Safe null handling for betting line data
+        opening_line = line_movement.get('opening_line')
+        if opening_line is None:
+            opening_line = 0
+        elif isinstance(opening_line, str):
+            try:
+                opening_line = float(opening_line)
+            except (ValueError, TypeError):
+                opening_line = 0
+
+        current_line = line_movement.get('current_line')
+        if current_line is None:
+            current_line = opening_line  # Use opening line if current not available
+        elif isinstance(current_line, str):
+            try:
+                current_line = float(current_line)
+            except (ValueError, TypeError):
+                current_line = opening_line
+
+        public_percentage = line_movement.get('public_percentage')
+        if public_percentage is None or not isinstance(public_percentage, (int, float)):
+            public_percentage = 50  # Neutral default
 
         line_move = abs(current_line - opening_line)
         public_heavy_side = public_percentage > 65 or public_percentage < 35
@@ -689,7 +785,7 @@ class ExpertMemoryDatabase:
 
 class ConservativeAnalyzer(PersonalityDrivenExpert):
     """The Conservative Analyzer: Risk-averse, analytical, prefers proven patterns
-    
+
     Now powered by LLM reasoning instead of deterministic calculations.
     """
 
@@ -717,19 +813,19 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
             personality_profile=personality,
             memory_service=memory_service
         )
-        
+
         # LLM integration for AI reasoning
         self.llm_service = llm_service
         self.use_llm_reasoning = llm_service is not None
-        
+
     async def make_llm_powered_prediction(self, universal_data) -> Dict[str, Any]:
         """Make LLM-powered prediction with conversational reasoning"""
         if not self.llm_service:
             logger.warning(f"{self.name}: No LLM service available, falling back to deterministic prediction")
             return self.make_personality_driven_prediction(universal_data)
-            
+
         start_time = time.perf_counter()
-        
+
         try:
             # Step 1: Retrieve relevant episodic memories
             logger.info(f"{self.name}: Retrieving relevant memories for LLM prediction")
@@ -740,7 +836,7 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
                 'injuries': universal_data.injuries,
                 'line_movement': universal_data.line_movement
             }
-            
+
             memories = []
             if self.memory_service:
                 try:
@@ -751,72 +847,85 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
                 except Exception as e:
                     logger.warning(f"{self.name}: Error retrieving memories: {e}")
                     memories = []
-            
+
             # Step 2: Build expert personality description
             personality_description = self._build_personality_description()
-            
-            # Step 3: Build prediction prompt using templates
-            from ..prompts.nfl_prediction_prompts import build_prediction_prompt
-            system_message, user_message = build_prediction_prompt(
+
+            # Step 3: Build prediction prompt using simplified template
+            from ..prompts.simplified_prediction_prompt import build_simplified_prediction_prompt
+            system_message, user_message = build_simplified_prediction_prompt(
                 expert_personality=personality_description,
                 game_data=universal_data,
                 episodic_memories=memories
             )
-            
+
             logger.info(f"{self.name}: Built prediction prompt with {len(memories)} memories")
             logger.debug(f"{self.name}: System message length: {len(system_message)} chars")
             logger.debug(f"{self.name}: User message length: {len(user_message)} chars")
-            
-            # Step 4: Call LLM for prediction generation
+
+            # Step 4: Load JSON schema for structured output
+            json_schema = None
+            try:
+                import json
+                schema_path = os.path.join(os.path.dirname(__file__), '..', '..', 'llm_prediction_schema.json')
+                with open(schema_path, 'r') as f:
+                    json_schema = json.load(f)
+                logger.info(f"{self.name}: Loaded JSON schema for structured output")
+            except Exception as e:
+                logger.warning(f"{self.name}: Could not load JSON schema: {e}")
+
+            # Step 5: Call LLM for prediction generation
             logger.info(f"{self.name}: Making LLM call for prediction generation")
             llm_start = time.perf_counter()
-            
-            llm_response = await self.llm_service.generate_completion(
+
+            llm_response = self.llm_service.generate_completion(
                 system_message=system_message,
                 user_message=user_message,
                 temperature=0.7,
                 max_tokens=-1,
-                model="openai/gpt-oss-20b"
+                model="openai/gpt-oss-20b",
+                json_schema=json_schema
             )
-            
+
             llm_duration = time.perf_counter() - llm_start
             logger.info(f"{self.name}: LLM call completed in {llm_duration:.2f}s")
             logger.info(f"{self.name}: Response length: {len(llm_response.content)} chars, tokens: {llm_response.total_tokens}")
-            
+
             # Step 5: Parse JSON response
             try:
                 parsed_predictions = json.loads(llm_response.content)
                 logger.info(f"{self.name}: Successfully parsed LLM JSON response")
+                logger.info(f"{self.name}: Parsed predictions keys: {list(parsed_predictions.keys())}")
                 logger.debug(f"{self.name}: Parsed predictions: {json.dumps(parsed_predictions, indent=2)}")
             except json.JSONDecodeError as e:
                 logger.error(f"{self.name}: Failed to parse LLM JSON response: {e}")
                 logger.error(f"{self.name}: Raw response: {llm_response.content[:500]}...")
                 # Fallback to deterministic prediction
                 return self.make_personality_driven_prediction(universal_data)
-            
+
             # Step 6: Convert to structured prediction format
             structured_prediction = self._convert_llm_to_structured_prediction(parsed_predictions, universal_data)
-            
+
             # Step 7: Store complete reasoning chain in database
             await self._store_reasoning_chain(
-                universal_data, 
-                parsed_predictions, 
+                universal_data,
+                parsed_predictions,
                 structured_prediction,
                 llm_response,
                 memories
             )
-            
+
             total_duration = time.perf_counter() - start_time
             logger.info(f"{self.name}: Complete LLM prediction pipeline finished in {total_duration:.2f}s")
-            
+
             return structured_prediction
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error in LLM prediction pipeline: {e}")
             logger.exception("Full exception details:")
             # Fallback to deterministic prediction
             return self.make_personality_driven_prediction(universal_data)
-    
+
     def make_personality_driven_prediction(self, universal_data) -> Dict[str, Any]:
         """Enhanced to use LLM when available, fallback to deterministic"""
         if self.use_llm_reasoning:
@@ -840,14 +949,39 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
         else:
             # Use original deterministic prediction
             return super().make_personality_driven_prediction(universal_data)
-            
+
     def _build_personality_description(self) -> str:
         """Build comprehensive personality description for LLM prompt"""
-        return f"""You are The Conservative Analyzer, a risk-averse NFL prediction expert who values:
+        return f"""You are The Conservative Analyzer, a risk-averse NFL prediction expert competing in an elite prediction council.
+
+**🏆 COMPETITION CONTEXT:**
+You are competing against 14 other expert systems for a seat on the Expert Council. Your performance directly impacts:
+- Your council voting weight (better accuracy = more influence)
+- Your bankroll allocation (limited funds - bet wisely)
+- Your reputation and standing among peers
+
+**🧠 YOUR MEMORY SYSTEM:**
+You have access to episodic memory from past predictions. USE THIS ADVANTAGE:
+- Review what you predicted before and what actually happened
+- Learn from your mistakes and successes
+- Identify patterns specific to teams you've analyzed
+- Your memory is your competitive edge - leverage it!
+
+**💰 BETTING CONSTRAINTS:**
+- You have limited bankroll - manage it carefully
+- Higher confidence = larger bet recommendations
+- Losses deplete your resources and hurt your council standing
+- Conservative wins build credibility over time
+
+**📊 PERFORMANCE TRACKING:**
+- Every prediction is recorded and evaluated
+- Your accuracy rate determines your council influence
+- Consistent performance matters more than lucky streaks
+- Learn and adapt from each outcome
 
 **Core Personality Traits:**
 - Risk Tolerance: Very Low (20%) - You avoid uncertainty and prefer safe, proven approaches
-- Analytics Trust: Very High (90%) - You heavily weight statistical data and historical patterns  
+- Analytics Trust: Very High (90%) - You heavily weight statistical data and historical patterns
 - Contrarian Tendency: Low (30%) - You generally follow consensus and established wisdom
 - Recent Bias: Very Low (20%) - You prefer season-long trends over recent game results
 - Confidence Level: Moderate-Low (40%) - You express measured confidence, avoiding overconfidence
@@ -867,54 +1001,96 @@ class ConservativeAnalyzer(PersonalityDrivenExpert):
 - "My experience has taught me that flashy offensive performances often regress to the mean..."
 
 You think through problems methodically, referencing your past experiences, and explain your reasoning with measured confidence while acknowledging uncertainties."""
-    
+
     def _convert_llm_to_structured_prediction(self, llm_predictions: Dict, universal_data) -> Dict[str, Any]:
         """Convert LLM JSON response to structured prediction format"""
         try:
-            # Extract core predictions from LLM response
+            # Handle both complex format (predictions array) and simple format (direct keys)
             predictions_list = llm_predictions.get('predictions', [])
-            
+
             # Initialize structured prediction
             structured = {
                 'expert_name': self.name,
                 'expert_id': self.expert_id,
                 'llm_powered': True,
-                'reasoning_discussion': llm_predictions.get('reasoning_discussion', ''),
+                'reasoning': llm_predictions.get('reasoning', ''),
+                'reasoning_discussion': llm_predictions.get('reasoning_discussion', llm_predictions.get('reasoning', '')),
                 'overall_analysis': llm_predictions.get('overall_analysis', ''),
                 'memories_applied': llm_predictions.get('memories_applied', []),
                 'prediction_relationships': llm_predictions.get('prediction_relationships', ''),
                 'all_predictions': {},
                 'confidence_scores': {}
             }
-            
-            # Process each prediction
-            for pred in predictions_list:
-                pred_type = pred.get('prediction_type', '')
-                pred_value = pred.get('predicted_value', '')
-                confidence = pred.get('confidence', 50)
-                reasoning = pred.get('reasoning', '')
-                
-                structured['all_predictions'][pred_type] = pred_value
-                structured['confidence_scores'][pred_type] = confidence
-                
-                # Map to legacy format for compatibility
-                if pred_type == 'game_winner_spread':
-                    if 'home' in str(pred_value).lower():
-                        structured['winner_prediction'] = 'home'
-                    else:
-                        structured['winner_prediction'] = 'away'
-                    structured['winner_confidence'] = confidence / 100.0
-                elif pred_type == 'total_points':
-                    try:
-                        structured['total_prediction'] = float(pred_value)
-                    except (ValueError, TypeError):
-                        structured['total_prediction'] = 45.0
-                elif pred_type == 'point_spread':
-                    try:
-                        structured['spread_prediction'] = float(pred_value)
-                    except (ValueError, TypeError):
-                        structured['spread_prediction'] = 0.0
-            
+
+            # Check if LLM returned simple format (direct keys)
+            if not predictions_list and 'winner' in llm_predictions:
+                logger.info(f"{self.name}: Parsing simple LLM response format")
+
+                # Parse winner
+                winner = llm_predictions.get('winner', 'home')
+                if isinstance(winner, str):
+                    structured['winner_prediction'] = 'home' if 'home' in winner.lower() else 'away'
+                else:
+                    structured['winner_prediction'] = 'home'
+
+                # Parse confidence (handle both 0-100 and 0-1 scales)
+                confidence = llm_predictions.get('confidence', 50)
+                if isinstance(confidence, (int, float)):
+                    if confidence > 1:  # 0-100 scale
+                        structured['winner_confidence'] = confidence / 100.0
+                    else:  # 0-1 scale
+                        structured['winner_confidence'] = confidence
+                else:
+                    structured['winner_confidence'] = 0.5
+
+                # Parse spread
+                spread = llm_predictions.get('spread', 0)
+                try:
+                    structured['spread_prediction'] = float(spread)
+                except (ValueError, TypeError):
+                    structured['spread_prediction'] = 0.0
+
+                # Parse total
+                total = llm_predictions.get('total', 45)
+                try:
+                    structured['total_prediction'] = float(total)
+                except (ValueError, TypeError):
+                    structured['total_prediction'] = 45.0
+
+                logger.info(f"{self.name}: Parsed - Winner: {structured['winner_prediction']}, "
+                          f"Confidence: {structured['winner_confidence']:.1%}, "
+                          f"Spread: {structured['spread_prediction']:.1f}, "
+                          f"Total: {structured['total_prediction']:.1f}")
+
+            # Handle complex format (predictions array)
+            else:
+                for pred in predictions_list:
+                    pred_type = pred.get('prediction_type', '')
+                    pred_value = pred.get('predicted_value', '')
+                    confidence = pred.get('confidence', 50)
+                    reasoning = pred.get('reasoning', '')
+
+                    structured['all_predictions'][pred_type] = pred_value
+                    structured['confidence_scores'][pred_type] = confidence
+
+                    # Map to legacy format for compatibility
+                    if pred_type == 'game_winner_spread':
+                        if 'home' in str(pred_value).lower():
+                            structured['winner_prediction'] = 'home'
+                        else:
+                            structured['winner_prediction'] = 'away'
+                        structured['winner_confidence'] = confidence / 100.0
+                    elif pred_type == 'total_points':
+                        try:
+                            structured['total_prediction'] = float(pred_value)
+                        except (ValueError, TypeError):
+                            structured['total_prediction'] = 45.0
+                    elif pred_type == 'point_spread':
+                        try:
+                            structured['spread_prediction'] = float(pred_value)
+                        except (ValueError, TypeError):
+                            structured['spread_prediction'] = 0.0
+
             # Set defaults if not found
             if 'winner_prediction' not in structured:
                 structured['winner_prediction'] = 'home'
@@ -923,14 +1099,14 @@ You think through problems methodically, referencing your past experiences, and 
                 structured['total_prediction'] = 45.0
             if 'spread_prediction' not in structured:
                 structured['spread_prediction'] = 0.0
-                
+
             # Add personality profile for compatibility
             structured['personality_profile'] = {
                 trait_name: trait.value for trait_name, trait in self.personality.traits.items()
             }
-            
+
             return structured
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error converting LLM predictions: {e}")
             # Return minimal structured prediction
@@ -942,17 +1118,18 @@ You think through problems methodically, referencing your past experiences, and 
                 'winner_confidence': 0.5,
                 'total_prediction': 45.0,
                 'spread_prediction': 0.0,
-                'reasoning_discussion': llm_predictions.get('reasoning_discussion', 'Error in prediction processing'),
+                'reasoning': llm_predictions.get('reasoning', 'Error in prediction processing'),
+                'reasoning_discussion': llm_predictions.get('reasoning', 'Error in prediction processing'),
                 'error': str(e)
             }
-    
-    async def _store_reasoning_chain(self, universal_data, llm_predictions: Dict, 
+
+    async def _store_reasoning_chain(self, universal_data, llm_predictions: Dict,
                                    structured_prediction: Dict, llm_response, memories: List):
         """Store complete reasoning chain in database"""
         try:
             if not self.memory_service:
                 return
-                
+
             reasoning_data = {
                 'expert_id': self.expert_id,
                 'game_context': {
@@ -976,37 +1153,37 @@ You think through problems methodically, referencing your past experiences, and 
                 'prediction_relationships': llm_predictions.get('prediction_relationships', ''),
                 'timestamp': datetime.now().isoformat()
             }
-            
+
             # Store in expert_reasoning_chains table
             await self.memory_service.store_reasoning_chain(reasoning_data)
             logger.info(f"{self.name}: Stored complete reasoning chain in database")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error storing reasoning chain: {e}")
-    
+
     async def process_game_outcome(self, original_prediction: Dict, actual_outcome: Dict):
         """Process game outcome for belief revision and learning"""
         if not self.llm_service or not self.memory_service:
             logger.warning(f"{self.name}: Cannot process game outcome - missing LLM or memory service")
             return
-            
+
         start_time = time.perf_counter()
-        
+
         try:
             logger.info(f"{self.name}: Starting belief revision process")
-            
+
             # Build belief revision prompt
             from ..prompts.nfl_prediction_prompts import build_belief_revision_prompt
             personality_description = self._build_personality_description()
-            
+
             system_message, user_message = build_belief_revision_prompt(
                 prediction_data=original_prediction,
                 actual_outcome=actual_outcome,
                 expert_personality=personality_description
             )
-            
+
             logger.info(f"{self.name}: Built belief revision prompt")
-            
+
             # Call LLM for belief revision
             llm_start = time.perf_counter()
             belief_response = await self.llm_service.generate_completion(
@@ -1016,10 +1193,10 @@ You think through problems methodically, referencing your past experiences, and 
                 max_tokens=1000,
                 model="openai/gpt-oss-20b"
             )
-            
+
             llm_duration = time.perf_counter() - llm_start
             logger.info(f"{self.name}: Belief revision LLM call completed in {llm_duration:.2f}s")
-            
+
             # Parse belief revision response
             try:
                 belief_analysis = json.loads(belief_response.content)
@@ -1032,31 +1209,31 @@ You think through problems methodically, referencing your past experiences, and 
                     'belief_updates': [],
                     'performance_assessment': 'Unable to parse structured response'
                 }
-            
+
             # Store episodic memory
             await self._store_episodic_memory(
                 original_prediction, actual_outcome, belief_analysis, belief_response
             )
-            
+
             # Update personality traits based on learning (if applicable)
             await self._update_personality_from_learning(belief_analysis)
-            
+
             total_duration = time.perf_counter() - start_time
             logger.info(f"{self.name}: Complete belief revision process finished in {total_duration:.2f}s")
-            
+
             return belief_analysis
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error in belief revision process: {e}")
             logger.exception("Full exception details:")
             return None
-    
+
     async def _store_episodic_memory(self, prediction: Dict, outcome: Dict, belief_analysis: Dict, llm_response):
         """Store episodic memory in Supabase database"""
         try:
             if not self.memory_service:
                 return
-                
+
             memory_data = {
                 'expert_id': self.expert_id,
                 'game_context': {
@@ -1085,24 +1262,24 @@ You think through problems methodically, referencing your past experiences, and 
                 'memory_type': 'prediction_outcome',
                 'timestamp': datetime.now().isoformat()
             }
-            
+
             await self.memory_service.store_episodic_memory(memory_data)
             logger.info(f"{self.name}: Stored episodic memory in Supabase")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error storing episodic memory: {e}")
-    
+
     async def _update_personality_from_learning(self, belief_analysis: Dict):
         """Update personality traits based on learning insights"""
         try:
             belief_updates = belief_analysis.get('belief_updates', [])
-            
+
             for update in belief_updates:
                 if isinstance(update, dict):
                     trait_name = update.get('trait_affected')
                     direction = update.get('adjustment_direction', 'none')
                     magnitude = update.get('adjustment_magnitude', 0.0)
-                    
+
                     if trait_name in self.personality.traits:
                         trait = self.personality.traits[trait_name]
                         if trait.stability < 0.8:  # Only adjust non-stable traits
@@ -1110,20 +1287,20 @@ You think through problems methodically, referencing your past experiences, and 
                                 trait.value = min(1.0, trait.value + magnitude * self.personality.learning_rate)
                             elif direction == 'decrease':
                                 trait.value = max(0.0, trait.value - magnitude * self.personality.learning_rate)
-                            
+
                             logger.info(f"{self.name}: Updated {trait_name} to {trait.value:.3f}")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error updating personality from learning: {e}")
-            
+
             system_message, user_message = build_belief_revision_prompt(
                 original_prediction=original_prediction,
                 actual_outcome=actual_outcome,
                 expert_personality=personality_description
             )
-            
+
             logger.info(f"{self.name}: Built belief revision prompt")
-            
+
             # Call LLM for belief revision analysis
             llm_response = await self.llm_service.generate_completion(
                 system_message=system_message,
@@ -1132,9 +1309,9 @@ You think through problems methodically, referencing your past experiences, and 
                 max_tokens=-1,
                 model="openai/gpt-oss-20b"
             )
-            
+
             logger.info(f"{self.name}: LLM belief revision completed")
-            
+
             # Parse belief revision response
             try:
                 belief_revision = json.loads(llm_response.content)
@@ -1142,24 +1319,24 @@ You think through problems methodically, referencing your past experiences, and 
             except json.JSONDecodeError as e:
                 logger.error(f"{self.name}: Failed to parse belief revision JSON: {e}")
                 return
-            
+
             # Store belief revision in database
             await self._store_belief_revision(original_prediction, actual_outcome, belief_revision, llm_response)
-            
+
             # Extract and apply learned weight adjustments
             await self._apply_learned_weights(belief_revision)
-            
+
             # Create enriched episodic memory
             await self._create_enriched_memory(original_prediction, actual_outcome, belief_revision)
-            
+
             total_duration = time.perf_counter() - start_time
             logger.info(f"{self.name}: Belief revision process completed in {total_duration:.2f}s")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error in belief revision process: {e}")
             logger.exception("Full exception details:")
-    
-    async def _store_belief_revision(self, original_prediction: Dict, actual_outcome: Dict, 
+
+    async def _store_belief_revision(self, original_prediction: Dict, actual_outcome: Dict,
                                    belief_revision: Dict, llm_response):
         """Store belief revision analysis in database"""
         try:
@@ -1181,23 +1358,23 @@ You think through problems methodically, referencing your past experiences, and 
                 },
                 'timestamp': datetime.now().isoformat()
             }
-            
+
             await self.memory_service.store_belief_revision(revision_data)
             logger.info(f"{self.name}: Stored belief revision in database")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error storing belief revision: {e}")
-    
+
     async def _apply_learned_weights(self, belief_revision: Dict):
         """Extract and apply learned weight adjustments"""
         try:
             lessons = belief_revision.get('lessons_learned', [])
-            
+
             for lesson in lessons:
                 lesson_text = lesson.get('lesson', '')
                 application = lesson.get('application', '')
                 confidence_adjustment = lesson.get('confidence_adjustment', '')
-                
+
                 # Extract weight adjustments and store in expert_learned_weights table
                 weight_data = {
                     'expert_id': self.expert_id,
@@ -1206,15 +1383,15 @@ You think through problems methodically, referencing your past experiences, and 
                     'confidence_impact': confidence_adjustment,
                     'timestamp': datetime.now().isoformat()
                 }
-                
+
                 await self.memory_service.store_learned_weight(weight_data)
-            
+
             logger.info(f"{self.name}: Applied {len(lessons)} learned weight adjustments")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error applying learned weights: {e}")
-    
-    async def _create_enriched_memory(self, original_prediction: Dict, actual_outcome: Dict, 
+
+    async def _create_enriched_memory(self, original_prediction: Dict, actual_outcome: Dict,
                                     belief_revision: Dict):
         """Create enriched episodic memory with post-game insights"""
         try:
@@ -1232,27 +1409,27 @@ You think through problems methodically, referencing your past experiences, and 
                 'memory_type': 'enriched_episodic',
                 'timestamp': datetime.now().isoformat()
             }
-            
+
             await self.memory_service.store_episodic_memory(memory_data)
             logger.info(f"{self.name}: Created enriched episodic memory")
-            
+
         except Exception as e:
             logger.error(f"{self.name}: Error creating enriched memory: {e}")
-    
+
     def _summarize_prediction(self, prediction: Dict) -> str:
         """Create concise summary of prediction for memory storage"""
         winner = prediction.get('winner_prediction', 'unknown')
         confidence = prediction.get('winner_confidence', 0.5)
         spread = prediction.get('spread_prediction', 0)
         total = prediction.get('total_prediction', 45)
-        
+
         return f"Predicted {winner} to win (confidence: {confidence:.0%}), spread: {spread:+.1f}, total: {total:.1f}"
-    
+
     def _evaluate_prediction_accuracy(self, prediction: Dict, outcome: Dict) -> bool:
         """Evaluate if the main prediction was correct"""
         predicted_winner = prediction.get('winner_prediction', '')
         actual_winner = outcome.get('winner', '')
-        
+
         return predicted_winner.lower() == actual_winner.lower()
 
     def process_through_personality_lens(self, universal_data: UniversalGameData) -> Dict[str, float]:

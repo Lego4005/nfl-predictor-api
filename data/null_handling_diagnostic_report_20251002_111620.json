@@ -1,0 +1,205 @@
+{
+  "timestamp": "20251002_111620",
+  "total_games_tested": 3,
+  "successful_games": 0,
+  "failed_games": 3,
+  "success_rate": 0.0,
+  "null_field_summary": {
+    "weather.humidity": {
+      "field_path": "weather.humidity",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.home.wins": {
+      "field_path": "team_stats.home.wins",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.home.losses": {
+      "field_path": "team_stats.home.losses",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.home.points_per_game": {
+      "field_path": "team_stats.home.points_per_game",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.home.points_allowed_per_game": {
+      "field_path": "team_stats.home.points_allowed_per_game",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.away.wins": {
+      "field_path": "team_stats.away.wins",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.away.losses": {
+      "field_path": "team_stats.away.losses",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.away.points_per_game": {
+      "field_path": "team_stats.away.points_per_game",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "team_stats.away.points_allowed_per_game": {
+      "field_path": "team_stats.away.points_allowed_per_game",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "line_movement.public_percentage": {
+      "field_path": "line_movement.public_percentage",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "head_to_head.recent_games (empty list)": {
+      "field_path": "head_to_head.recent_games (empty list)",
+      "null_count": 3,
+      "total_count": 3,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null,
+        null,
+        null
+      ]
+    },
+    "weather.temperature": {
+      "field_path": "weather.temperature",
+      "null_count": 1,
+      "total_count": 1,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null
+      ]
+    },
+    "weather.wind_speed": {
+      "field_path": "weather.wind_speed",
+      "null_count": 1,
+      "total_count": 1,
+      "null_percentage": 100.0,
+      "sample_null_values": [
+        null
+      ]
+    }
+  },
+  "critical_issues": [
+    "High failure rate: 0.0% success rate",
+    "Recurring error pattern: 'unsupported operand type(s) for -' occurred 2 times"
+  ],
+  "recommendations": [
+    "Add fallback values for weather data: weather.humidity",
+    "Use league averages for missing team stats: team_stats.home.wins",
+    "Use league averages for missing team stats: team_stats.home.losses",
+    "Use league averages for missing team stats: team_stats.home.points_per_game",
+    "Use league averages for missing team stats: team_stats.home.points_allowed_per_game",
+    "Use league averages for missing team stats: team_stats.away.wins",
+    "Use league averages for missing team stats: team_stats.away.losses",
+    "Use league averages for missing team stats: team_stats.away.points_per_game",
+    "Use league averages for missing team stats: team_stats.away.points_allowed_per_game",
+    "Add neutral defaults for betting lines: line_movement.public_percentage",
+    "Add null checking and fallback for: head_to_head.recent_games (empty list)",
+    "Add fallback values for weather data: weather.temperature",
+    "Add fallback values for weather data: weather.wind_speed",
+    "Implement comprehensive DataValidator class",
+    "Add graceful degradation for missing data",
+    "Implement validation logging instead of crashes"
+  ],
+  "game_reports": [
+    {
+      "game_id": "unknown",
+      "home_team": "KC",
+      "away_team": "HOU",
+      "season": 2020,
+      "week": 1,
+      "success": false,
+      "error_message": "unsupported operand type(s) for -: 'str' and 'str'",
+      "null_fields_count": 11,
+      "missing_data_categories": []
+    },
+    {
+      "game_id": "unknown",
+      "home_team": "ATL",
+      "away_team": "SEA",
+      "season": 2020,
+      "week": 1,
+      "success": false,
+      "error_message": "'<' not supported between instances of 'NoneType' and 'int'",
+      "null_fields_count": 13,
+      "missing_data_categories": []
+    },
+    {
+      "game_id": "unknown",
+      "home_team": "BUF",
+      "away_team": "NYJ",
+      "season": 2020,
+      "week": 1,
+      "success": false,
+      "error_message": "unsupported operand type(s) for -: 'str' and 'str'",
+      "null_fields_count": 11,
+      "missing_data_categories": []
+    }
+  ]
+}

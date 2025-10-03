@@ -65,24 +65,70 @@ class SupabaseEpisodicMemoryManager:
             logger.error(f"❌ Error storing memory: {e}")
             return False
 
-    async def retrieve_memories(self, expert_id: str, game_context: Dict[str, Any], limit: int = 5) -> List[Dict[str, Any]]:
-        """Retrieve similar memories"""
+    async def retrieve_memories(self, expert_id: str, game_context: Dict[str, Any], limit: int = 5, team_specific: bool = True) -> List[Dict[str, Any]]:
+        """
+        Retrieve similar memories
+
+        Args:
+            expert_id: Expert identifier
+            game_context: Dict with 'home_team' and 'away_team'
+            limit: Max memories to retrieve
+            team_specific: If True, retrieve memories for either team (recommended)
+                          If False, only retrieve exact matchup memories (old behavior)
+        """
         try:
-            # Simple retrieval by expert_id (similarity search would require pgvector)
-            result = self.supabase.table('expert_episodic_memories') \
-                .select('*') \
-                .eq('expert_id', expert_id) \
-                .order('created_at', desc=True) \
-                .limit(limit) \
-                .execute()
+            if team_specific and 'home_team' in game_context and 'away_team' in game_context:
+                # NEW: Retrieve ALL memories involving either team
+                home_team = game_context['home_team']
+                away_team = game_context['away_team']
 
-            memories = []
-            if result.data:
-                for mem in result.data:
-                    mem['similarity_score'] = 0.7  # Mock similarity for now
-                    memories.append(mem)
+                # Get all memories where either team is involved
+                result = self.supabase.table('expert_episodic_memories') \
+                    .select('*') \
+                    .eq('expert_id', expert_id) \
+                    .order('created_at', desc=True) \
+                    .execute()
 
-                logger.info(f"✅ Retrieved {len(memories)} memories for {expert_id}")
+                # Filter for team-specific memories
+                team_memories = []
+                if result.data:
+                    for mem in result.data:
+                        factors = mem.get('contextual_factors', [])
+                        mem_teams = set()
+                        for factor in factors:
+                            if factor.get('factor') in ['home_team', 'away_team']:
+                                mem_teams.add(factor['value'])
+
+                        # Include if memory involves either team
+                        if home_team in mem_teams or away_team in mem_teams:
+                            # Calculate relevance score
+                            if home_team in mem_teams and away_team in mem_teams:
+                                mem['similarity_score'] = 1.0  # Exact matchup
+                            else:
+                                mem['similarity_score'] = 0.8  # Single team match
+                            team_memories.append(mem)
+
+                # Sort by relevance and recency, limit results
+                team_memories.sort(key=lambda x: (x['similarity_score'], x['created_at']), reverse=True)
+                memories = team_memories[:limit]
+
+                logger.info(f"✅ Retrieved {len(memories)} team-specific memories for {expert_id} ({home_team} vs {away_team})")
+            else:
+                # OLD: Simple retrieval by expert_id only
+                result = self.supabase.table('expert_episodic_memories') \
+                    .select('*') \
+                    .eq('expert_id', expert_id) \
+                    .order('created_at', desc=True) \
+                    .limit(limit) \
+                    .execute()
+
+                memories = []
+                if result.data:
+                    for mem in result.data:
+                        mem['similarity_score'] = 0.7  # Mock similarity for now
+                        memories.append(mem)
+
+                    logger.info(f"✅ Retrieved {len(memories)} memories for {expert_id}")
 
             return memories
 

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NFL Prediction Response",
+  "description": "Structured output schema for NFL game predictions",
+  "type": "object",
+  "properties": {
+    "reasoning": {
+      "type": "string",
+      "description": "Brief 2-3 sentence analysis of the matchup",
+      "minLength": 20,
+      "maxLength": 500
+    },
+    "winner": {
+      "type": "string",
+      "description": "Predicted winner of the game",
+      "enum": ["home", "away"]
+    },
+    "confidence": {
+      "type": "integer",
+      "description": "Confidence level in the prediction (50-90, where 50 is toss-up, 70 is confident)",
+      "minimum": 50,
+      "maximum": 90
+    },
+    "spread": {
+      "type": "number",
+      "description": "Point spread prediction (negative = home favored, positive = away favored)",
+      "minimum": -21.0,
+      "maximum": 21.0
+    },
+    "total": {
+      "type": "number",
+      "description": "Combined total points for both teams (typical NFL range: 35-65 points)",
+      "minimum": 30.0,
+      "maximum": 70.0
+    }
+  },
+  "required": ["reasoning", "winner", "confidence", "spread", "total"],
+  "additionalProperties": false
+}
