@@ -267,6 +267,12 @@ test_logos.py
 test_props.py
 test_complete_integration.py
 
+# Debug and test scripts with potential keys
+scripts/debug_*.mjs
+scripts/debug_*.js
+tests/testSupabase.js
+scripts/check_database_schema.mjs
+
 
 # Claude Flow generated files
 .claude/settings.local.json
