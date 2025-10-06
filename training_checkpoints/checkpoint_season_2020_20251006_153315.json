@@ -1,0 +1,345 @@
+{
+  "session": {
+    "session_id": "season_2020_20251006_153315",
+    "start_time": "2025-10-06 15:33:15.844894",
+    "end_time": "2025-10-06 15:34:02.346240",
+    "season": 2020,
+    "games_processed": 2,
+    "total_predictions": 30,
+    "expert_states": {
+      "chaos_theory_believer": {
+        "expert_id": "chaos_theory_believer",
+        "expert_type": "ExpertType.CHAOS_THEORY_BELIEVER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.27,
+        "avg_confidence": 0.635,
+        "last_updated": "2025-10-06 15:34:02.344145"
+      },
+      "consensus_follower": {
+        "expert_id": "consensus_follower",
+        "expert_type": "ExpertType.CONSENSUS_FOLLOWER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.2999999999999998,
+        "avg_confidence": 0.6499999999999999,
+        "last_updated": "2025-10-06 15:34:02.344147"
+      },
+      "conservative_analyzer": {
+        "expert_id": "conservative_analyzer",
+        "expert_type": "ExpertType.CONSERVATIVE_ANALYZER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.3399999999999999,
+        "avg_confidence": 0.6699999999999999,
+        "last_updated": "2025-10-06 15:34:02.344149"
+      },
+      "contrarian_rebel": {
+        "expert_id": "contrarian_rebel",
+        "expert_type": "ExpertType.CONTRARIAN_REBEL",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 1,
+        "accuracy": 0.5,
+        "confidence_sum": 1.2,
+        "avg_confidence": 0.6,
+        "last_updated": "2025-10-06 15:34:02.344151"
+      },
+      "fundamentalist_scholar": {
+        "expert_id": "fundamentalist_scholar",
+        "expert_type": "ExpertType.FUNDAMENTALIST_SCHOLAR",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.4,
+        "avg_confidence": 0.7,
+        "last_updated": "2025-10-06 15:34:02.344153"
+      },
+      "gut_instinct_expert": {
+        "expert_id": "gut_instinct_expert",
+        "expert_type": "ExpertType.GUT_INSTINCT_EXPERT",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.3,
+        "avg_confidence": 0.65,
+        "last_updated": "2025-10-06 15:34:02.344154"
+      },
+      "market_inefficiency_exploiter": {
+        "expert_id": "market_inefficiency_exploiter",
+        "expert_type": "ExpertType.MARKET_INEFFICIENCY_EXPLOITER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 1,
+        "accuracy": 0.5,
+        "confidence_sum": 1.3,
+        "avg_confidence": 0.65,
+        "last_updated": "2025-10-06 15:34:02.344156"
+      },
+      "momentum_rider": {
+        "expert_id": "momentum_rider",
+        "expert_type": "ExpertType.MOMENTUM_RIDER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.35,
+        "avg_confidence": 0.675,
+        "last_updated": "2025-10-06 15:34:02.344158"
+      },
+      "popular_narrative_fader": {
+        "expert_id": "popular_narrative_fader",
+        "expert_type": "ExpertType.POPULAR_NARRATIVE_FADER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.37,
+        "avg_confidence": 0.685,
+        "last_updated": "2025-10-06 15:34:02.344159"
+      },
+      "risk_taking_gambler": {
+        "expert_id": "risk_taking_gambler",
+        "expert_type": "ExpertType.RISK_TAKING_GAMBLER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 0,
+        "accuracy": 0.0,
+        "confidence_sum": 1.17,
+        "avg_confidence": 0.585,
+        "last_updated": "2025-10-06 15:34:02.344161"
+      },
+      "sharp_money_follower": {
+        "expert_id": "sharp_money_follower",
+        "expert_type": "ExpertType.SHARP_MONEY_FOLLOWER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.44,
+        "avg_confidence": 0.72,
+        "last_updated": "2025-10-06 15:34:02.344163"
+      },
+      "statistics_purist": {
+        "expert_id": "statistics_purist",
+        "expert_type": "ExpertType.STATISTICS_PURIST",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.35,
+        "avg_confidence": 0.675,
+        "last_updated": "2025-10-06 15:34:02.344165"
+      },
+      "trend_reversal_specialist": {
+        "expert_id": "trend_reversal_specialist",
+        "expert_type": "ExpertType.TREND_REVERSAL_SPECIALIST",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 0,
+        "accuracy": 0.0,
+        "confidence_sum": 1.27,
+        "avg_confidence": 0.635,
+        "last_updated": "2025-10-06 15:34:02.344167"
+      },
+      "underdog_champion": {
+        "expert_id": "underdog_champion",
+        "expert_type": "ExpertType.UNDERDOG_CHAMPION",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 2,
+        "accuracy": 1.0,
+        "confidence_sum": 1.3,
+        "avg_confidence": 0.65,
+        "last_updated": "2025-10-06 15:34:02.344168"
+      },
+      "value_hunter": {
+        "expert_id": "value_hunter",
+        "expert_type": "ExpertType.VALUE_HUNTER",
+        "games_processed": 2,
+        "total_predictions": 2,
+        "correct_predictions": 1,
+        "accuracy": 0.5,
+        "confidence_sum": 1.2,
+        "avg_confidence": 0.6,
+        "last_updated": "2025-10-06 15:34:02.344170"
+      }
+    }
+  },
+  "expert_states": {
+    "chaos_theory_believer": {
+      "expert_id": "chaos_theory_believer",
+      "expert_type": "ExpertType.CHAOS_THEORY_BELIEVER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.27,
+      "avg_confidence": 0.635,
+      "last_updated": "2025-10-06 15:34:02.344145"
+    },
+    "consensus_follower": {
+      "expert_id": "consensus_follower",
+      "expert_type": "ExpertType.CONSENSUS_FOLLOWER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.2999999999999998,
+      "avg_confidence": 0.6499999999999999,
+      "last_updated": "2025-10-06 15:34:02.344147"
+    },
+    "conservative_analyzer": {
+      "expert_id": "conservative_analyzer",
+      "expert_type": "ExpertType.CONSERVATIVE_ANALYZER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.3399999999999999,
+      "avg_confidence": 0.6699999999999999,
+      "last_updated": "2025-10-06 15:34:02.344149"
+    },
+    "contrarian_rebel": {
+      "expert_id": "contrarian_rebel",
+      "expert_type": "ExpertType.CONTRARIAN_REBEL",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 1,
+      "accuracy": 0.5,
+      "confidence_sum": 1.2,
+      "avg_confidence": 0.6,
+      "last_updated": "2025-10-06 15:34:02.344151"
+    },
+    "fundamentalist_scholar": {
+      "expert_id": "fundamentalist_scholar",
+      "expert_type": "ExpertType.FUNDAMENTALIST_SCHOLAR",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.4,
+      "avg_confidence": 0.7,
+      "last_updated": "2025-10-06 15:34:02.344153"
+    },
+    "gut_instinct_expert": {
+      "expert_id": "gut_instinct_expert",
+      "expert_type": "ExpertType.GUT_INSTINCT_EXPERT",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.3,
+      "avg_confidence": 0.65,
+      "last_updated": "2025-10-06 15:34:02.344154"
+    },
+    "market_inefficiency_exploiter": {
+      "expert_id": "market_inefficiency_exploiter",
+      "expert_type": "ExpertType.MARKET_INEFFICIENCY_EXPLOITER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 1,
+      "accuracy": 0.5,
+      "confidence_sum": 1.3,
+      "avg_confidence": 0.65,
+      "last_updated": "2025-10-06 15:34:02.344156"
+    },
+    "momentum_rider": {
+      "expert_id": "momentum_rider",
+      "expert_type": "ExpertType.MOMENTUM_RIDER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.35,
+      "avg_confidence": 0.675,
+      "last_updated": "2025-10-06 15:34:02.344158"
+    },
+    "popular_narrative_fader": {
+      "expert_id": "popular_narrative_fader",
+      "expert_type": "ExpertType.POPULAR_NARRATIVE_FADER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.37,
+      "avg_confidence": 0.685,
+      "last_updated": "2025-10-06 15:34:02.344159"
+    },
+    "risk_taking_gambler": {
+      "expert_id": "risk_taking_gambler",
+      "expert_type": "ExpertType.RISK_TAKING_GAMBLER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 0,
+      "accuracy": 0.0,
+      "confidence_sum": 1.17,
+      "avg_confidence": 0.585,
+      "last_updated": "2025-10-06 15:34:02.344161"
+    },
+    "sharp_money_follower": {
+      "expert_id": "sharp_money_follower",
+      "expert_type": "ExpertType.SHARP_MONEY_FOLLOWER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.44,
+      "avg_confidence": 0.72,
+      "last_updated": "2025-10-06 15:34:02.344163"
+    },
+    "statistics_purist": {
+      "expert_id": "statistics_purist",
+      "expert_type": "ExpertType.STATISTICS_PURIST",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.35,
+      "avg_confidence": 0.675,
+      "last_updated": "2025-10-06 15:34:02.344165"
+    },
+    "trend_reversal_specialist": {
+      "expert_id": "trend_reversal_specialist",
+      "expert_type": "ExpertType.TREND_REVERSAL_SPECIALIST",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 0,
+      "accuracy": 0.0,
+      "confidence_sum": 1.27,
+      "avg_confidence": 0.635,
+      "last_updated": "2025-10-06 15:34:02.344167"
+    },
+    "underdog_champion": {
+      "expert_id": "underdog_champion",
+      "expert_type": "ExpertType.UNDERDOG_CHAMPION",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 2,
+      "accuracy": 1.0,
+      "confidence_sum": 1.3,
+      "avg_confidence": 0.65,
+      "last_updated": "2025-10-06 15:34:02.344168"
+    },
+    "value_hunter": {
+      "expert_id": "value_hunter",
+      "expert_type": "ExpertType.VALUE_HUNTER",
+      "games_processed": 2,
+      "total_predictions": 2,
+      "correct_predictions": 1,
+      "accuracy": 0.5,
+      "confidence_sum": 1.2,
+      "avg_confidence": 0.6,
+      "last_updated": "2025-10-06 15:34:02.344170"
+    }
+  },
+  "timestamp": "2025-10-06T15:34:02.346382"
+}

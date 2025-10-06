@@ -1,0 +1,41 @@
+{
+  "memory_id": "2020_01_HOU_KC_contrarian_rebel_20251005_153011",
+  "expert_id": "contrarian_rebel",
+  "game_id": "2020_01_HOU_KC",
+  "game_date": "2020-09-10",
+  "teams": "HOU@KC",
+  "week": 1,
+  "season": 2020,
+  "prediction": {
+    "winner": "HOU",
+    "probability": 0.45,
+    "confidence": 0.75,
+    "reasoning": [
+      "Fade the public",
+      "Contrarian value"
+    ]
+  },
+  "outcome": {
+    "home_score": 34,
+    "away_score": 20,
+    "winner": "home"
+  },
+  "was_correct": false,
+  "confidence_calibration": 0.25,
+  "validated_factors": [],
+  "contradicted_factors": [
+    "contrarian_approach"
+  ],
+  "reasoning_quality": 0.6,
+  "memory_strength": 0.8,
+  "tags": [
+    "week_1",
+    "season_2020",
+    "incorrect",
+    "high_confidence",
+    "contrarian_pick"
+  ],
+  "created_at": "2025-10-05T15:30:11.097046",
+  "last_accessed": "2025-10-05T15:30:11.098091",
+  "access_count": 2
+}

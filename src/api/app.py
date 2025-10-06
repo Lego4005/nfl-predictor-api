@@ -23,6 +23,10 @@ from performance.optimized_prediction_service import get_optimized_service
 from performance.database_optimizer import get_database_optimizer
 from performance.performance_monitor import get_performance_monitor
 
+# Import automated learning system
+from services.automated_learning_system import AutomatedLearningSystem
+from supabase import create_client
+
 # Import real data endpoints (with fallback handling)
 try:
     from real_data_endpoints import router as real_data_router
@@ -40,7 +44,7 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     # Startup
-    logger.info("🚀 Starting NFL Predictor API with Performance Optimizations...")
+    logger.info("🚀 Starting NFL Predictor API with Performance Optimizations and Automated Learning...")
 
     # Run database migrations
     try:
@@ -71,10 +75,44 @@ async def lifespan(app: FastAPI):
         logger.warning(f"⚠️ Performance optimization initialization warning: {e}")
         # Continue startup even if optimization fails
 
+    # Initialize automated learning system
+    automated_learning_system = None
+    try:
+        # Get Supabase credentials
+        supabase_url = os.getenv('SUPABASE_URL')
+        supabase_key = os.getenv('SUPABASE_ANON_KEY')
+
+        if supabase_url and supabase_key:
+            supabase_client = create_client(supabase_url, supabase_key)
+            automated_learning_system = AutomatedLearningSystem(supabase_client)
+
+            # Start the automated learning system in the background
+            import asyncio
+            asyncio.create_task(automated_learning_system.start())
+
+            # Store reference for shutdown
+            app.state.automated_learning_system = automated_learning_system
+
+            logger.info("🧠 Automated Learning System started - AI will now learn from every completed game!")
+        else:
+            logger.warning("⚠️ Supabase credentials not found - Automated Learning System disabled")
+
+    except Exception as e:
+        logger.warning(f"⚠️ Automated Learning System initialization warning: {e}")
+        # Continue startup even if automated learning fails
+
     yield
 
     # Shutdown
     logger.info("🛑 Shutting down NFL Predictor API...")
+
+    # Cleanup automated learning system
+    if hasattr(app.state, 'automated_learning_system') and app.state.automated_learning_system:
+        try:
+            await app.state.automated_learning_system.stop()
+            logger.info("✅ Automated Learning System shutdown complete")
+        except Exception as e:
+            logger.error(f"Error during Automated Learning System shutdown: {e}")
 
     # Cleanup performance services
     try:
@@ -136,7 +174,7 @@ else:
 # Enhanced health check endpoint
 @app.get("/health")
 async def health_check():
-    """Enhanced health check with performance metrics"""
+    """Enhanced health check with performance metrics and automated learning status"""
     try:
         # Get performance monitor status
         monitor = await get_performance_monitor()
@@ -150,8 +188,27 @@ async def health_check():
         prediction_service = await get_optimized_service()
         perf_stats = await prediction_service.get_performance_stats()
 
+        # Get automated learning system health
+        learning_health = {"status": "disabled", "details": "Not configured"}
+        if hasattr(app.state, 'automated_learning_system') and app.state.automated_learning_system:
+            try:
+                learning_status = await app.state.automated_learning_system.get_system_status()
+                learning_health = {
+                    "status": "healthy" if learning_status['health_status']['overall_status'] == 'healthy' else "degraded",
+                    "is_running": learning_status['system_info']['is_running'],
+                    "uptime_seconds": learning_status['system_info']['uptime_seconds'],
+                    "games_processed_24h": learning_status['performance_metrics']['processing_metrics']['games_processed_24h'],
+                    "overall_health": learning_status['health_status']['overall_status']
+                }
+            except Exception as e:
+                learning_health = {"status": "error", "details": str(e)}
+
+        overall_status = "healthy"
+        if learning_health["status"] == "error" or monitor_status.get('system_health') != 'healthy':
+            overall_status = "degraded"
+
         return {
-            "status": "healthy",
+            "status": overall_status,
             "service": "nfl-predictor-api",
             "version": "2.0.0",
             "performance_optimizations": {
@@ -160,6 +217,7 @@ async def health_check():
                 "monitoring_active": monitor_status.get('monitoring_active', False),
                 "parallel_processing": True
             },
+            "automated_learning": learning_health,
             "system_health": monitor_status.get('system_health', 'unknown'),
             "cache_hit_rate": perf_stats.get('cache_metrics', {}).get('current', {}).get('hit_rate', 0),
             "database_connections": db_health.get('connection_pool', {}).get('size', 0)
@@ -174,12 +232,73 @@ async def health_check():
             "error": str(e)
         }
 
+# Automated Learning System endpoints
+@app.get("/api/v1/learning/status")
+async def get_learning_system_status():
+    """Get comprehensive status of the automated learning system"""
+    if not hasattr(app.state, 'automated_learning_system') or not app.state.automated_learning_system:
+        raise HTTPException(status_code=503, detail="Automated Learning System not available")
+
+    try:
+        status = await app.state.automated_learning_system.get_system_status()
+        return status
+    except Exception as e:
+        logger.error(f"Error getting learning system status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/learning/statistics")
+async def get_learning_statistics():
+    """Get learning system performance statistics"""
+    if not hasattr(app.state, 'automated_learning_system') or not app.state.automated_learning_system:
+        raise HTTPException(status_code=503, detail="Automated Learning System not available")
+
+    try:
+        stats = await app.state.automated_learning_system.get_learning_statistics()
+        return stats
+    except Exception as e:
+        logger.error(f"Error getting learning statistics: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/learning/process-game/{game_id}")
+async def process_game_manually(game_id: str):
+    """Manually trigger processing for a specific game"""
+    if not hasattr(app.state, 'automated_learning_system') or not app.state.automated_learning_system:
+        raise HTTPException(status_code=503, detail="Automated Learning System not available")
+
+    try:
+        result = await app.state.automated_learning_system.process_game_manually(game_id)
+        return result
+    except Exception as e:
+        logger.error(f"Error processing game manually: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/learning/retry-failed")
+async def retry_failed_games():
+    """Retry all games that have failed processing"""
+    if not hasattr(app.state, 'automated_learning_system') or not app.state.automated_learning_system:
+        raise HTTPException(status_code=503, detail="Automated Learning System not available")
+
+    try:
+        result = await app.state.automated_learning_system.retry_failed_games()
+        return result
+    except Exception as e:
+        logger.error(f"Error retrying failed games: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Root endpoint
 @app.get("/")
 async def root():
-    """Root endpoint with performance features"""
+    """Root endpoint with performance features and automated learning"""
+    learning_status = "disabled"
+    if hasattr(app.state, 'automated_learning_system') and app.state.automated_learning_system:
+        try:
+            status = await app.state.automated_learning_system.get_system_status()
+            learning_status = "running" if status['system_info']['is_running'] else "stopped"
+        except:
+            learning_status = "error"
+
     return {
-        "message": "NFL Predictor API - High Performance Edition",
+        "message": "NFL Predictor API - High Performance Edition with Automated Learning",
         "version": "2.0.0",
         "performance_features": [
             "Sub-second response times",
@@ -190,12 +309,18 @@ async def root():
             "Real-time performance monitoring",
             "Response compression"
         ],
+        "automated_learning": {
+            "status": learning_status,
+            "description": "AI automatically learns from every completed game"
+        },
         "endpoints": {
             "docs": "/docs",
             "health": "/health",
             "performance_predictions": "/api/v2/performance/predictions/batch",
             "performance_stats": "/api/v2/performance/performance/stats",
-            "benchmark": "/api/v2/performance/performance/benchmark"
+            "benchmark": "/api/v2/performance/performance/benchmark",
+            "learning_status": "/api/v1/learning/status",
+            "learning_statistics": "/api/v1/learning/statistics"
         }
     }
 
@@ -211,12 +336,12 @@ async def global_exception_handler(request, exc):
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     # Get configuration from environment
     host = os.getenv("API_HOST", "0.0.0.0")
     port = int(os.getenv("API_PORT", "8000"))
     debug = os.getenv("DEBUG", "false").lower() == "true"
-    
+
     # Run the application
     uvicorn.run(
         "src.api.app:app",

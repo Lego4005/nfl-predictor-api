@@ -1,0 +1,268 @@
+{
+  "game_number": 100,
+  "timestamp": "2025-10-06 11:18:05.448184",
+  "total_memories_stored": 134,
+  "team_memories_count": 57,
+  "matchup_memories_count": 67,
+  "personal_memories_count": 134,
+  "expert_belief_weights": {
+    "chaos_theory_believer": {
+      "chaos_indicators": 0.95,
+      "market_volatility": 0.9,
+      "unexpected_events": 0.85,
+      "contrarian_opportunities": 0.9,
+      "upset_potential": 0.8,
+      "team_quality_metrics": 0.2,
+      "historical_patterns": 0.1,
+      "statistical_trends": 0.2,
+      "consensus_predictions": 0.1,
+      "market_efficiency": 0.1
+    },
+    "consensus_follower": {
+      "market_consensus": 0.8,
+      "public_betting_patterns": 0.8,
+      "popular_narratives": 0.6,
+      "expert_predictions": 0.7,
+      "team_quality_metrics": 0.6,
+      "historical_patterns": 0.5,
+      "statistical_trends": 0.6,
+      "contrarian_opportunities": 0.05,
+      "chaos_indicators": 0.2,
+      "upset_potential": 0.3
+    },
+    "conservative_analyzer": {
+      "team_quality_metrics": 0.9,
+      "statistical_trends": 0.9,
+      "historical_patterns": 0.8,
+      "market_efficiency": 0.8,
+      "value_opportunities": 0.6,
+      "analytical_models": 0.9,
+      "data_driven_insights": 0.9,
+      "contrarian_opportunities": 0.1,
+      "chaos_indicators": 0.2,
+      "gut_feelings": 0.1
+    },
+    "contrarian_rebel": {
+      "contrarian_opportunities": 0.95,
+      "public_betting_bias": 0.9,
+      "media_narrative_fading": 0.8,
+      "market_overreactions": 0.7,
+      "value_opportunities": 0.7,
+      "chaos_indicators": 0.8,
+      "upset_potential": 0.6,
+      "consensus_predictions": 0.2,
+      "popular_narratives": 0.2,
+      "team_quality_metrics": 0.4
+    },
+    "fundamentalist_scholar": {
+      "analytical_models": 0.95,
+      "statistical_trends": 0.9,
+      "historical_patterns": 0.9,
+      "team_quality_metrics": 0.8,
+      "value_opportunities": 0.8,
+      "market_efficiency": 0.7,
+      "data_driven_insights": 0.95,
+      "gut_feelings": 0.1,
+      "chaos_indicators": 0.1,
+      "contrarian_opportunities": 0.2
+    },
+    "gut_instinct_expert": {
+      "gut_feelings": 0.9,
+      "intuitive_reads": 0.85,
+      "emotional_factors": 0.7,
+      "chaos_indicators": 0.8,
+      "upset_potential": 0.6,
+      "momentum_shifts": 0.5,
+      "analytical_models": 0.1,
+      "statistical_trends": 0.1,
+      "market_efficiency": 0.3,
+      "data_driven_insights": 0.1
+    },
+    "market_inefficiency_exploiter": {
+      "market_inefficiencies": 0.98,
+      "value_opportunities": 0.95,
+      "line_movement_analysis": 0.9,
+      "sharp_money_indicators": 0.9,
+      "market_timing": 0.8,
+      "analytical_models": 0.9,
+      "contrarian_opportunities": 0.7,
+      "statistical_edges": 0.8,
+      "consensus_predictions": 0.5,
+      "gut_feelings": 0.2
+    },
+    "momentum_rider": {
+      "momentum_indicators": 0.8,
+      "trending_teams": 0.7,
+      "recent_performance": 0.8,
+      "hot_streaks": 0.8,
+      "market_momentum": 0.6,
+      "team_confidence": 0.7,
+      "value_opportunities": 0.4,
+      "contrarian_opportunities": 0.2,
+      "historical_patterns": 0.4,
+      "statistical_trends": 0.5
+    },
+    "popular_narrative_fader": {
+      "narrative_fading": 0.9,
+      "media_overreaction": 0.85,
+      "contrarian_opportunities": 0.9,
+      "public_betting_bias": 0.7,
+      "value_opportunities": 0.7,
+      "analytical_models": 0.6,
+      "chaos_indicators": 0.7,
+      "popular_narratives": 0.2,
+      "consensus_predictions": 0.2,
+      "market_efficiency": 0.5
+    },
+    "risk_taking_gambler": {
+      "high_risk_plays": 0.9,
+      "upset_potential": 0.9,
+      "chaos_indicators": 0.9,
+      "contrarian_opportunities": 0.7,
+      "gut_feelings": 0.8,
+      "big_payout_potential": 0.85,
+      "market_inefficiencies": 0.5,
+      "analytical_models": 0.3,
+      "conservative_plays": 0.2,
+      "statistical_trends": 0.3
+    },
+    "sharp_money_follower": {
+      "sharp_money_indicators": 0.95,
+      "professional_patterns": 0.9,
+      "line_movement_analysis": 0.9,
+      "market_efficiency": 0.8,
+      "value_opportunities": 0.8,
+      "analytical_models": 0.8,
+      "statistical_trends": 0.7,
+      "contrarian_opportunities": 0.3,
+      "public_betting_bias": 0.5,
+      "gut_feelings": 0.2
+    },
+    "statistics_purist": {
+      "statistical_models": 0.98,
+      "mathematical_analysis": 0.95,
+      "data_driven_insights": 0.95,
+      "analytical_models": 0.9,
+      "team_quality_metrics": 0.85,
+      "market_efficiency": 0.8,
+      "historical_patterns": 0.8,
+      "gut_feelings": 0.05,
+      "chaos_indicators": 0.05,
+      "emotional_factors": 0.1
+    },
+    "trend_reversal_specialist": {
+      "trend_reversal_indicators": 0.8,
+      "mean_reversion_signals": 0.8,
+      "overextended_trends": 0.75,
+      "value_opportunities": 0.8,
+      "contrarian_opportunities": 0.8,
+      "analytical_models": 0.7,
+      "statistical_trends": 0.7,
+      "momentum_indicators": 0.5,
+      "trending_teams": 0.4,
+      "hot_streaks": 0.3
+    },
+    "underdog_champion": {
+      "underdog_value": 0.9,
+      "upset_potential": 0.9,
+      "value_opportunities": 0.9,
+      "contrarian_opportunities": 0.8,
+      "chaos_indicators": 0.9,
+      "big_payout_potential": 0.85,
+      "gut_feelings": 0.6,
+      "analytical_models": 0.4,
+      "consensus_predictions": 0.3,
+      "popular_narratives": 0.3
+    },
+    "value_hunter": {
+      "value_opportunities": 0.95,
+      "market_inefficiencies": 0.9,
+      "line_value_analysis": 0.85,
+      "analytical_models": 0.8,
+      "statistical_trends": 0.8,
+      "contrarian_opportunities": 0.6,
+      "sharp_money_indicators": 0.7,
+      "market_efficiency": 0.9,
+      "consensus_predictions": 0.4,
+      "gut_feelings": 0.3
+    }
+  },
+  "expert_accuracy_rates": {
+    "chaos_theory_believer": 0.0,
+    "consensus_follower": 0.0,
+    "conservative_analyzer": 0.0,
+    "contrarian_rebel": 1.0,
+    "fundamentalist_scholar": 0.0,
+    "gut_instinct_expert": 0.0,
+    "market_inefficiency_exploiter": 0.0,
+    "momentum_rider": 1.0,
+    "popular_narrative_fader": 0.0,
+    "risk_taking_gambler": 0.0,
+    "sharp_money_follower": 0.0,
+    "statistics_purist": 0.0,
+    "trend_reversal_specialist": 0.0,
+    "underdog_champion": 0.0,
+    "value_hunter": 0.0
+  },
+  "sample_memory_retrievals": {
+    "contrarian_rebel": [
+      "team_pattern: LV pattern: Correctly predicted away team would wi...",
+      "team_pattern: LAC pattern: Correctly predicted away team would w...",
+      "team_pattern: ARI pattern: Correctly predicted away team would w..."
+    ],
+    "momentum_rider": [
+      "team_pattern: KC pattern: Correctly predicted home team would wi...",
+      "team_pattern: JAX pattern: Correctly predicted home team would w...",
+      "team_pattern: NE pattern: Correctly predicted home team would wi..."
+    ],
+    "chaos_theory_believer": []
+  },
+  "sample_reasoning_chains": {
+    "contrarian_rebel": {
+      "early": [
+        "Public split - looking for other contrarian angles",
+        "No clear fade opportunity in betting percentages"
+      ],
+      "recent": [
+        "Public split - looking for other contrarian angles",
+        "No clear fade opportunity in betting percentages"
+      ]
+    },
+    "momentum_rider": {
+      "early": [
+        "No clear momentum advantage for either team",
+        "Looking for subtle momentum indicators"
+      ],
+      "recent": [
+        "No clear momentum advantage for either team",
+        "Looking for subtle momentum indicators"
+      ]
+    }
+  },
+  "expert_win_rates": {
+    "chaos_theory_believer": 0.0,
+    "consensus_follower": 0.0,
+    "conservative_analyzer": 0.0,
+    "contrarian_rebel": 1.0,
+    "fundamentalist_scholar": 0.0,
+    "gut_instinct_expert": 0.0,
+    "market_inefficiency_exploiter": 0.0,
+    "momentum_rider": 1.0,
+    "popular_narrative_fader": 0.0,
+    "risk_taking_gambler": 0.0,
+    "sharp_money_follower": 0.0,
+    "statistics_purist": 0.0,
+    "trend_reversal_specialist": 0.0,
+    "underdog_champion": 0.0,
+    "value_hunter": 0.0
+  },
+  "successful_api_calls": 200,
+  "failed_api_calls": 1300,
+  "rate_limit_hits": 0,
+  "issues_detected": [
+    "Extreme performance detected: ['chaos_theory_believer', 'consensus_follower', 'conservative_analyzer', 'contrarian_rebel', 'fundamentalist_scholar', 'gut_instinct_expert', 'market_inefficiency_exploiter', 'momentum_rider', 'popular_narrative_fader', 'risk_taking_gambler', 'sharp_money_follower', 'statistics_purist', 'trend_reversal_specialist', 'underdog_champion', 'value_hunter']"
+  ],
+  "critical_issues": [
+    "API success rate too low: 13.3%"
+  ]
+}

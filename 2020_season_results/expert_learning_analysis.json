@@ -1,0 +1,247 @@
+{
+  "season": 2020,
+  "total_games": 284,
+  "analysis_timestamp": "2025-10-06T10:31:52.699226",
+  "expert_curves": {
+    "trend_reversal_specialist": {
+      "expert_type": "trend_reversal_specialist",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.7064970147048544,
+      "personality_drift_score": 0.0008873239436619773,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "market_inefficiency_exploiter": {
+      "expert_type": "market_inefficiency_exploiter",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.9259386386608466,
+      "personality_drift_score": 0.00039612676056340057,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "fundamentalist_scholar": {
+      "expert_type": "fundamentalist_scholar",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.6447682771780978,
+      "personality_drift_score": 0.0013959751188381136,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "sharp_money_follower": {
+      "expert_type": "sharp_money_follower",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.9108160587924956,
+      "personality_drift_score": 0.000464788732394375,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "statistics_purist": {
+      "expert_type": "statistics_purist",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.6939087680800476,
+      "personality_drift_score": 0.0008223189520366603,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "risk_taking_gambler": {
+      "expert_type": "risk_taking_gambler",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.2679958252693785,
+      "personality_drift_score": 0.022894366197183075,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "value_hunter": {
+      "expert_type": "value_hunter",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.7691549378637424,
+      "personality_drift_score": 0.0007120250132965633,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "underdog_champion": {
+      "expert_type": "underdog_champion",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.8340246942094036,
+      "personality_drift_score": 0.0006250000000000006,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "momentum_rider": {
+      "expert_type": "momentum_rider",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.9680374127680353,
+      "personality_drift_score": 0.00012676056338026265,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "gut_instinct_expert": {
+      "expert_type": "gut_instinct_expert",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.7115945312326981,
+      "personality_drift_score": 0.0028071370596530615,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "popular_narrative_fader": {
+      "expert_type": "popular_narrative_fader",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.7491363203050392,
+      "personality_drift_score": 0.0008353873239436704,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "consensus_follower": {
+      "expert_type": "consensus_follower",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.8569384984616918,
+      "personality_drift_score": 0.0006161971830985769,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "conservative_analyzer": {
+      "expert_type": "conservative_analyzer",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.68967763046337,
+      "personality_drift_score": 0.0008276635892931691,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "chaos_theory_believer": {
+      "expert_type": "chaos_theory_believer",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.9106965996825275,
+      "personality_drift_score": 0.000348591549295757,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    },
+    "contrarian_rebel": {
+      "expert_type": "contrarian_rebel",
+      "initial_accuracy": 1.0,
+      "final_accuracy": 0.5,
+      "accuracy_improvement": -0.5,
+      "learning_trend": "stable",
+      "confidence_stability": 0.7563230192044189,
+      "personality_drift_score": 0.0010985915492958132,
+      "context_performance": {
+        "early_season": 0.5074626865671642,
+        "late_season": 0.49333333333333335
+      },
+      "total_predictions": 284
+    }
+  },
+  "comparative_analysis": {
+    "best_learners": [
+      "trend_reversal_specialist",
+      "market_inefficiency_exploiter",
+      "fundamentalist_scholar"
+    ],
+    "worst_learners": [
+      "conservative_analyzer",
+      "chaos_theory_believer",
+      "contrarian_rebel"
+    ],
+    "most_stable": [
+      "momentum_rider",
+      "market_inefficiency_exploiter",
+      "sharp_money_follower"
+    ],
+    "most_volatile": [
+      "conservative_analyzer",
+      "fundamentalist_scholar",
+      "risk_taking_gambler"
+    ],
+    "context_specialists": {
+      "early_season": [],
+      "late_season": []
+    }
+  },
+  "system_metrics": {
+    "overall_learning_trend": "system_stable",
+    "learning_effectiveness_score": 0.0
+  }
+}

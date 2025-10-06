@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-10-06T10:31:54.625389",
+  "system_metrics": {
+    "total_runtime_seconds": 1.9424312114715576,
+    "peak_memory_mb": 25380.2265625,
+    "avg_memory_mb": 25380.2265625,
+    "peak_cpu_percent": 10.0,
+    "avg_cpu_percent": 10.0,
+    "avg_processing_speed": 0.5148533130385682
+  },
+  "performance_insights": [
+    "High memory usage detected: 25380MB peak",
+    "CPU utilization normal: 10.0% average",
+    "Processing completed in 0.0 minutes"
+  ]
+}

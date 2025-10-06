@@ -1,0 +1,128 @@
+{
+  "session_id": "season_2020_20251006_145753",
+  "season": 2020,
+  "duration_minutes": 0.006454333333333334,
+  "games_processed": 25,
+  "total_predictions": 0,
+  "overall_stats": {
+    "average_accuracy": 0.0,
+    "average_confidence": 0.0,
+    "best_expert": {
+      "id": "chaos_theory_believer",
+      "accuracy": 0.0,
+      "games": 0
+    },
+    "worst_expert": {
+      "id": "chaos_theory_believer",
+      "accuracy": 0.0,
+      "games": 0
+    }
+  },
+  "expert_performance": {
+    "chaos_theory_believer": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "consensus_follower": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "conservative_analyzer": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "contrarian_rebel": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "fundamentalist_scholar": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "gut_instinct_expert": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "market_inefficiency_exploiter": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "momentum_rider": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "popular_narrative_fader": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "risk_taking_gambler": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "sharp_money_follower": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "statistics_purist": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "trend_reversal_specialist": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "underdog_champion": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    },
+    "value_hunter": {
+      "accuracy": 0.0,
+      "games_processed": 0,
+      "avg_confidence": 0.0,
+      "correct_predictions": 0,
+      "total_predictions": 0
+    }
+  }
+}

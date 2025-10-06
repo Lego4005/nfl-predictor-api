@@ -1,0 +1,75 @@
+{
+  "executive_summary": {
+    "season": 2020,
+    "generated_at": "2025-10-06T10:31:54.625680",
+    "total_experts": 15,
+    "total_games": 284,
+    "overall_learning_trend": "system_stable",
+    "learning_effectiveness_score": 0.0
+  },
+  "key_findings": {
+    "best_performing_experts": [
+      {
+        "expert_id": "trend_reversal_specialist",
+        "final_accuracy": 0.5,
+        "improvement": -0.5
+      },
+      {
+        "expert_id": "market_inefficiency_exploiter",
+        "final_accuracy": 0.5,
+        "improvement": -0.5
+      },
+      {
+        "expert_id": "fundamentalist_scholar",
+        "final_accuracy": 0.5,
+        "improvement": -0.5
+      }
+    ],
+    "most_improved_experts": [
+      {
+        "expert_id": "trend_reversal_specialist",
+        "improvement": -0.5,
+        "learning_trend": "stable"
+      },
+      {
+        "expert_id": "market_inefficiency_exploiter",
+        "improvement": -0.5,
+        "learning_trend": "stable"
+      },
+      {
+        "expert_id": "fundamentalist_scholar",
+        "improvement": -0.5,
+        "learning_trend": "stable"
+      }
+    ],
+    "stability_leaders": [
+      {
+        "expert_id": "momentum_rider",
+        "stability_score": 0.9680374127680353,
+        "personality_drift": 0.00012676056338026265
+      },
+      {
+        "expert_id": "market_inefficiency_exploiter",
+        "stability_score": 0.9259386386608466,
+        "personality_drift": 0.00039612676056340057
+      },
+      {
+        "expert_id": "sharp_money_follower",
+        "stability_score": 0.9108160587924956,
+        "personality_drift": 0.000464788732394375
+      }
+    ]
+  },
+  "system_insights": {
+    "learning_effectiveness": 0.0,
+    "experts_improving": 0,
+    "experts_declining": 0,
+    "experts_stable": 15,
+    "context_specialists_identified": 0
+  },
+  "recommendations": [
+    "Low learning effectiveness detected - consider revising expert learning algorithms",
+    "Unstable experts detected: risk_taking_gambler - consider confidence calibration",
+    "Few context specialists identified - consider enhancing context-aware learning"
+  ]
+}
