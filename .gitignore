@@ -129,6 +129,10 @@ dist
 # Gatsby files
 .cache/
 public
+# But allow expert images and logos
+!public/expert_images/
+!public/logos/
+!public/nfl_team_svgs/
 
 # Storybook build outputs
 .out

@@ -63,8 +63,9 @@ const ExpertObservatorySimple: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Fetch expert data from our real API
-      const expertsRes = await fetch('http://192.168.254.149:8003/api/experts');
+      // Fetch expert data from production API or fallback to local dev
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://192.168.254.149:8003';
+      const expertsRes = await fetch(`${apiBaseUrl}/api/experts`);
       if (expertsRes.ok) {
         const expertsData = await expertsRes.json();
         setExperts(expertsData || []);
@@ -73,8 +74,8 @@ const ExpertObservatorySimple: React.FC = () => {
         throw new Error('Failed to fetch experts');
       }
 
-      // Fetch recent predictions from our real API
-      const gamesRes = await fetch('http://192.168.254.149:8003/api/predictions/recent');
+      // Fetch recent predictions from production API or fallback to local dev
+      const gamesRes = await fetch(`${apiBaseUrl}/api/predictions/recent`);
       if (gamesRes.ok) {
         const gamesData = await gamesRes.json();
 
