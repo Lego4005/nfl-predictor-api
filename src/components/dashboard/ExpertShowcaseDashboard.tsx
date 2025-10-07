@@ -242,7 +242,7 @@ const CouncilSpotlight: React.FC<{
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 sm:flex sm:flex-nowrap sm:overflow-x-auto experts-scroll sm:pb-4 sm:-mx-4 sm:px-4">
           {councilMembers.map((member, index) => (
             <motion.div
               key={member.id}
