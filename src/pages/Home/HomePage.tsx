@@ -255,14 +255,14 @@ function HomePage({ onNavigate }: HomePageProps) {
         </div>
 
         {/* Mobile: Horizontal scroll */}
-        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 scroll-smooth">
+        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth">
           {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
             <motion.div
               key={expert.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="text-center group cursor-pointer flex-none w-[280px] snap-start"
+              className="text-center group cursor-pointer flex-none w-[85vw] max-w-[320px] snap-center first:ml-[7.5vw] last:mr-[7.5vw]"
               onClick={() => handleFeatureClick('experts')}
             >
               <div className="relative mb-3">
