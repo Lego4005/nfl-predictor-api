@@ -516,7 +516,31 @@ const ExpertShowcaseDashboard: React.FC<ExpertShowcaseDashboardProps> = ({
       </div>
 
       {/* Expert Grid */}
-      <div className="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:flex sm:flex-nowrap sm:overflow-x-auto experts-scroll sm:pb-4 sm:-mx-4 sm:px-4">
+      {/* Mobile: Horizontal scroll */}
+      <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth">
+        <AnimatePresence>
+          {sortedExperts.map((expert, index) => (
+            <motion.div
+              key={expert.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              className="flex-none w-[85vw] max-w-[320px] snap-center first:ml-[7.5vw] last:mr-[7.5vw]"
+            >
+              <ExpertCard
+                expert={expert}
+                rank={expert.council_position || (index + 1)}
+                isCouncilMember={expert.council_position !== undefined}
+                onSelect={handleExpertSelect}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Desktop: Grid layout */}
+      <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <AnimatePresence>
           {sortedExperts.map((expert, index) => (
             <motion.div
