@@ -236,11 +236,11 @@ function HomePage({ onNavigate }: HomePageProps) {
       {/* Top 5 Experts Section */}
       <div className="mb-6">
         <div className="text-center mb-4">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <h2 className="text-2xl font-bold text-foreground">🏆 Elite Expert Council</h2>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">🏆 Elite Expert Council</h2>
             <AttractButton
               onClick={() => handleFeatureClick('experts')}
-              className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-white border-gold-400/30 min-w-fit px-3 py-1.5"
+              className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-white border-gold-400/30 min-w-fit px-3 py-1.5 text-sm sm:text-base"
               particleCount={8}
               attractRadius={40}
               defaultText="View Competition"
