@@ -242,11 +242,45 @@ const CouncilSpotlight: React.FC<{
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 sm:flex sm:flex-nowrap sm:overflow-x-auto experts-scroll sm:pb-4 sm:-mx-4 sm:px-4">
+        {/* Mobile: Horizontal scroll */}
+        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-3 pb-4 scroll-smooth">
           {councilMembers.map((member, index) => (
             <motion.div
               key={member.id}
-              className="text-center p-3 rounded-lg bg-white dark:bg-gray-800 border relative expert-card-mobile"
+              className="text-center p-3 rounded-lg bg-white dark:bg-gray-800 border relative flex-none w-[45vw] max-w-[180px] snap-center first:ml-[2.5vw] last:mr-[2.5vw]"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="relative mb-2">
+                <ExpertAvatar
+                  expert={member}
+                  size="md"
+                  showCouncilBadge={false}
+                  className="mx-auto"
+                />
+                <div className={cn(
+                  "absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-xs",
+                  index === 0 ? "bg-gold-500" :
+                  index === 1 ? "bg-silver-500" :
+                  index === 2 ? "bg-bronze-500" : "bg-purple-500"
+                )}>
+                  #{index + 1}
+                </div>
+              </div>
+              <h4 className="font-semibold text-sm truncate">{member.name}</h4>
+              <p className="text-xs text-gray-500 truncate">{member.archetype}</p>
+              <div className="text-lg font-bold text-green-600 mt-1">
+                {(member.accuracy_metrics.overall * 100).toFixed(1)}%
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desktop: Grid layout */}
+        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          {councilMembers.map((member, index) => (
+            <motion.div
+              key={member.id}
+              className="text-center p-3 rounded-lg bg-white dark:bg-gray-800 border relative"
               whileHover={{ scale: 1.05 }}
             >
               <div className="relative mb-2">
