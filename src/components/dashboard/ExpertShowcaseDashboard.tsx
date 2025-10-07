@@ -420,21 +420,21 @@ const ExpertShowcaseDashboard: React.FC<ExpertShowcaseDashboardProps> = ({
   return (
     <div className={cn("space-y-6", className)}>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="text-center sm:text-left">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
             Expert Competition Dashboard
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             15 AI experts competing for the top 5 council positions
           </p>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:space-x-2">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as any)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm"
           >
             <option value="all">All Experts</option>
             <option value="council">Council Members</option>
@@ -444,17 +444,18 @@ const ExpertShowcaseDashboard: React.FC<ExpertShowcaseDashboardProps> = ({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800"
+            className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm"
           >
             <option value="rank">Sort by Rank</option>
             <option value="accuracy">Sort by Accuracy</option>
             <option value="recent">Sort by Recent</option>
           </select>
 
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={handleCouncilRefresh}
             disabled={loading}
+            className="w-full sm:w-auto"
           >
             {loading ? (
               <motion.div
@@ -466,7 +467,7 @@ const ExpertShowcaseDashboard: React.FC<ExpertShowcaseDashboardProps> = ({
             ) : (
               <Activity className="w-4 h-4" />
             )}
-            Refresh Council
+            <span className="ml-2">Refresh Council</span>
           </Button>
         </div>
       </div>
