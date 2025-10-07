@@ -462,7 +462,18 @@ function App() {
 
   return (
     <div className="h-screen bg-background flex overflow-hidden">
-      {/* App Sidebar - Fixed Position */}
+      {/* Mobile Navigation Drawer */}
+      <MobileNavigation
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        activeTab={navigation.currentPage}
+        onTabChange={(page) => {
+          navigation.navigate(page)
+          setIsMobileMenuOpen(false)
+        }}
+      />
+
+      {/* App Sidebar - Fixed Position (Desktop Only) */}
       <AppSidebar
         currentPage={navigation.currentPage}
         onNavigate={navigation.navigate}
@@ -479,6 +490,7 @@ function App() {
           user={user}
           onSearch={handleSearch}
           notifications={0}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(true)}
         />
 
         {/* Page Content */}
