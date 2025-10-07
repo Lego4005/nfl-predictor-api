@@ -375,9 +375,9 @@ function HomePage({ onNavigate }: HomePageProps) {
                       <span className="text-sm text-gray-400">Council Leaders</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-nowrap sm:overflow-x-auto sm:snap-x sm:snap-mandatory sm:pb-2 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-x-visible md:snap-none experts-scroll">
                     {councilMembers.map((member, index) => (
-                      <div key={member.id} className="text-center">
+                      <div key={member.id} className="text-center sm:flex-none sm:w-[120px] sm:snap-start expert-card-mobile">
                         <ExpertAvatar
                           expert={member}
                           size="md"
