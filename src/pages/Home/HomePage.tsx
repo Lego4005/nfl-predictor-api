@@ -254,14 +254,14 @@ function HomePage({ onNavigate }: HomePageProps) {
           <p className="text-gray-600 dark:text-gray-400 text-sm">Meet our top performing AI experts</p>
         </div>
 
-        <div className="grid grid-cols-5 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto sm:flex sm:flex-nowrap sm:overflow-x-auto sm:snap-x sm:snap-mandatory sm:pb-4 sm:-mx-4 sm:px-4 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-x-visible md:snap-none experts-scroll">
           {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
             <motion.div
               key={expert.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="text-center group cursor-pointer"
+              className="text-center group cursor-pointer sm:flex-none sm:w-[280px] sm:snap-start expert-card-mobile"
               onClick={() => handleFeatureClick('experts')}
             >
               <div className="relative mb-3">
