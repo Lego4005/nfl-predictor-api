@@ -420,9 +420,26 @@ function HomePage({ onNavigate }: HomePageProps) {
                       <span className="text-sm text-gray-400">Council Leaders</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-nowrap sm:overflow-x-auto sm:snap-x sm:snap-mandatory sm:pb-2 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-x-visible md:snap-none experts-scroll">
+                  {/* Mobile: Horizontal scroll */}
+                  <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-2 pb-2 scroll-smooth">
                     {councilMembers.map((member, index) => (
-                      <div key={member.id} className="text-center sm:flex-none sm:w-[120px] sm:snap-start expert-card-mobile">
+                      <div key={member.id} className="text-center flex-none w-[120px] snap-start">
+                        <ExpertAvatar
+                          expert={member}
+                          size="md"
+                          showCouncilBadge={true}
+                          className="mx-auto mb-1"
+                        />
+                        <div className="text-xs text-gray-300 truncate">{member.name.split(' ')[1]}</div>
+                        <div className="text-xs text-green-400">{(member.accuracy_metrics.overall * 100).toFixed(0)}%</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop: Grid layout */}
+                  <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                    {councilMembers.map((member, index) => (
+                      <div key={member.id} className="text-center">
                         <ExpertAvatar
                           expert={member}
                           size="md"
