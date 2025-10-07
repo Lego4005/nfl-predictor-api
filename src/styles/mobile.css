@@ -219,6 +219,40 @@
   background: rgba(30, 30, 30, 0.7);
 }
 
+/* Horizontal scroll for expert cards on mobile */
+@media (max-width: 640px) {
+  .experts-scroll {
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 1rem;
+  }
+
+  .experts-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .experts-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+  }
+
+  .experts-scroll::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 2px;
+  }
+
+  .experts-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+  }
+
+  .expert-card-mobile {
+    scroll-snap-align: start;
+    flex: 0 0 280px;
+    width: 280px;
+  }
+}
+
 /* Print styles (hide mobile-specific elements) */
 @media print {
   .mobile-card,
