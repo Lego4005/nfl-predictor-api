@@ -1,73 +1,19 @@
 """
-Comprehensive Test Configuration for NFL Predictor API Test Suite.
-Enhanced with all fixtures needed for 375+ prediction testing across 15 experts.
+Simple Test Configuration for NFL Expert Prediction System Unit Tests.
 """
 
 import pytest
 import asyncio
-import tempfile
-import shutil
 import os
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
+from unittest.mock import Mock, AsyncMock
 from datetime import datetime, timedelta
-import json
-import redis
-import sqlite3
-from typing import Dict, List, Any, Generator, AsyncGenerator
-import pandas as pd
-import numpy as np
-from fastapi.testclient import TestClient
 
 # Test environment setup
 os.environ["TESTING"] = "1"
-os.environ["DATABASE_URL"] = "sqlite:///./test.db"
-os.environ["REDIS_URL"] = "redis://localhost:6380/0"
 
 # Import application modules
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-try:
-    from src.api.app import app
-    from src.ml.comprehensive_expert_models import ComprehensiveExpertCouncil
-except ImportError:
-    # Fallback for tests running without full app
-    app = None
-    ComprehensiveExpertCouncil = None
-
-# Import mock data generator (create if doesn't exist)
-try:
-    from fixtures.mock_data import MockDataGenerator, quick_game_data, quick_user_data
-except ImportError:
-    # Fallback mock data generator
-    class MockDataGenerator:
-        def __init__(self, seed=42):
-            self.seed = seed
-            np.random.seed(seed)
-
-        def generate_game_data(self, count):
-            return [{"game_id": f"test_{i}", "home_team": "KC", "away_team": "DET"} for i in range(count)]
-
-        def generate_prediction_data(self, games):
-            return [{"game_id": game["game_id"], "prediction": "test"} for game in games]
-
-        def generate_odds_data(self, games):
-            return [{"game_id": game["game_id"], "spread": -3.5} for game in games]
-
-        def generate_user_data(self, count):
-            return [{"user_id": f"user_{i}", "username": f"test_user_{i}"} for i in range(count)]
-
-        def generate_bet_history(self, user_id, count):
-            return [{"bet_id": f"bet_{i}", "user_id": user_id} for i in range(count)]
-
-        def generate_system_health_data(self):
-            return {"status": "healthy", "uptime": 1000}
-
-        def generate_websocket_test_data(self):
-            return [{"type": "test", "data": "mock"}]
-
-    quick_game_data = lambda: {"game_id": "test", "home_team": "KC", "away_team": "DET"}
-    quick_user_data = lambda: {"user_id": "test_user", "username": "testuser"}
 
 
 # Global test configuration

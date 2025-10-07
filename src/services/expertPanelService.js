@@ -20,7 +20,7 @@ class ExpertPanelService {
       {
         id: 'claude-the-analyst',
         name: 'Claude "The Analyst" Thompson',
-        model: 'anthropic/claude-4-sonnet-20250522',
+        model: 'anthropic/claude-sonnet-4.5',
         personality: 'Methodical, data-driven, loves advanced metrics',
         specialty: 'Deep statistical analysis and trend identification',
         avatar: '🧠',
@@ -34,7 +34,7 @@ class ExpertPanelService {
       {
         id: 'grok-the-maverick',
         name: 'Grok "The Maverick" Rodriguez',
-        model: 'x-ai/grok-code-fast-1',
+        model: 'x-ai/grok-4-fast',
         personality: 'Bold, contrarian, loves upset picks',
         specialty: 'Finding value in underdog situations',
         avatar: '🚀',
@@ -46,7 +46,7 @@ class ExpertPanelService {
       {
         id: 'gemini-the-weatherman',
         name: 'Gemini "The Weatherman" Flash',
-        model: 'google/gemini-2.5-flash',
+        model: 'google/gemini-2.5-flash-preview-09-2025',
         personality: 'Environmental expert, considers all conditions',
         specialty: 'Weather impact and outdoor game analysis',
         avatar: '🌪️',
@@ -58,7 +58,7 @@ class ExpertPanelService {
       {
         id: 'deepseek-the-intuitive',
         name: 'DeepSeek "The Intuitive" Chen',
-        model: 'deepseek/deepseek-chat-v3-0324',
+        model: 'deepseek/deepseek-chat-v3.1:free',
         personality: 'Intuitive, considers intangibles and momentum',
         specialty: 'Team chemistry and psychological factors',
         avatar: '🔮',
@@ -70,7 +70,7 @@ class ExpertPanelService {
       {
         id: 'gpt-the-historian',
         name: 'GPT "The Historian" Williams',
-        model: 'openai/gpt-4.1-mini-2025-04-14',
+        model: 'openai/gpt-5',
         personality: 'Historical perspective, loves precedents',
         specialty: 'Historical matchups and playoff implications',
         avatar: '📚',
@@ -96,7 +96,7 @@ class ExpertPanelService {
       {
         id: 'qwen-the-calculator',
         name: 'Qwen "The Calculator" Liu',
-        model: 'qwen/qwen3-30b-a3b-04-28',
+        model: 'z-ai/glm-4.6',
         personality: 'Math genius, probability focused',
         specialty: 'Advanced probability calculations',
         avatar: '🧮',
@@ -108,7 +108,7 @@ class ExpertPanelService {
       {
         id: 'sonoma-the-rookie',
         name: 'Sonoma "The Rookie" Sky',
-        model: 'openrouter/sonoma-sky-alpha',
+        model: 'google/gemini-2.5-flash',
         personality: 'Fresh perspective, eager to prove itself',
         specialty: 'Unbiased analysis without preconceptions',
         avatar: '⭐',
@@ -132,7 +132,7 @@ class ExpertPanelService {
       {
         id: 'flash-the-speedster',
         name: 'Flash "The Speedster" Johnson',
-        model: 'google/gemini-2.0-flash-001',
+        model: 'google/gemini-2.5-flash-preview-09-2025',
         personality: 'Quick decisions, trusts first instincts',
         specialty: 'Rapid-fire analysis and gut calls',
         avatar: '⚡',
@@ -146,7 +146,7 @@ class ExpertPanelService {
       {
         id: 'claude-opus-the-veteran',
         name: 'Claude Opus "The Veteran" Davis',
-        model: 'anthropic/claude-3-opus-20240229',
+        model: 'anthropic/claude-sonnet-4.5',
         personality: 'Old school, seen it all before',
         specialty: 'Veteran leadership and clutch situations',
         avatar: '👑',
@@ -158,7 +158,7 @@ class ExpertPanelService {
       {
         id: 'mixtral-the-philosopher',
         name: 'Mixtral "The Philosopher" Dubois',
-        model: 'mistralai/mixtral-8x7b-instruct',
+        model: 'z-ai/glm-4.6',
         personality: 'Philosophical, considers deeper meanings',
         specialty: 'Game narrative and storyline analysis',
         avatar: '🤔',
@@ -170,7 +170,7 @@ class ExpertPanelService {
       {
         id: 'llama-the-consistent',
         name: 'Llama "The Consistent" Martinez',
-        model: 'meta-llama/llama-3.3-70b-instruct',
+        model: 'google/gemini-2.5-pro',
         personality: 'Steady, reliable, never flashy',
         specialty: 'Consistent baseline predictions',
         avatar: '🦙',
@@ -182,7 +182,7 @@ class ExpertPanelService {
       {
         id: 'o1-the-thinker',
         name: 'O1 "The Thinker" Watson',
-        model: 'openai/o1-mini',
+        model: 'openai/gpt-5',
         personality: 'Deep thinker, takes time to analyze',
         specialty: 'Complex reasoning and edge cases',
         avatar: '🧐',
@@ -194,7 +194,7 @@ class ExpertPanelService {
       {
         id: 'haiku-the-minimalist',
         name: 'Haiku "The Minimalist" Tanaka',
-        model: 'anthropic/claude-3.5-haiku-20241022',
+        model: 'anthropic/claude-sonnet-4.5',
         personality: 'Minimalist, cuts to the essence',
         specialty: 'Concise, essential insights only',
         avatar: '🎋',

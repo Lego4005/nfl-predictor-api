@@ -27,7 +27,10 @@ import logging
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.services.local_llm_service import LocalLLMService
+from src.services.openrouter_service import OpenRouterService
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -75,8 +78,11 @@ class FifteenExpertLearningExperiment:
         self.experiment_name = experiment_name
         self.experiment_id = f"{experiment_name}_{int(time.time())}"
 
-        # Initialize LLM
-        self.llm = LocalLLMService()
+        # Initialize LLM with OpenRouter
+        api_key = os.getenv('OPENROUTER_API_KEY')
+        if not api_key:
+            raise ValueError("OPENROUTER_API_KEY not found in environment")
+        self.llm = OpenRouterService(api_key)
 
         # 15 Expert configurations
         self.experts = self._initialize_15_experts()
