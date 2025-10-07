@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-import os, time, json, math
+import os, time, json, math, sys
 from datetime import datetime
 from typing import Dict, Any, Optional
 
+# Add src to path for unified client
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 # pip install supabase openai python-dotenv
 from supabase import create_client
-from openai import OpenAI
 from dotenv import load_dotenv
+from services.unified_ai_client import UnifiedAIClient
 
 load_dotenv()
 
@@ -22,29 +25,12 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 
 sb = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# Initialize OpenRouter client (using OpenAI-compatible interface)
-openai_client = None
-openrouter_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("VITE_OPENROUTER_API_KEY")
-openai_key = os.getenv("OPENAI_API_KEY")
-
-if openrouter_key:
-    try:
-        openai_client = OpenAI(
-            api_key=openrouter_key,
-            base_url="https://openrouter.ai/api/v1"
-        )
-        EMBED_MODEL = "text-embedding-3-small"  # OpenRouter supports OpenAI models
-        print("✅ OpenRouter client initialized successfully")
-    except Exception as e:
-        print(f"❌ OpenRouter client initialization failed: {e}")
-elif openai_key:
-    try:
-        openai_client = OpenAI(api_key=openai_key)
-        print("✅ OpenAI client initialized successfully")
-    except Exception as e:
-        print(f"❌ OpenAI client initialization failed: {e}")
-else:
-    print("❌ No API key found. Set OPENROUTER_API_KEY or OPENAI_API_KEY")
+# Initialize Unified AI Client (handles OpenAI for embeddings automatically)
+try:
+    ai_client = UnifiedAIClient()
+    print("✅ Unified AI client initialized successfully")
+except Exception as e:
+    print(f"❌ Unified AI client initialization failed: {e}")
     exit(1)
 
 def mk_text(parts):
@@ -99,8 +85,9 @@ def embed(text: str) -> Optional[list]:
     if not text:
         return None
     try:
-        resp = openai_client.embeddings.create(model=EMBED_MODEL, input=text[:8000])
-        return resp.data[0].embedding  # 1536-d
+        # Use unified client (automatically uses OpenAI for embeddings)
+        response = ai_client.create_embedding(text[:8000], EMBED_MODEL)
+        return response.embedding
     except Exception as e:
         print(f"Embedding failed for text: {text[:100]}... Error: {e}")
         return None
