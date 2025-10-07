@@ -412,12 +412,12 @@ function HomePage({ onNavigate }: HomePageProps) {
               title: 'Expert Rankings',
               color: 'bg-purple-500 hover:bg-purple-600',
               cardContent: (
-                <div className="p-6 h-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-white">Top Performing Experts</h3>
+                <div className="p-4 sm:p-6 h-full">
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Top Performing Experts</h3>
                     <div className="flex items-center gap-2">
-                      <Crown className="w-5 h-5 text-gold-500" />
-                      <span className="text-sm text-gray-400">Council Leaders</span>
+                      <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-gold-500" />
+                      <span className="text-xs sm:text-sm text-gray-400">Council Leaders</span>
                     </div>
                   </div>
                   {/* Mobile: Horizontal scroll */}
