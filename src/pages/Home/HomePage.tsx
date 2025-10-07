@@ -352,25 +352,25 @@ function HomePage({ onNavigate }: HomePageProps) {
               title: 'Overview',
               color: 'bg-blue-500 hover:bg-blue-600',
               cardContent: (
-                <div className="p-6 h-full flex items-center justify-between">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-2">Platform Overview</h3>
-                    <p className="text-gray-300">
+                <div className="p-4 sm:p-6 h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex-1 w-full sm:w-auto">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Platform Overview</h3>
+                    <p className="text-sm sm:text-base text-gray-300">
                       Real-time AI competition platform with {EXPERT_PERSONALITIES.length} experts competing for council positions
                     </p>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-3 sm:gap-4 w-full sm:w-auto justify-around sm:justify-start">
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-400">{EXPERT_PERSONALITIES.length}</div>
-                      <div className="text-sm text-gray-400">Experts</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-blue-400">{EXPERT_PERSONALITIES.length}</div>
+                      <div className="text-xs sm:text-sm text-gray-400">Experts</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-green-400">68.2%</div>
-                      <div className="text-sm text-gray-400">Accuracy</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-green-400">68.2%</div>
+                      <div className="text-xs sm:text-sm text-gray-400">Accuracy</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-purple-400">{categoryStats.total_categories}</div>
-                      <div className="text-sm text-gray-400">Categories</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-purple-400">{categoryStats.total_categories}</div>
+                      <div className="text-xs sm:text-sm text-gray-400">Categories</div>
                     </div>
                   </div>
                 </div>
