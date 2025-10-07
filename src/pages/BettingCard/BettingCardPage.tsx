@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { GAMES, TEAMS, Game, Team } from '@/lib/nfl-data'
 import { classNames, eloWinProb, probToSpread } from '@/lib/nfl-utils'
+import TeamLogo from '@/components/ui/TeamLogo'
 
 // Type definitions for betting recommendations
 interface SpreadBet {
@@ -139,19 +140,9 @@ function BettingCardPage() {
       {/* Game Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground text-xs font-bold"
-            style={{ backgroundColor: rec.away?.color || 'hsl(var(--muted))' }}
-          >
-            {rec.game.away}
-          </div>
+          <TeamLogo team={rec.game.away} size="sm" className="w-8 h-8" />
           <span className="text-foreground text-sm">@</span>
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground text-xs font-bold"
-            style={{ backgroundColor: rec.home?.color || 'hsl(var(--muted))' }}
-          >
-            {rec.game.home}
-          </div>
+          <TeamLogo team={rec.game.home} size="sm" className="w-8 h-8" />
         </div>
 
         <div className="flex items-center gap-2">
