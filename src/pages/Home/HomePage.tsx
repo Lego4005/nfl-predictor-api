@@ -254,14 +254,59 @@ function HomePage({ onNavigate }: HomePageProps) {
           <p className="text-gray-600 dark:text-gray-400 text-sm">Meet our top performing AI experts</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto sm:flex sm:flex-nowrap sm:overflow-x-auto sm:snap-x sm:snap-mandatory sm:pb-4 sm:-mx-4 sm:px-4 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-x-visible md:snap-none experts-scroll">
+        {/* Mobile: Horizontal scroll */}
+        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 scroll-smooth">
           {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
             <motion.div
               key={expert.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="text-center group cursor-pointer sm:flex-none sm:w-[280px] sm:snap-start expert-card-mobile"
+              className="text-center group cursor-pointer flex-none w-[280px] snap-start"
+              onClick={() => handleFeatureClick('experts')}
+            >
+              <div className="relative mb-3">
+                <ExpertAvatar
+                  expert={expert}
+                  size="lg"
+                  showCouncilBadge={index < 5}
+                  className="mx-auto"
+                />
+                <div className="absolute -top-2 -right-2 bg-gold-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                  #{index + 1}
+                </div>
+              </div>
+
+              <h3 className="font-bold text-sm text-foreground mb-1">
+                {expert.name}
+              </h3>
+
+              <div className="text-lg font-bold text-green-600 mb-1">
+                {(expert.accuracy_metrics.overall * 100).toFixed(1)}%
+              </div>
+
+              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-2 min-h-[3rem] flex items-center">
+                <p className="text-xs text-gray-600 dark:text-gray-400 italic leading-tight">
+                  "{expert.motto}"
+                </p>
+              </div>
+
+              <div className="mt-2 text-xs text-gray-500">
+                {expert.track_record.total_predictions} predictions
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desktop: Grid layout */}
+        <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+          {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
+            <motion.div
+              key={expert.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="text-center group cursor-pointer"
               onClick={() => handleFeatureClick('experts')}
             >
               <div className="relative mb-3">
