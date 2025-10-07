@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TEAMS } from '@/lib/nfl-data'
 import { classNames } from '@/lib/nfl-utils'
-import TeamLogo from '../../components/TeamLogo'
+import TeamLogo from '@/components/ui/TeamLogo'
 
 // This is a placeholder component that would be extracted from the original App.tsx
 // For now, it returns a basic structure
@@ -244,12 +244,7 @@ function RankingsPage() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-bold text-muted-foreground w-6">{team.currentRank}</span>
-                      <div
-                        className="w-8 h-8 rounded flex items-center justify-center text-foreground font-bold text-xs"
-                        style={{ backgroundColor: team.color }}
-                      >
-                        {team.abbr}
-                      </div>
+                      <TeamLogo team={team.abbr} size="sm" className="w-8 h-8" />
                       <span className="text-foreground font-medium">{team.name}</span>
                     </div>
                   </td>
