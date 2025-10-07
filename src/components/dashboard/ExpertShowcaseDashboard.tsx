@@ -246,7 +246,7 @@ const CouncilSpotlight: React.FC<{
           {councilMembers.map((member, index) => (
             <motion.div
               key={member.id}
-              className="text-center p-3 rounded-lg bg-white dark:bg-gray-800 border relative"
+              className="text-center p-3 rounded-lg bg-white dark:bg-gray-800 border relative expert-card-mobile"
               whileHover={{ scale: 1.05 }}
             >
               <div className="relative mb-2">
