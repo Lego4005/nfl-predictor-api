@@ -352,8 +352,8 @@ function HomePage({ onNavigate }: HomePageProps) {
               title: 'Overview',
               color: 'bg-blue-500 hover:bg-blue-600',
               cardContent: (
-                <div className="p-4 sm:p-6 h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex-1 w-full sm:w-auto">
+                <div className="p-4 sm:p-6 h-full flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4">
+                  <div className="flex-1 w-full sm:w-auto text-center sm:text-left">
                     <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Platform Overview</h3>
                     <p className="text-sm sm:text-base text-gray-300">
                       Real-time AI competition platform with {EXPERT_PERSONALITIES.length} experts competing for council positions
