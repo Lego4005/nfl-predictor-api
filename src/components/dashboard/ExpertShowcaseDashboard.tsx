@@ -89,9 +89,9 @@ const ExpertCard: React.FC<ExpertCardProps> = ({
   return (
     <motion.div
       className={cn(
-        "relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer",
-        isCouncilMember 
-          ? "border-gold-500/50 bg-gradient-to-br from-gold-50 to-amber-50 dark:from-gold-900/20 dark:to-amber-900/20" 
+        "relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer expert-card-mobile",
+        isCouncilMember
+          ? "border-gold-500/50 bg-gradient-to-br from-gold-50 to-amber-50 dark:from-gold-900/20 dark:to-amber-900/20"
           : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800",
         isHovered && "shadow-lg scale-[1.02]"
       )}
