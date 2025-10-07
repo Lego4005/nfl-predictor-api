@@ -493,12 +493,12 @@ const ExpertGrid: React.FC<ExpertGridProps> = memo(({
 
       {/* Experts Grid */}
       <div className={`
-        grid gap-4
+        gap-4
         ${viewMode === 'compact'
-          ? 'grid-cols-1'
+          ? 'grid grid-cols-1'
           : viewMode === 'detailed'
-            ? 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'
-            : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+            ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'
+            : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:flex sm:flex-nowrap sm:overflow-x-auto experts-scroll sm:pb-4 sm:-mx-4 sm:px-4'
         }
       `}>
         <AnimatePresence>
