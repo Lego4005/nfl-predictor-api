@@ -459,10 +459,10 @@ function HomePage({ onNavigate }: HomePageProps) {
               title: 'Council Votes',
               color: 'bg-amber-500 hover:bg-amber-600',
               cardContent: (
-                <div className="p-6 h-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-white">Council Voting Power Distribution</h3>
-                    <Badge variant="secondary" className="bg-amber-500/20 text-amber-400">
+                <div className="p-4 sm:p-6 h-full">
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Council Voting Power Distribution</h3>
+                    <Badge variant="secondary" className="bg-amber-500/20 text-amber-400 text-xs sm:text-sm">
                       Live Weights
                     </Badge>
                   </div>
