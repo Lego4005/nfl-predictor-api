@@ -255,7 +255,7 @@ function HomePage({ onNavigate }: HomePageProps) {
         </div>
 
         {/* Mobile: Horizontal scroll */}
-        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth">
+        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-2 scroll-smooth">
           {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
             <motion.div
               key={expert.id}
@@ -265,7 +265,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               className="text-center group cursor-pointer flex-none w-[85vw] max-w-[320px] snap-center first:ml-[7.5vw] last:mr-[7.5vw]"
               onClick={() => handleFeatureClick('experts')}
             >
-              <div className="relative mb-3">
+              <div className="relative mb-3 pt-2">
                 <ExpertAvatar
                   expert={expert}
                   size="lg"
