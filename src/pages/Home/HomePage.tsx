@@ -299,7 +299,7 @@ function HomePage({ onNavigate }: HomePageProps) {
         </div>
 
         {/* Desktop: Grid layout */}
-        <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-4 max-w-7xl mx-auto px-4">
           {EXPERT_PERSONALITIES.slice(0, 5).map((expert, index) => (
             <motion.div
               key={expert.id}
