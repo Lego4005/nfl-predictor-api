@@ -244,7 +244,7 @@ function RankingsPage() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-bold text-muted-foreground w-6">{team.currentRank}</span>
-                      <TeamLogo team={team.abbr} size="md" className="w-12 h-12" />
+                      <TeamLogo team={team.abbr} size="lg" className="w-16 h-16" />
                       <span className="text-foreground font-medium">{team.name}</span>
                     </div>
                   </td>

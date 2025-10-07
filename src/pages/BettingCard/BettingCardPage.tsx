@@ -140,9 +140,9 @@ function BettingCardPage() {
       {/* Game Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
-          <TeamLogo team={rec.game.away} size="md" className="w-12 h-12" />
+          <TeamLogo team={rec.game.away} size="lg" className="w-16 h-16" />
           <span className="text-foreground text-sm">@</span>
-          <TeamLogo team={rec.game.home} size="md" className="w-12 h-12" />
+          <TeamLogo team={rec.game.home} size="lg" className="w-16 h-16" />
         </div>
 
         <div className="flex items-center gap-2">
