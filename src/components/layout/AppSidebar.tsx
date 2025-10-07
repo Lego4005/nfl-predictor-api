@@ -403,6 +403,7 @@ function AppSidebar({
     <aside className={classNames(
       'relative flex flex-col transition-all duration-300 h-screen border-r border-glass-border',
       'bg-card',
+      'hidden lg:flex',
       isCollapsed ? 'w-16' : 'w-64'
     )}>
       {/* Collapse Toggle */}
