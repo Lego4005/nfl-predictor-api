@@ -182,10 +182,20 @@ function SearchInterface({ onSearch, placeholder = "Search teams, games...", sug
 }
 
 // Main AppHeader component
-function AppHeader({ currentPage, onNavigate, user, onSearch, notifications }: AppHeaderProps) {
+function AppHeader({ currentPage, onNavigate, user, onSearch, notifications, onToggleMobileMenu }: AppHeaderProps) {
   return (
     <header className="bg-card border-b border-border px-6 py-4">
       <div className="flex items-center justify-between">
+        {/* Hamburger Menu Button - Mobile Only */}
+        <button
+          onClick={onToggleMobileMenu}
+          className="lg:hidden p-3 rounded-lg glass border border-border hover:border-primary/40 transition-colors"
+          style={{ minWidth: '48px', minHeight: '48px' }}
+          aria-label="Toggle mobile menu"
+        >
+          <Menu className="w-5 h-5 text-muted-foreground" />
+        </button>
+
         {/* Left: Navigation Breadcrumb */}
         <NavigationBreadcrumb currentPage={currentPage} onNavigate={onNavigate} />
 
