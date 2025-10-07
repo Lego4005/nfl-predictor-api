@@ -381,14 +381,14 @@ function HomePage({ onNavigate }: HomePageProps) {
               title: 'This Week',
               color: 'bg-green-500 hover:bg-green-600',
               cardContent: (
-                <div className="p-6 h-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-white">Week {currentWeek} Highlights</h3>
-                    <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                <div className="p-4 sm:p-6 h-full">
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-white">Week {currentWeek} Highlights</h3>
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 text-xs sm:text-sm">
                       {upcomingGames.length} Games
                     </Badge>
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     {upcomingGames.slice(0, 3).map((game) => (
                       <div key={game.id} className="bg-background/50 rounded-lg p-3 flex flex-col items-center">
                         <TeamLogoMatchup
