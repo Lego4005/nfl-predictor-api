@@ -226,6 +226,7 @@ const ExpertGrid: React.FC<ExpertGridProps> = memo(({
       <motion.div
         className={`
           relative p-4 rounded-xl border transition-all duration-200 cursor-pointer
+          expert-card-mobile
           ${isSelected
             ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg'
             : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md'
