@@ -1,4 +1,4 @@
-import React, { useState, useMemo, lazy, Suspense } from 'react'
+import React, { useState, useMemo, lazy, Suspense, useEffect } from 'react'
 import './App.css'
 import { TEAMS } from '@/lib/nfl-data'
 import { classNames } from '@/lib/nfl-utils'
@@ -9,6 +9,7 @@ import { useCurrentWeekESPNGames } from '@/hooks/useESPNData'
 // Layout Components
 import AppHeader from '@/components/layout/AppHeader'
 import AppSidebar from '@/components/layout/AppSidebar'
+import MobileNavigation from '@/components/MobileNavigation'
 
 // Navigation Hook
 import { useNavigation } from '@/hooks/navigation/useNavigation'
