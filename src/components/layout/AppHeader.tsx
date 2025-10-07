@@ -1,5 +1,5 @@
 import React from 'react'
-import { Search, Settings, User } from 'lucide-react'
+import { Search, Settings, User, Menu } from 'lucide-react'
 
 interface AppHeaderProps {
   currentPage: string
@@ -10,6 +10,7 @@ interface AppHeaderProps {
   }
   onSearch?: (query: string) => void
   notifications?: number
+  onToggleMobileMenu?: () => void
 }
 
 interface NavigationBreadcrumbProps {
