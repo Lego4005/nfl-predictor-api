@@ -252,8 +252,9 @@ const BettingMarketsPanel: React.FC<BettingMarketsPanelProps> = ({
             transition={{ delay: index * 0.05 }}
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
+            className="expert-card-mobile"
           >
-            <Card 
+            <Card
               className={`
                 cursor-pointer transition-all duration-300 h-full
                 ${isSelected 
