@@ -260,3 +260,126 @@ class FourExpertPilotTrainer:
                 continue
 
         return results
+
+    async def run_coin_flip_baseline(self, games: List[Dict]) -> BaselineResult:
+        """Baseline 1: Random coin-flip predictions"""
+
+        total_correct = 0
+        total_brier = 0.0
+        total_roi = 0.0
+
+        for game in games:
+            # Random predictions for each category
+            predictions = self.generate_coin_flip_predictions()
+
+            # Simulate outcomes and scoring
+            game_result = await self.get_game_outcome(game['game_id'])
+            if game_result:
+                correct, brier, roi = self.score_predictions(predictions, game_result)
+                total_correct += correct
+                total_brier += brier
+                total_roi += roi
+
+        return BaselineResult(
+            name="Coin-flip",
+            win_rate=total_correct / len(games) if games else 0,
+            brier_score=total_brier / len(games) if games else 0.5,
+            roi=total_roi,
+            total_games=len(games)
+        )
+
+    async def run_market_only_baseline(self, games: List[Dict]) -> BaselineResult:
+        """Baseline 2: Use closing line implied probabilities"""
+
+        total_correct = 0
+        total_brier = 0.0
+        total_roi = 0.0
+
+        for game in games:
+            # Get closing lines and convert to implied probabilities
+            market_lines = await self.get_closing_lines(game['game_id'])
+            predictions = self.generate_market_based_predictions(market_lines)
+
+            # Score against actual outcomes
+            game_result = await self.get_game_outcome(game['game_id'])
+            if game_result:
+                correct, brier, roi = self.score_predictions(predictions, game_result)
+                total_correct += correct
+                total_brier += brier
+                total_roi += roi
+
+        return BaselineResult(
+            name="Market-only",
+            win_rate=total_correct / len(games) if games else 0,
+            brier_score=total_brier / len(games) if games else 0.5,
+            roi=total_roi,
+            total_games=len(games)
+        )
+
+    async def run_deliberate_trial(self, games: List[Dict], enable_tools: bool) -> Dict:
+        """Run deliberate reasoning trial with Draft->Critic->Repair"""
+
+        expert_results = {}
+
+        for expert_id in self.pilot_experts:
+            logger.info(f"Running deliberate trial for {expert_id} (tools: {enable_tools})")
+
+            expert_metrics = {
+                'total_correct': 0,
+                'total_brier': 0.0,
+                'total_roi': 0.0,
+                'schema_valid_count': 0,
+                'avg_latency_ms': 0.0,
+                'reasoning_mode_distribution': {'deliberate': 0, 'one_shot': 0, 'degraded': 0}
+            }
+
+            for game in games:
+                try:
+                    # Generate predictions with deliberate reasoning
+                    result = await self.agentuity.generate_expert_predictions(
+                        expert_id=expert_id,
+                        game_id=game['game_id'],
+                        enable_tools=enable_tools,
+                        reasoning_mode='deliberate'
+                    )
+
+                    # Track reasoning mode used
+                    mode = result.get('reasoningMode', 'unknown')
+                    expert_metrics['reasoning_mode_distribution'][mode] += 1
+
+                    # Validate and score
+                    is_valid = self.validator.validate_expert_predictions(result)
+                    if is_valid:
+                        expert_metrics['schema_valid_count'] += 1
+
+                    # Score predictions
+                    game_result = await self.get_game_outcome(game['game_id'])
+                    if game_result:
+                        correct, brier, roi = self.score_predictions(result['predictions'], game_result)
+                        expert_metrics['total_correct'] += correct
+                        expert_metrics['total_brier'] += brier
+                        expert_metrics['total_roi'] += roi
+
+                    # Track latency
+                    latency = result.get('processingTimeMs', 0)
+                    expert_metrics['avg_latency_ms'] = (
+                        (expert_metrics['avg_latency_ms'] * len(expert_results) + latency) /
+                        (len(expert_results) + 1)
+                    )
+
+                except Exception as e:
+                    logger.error(f"Error in deliberate trial for {expert_id}: {e}")
+                    continue
+
+            # Calculate final metrics
+            total_games = len(games)
+            expert_results[expert_id] = {
+                'win_rate': expert_metrics['total_correct'] / total_games if total_games else 0,
+                'brier_score': expert_metrics['total_brier'] / total_games if total_games else 0.5,
+                'roi': expert_metrics['total_roi'],
+                'schema_valid_rate': expert_metrics['schema_valid_count'] / total_games if total_games else 0,
+                'avg_latency_ms': expert_metrics['avg_latency_ms'],
+                'reasoning_modes': expert_metrics['reasoning_mode_distribution']
+            }
+
+        return expert_results
