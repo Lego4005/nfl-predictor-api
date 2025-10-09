@@ -142,5 +142,77 @@
     "cpuLoad": 0.089375,
     "platform": "linux",
     "uptime": 106462.02
+  },
+  {
+    "timestamp": 1760009046948,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38740721664,
+    "memoryFree": 28428558336,
+    "memoryUsagePercent": 57.676249714155034,
+    "memoryEfficiency": 42.323750285844966,
+    "cpuCount": 32,
+    "cpuLoad": 0.088125,
+    "platform": "linux",
+    "uptime": 106492.05
+  },
+  {
+    "timestamp": 1760009076978,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38636064768,
+    "memoryFree": 28533215232,
+    "memoryUsagePercent": 57.52043905785502,
+    "memoryEfficiency": 42.47956094214498,
+    "cpuCount": 32,
+    "cpuLoad": 0.116875,
+    "platform": "linux",
+    "uptime": 106522.08
+  },
+  {
+    "timestamp": 1760009107008,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38350938112,
+    "memoryFree": 28818341888,
+    "memoryUsagePercent": 57.09594938638616,
+    "memoryEfficiency": 42.90405061361384,
+    "cpuCount": 32,
+    "cpuLoad": 0.111875,
+    "platform": "linux",
+    "uptime": 106552.11
+  },
+  {
+    "timestamp": 1760009137013,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38523457536,
+    "memoryFree": 28645822464,
+    "memoryUsagePercent": 57.35279213354676,
+    "memoryEfficiency": 42.64720786645324,
+    "cpuCount": 32,
+    "cpuLoad": 0.115,
+    "platform": "linux",
+    "uptime": 106582.11
+  },
+  {
+    "timestamp": 1760009167043,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38877171712,
+    "memoryFree": 28292108288,
+    "memoryUsagePercent": 57.879393246436464,
+    "memoryEfficiency": 42.120606753563536,
+    "cpuCount": 32,
+    "cpuLoad": 0.11375,
+    "platform": "linux",
+    "uptime": 106612.14
+  },
+  {
+    "timestamp": 1760009197073,
+    "memoryTotal": 67169280000,
+    "memoryUsed": 38778478592,
+    "memoryFree": 28390801408,
+    "memoryUsagePercent": 57.73246131564906,
+    "memoryEfficiency": 42.26753868435094,
+    "cpuCount": 32,
+    "cpuLoad": 0.10875,
+    "platform": "linux",
+    "uptime": 106642.17
   }
 ]
