@@ -383,3 +383,199 @@ class FourExpertPilotTrainer:
             }
 
         return expert_results
+
+    def evaluate_go_no_go(self, phase_b_results: Dict) -> Dict:
+        """Evaluate whether to proceed to full 15-expert system"""
+
+        # Go/No-Go criteria from the plan
+        criteria = {
+            'deliberate_vs_oneshot_brier_improvement': 0.02,  # +2% Brier improvement
+            'roi_vs_market_only': 0.0,  # ROI >= market-only
+            'retrieval_p95_threshold_ms': 100,  # p95 <= 100ms
+            'schema_error_rate_threshold': 0.015  # < 1.5% schema errors
+        }
+
+        results = {
+            'proceed_to_full_system': True,
+            'criteria_met': {},
+            'recommendations': []
+        }
+
+        # Check each criterion
+        deliberate_results = phase_b_results.get('deliberate_no_tools', {})
+        oneshot_results = phase_b_results.get('one_shot', {})
+        market_results = phase_b_results.get('market_only', {})
+
+        # 1. Deliberate vs One-shot Brier improvement
+        if deliberate_results and oneshot_results:
+            deliberate_brier = np.mean([r['brier_score'] for r in deliberate_results.values()])
+            oneshot_brier = np.mean([r['brier_score'] for r in oneshot_results.values()])
+            brier_improvement = oneshot_brier - deliberate_brier  # Lower is better
+
+            meets_brier = brier_improvement >= criteria['deliberate_vs_oneshot_brier_improvement']
+            results['criteria_met']['brier_improvement'] = {
+                'met': meets_brier,
+                'value': brier_improvement,
+                'threshold': criteria['deliberate_vs_oneshot_brier_improvement']
+            }
+
+            if not meets_brier:
+                results['proceed_to_full_system'] = False
+                results['recommendations'].append(
+                    f"Deliberate reasoning only improved Brier by {brier_improvement:.3f}, "
+                    f"need {criteria['deliberate_vs_oneshot_brier_improvement']:.3f}"
+                )
+
+        # 2. ROI vs Market-only
+        if deliberate_results and market_results:
+            deliberate_roi = np.mean([r['roi'] for r in deliberate_results.values()])
+            market_roi = market_results.roi
+
+            meets_roi = deliberate_roi >= market_roi
+            results['criteria_met']['roi_vs_market'] = {
+                'met': meets_roi,
+                'deliberate_roi': deliberate_roi,
+                'market_roi': market_roi
+            }
+
+            if not meets_roi:
+                results['proceed_to_full_system'] = False
+                results['recommendations'].append(
+                    f"Deliberate ROI ({deliberate_roi:.3f}) below market-only ({market_roi:.3f})"
+                )
+
+        # 3. Schema error rate
+        if deliberate_results:
+            schema_rates = [r['schema_valid_rate'] for r in deliberate_results.values()]
+            avg_schema_rate = np.mean(schema_rates)
+            error_rate = 1.0 - avg_schema_rate
+
+            meets_schema = error_rate < criteria['schema_error_rate_threshold']
+            results['criteria_met']['schema_errors'] = {
+                'met': meets_schema,
+                'error_rate': error_rate,
+                'threshold': criteria['schema_error_rate_threshold']
+            }
+
+            if not meets_schema:
+                results['proceed_to_full_system'] = False
+                results['recommendations'].append(
+                    f"Schema error rate ({error_rate:.3f}) above threshold "
+                    f"({criteria['schema_error_rate_threshold']:.3f})"
+                )
+
+        # 4. Latency check (would need retrieval metrics)
+        # This would be implemented with actual retrieval timing data
+
+        return results
+
+    def generate_training_report(self, results: Dict) -> str:
+        """Generate comprehensive training report"""
+
+        report = []
+        report.append("# 4-Expert Pilot Training Report")
+        report.append(f"Generated: {datetime.utcnow().isoformat()}")
+        report.append("")
+
+        # Phase A Summary
+        if 'phase_a' in results:
+            report.append("## Phase A: Learning (2020-2023)")
+            phase_a = results['phase_a']
+
+            for track in ['no_tools', 'with_tools']:
+                if track in phase_a:
+                    report.append(f"### Track: {track.replace('_', ' ').title()}")
+                    for expert_id, expert_results in phase_a[track].items():
+                        report.append(f"- **{expert_id}**: {expert_results['games_processed']} games, "
+                                    f"{expert_results['schema_valid_rate']:.1%} schema valid")
+            report.append("")
+
+        # Phase B Summary
+        if 'phase_b' in results:
+            report.append("## Phase B: 2024 Backtest Results")
+            phase_b = results['phase_b']
+
+            # Baselines
+            report.append("### Baselines")
+            for baseline_name in ['coin_flip', 'market_only']:
+                if baseline_name in phase_b:
+                    baseline = phase_b[baseline_name]
+                    report.append(f"- **{baseline.name}**: {baseline.win_rate:.1%} win rate, "
+                                f"{baseline.brier_score:.3f} Brier, {baseline.roi:.2f} ROI")
+
+            # Trials
+            report.append("### Expert Trials")
+            for trial_name in ['deliberate_no_tools', 'deliberate_with_tools']:
+                if trial_name in phase_b:
+                    report.append(f"#### {trial_name.replace('_', ' ').title()}")
+                    trial_results = phase_b[trial_name]
+                    for expert_id, metrics in trial_results.items():
+                        report.append(f"- **{expert_id}**: {metrics['win_rate']:.1%} win rate, "
+                                    f"{metrics['brier_score']:.3f} Brier, {metrics['roi']:.2f} ROI")
+            report.append("")
+
+        # Go/No-Go Decision
+        if 'go_no_go' in results:
+            decision = results['go_no_go']
+            report.append("## Go/No-Go Decision")
+            report.append(f"**Decision: {'✅ GO' if decision['proceed_to_full_system'] else '❌ NO-GO'}**")
+
+            if decision['recommendations']:
+                report.append("### Recommendations:")
+                for rec in decision['recommendations']:
+                    report.append(f"- {rec}")
+            report.append("")
+
+        return "\n".join(report)
+
+    async def save_training_results(self, results: Dict, report: str):
+        """Save training results and report"""
+
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+
+        # Save JSON results
+        results_path = Path(f"data/training_results_{timestamp}.json")
+        results_path.parent.mkdir(exist_ok=True)
+
+        with open(results_path, 'w') as f:
+            json.dump(results, f, indent=2, default=str)
+
+        # Save report
+        report_path = Path(f"data/training_report_{timestamp}.md")
+        with open(report_path, 'w') as f:
+            f.write(report)
+
+        logger.info(f"Training results saved to {results_path}")
+        logger.info(f"Training report saved to {report_path}")
+
+    # Helper methods
+    async def get_games_for_period(self, start_date: str, end_date: str) -> List[Dict]:
+        """Get games for date range"""
+        query = """
+        SELECT game_id, game_date, home_team, away_team
+        FROM games
+        WHERE game_date >= %s AND game_date <= %s
+        ORDER BY game_date ASC
+        """
+        result = await self.supabase.execute_query(query, (start_date, end_date))
+        return result.data or []
+
+    def generate_coin_flip_predictions(self) -> List[Dict]:
+        """Generate random coin-flip predictions"""
+        # This would generate 83 random predictions
+        return []
+
+    def score_predictions(self, predictions: List[Dict], game_result: Dict) -> Tuple[int, float, float]:
+        """Score predictions against actual outcome"""
+        # Placeholder - would implement actual scoring logic
+        return 0, 0.5, 0.0
+
+# Main execution
+async def main():
+    trainer = FourExpertPilotTrainer()
+    results = await trainer.run_full_training_pipeline()
+    print("Training pipeline completed!")
+    print(f"Go decision: {results.get('go_no_go', {}).get('proceed_to_full_system', 'Unknown')}")
+
+if __name__ == "__main__":
+    asyncio.run(main())

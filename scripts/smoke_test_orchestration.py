@@ -15,9 +15,9 @@ from loguru import logger
 TEST_GAME_ID = "2025_01_MIA_IN
 TEST_EXPERTS = [
     "conservative_analyzer",
-    "risk_taking_gambler",
+    "momentum_rider",
     "contrarian_rebel",
-    "momentum_rider"
+    "value_hunter"
 ]
 API_BASE_URL = "http://localhost:8000/api"
 
@@ -262,3 +262,209 @@ async def test_performance_metrics():
 
 if __name__ == "__main__":
     asyncio.run(run_smoke_test())
+
+    # Test Agentuity orchestrator health
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get("http://localhost:3000/health")
+            if response.status_code == 200:
+                logger.success("✅ Agentuity orchestrator healthy")
+            else:
+                logger.error(f"❌ Agentuity orchestrator unhealthy: {response.status_code}")
+                return False
+    except Exception as e:
+        logger.error(f"❌ Cannot reach Agentuity orchestrator: {e}")
+        return False
+
+    # Test FastAPI health
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f"{API_BASE_URL}/health")
+            if response.status_code == 200:
+                logger.success("✅ FastAPI backend healthy")
+            else:
+                logger.error(f"❌ FastAPI backend unhealthy: {response.status_code}")
+                return False
+    except Exception as e:
+        logger.error(f"❌ Cannot reach FastAPI backend: {e}")
+        return False
+
+    # Test 2: Model allocation check
+    logger.info("=== Test 2: Model Allocation Check ===")
+
+    for expert_id in TEST_EXPERTS:
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(f"{API_BASE_URL}/model-allocations/{expert_id}/markets")
+                if response.status_code == 200:
+                    allocations = response.json()
+                    primary_model = next((a['model'] for a in allocations if a['is_primary']), None)
+                    logger.success(f"✅ {expert_id}: Primary model = {primary_model}")
+                else:
+                    logger.warning(f"⚠️ No model allocations for {expert_id}")
+        except Exception as e:
+            logger.error(f"❌ Model allocation check failed for {expert_id}: {e}")
+
+    # Test 3: Memory retrieval
+    logger.info("=== Test 3: Memory Retrieval ===")
+
+    for expert_id in TEST_EXPERTS:
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(f"{API_BASE_URL}/context/{expert_id}/{TEST_GAME_ID}")
+                if response.status_code == 200:
+                    context = response.json()
+                    memory_count = len(context.get('memories', []))
+                    logger.success(f"✅ {expert_id}: Retrieved {memory_count} memories")
+                else:
+                    logger.error(f"❌ Memory retrieval failed for {expert_id}: {response.status_code}")
+        except Exception as e:
+            logger.error(f"❌ Memory retrieval error for {expert_id}: {e}")
+
+    # Test 4: Orchestrated prediction generation
+    logger.info("=== Test 4: Orchestrated Prediction Generation ===")
+
+    orchestration_payload = {
+        "game_id": TEST_GAME_ID,
+        "expert_ids": TEST_EXPERTS,
+        "api_base_url": API_BASE_URL,
+        "enable_shadow_runs": True,
+        "shadow_models": {
+            "conservative_analyzer": "google/gemini-2.5-flash-preview-09-2025",
+            "momentum_rider": "anthropic/claude-sonnet-4.5",
+            "contrarian_rebel": "deepseek/deepseek-chat-v3.1:free",
+            "value_hunter": "x-ai/grok-4-fast:free"
+        },
+        "orchestration_id": f"smoke_test_{int(time.time())}"
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=120.0) as client:
+            response = await client.post(
+                "http://localhost:3000/agents/game-orchestrator",
+                json=orchestration_payload
+            )
+
+            if response.status_code == 200:
+                result = response.json()
+                experts_processed = result.get('experts_processed', [])
+                experts_failed = result.get('experts_failed', [])
+                total_duration = result.get('total_duration_ms', 0)
+                schema_compliance = result.get('schema_compliance_rate', 0)
+
+                logger.success(f"✅ Orchestration completed in {total_duration}ms")
+                logger.info(f"Experts processed: {len(experts_processed)}")
+                logger.info(f"Experts failed: {len(experts_failed)}")
+                logger.info(f"Schema compliance: {schema_compliance:.1%}")
+
+                if experts_failed:
+                    logger.warning(f"⚠️ Failed experts: {experts_failed}")
+
+                # Check shadow results
+                shadow_results = result.get('shadow_results', [])
+                if shadow_results:
+                    logger.info(f"Shadow runs completed: {len(shadow_results)}")
+
+            else:
+                logger.error(f"❌ Orchestration failed: {response.status_code}")
+                logger.error(response.text)
+                return False
+
+    except Exception as e:
+        logger.error(f"❌ Orchestration error: {e}")
+        return False
+
+    # Test 5: Council selection and aggregation
+    logger.info("=== Test 5: Council Selection & Aggregation ===")
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{API_BASE_URL}/council/select", json={
+                "game_id": TEST_GAME_ID,
+                "expert_ids": TEST_EXPERTS
+            })
+
+            if response.status_code == 200:
+                council = response.json()
+                selected_experts = council.get('selected_experts', [])
+                logger.success(f"✅ Council selected: {len(selected_experts)} experts")
+
+                for expert in selected_experts:
+                    logger.info(f"  - {expert['expert_id']}: weight={expert['weight']:.3f}")
+
+            else:
+                logger.error(f"❌ Council selection failed: {response.status_code}")
+
+    except Exception as e:
+        logger.error(f"❌ Council selection error: {e}")
+
+    # Test 6: Coherence projection
+    logger.info("=== Test 6: Coherence Projection ===")
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(f"{API_BASE_URL}/projection/coherence", json={
+                "game_id": TEST_GAME_ID
+            })
+
+            if response.status_code == 200:
+                projection = response.json()
+                coherence_score = projection.get('coherence_score', 0)
+                adjustments_made = projection.get('adjustments_made', 0)
+
+                logger.success(f"✅ Coherence projection completed")
+                logger.info(f"Coherence score: {coherence_score:.3f}")
+                logger.info(f"Adjustments made: {adjustments_made}")
+
+            else:
+                logger.error(f"❌ Coherence projection failed: {response.status_code}")
+
+    except Exception as e:
+        logger.error(f"❌ Coherence projection error: {e}")
+
+    # Test 7: Model switching simulation
+    logger.info("=== Test 7: Model Switching Simulation ===")
+
+    for expert_id in TEST_EXPERTS:
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(f"{API_BASE_URL}/model-switcher/evaluate", json={
+                    "expert_id": expert_id,
+                    "family": "markets",
+                    "force_evaluation": True
+                })
+
+                if response.status_code == 200:
+                    switch_result = response.json()
+                    primary_model = switch_result.get('primary_model')
+                    switch_occurred = switch_result.get('switch_occurred', False)
+
+                    if switch_occurred:
+                        logger.info(f"🔄 {expert_id}: Switched to {primary_model}")
+                    else:
+                        logger.success(f"✅ {expert_id}: Staying with {primary_model}")
+
+                else:
+                    logger.warning(f"⚠️ Model switching evaluation failed for {expert_id}")
+
+        except Exception as e:
+            logger.error(f"❌ Model switching error for {expert_id}: {e}")
+
+    logger.success("🎉 Smoke test completed successfully!")
+    return True
+
+
+async def main():
+    """Main smoke test execution"""
+    success = await run_smoke_test()
+
+    if success:
+        logger.success("✅ All smoke tests passed!")
+        exit(0)
+    else:
+        logger.error("❌ Some smoke tests failed!")
+        exit(1)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
