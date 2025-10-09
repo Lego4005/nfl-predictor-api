@@ -9,6 +9,7 @@ supabase==2.3.1
 postgrest==0.13.2
 psycopg2-binary==2.9.9
 sqlalchemy==2.0.23
+neo4j==5.25.0
 
 # Caching
 redis==5.0.1
