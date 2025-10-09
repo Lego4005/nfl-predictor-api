@@ -1,632 +1,697 @@
 """
-Production deployment configuration and environment setup.
-Handles production environment variables, deployment scripts, and monitoring.
+Enhanced Production Deployment Configuration for NFL Expert Prediction Syste
+Handles database connections, vector search optimization, API key management,
+rate limiting, monitoring, and logging for production troubleshooting.
 """
 
 import os
-from typing import Dict, Any, List
-from dataclasses import dataclass, asdict
-import yaml
+import logging
+import asyncio
+from typing import Dict, Any, Optional, List
+from dataclasses import dataclass, field
+from enum import Enum
+from datetime import datetime, timedelta
 import json
+import redis
+import asyncpg
+from contextlib import asynccontextmanager
+
+
+class DeploymentEnvironment(Enum):
+    """Deployment environment types"""
+    DEVELOPMENT = "development"
+    STAGING = "staging"
+    PRODUCTION = "production"
+
+
+class LogLevel(Enum):
+    """Logging levels"""
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
 
 
 @dataclass
-class ProductionEnvironment:
-    """Production environment configuration"""
-    # Application settings
-    app_name: str = "nfl-predictor-api"
-    environment: str = "production"
-    debug: bool = False
-    
-    # Database configuration
-    supabase_url: str = ""
-    supabase_anon_key: str = ""
-    supabase_service_key: str = ""
-    database_url: str = ""
-    
-    # API keys
-    odds_api_key: str = ""
-    sportsdata_io_key: str = ""
-    rapid_api_key: str = ""
-    
-    # Cache and Redis
-    redis_url: str = ""
-    redis_password: str = ""
-    cache_ttl_minutes: int = 30
-    
-    # Security
-    api_secret_key: str = ""
-    cors_origins: List[str] = None
-    allowed_hosts: List[str] = None
-    
-    # Performance
-    db_min_pool_size: int = 10
-    db_max_pool_size: int = 50
-    db_query_timeout: int = 60
-    
-    # Monitoring
-    log_level: str = "INFO"
+class DatabaseConfig:
+    """Database connection and optimization configuration"""
+    url: str
+    min_pool_size: int = 10
+    max_pool_size: int = 50
+    query_timeout: int = 60
+    slow_query_threshold: float = 2.0
     enable_query_logging: bool = True
-    health_check_interval: int = 300
-    
-    def __post_init__(self):
-        if self.cors_origins is None:
-            self.cors_origins = ["https://yourdomain.com"]
-        if self.allowed_hosts is None:
-            self.allowed_hosts = ["yourdomain.com", "www.yourdomain.com"]
-    
-    def to_env_dict(self) -> Dict[str, str]:
-        """Convert to environment variables dictionary"""
+    max_queries: int = 100000
+    max_inactive_lifetime: int = 600
+    statement_cache_size: int = 2048
+    prepared_cache_size: int = 200
+
+    def get_connection_params(self) -> Dict[str, Any]:
+        """Get database connection parameters"""
         return {
-            "ENVIRONMENT": self.environment,
-            "DEBUG": str(self.debug).lower(),
-            "SUPABASE_URL": self.supabase_url,
-            "SUPABASE_ANON_KEY": self.supabase_anon_key,
-            "SUPABASE_SERVICE_ROLE_KEY": self.supabase_service_key,
-            "DATABASE_URL": self.database_url,
-            "ODDS_API_KEY": self.odds_api_key,
-            "SPORTSDATA_IO_KEY": self.sportsdata_io_key,
-            "RAPID_API_KEY": self.rapid_api_key,
-            "REDIS_URL": self.redis_url,
-            "REDIS_PASSWORD": self.redis_password,
-            "CACHE_TTL_MINUTES": str(self.cache_ttl_minutes),
-            "API_SECRET_KEY": self.api_secret_key,
-            "CORS_ORIGINS": ",".join(self.cors_origins),
-            "ALLOWED_HOSTS": ",".join(self.allowed_hosts),
-            "DB_MIN_POOL_SIZE": str(self.db_min_pool_size),
-            "DB_MAX_POOL_SIZE": str(self.db_max_pool_size),
-            "DB_QUERY_TIMEOUT": str(self.db_query_timeout),
-            "LOG_LEVEL": self.log_level,
-            "DB_ENABLE_QUERY_LOGGING": str(self.enable_query_logging).lower(),
-            "HEALTH_CHECK_INTERVAL": str(self.health_check_interval)
-        }
-    
-    def generate_env_file(self, file_path: str = ".env.production") -> None:
-        """Generate .env file for production"""
-        env_vars = self.to_env_dict()
-        
-        with open(file_path, 'w') as f:
-            f.write("# Production Environment Configuration\n")
-            f.write("# Generated automatically - DO NOT edit manually\n\n")
-            
-            # Application settings
-            f.write("# Application Settings\n")
-            f.write(f"ENVIRONMENT={env_vars['ENVIRONMENT']}\n")
-            f.write(f"DEBUG={env_vars['DEBUG']}\n\n")
-            
-            # Database configuration
-            f.write("# Database Configuration\n")
-            f.write(f"SUPABASE_URL={env_vars['SUPABASE_URL']}\n")
-            f.write(f"SUPABASE_ANON_KEY={env_vars['SUPABASE_ANON_KEY']}\n")
-            f.write(f"SUPABASE_SERVICE_ROLE_KEY={env_vars['SUPABASE_SERVICE_ROLE_KEY']}\n")
-            f.write(f"DATABASE_URL={env_vars['DATABASE_URL']}\n\n")
-            
-            # API Keys
-            f.write("# API Keys\n")
-            f.write(f"ODDS_API_KEY={env_vars['ODDS_API_KEY']}\n")
-            f.write(f"SPORTSDATA_IO_KEY={env_vars['SPORTSDATA_IO_KEY']}\n")
-            f.write(f"RAPID_API_KEY={env_vars['RAPID_API_KEY']}\n\n")
-            
-            # Cache configuration
-            f.write("# Cache Configuration\n")
-            f.write(f"REDIS_URL={env_vars['REDIS_URL']}\n")
-            f.write(f"REDIS_PASSWORD={env_vars['REDIS_PASSWORD']}\n")
-            f.write(f"CACHE_TTL_MINUTES={env_vars['CACHE_TTL_MINUTES']}\n\n")
-            
-            # Security
-            f.write("# Security\n")
-            f.write(f"API_SECRET_KEY={env_vars['API_SECRET_KEY']}\n")
-            f.write(f"CORS_ORIGINS={env_vars['CORS_ORIGINS']}\n")
-            f.write(f"ALLOWED_HOSTS={env_vars['ALLOWED_HOSTS']}\n\n")
-            
-            # Performance
-            f.write("# Performance\n")
-            f.write(f"DB_MIN_POOL_SIZE={env_vars['DB_MIN_POOL_SIZE']}\n")
-            f.write(f"DB_MAX_POOL_SIZE={env_vars['DB_MAX_POOL_SIZE']}\n")
-            f.write(f"DB_QUERY_TIMEOUT={env_vars['DB_QUERY_TIMEOUT']}\n\n")
-            
-            # Monitoring
-            f.write("# Monitoring\n")
-            f.write(f"LOG_LEVEL={env_vars['LOG_LEVEL']}\n")
-            f.write(f"DB_ENABLE_QUERY_LOGGING={env_vars['DB_ENABLE_QUERY_LOGGING']}\n")
-            f.write(f"HEALTH_CHECK_INTERVAL={env_vars['HEALTH_CHECK_INTERVAL']}\n")
-
-
-def generate_docker_compose_production() -> str:
-    """Generate production Docker Compose configuration"""
-    return """version: '3.8'
-
-services:
-  nfl-predictor-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nfl-predictor-api
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      - ENVIRONMENT=production
-      - DEBUG=false
-    env_file:
-      - .env.production
-    depends_on:
-      - redis
-    networks:
-      - nfl-predictor-network
-    volumes:
-      - ./logs:/app/logs
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  redis:
-    image: redis:7-alpine
-    container_name: nfl-predictor-redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
-    networks:
-      - nfl-predictor-network
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  nginx:
-    image: nginx:alpine
-    container_name: nfl-predictor-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/nginx/ssl
-      - ./logs/nginx:/var/log/nginx
-    depends_on:
-      - nfl-predictor-api
-    networks:
-      - nfl-predictor-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-networks:
-  nfl-predictor-network:
-    driver: bridge
-
-volumes:
-  redis_data:
-    driver: local
-"""
-
-
-def generate_nginx_config() -> str:
-    """Generate production Nginx configuration"""
-    return """events {
-    worker_connections 1024;
-}
-
-http {
-    upstream nfl_predictor_api {
-        server nfl-predictor-api:8000;
-    }
-
-    # Rate limiting
-    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
-    limit_req_zone $binary_remote_addr zone=auth:10m rate=5r/s;
-
-    # Gzip compression
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1024;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types
-        text/plain
-        text/css
-        text/xml
-        text/javascript
-        application/json
-        application/javascript
-        application/xml+rss
-        application/atom+xml
-        image/svg+xml;
-
-    # SSL configuration
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-    ssl_session_cache shared:SSL:10m;
-
-    # Security headers
-    add_header X-Frame-Options DENY;
-    add_header X-Content-Type-Options nosniff;
-    add_header X-XSS-Protection "1; mode=block";
-    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
-
-    server {
-        listen 80;
-        server_name yourdomain.com www.yourdomain.com;
-        return 301 https://$server_name$request_uri;
-    }
-
-    server {
-        listen 443 ssl http2;
-        server_name yourdomain.com www.yourdomain.com;
-
-        ssl_certificate /etc/nginx/ssl/cert.pem;
-        ssl_certificate_key /etc/nginx/ssl/key.pem;
-
-        # API endpoints
-        location /api/ {
-            limit_req zone=api burst=20 nodelay;
-            
-            proxy_pass http://nfl_predictor_api;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            
-            # Timeouts
-            proxy_connect_timeout 60s;
-            proxy_send_timeout 60s;
-            proxy_read_timeout 60s;
-            
-            # Enable CORS
-            add_header Access-Control-Allow-Origin "https://yourdomain.com";
-            add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS";
-            add_header Access-Control-Allow-Headers "Content-Type, Authorization";
+            "dsn": self.url,
+            "min_size": self.min_pool_size,
+            "max_size": self.max_pool_size,
+            "command_timeout": self.query_timeout,
+            "max_queries": self.max_queries,
+            "max_inactive_connection_lifetime": self.max_inactive_lifetime,
+            "statement_cache_size": self.statement_cache_size,
+            "prepared_statement_cache_size": self.prepared_cache_size
         }
 
-        # Authentication endpoints (stricter rate limiting)
-        location /api/auth/ {
-            limit_req zone=auth burst=10 nodelay;
-            
-            proxy_pass http://nfl_predictor_api;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+
+@dataclass
+class VectorSearchConfig:
+    """Vector search optimization configuration"""
+    embedding_model: str = "text-embedding-3-small"
+    similarity_threshold: float = 0.7
+    max_results: int = 50
+    enable_indexing: bool = True
+    index_type: str = "ivfflat"
+    index_lists: int = 100
+    probes: int = 10
+    maintenance_interval: int = 3600  # seconds
+
+    def get_pgvector_params(self) -> Dict[str, Any]:
+        """Get pgvector optimization parameters"""
+        return {
+            "similarity_threshold": self.similarity_threshold,
+            "max_results": self.max_results,
+            "index_type": self.index_type,
+            "lists": self.index_lists,
+            "probes": self.probes
         }
 
-        # Health check endpoint (no rate limiting)
-        location /health {
-            proxy_pass http://nfl_predictor_api;
-            access_log off;
+
+@dataclass
+class APIKeyManager:
+    """Secure API key management with rotation support"""
+    primary_keys: Dict[str, str] = field(default_factory=dict)
+    backup_keys: Dict[str, str] = field(default_factory=dict)
+    rotation_schedule: Dict[str, int] = field(default_factory=dict)  # days
+    last_rotation: Dict[str, datetime] = field(default_factory=dict)
+
+    def __post_init__(self):
+        """Initialize API keys from environment"""
+        self.primary_keys = {
+            "openai": os.getenv("OPENAI_API_KEY"),
+            "anthropic": os.getenv("ANTHROPIC_API_KEY"),
+            "google": os.getenv("GOOGLE_API_KEY"),
+            "odds_api": os.getenv("ODDS_API_KEY"),
+            "sportsdata_io": os.getenv("SPORTSDATA_IO_KEY"),
+            "rapid_api": os.getenv("RAPID_API_KEY")
         }
 
-        # Static files
-        location / {
-            root /var/www/html;
-            try_files $uri $uri/ /index.html;
-            
-            # Cache static assets
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
-                expires 1y;
-                add_header Cache-Control "public, immutable";
+        self.backup_keys = {
+            "openai": os.getenv("OPENAI_API_KEY_BACKUP"),
+            "anthropic": os.getenv("ANTHROPIC_API_KEY_BACKUP"),
+            "google": os.getenv("GOOGLE_API_KEY_BACKUP")
+        }
+
+        # Default rotation schedule (days)
+        self.rotation_schedule = {
+            "openai": 90,
+            "anthropic": 90,
+            "google": 90,
+            "odds_api": 180,
+            "sportsdata_io": 180,
+            "rapid_api": 180
+        }
+
+    def get_active_key(self, service: str) -> Optional[str]:
+        """Get active API key for service"""
+        return self.primary_keys.get(service)
+
+    def needs_rotation(self, service: str) -> bool:
+        """Check if API key needs rotation"""
+        if service not in self.last_rotation:
+            return False
+
+        days_since_rotation = (datetime.now() - self.last_rotation[service]).days
+        return days_since_rotation >= self.rotation_schedule.get(service, 90)
+
+    def rotate_key(self, service: str) -> bool:
+        """Rotate API key to backup if available"""
+        if service in self.backup_keys and self.backup_keys[service]:
+            self.primary_keys[service] = self.backup_keys[service]
+            self.last_rotation[service] = datetime.now()
+            return True
+        return False
+
+    def validate_keys(self) -> Dict[str, bool]:
+        """Validate all API keys are present"""
+        return {
+            service: bool(key)
+            for service, key in self.primary_keys.items()
+        }
+
+
+@dataclass
+class RateLimitConfig:
+    """Advanced rate limiting configuration"""
+    limits: Dict[str, int] = field(default_factory=dict)
+    burst_limits: Dict[str, int] = field(default_factory=dict)
+    window_size: int = 60  # seconds
+    enable_adaptive: bool = True
+    backoff_multiplier: float = 2.0
+    max_backoff: int = 300  # seconds
+
+    def __post_init__(self):
+        """Initialize rate limits from environment"""
+        self.limits = {
+            "openai": int(os.getenv("OPENAI_RATE_LIMIT", "3000")),
+            "anthropic": int(os.getenv("ANTHROPIC_RATE_LIMIT", "1000")),
+            "google": int(os.getenv("GOOGLE_RATE_LIMIT", "1000")),
+            "odds_api": int(os.getenv("ODDS_API_RATE_LIMIT", "500")),
+            "sportsdata_io": int(os.getenv("SPORTSDATA_IO_RATE_LIMIT", "1000")),
+            "espn_api": int(os.getenv("ESPN_API_RATE_LIMIT", "1000"))
+        }
+
+        self.burst_limits = {
+            service: limit * 2 for service, limit in self.limits.items()
+        }
+
+    def get_limit(self, service: str) -> int:
+        """Get rate limit for service"""
+        return self.limits.get(service, 100)
+
+    def get_burst_limit(self, service: str) -> int:
+        """Get burst limit for service"""
+        return self.burst_limits.get(service, 200)
+
+
+@dataclass
+class MonitoringConfig:
+    """Comprehensive monitoring and alerting configuration"""
+    enable_metrics: bool = True
+    enable_health_checks: bool = True
+    health_check_interval: int = 300  # seconds
+    metrics_port: int = 9090
+    log_level: LogLevel = LogLevel.INFO
+    enable_performance_tracking: bool = True
+    enable_error_tracking: bool = True
+    alert_thresholds: Dict[str, float] = field(default_factory=dict)
+
+    def __post_init__(self):
+        """Initialize monitoring configuration"""
+        self.alert_thresholds = {
+            "error_rate": float(os.getenv("ALERT_ERROR_RATE", "0.05")),
+            "response_time_p95": float(os.getenv("ALERT_RESPONSE_TIME", "2.0")),
+            "memory_usage": float(os.getenv("ALERT_MEMORY_USAGE", "0.85")),
+            "cpu_usage": float(os.getenv("ALERT_CPU_USAGE", "0.80")),
+            "database_connections": float(os.getenv("ALERT_DB_CONNECTIONS", "0.90")),
+            "expert_failure_rate": float(os.getenv("ALERT_EXPERT_FAILURE_RATE", "0.10"))
+        }
+
+
+@dataclass
+class LoggingConfig:
+    """Advanced logging configuration for production troubleshooting"""
+    level: LogLevel = LogLevel.INFO
+    format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    enable_file_logging: bool = True
+    enable_json_logging: bool = True
+    log_directory: str = "./logs"
+    max_file_size: int = 100 * 1024 * 1024  # 100MB
+    backup_count: int = 10
+    enable_structured_logging: bool = True
+    enable_correlation_ids: bool = True
+
+    def setup_logging(self):
+        """Setup comprehensive logging configuration"""
+        # Create logs directory
+        os.makedirs(self.log_directory, exist_ok=True)
+
+        # Configure root logger
+        logging.basicConfig(
+            level=getattr(logging, self.level.value),
+            format=self.format,
+            handlers=self._get_handlers()
+        )
+
+        # Configure specific loggers
+        self._configure_expert_logger()
+        self._configure_database_logger()
+        self._configure_api_logger()
+        self._configure_performance_logger()
+
+    def _get_handlers(self) -> List[logging.Handler]:
+        """Get logging handlers"""
+        handlers = []
+
+        # Console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(logging.Formatter(self.format))
+        handlers.append(console_handler)
+
+        if self.enable_file_logging:
+            # File handler with rotation
+            from logging.handlers import RotatingFileHandler
+            file_handler = RotatingFileHandler(
+                f"{self.log_directory}/nfl_expert_system.log",
+                maxBytes=self.max_file_size,
+                backupCount=self.backup_count
+            )
+            file_handler.setFormatter(logging.Formatter(self.format))
+            handlers.append(file_handler)
+
+        return handlers
+
+    def _configure_expert_logger(self):
+        """Configure expert system specific logging"""
+        expert_logger = logging.getLogger("expert_system")
+        expert_logger.setLevel(logging.INFO)
+
+        if self.enable_file_logging:
+            from logging.handlers import RotatingFileHandler
+            expert_handler = RotatingFileHandler(
+                f"{self.log_directory}/expert_system.log",
+                maxBytes=self.max_file_size,
+                backupCount=self.backup_count
+            )
+            expert_handler.setFormatter(logging.Formatter(
+                "%(asctime)s - EXPERT[%(expert_id)s] - %(levelname)s - %(message)s"
+            ))
+            expert_logger.addHandler(expert_handler)
+
+    def _configure_database_logger(self):
+        """Configure database specific logging"""
+        db_logger = logging.getLogger("database")
+        db_logger.setLevel(logging.WARNING)
+
+        if self.enable_file_logging:
+            from logging.handlers import RotatingFileHandler
+            db_handler = RotatingFileHandler(
+                f"{self.log_directory}/database.log",
+                maxBytes=self.max_file_size,
+                backupCount=self.backup_count
+            )
+            db_handler.setFormatter(logging.Formatter(
+                "%(asctime)s - DB - %(levelname)s - %(message)s"
+            ))
+            db_logger.addHandler(db_handler)
+
+    def _configure_api_logger(self):
+        """Configure API specific logging"""
+        api_logger = logging.getLogger("api")
+        api_logger.setLevel(logging.INFO)
+
+        if self.enable_file_logging:
+            from logging.handlers import RotatingFileHandler
+            api_handler = RotatingFileHandler(
+                f"{self.log_directory}/api.log",
+                maxBytes=self.max_file_size,
+                backupCount=self.backup_count
+            )
+            api_handler.setFormatter(logging.Formatter(
+                "%(asctime)s - API - %(levelname)s - %(message)s"
+            ))
+            api_logger.addHandler(api_handler)
+
+    def _configure_performance_logger(self):
+        """Configure performance specific logging"""
+        perf_logger = logging.getLogger("performance")
+        perf_logger.setLevel(logging.INFO)
+
+        if self.enable_file_logging:
+            from logging.handlers import RotatingFileHandler
+            perf_handler = RotatingFileHandler(
+                f"{self.log_directory}/performance.log",
+                maxBytes=self.max_file_size,
+                backupCount=self.backup_count
+            )
+            perf_handler.setFormatter(logging.Formatter(
+                "%(asctime)s - PERF - %(levelname)s - %(message)s"
+            ))
+            perf_logger.addHandler(perf_handler)
+
+
+class ProductionDeploymentManager:
+    """
+    Main production deployment configuration manager.
+    Handles all aspects of production deployment including database connections,
+    vector search optimization, API key management, rate limiting, and monitoring.
+    """
+
+    def __init__(self):
+        self.environment = DeploymentEnvironment(os.getenv("ENVIRONMENT", "development"))
+        self.debug = os.getenv("DEBUG", "false").lower() == "true"
+
+        # Initialize configuration components
+        self.database = DatabaseConfig(
+            url=os.getenv("DATABASE_URL", "postgresql://localhost:5432/nfl_predictor"),
+            min_pool_size=int(os.getenv("DB_MIN_POOL_SIZE", "10")),
+            max_pool_size=int(os.getenv("DB_MAX_POOL_SIZE", "50")),
+            query_timeout=int(os.getenv("DB_QUERY_TIMEOUT", "60")),
+            slow_query_threshold=float(os.getenv("DB_SLOW_QUERY_THRESHOLD", "2.0")),
+            enable_query_logging=os.getenv("DB_ENABLE_QUERY_LOGGING", "true").lower() == "true"
+        )
+
+        self.vector_search = VectorSearchConfig(
+            embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
+            similarity_threshold=float(os.getenv("VECTOR_SIMILARITY_THRESHOLD", "0.7")),
+            max_results=int(os.getenv("VECTOR_MAX_RESULTS", "50"))
+        )
+
+        self.api_keys = APIKeyManager()
+        self.rate_limits = RateLimitConfig()
+        self.monitoring = MonitoringConfig(
+            enable_metrics=os.getenv("ENABLE_METRICS", "true").lower() == "true",
+            health_check_interval=int(os.getenv("HEALTH_CHECK_INTERVAL", "300")),
+            log_level=LogLevel(os.getenv("LOG_LEVEL", "INFO"))
+        )
+
+        self.logging = LoggingConfig(
+            level=LogLevel(os.getenv("LOG_LEVEL", "INFO")),
+            log_directory=os.getenv("LOG_DIRECTORY", "./logs"),
+            enable_json_logging=os.getenv("ENABLE_JSON_LOGGING", "true").lower() == "true"
+        )
+
+        # Connection pools
+        self._db_pool = None
+        self._redis_pool = None
+
+        # Validate configuration
+        self._validate_configuration()
+
+    def _validate_configuration(self):
+        """Validate production configuration"""
+        errors = []
+
+        # Validate API keys in production
+        if self.environment == DeploymentEnvironment.PRODUCTION:
+            key_validation = self.api_keys.validate_keys()
+            missing_keys = [service for service, valid in key_validation.items() if not valid]
+            if missing_keys:
+                errors.append(f"Missing required API keys: {', '.join(missing_keys)}")
+
+        # Validate database URL
+        if not self.database.url.startswith("postgresql://"):
+            errors.append("DATABASE_URL must be a valid PostgreSQL connection string")
+
+        # Validate vector search configuration
+        if self.vector_search.similarity_threshold < 0 or self.vector_search.similarity_threshold > 1:
+            errors.append("Vector similarity threshold must be between 0 and 1")
+
+        if errors:
+            raise ValueError(f"Configuration validation failed: {'; '.join(errors)}")
+
+    async def initialize(self):
+        """Initialize production deployment components"""
+        logger = logging.getLogger(__name__)
+        logger.info("Initializing production deployment...")
+
+        # Setup logging
+        self.logging.setup_logging()
+
+        # Initialize database connection pool
+        await self._initialize_database_pool()
+
+        # Initialize Redis connection pool
+        await self._initialize_redis_pool()
+
+        # Setup vector search optimization
+        await self._setup_vector_search_optimization()
+
+        # Initialize monitoring
+        await self._initialize_monitoring()
+
+        logger.info("Production deployment initialization completed")
+
+    async def _initialize_database_pool(self):
+        """Initialize database connection pool with optimization"""
+        logger = logging.getLogger("database")
+
+        try:
+            self._db_pool = await asyncpg.create_pool(
+                **self.database.get_connection_params()
+            )
+
+            # Test connection
+            async with self._db_pool.acquire() as conn:
+                await conn.execute("SELECT 1")
+
+            logger.info(f"Database pool initialized: {self.database.min_pool_size}-{self.database.max_pool_size} connections")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize database pool: {e}")
+            raise
+
+    async def _initialize_redis_pool(self):
+        """Initialize Redis connection pool"""
+        logger = logging.getLogger("database")
+
+        try:
+            redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+            redis_password = os.getenv("REDIS_PASSWORD")
+
+            self._redis_pool = redis.ConnectionPool.from_url(
+                redis_url,
+                password=redis_password,
+                max_connections=20,
+                retry_on_timeout=True,
+                socket_connect_timeout=5,
+                socket_timeout=5
+            )
+
+            # Test connection
+            redis_client = redis.Redis(connection_pool=self._redis_pool)
+            await redis_client.ping()
+
+            logger.info("Redis pool initialized")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize Redis pool: {e}")
+            raise
+
+    async def _setup_vector_search_optimization(self):
+        """Setup vector search optimization"""
+        logger = logging.getLogger("database")
+
+        if not self.vector_search.enable_indexing:
+            return
+
+        try:
+            async with self._db_pool.acquire() as conn:
+                # Create vector index if not exists
+                await conn.execute("""
+                    CREATE INDEX CONCURRENTLY IF NOT EXISTS expert_memories_embedding_idx
+                    ON expert_episodic_memories
+                    USING ivfflat (combined_embedding vector_cosine_ops)
+                    WITH (lists = $1)
+                """, self.vector_search.index_lists)
+
+                # Set search parameters
+                await conn.execute("SET ivfflat.probes = $1", self.vector_search.probes)
+
+            logger.info("Vector search optimization configured")
+
+        except Exception as e:
+            logger.error(f"Failed to setup vector search optimization: {e}")
+            # Don't raise - vector search can work without optimization
+
+    async def _initialize_monitoring(self):
+        """Initialize monitoring and health checks"""
+        logger = logging.getLogger(__name__)
+
+        if not self.monitoring.enable_metrics:
+            return
+
+        try:
+            # Start health check loop
+            asyncio.create_task(self._health_check_loop())
+
+            # Start metrics collection
+            asyncio.create_task(self._metrics_collection_loop())
+
+            logger.info("Monitoring initialized")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize monitoring: {e}")
+            # Don't raise - monitoring is not critical for core functionality
+
+    async def _health_check_loop(self):
+        """Continuous health check loop"""
+        logger = logging.getLogger("monitoring")
+
+        while True:
+            try:
+                await asyncio.sleep(self.monitoring.health_check_interval)
+
+                health_status = await self.get_health_status()
+
+                if not health_status["healthy"]:
+                    logger.warning(f"Health check failed: {health_status}")
+
+            except Exception as e:
+                logger.error(f"Health check error: {e}")
+
+    async def _metrics_collection_loop(self):
+        """Continuous metrics collection loop"""
+        logger = logging.getLogger("monitoring")
+
+        while True:
+            try:
+                await asyncio.sleep(60)  # Collect metrics every minute
+
+                metrics = await self.collect_metrics()
+
+                # Log metrics for external collection
+                logger.info(f"Metrics: {json.dumps(metrics)}")
+
+            except Exception as e:
+                logger.error(f"Metrics collection error: {e}")
+
+    async def get_health_status(self) -> Dict[str, Any]:
+        """Get comprehensive health status"""
+        health = {
+            "healthy": True,
+            "timestamp": datetime.now().isoformat(),
+            "components": {}
+        }
+
+        # Check database
+        try:
+            async with self._db_pool.acquire() as conn:
+                await conn.execute("SELECT 1")
+            health["components"]["database"] = {"status": "healthy"}
+        except Exception as e:
+            health["components"]["database"] = {"status": "unhealthy", "error": str(e)}
+            health["healthy"] = False
+
+        # Check Redis
+        try:
+            redis_client = redis.Redis(connection_pool=self._redis_pool)
+            await redis_client.ping()
+            health["components"]["redis"] = {"status": "healthy"}
+        except Exception as e:
+            health["components"]["redis"] = {"status": "unhealthy", "error": str(e)}
+            health["healthy"] = False
+
+        # Check API keys
+        key_validation = self.api_keys.validate_keys()
+        invalid_keys = [service for service, valid in key_validation.items() if not valid]
+        if invalid_keys:
+            health["components"]["api_keys"] = {"status": "degraded", "invalid_keys": invalid_keys}
+        else:
+            health["components"]["api_keys"] = {"status": "healthy"}
+
+        return health
+
+    async def collect_metrics(self) -> Dict[str, Any]:
+        """Collect system metrics"""
+        metrics = {
+            "timestamp": datetime.now().isoformat(),
+            "database": {},
+            "redis": {},
+            "api_keys": {}
+        }
+
+        # Database metrics
+        try:
+            async with self._db_pool.acquire() as conn:
+                # Connection pool metrics
+                metrics["database"]["pool_size"] = self._db_pool.get_size()
+                metrics["database"]["pool_free"] = self._db_pool.get_idle_size()
+
+                # Query performance metrics
+                result = await conn.fetchrow("""
+                    SELECT
+                        count(*) as active_connections,
+                        avg(extract(epoch from now() - query_start)) as avg_query_time
+                    FROM pg_stat_activity
+                    WHERE state = 'active' AND query != '<IDLE>'
+                """)
+
+                if result:
+                    metrics["database"]["active_connections"] = result["active_connections"]
+                    metrics["database"]["avg_query_time"] = result["avg_query_time"]
+
+        except Exception as e:
+            metrics["database"]["error"] = str(e)
+
+        # Redis metrics
+        try:
+            redis_client = redis.Redis(connection_pool=self._redis_pool)
+            info = await redis_client.info()
+            metrics["redis"]["used_memory"] = info.get("used_memory", 0)
+            metrics["redis"]["connected_clients"] = info.get("connected_clients", 0)
+            metrics["redis"]["keyspace_hits"] = info.get("keyspace_hits", 0)
+            metrics["redis"]["keyspace_misses"] = info.get("keyspace_misses", 0)
+        except Exception as e:
+            metrics["redis"]["error"] = str(e)
+
+        # API key rotation status
+        for service in self.api_keys.primary_keys:
+            metrics["api_keys"][service] = {
+                "needs_rotation": self.api_keys.needs_rotation(service),
+                "has_backup": bool(self.api_keys.backup_keys.get(service))
+            }
+
+        return metrics
+
+    @asynccontextmanager
+    async def get_db_connection(self):
+        """Get database connection from pool"""
+        async with self._db_pool.acquire() as conn:
+            yield conn
+
+    def get_redis_client(self):
+        """Get Redis client"""
+        return redis.Redis(connection_pool=self._redis_pool)
+
+    async def shutdown(self):
+        """Graceful shutdown"""
+        logger = logging.getLogger(__name__)
+        logger.info("Shutting down production deployment...")
+
+        if self._db_pool:
+            await self._db_pool.close()
+
+        if self._redis_pool:
+            self._redis_pool.disconnect()
+
+        logger.info("Production deployment shutdown completed")
+
+    def get_configuration_summary(self) -> Dict[str, Any]:
+        """Get configuration summary for debugging"""
+        return {
+            "environment": self.environment.value,
+            "debug": self.debug,
+            "database": {
+                "pool_size": f"{self.database.min_pool_size}-{self.database.max_pool_size}",
+                "query_timeout": self.database.query_timeout,
+                "slow_query_threshold": self.database.slow_query_threshold
+            },
+            "vector_search": {
+                "model": self.vector_search.embedding_model,
+                "similarity_threshold": self.vector_search.similarity_threshold,
+                "indexing_enabled": self.vector_search.enable_indexing
+            },
+            "rate_limits": self.rate_limits.limits,
+            "monitoring": {
+                "enabled": self.monitoring.enable_metrics,
+                "health_check_interval": self.monitoring.health_check_interval,
+                "log_level": self.monitoring.log_level.value
             }
         }
 
-        # Error pages
-        error_page 404 /404.html;
-        error_page 500 502 503 504 /50x.html;
-    }
-}
-"""
+
+# Global deployment manager instance
+deployment_manager = ProductionDeploymentManager()
 
 
-def generate_deployment_script() -> str:
-    """Generate production deployment script"""
-    return """#!/bin/bash
-
-# Production Deployment Script for NFL Predictor API
-set -e
-
-echo "🚀 Starting production deployment..."
-
-# Configuration
-APP_NAME="nfl-predictor-api"
-BACKUP_DIR="/backups"
-LOG_FILE="/var/log/deployment.log"
-
-# Colors for output
-RED='\\033[0;31m'
-GREEN='\\033[0;32m'
-YELLOW='\\033[1;33m'
-NC='\\033[0m' # No Color
-
-log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a $LOG_FILE
-}
-
-error_exit() {
-    echo -e "${RED}ERROR: $1${NC}" | tee -a $LOG_FILE
-    exit 1
-}
-
-success_msg() {
-    echo -e "${GREEN}SUCCESS: $1${NC}" | tee -a $LOG_FILE
-}
-
-warning_msg() {
-    echo -e "${YELLOW}WARNING: $1${NC}" | tee -a $LOG_FILE
-}
-
-# Check requirements
-check_requirements() {
-    log "Checking deployment requirements..."
-    
-    # Check if Docker is installed
-    if ! command -v docker &> /dev/null; then
-        error_exit "Docker is not installed"
-    fi
-    
-    # Check if Docker Compose is installed
-    if ! command -v docker-compose &> /dev/null; then
-        error_exit "Docker Compose is not installed"
-    fi
-    
-    # Check if .env.production exists
-    if [ ! -f ".env.production" ]; then
-        error_exit ".env.production file not found"
-    fi
-    
-    success_msg "All requirements satisfied"
-}
-
-# Create backup
-create_backup() {
-    log "Creating backup..."
-    
-    BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-    BACKUP_PATH="$BACKUP_DIR/backup_$BACKUP_TIMESTAMP"
-    
-    mkdir -p $BACKUP_PATH
-    
-    # Backup database (if applicable)
-    if [ -f "data/database.db" ]; then
-        cp data/database.db $BACKUP_PATH/
-    fi
-    
-    # Backup configuration
-    cp .env.production $BACKUP_PATH/
-    cp docker-compose.prod.yml $BACKUP_PATH/
-    
-    success_msg "Backup created at $BACKUP_PATH"
-}
-
-# Pull latest code
-update_code() {
-    log "Updating code..."
-    
-    # Ensure we're on the main branch
-    git checkout main
-    
-    # Pull latest changes
-    git pull origin main
-    
-    success_msg "Code updated successfully"
-}
-
-# Build and deploy
-deploy_application() {
-    log "Deploying application..."
-    
-    # Stop existing containers
-    docker-compose -f docker-compose.prod.yml down
-    
-    # Remove old images
-    docker image prune -f
-    
-    # Build new images
-    docker-compose -f docker-compose.prod.yml build --no-cache
-    
-    # Start services
-    docker-compose -f docker-compose.prod.yml up -d
-    
-    success_msg "Application deployed successfully"
-}
-
-# Run database migrations
-run_migrations() {
-    log "Running database migrations..."
-    
-    # Wait for database to be ready
-    sleep 10
-    
-    # Run migrations using Supabase CLI or direct SQL
-    if command -v supabase &> /dev/null; then
-        supabase db push
-    else
-        warning_msg "Supabase CLI not found, skipping migrations"
-    fi
-    
-    success_msg "Database migrations completed"
-}
-
-# Health check
-health_check() {
-    log "Performing health check..."
-    
-    # Wait for services to start
-    sleep 30
-    
-    # Check API health
-    if curl -f http://localhost/health &> /dev/null; then
-        success_msg "Health check passed"
-    else
-        error_exit "Health check failed"
-    fi
-}
-
-# Update monitoring
-update_monitoring() {
-    log "Updating monitoring configuration..."
-    
-    # Restart monitoring services if they exist
-    if docker ps | grep -q "prometheus"; then
-        docker restart prometheus
-    fi
-    
-    if docker ps | grep -q "grafana"; then
-        docker restart grafana
-    fi
-    
-    success_msg "Monitoring updated"
-}
-
-# Cleanup old backups (keep last 10)
-cleanup_backups() {
-    log "Cleaning up old backups..."
-    
-    if [ -d "$BACKUP_DIR" ]; then
-        cd $BACKUP_DIR
-        ls -t | tail -n +11 | xargs -r rm -rf
-    fi
-    
-    success_msg "Backup cleanup completed"
-}
-
-# Main deployment process
-main() {
-    log "Starting deployment process..."
-    
-    check_requirements
-    create_backup
-    update_code
-    deploy_application
-    run_migrations
-    health_check
-    update_monitoring
-    cleanup_backups
-    
-    success_msg "🎉 Deployment completed successfully!"
-    
-    # Display deployment summary
-    echo ""
-    echo "=== Deployment Summary ==="
-    echo "Application: $APP_NAME"
-    echo "Timestamp: $(date)"
-    echo "Status: SUCCESS"
-    echo "Health Check: http://localhost/health"
-    echo "=========================="
-}
-
-# Execute main function
-main "$@"
-"""
+async def get_deployment_manager() -> ProductionDeploymentManager:
+    """Get the global deployment manager instance"""
+    return deployment_manager
 
 
-def generate_monitoring_config() -> str:
-    """Generate monitoring configuration"""
-    return """# Monitoring Configuration for NFL Predictor API
-
-# Prometheus configuration
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-
-rule_files:
-  - "alert_rules.yml"
-
-scrape_configs:
-  - job_name: 'nfl-predictor-api'
-    static_configs:
-      - targets: ['nfl-predictor-api:8000']
-    metrics_path: '/metrics'
-    scrape_interval: 30s
-
-  - job_name: 'redis'
-    static_configs:
-      - targets: ['redis:6379']
-
-  - job_name: 'nginx'
-    static_configs:
-      - targets: ['nginx:80']
-
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          - alertmanager:9093
-
-# Alert rules
-groups:
-  - name: nfl_predictor_alerts
-    rules:
-      - alert: HighErrorRate
-        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
-        for: 5m
-        labels:
-          severity: critical
-        annotations:
-          summary: "High error rate detected"
-          description: "Error rate is above 10% for 5 minutes"
-
-      - alert: DatabaseConnectionFailure
-        expr: up{job="nfl-predictor-api"} == 0
-        for: 2m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Database connection failed"
-          description: "Unable to connect to database"
-
-      - alert: HighMemoryUsage
-        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.9
-        for: 5m
-        labels:
-          severity: warning
-        annotations:
-          summary: "High memory usage"
-          description: "Memory usage is above 90%"
-"""
+async def initialize_production_deployment():
+    """Initialize production deployment"""
+    await deployment_manager.initialize()
 
 
-# Create production environment configuration
-def create_production_config():
-    """Create complete production configuration"""
-    prod_env = ProductionEnvironment()
-    
-    # Generate configuration files
-    configs = {
-        "docker-compose.prod.yml": generate_docker_compose_production(),
-        "nginx.conf": generate_nginx_config(),
-        "deploy.sh": generate_deployment_script(),
-        "monitoring.yml": generate_monitoring_config()
-    }
-    
-    return prod_env, configs
-
-
-if __name__ == "__main__":
-    # Generate production configuration
-    env_config, file_configs = create_production_config()
-    
-    print("Production configuration generated successfully!")
-    print("Files to create:")
-    for filename in file_configs.keys():
-        print(f"  - {filename}")
-    
-    # Generate .env template
-    env_config.generate_env_file(".env.production.template")
-    print("  - .env.production.template")
-    
-    print("\\nNext steps:")
-    print("1. Update .env.production.template with your actual values")
-    print("2. Rename it to .env.production")
-    print("3. Run: chmod +x deploy.sh")
-    print("4. Run: ./deploy.sh")
+async def shutdown_production_deployment():
+    """Shutdown production deployment"""
+    await deployment_manager.shutdown()

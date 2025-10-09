@@ -296,3 +296,14 @@ claude-flow
 claude-flow.bat
 claude-flow.ps1
 hive-mind-prompt-*.txt
+# VectorCode files
+.claude-flow-vector.json
+vectorcode_*.json
+*.vectorcode
+.vectorcode/
+vectorcode-index/
+vectorcode-embeddings/
+*.embedding
+*.vector
+vector-store/
+embeddings/

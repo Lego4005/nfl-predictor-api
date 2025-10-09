@@ -15,6 +15,16 @@ class PredictionCategoryGroup(Enum):
     LIVE_SCENARIO = "live_scenario"
     PLAYER_PROPS = "player_props"
     SITUATIONAL = "situational"
+    QUARTER_PROPS = "quarter_props"
+    TEAM_PROPS = "team_props"
+    GAME_PROPS = "game_props"
+    ADVANCED_PROPS = "advanced_props"
+
+class AccessTier(Enum):
+    """Access tiers for monetization"""
+    FREE = "free"
+    PRO = "pro"
+    PREMIUM = "premium"
 
 class DataType(Enum):
     """Data types for prediction values"""
@@ -42,14 +52,16 @@ class PredictionCategory:
     scoring_weight: float = 1.0
     difficulty_level: str = "medium"  # easy, medium, hard
     requires_live_data: bool = False
-    
+    access_tier: AccessTier = AccessTier.FREE
+    popularity_score: int = 5  # 1-10, higher = more popular betting line
+
     def validate_value(self, value: Any) -> bool:
         """Validate a prediction value against the rules"""
         for rule in self.validation_rules:
             if not self._apply_validation_rule(value, rule):
                 return False
         return True
-    
+
     def _apply_validation_rule(self, value: Any, rule: ValidationRule) -> bool:
         """Apply a single validation rule"""
         try:
@@ -72,25 +84,25 @@ class ExpertPrediction:
     expert_name: str
     game_id: str
     prediction_timestamp: datetime
-    
+
     # Game Outcome Predictions (4 categories)
     winner_prediction: Optional[str] = None  # home, away
     exact_score_home: Optional[int] = None
     exact_score_away: Optional[int] = None
     margin_of_victory: Optional[float] = None
-    
+
     # Betting Market Predictions (4 categories)
     against_the_spread: Optional[str] = None  # home, away, push
     totals_over_under: Optional[str] = None  # over, under, push
     first_half_winner: Optional[str] = None  # home, away, tie
     highest_scoring_quarter: Optional[str] = None  # Q1, Q2, Q3, Q4
-    
+
     # Live Game Scenarios (4 categories)
     live_win_probability: Optional[float] = None  # 0.0-1.0
     next_score_probability: Optional[str] = None  # touchdown, field_goal, safety, none
     drive_outcome_prediction: Optional[str] = None  # touchdown, field_goal, punt, turnover
     fourth_down_decision: Optional[str] = None  # punt, field_goal, go_for_it
-    
+
     # Player Performance Props (8 categories)
     qb_passing_yards: Optional[float] = None
     qb_touchdowns: Optional[int] = None
@@ -100,7 +112,7 @@ class ExpertPrediction:
     wr_receiving_yards: Optional[float] = None
     wr_receptions: Optional[int] = None
     fantasy_points_projection: Optional[float] = None
-    
+
     # Situational Analysis (7 categories)
     weather_impact_score: Optional[float] = None  # 0.0-1.0
     injury_impact_score: Optional[float] = None  # 0.0-1.0
@@ -109,13 +121,13 @@ class ExpertPrediction:
     coaching_advantage: Optional[str] = None  # home, away, neutral
     home_field_advantage: Optional[float] = None  # points
     momentum_factor: Optional[float] = None  # -1.0 to 1.0
-    
+
     # Confidence and Meta Information
     confidence_overall: float = 0.5
     confidence_by_category: Dict[str, float] = field(default_factory=dict)
     reasoning: str = ""
     key_factors: List[str] = field(default_factory=list)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert prediction to dictionary format"""
         return {
@@ -168,14 +180,14 @@ class ExpertPrediction:
 
 class ComprehensivePredictionCategories:
     """Registry and manager for all prediction categories"""
-    
+
     def __init__(self):
         self.categories: Dict[str, PredictionCategory] = {}
         self._initialize_categories()
-    
+
     def _initialize_categories(self):
         """Initialize all 27 prediction categories"""
-        
+
         # Game Outcome Predictions (4 categories)
         self.categories["winner_prediction"] = PredictionCategory(
             category_id="winner_prediction",
@@ -187,7 +199,7 @@ class ComprehensivePredictionCategories:
             scoring_weight=1.5,
             difficulty_level="medium"
         )
-        
+
         self.categories["exact_score_home"] = PredictionCategory(
             category_id="exact_score_home",
             category_name="Exact Score - Home Team",
@@ -201,10 +213,10 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.8,
             difficulty_level="hard"
         )
-        
+
         self.categories["exact_score_away"] = PredictionCategory(
             category_id="exact_score_away",
-            category_name="Exact Score - Away Team", 
+            category_name="Exact Score - Away Team",
             group=PredictionCategoryGroup.GAME_OUTCOME,
             data_type=DataType.NUMERIC,
             description="Predicted away team final score",
@@ -215,7 +227,7 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.8,
             difficulty_level="hard"
         )
-        
+
         self.categories["margin_of_victory"] = PredictionCategory(
             category_id="margin_of_victory",
             category_name="Margin of Victory",
@@ -229,13 +241,17 @@ class ComprehensivePredictionCategories:
             scoring_weight=1.2,
             difficulty_level="medium"
         )
-        
+
         # Continue with other categories
         self._add_betting_market_categories()
+        self._add_quarter_props_categories()
+        self._add_team_props_categories()
+        self._add_game_props_categories()
         self._add_live_scenario_categories()
         self._add_player_props_categories()
+        self._add_advanced_player_props()
         self._add_situational_categories()
-    
+
     def _add_betting_market_categories(self):
         """Add betting market categories"""
         betting_categories = [
@@ -244,7 +260,7 @@ class ComprehensivePredictionCategories:
             ("first_half_winner", "First Half Winner", ["home", "away", "tie"], 1.0),
             ("highest_scoring_quarter", "Highest Scoring Quarter", ["Q1", "Q2", "Q3", "Q4"], 0.7)
         ]
-        
+
         for cat_id, name, choices, weight in betting_categories:
             self.categories[cat_id] = PredictionCategory(
                 category_id=cat_id,
@@ -256,7 +272,7 @@ class ComprehensivePredictionCategories:
                 scoring_weight=weight,
                 difficulty_level="medium"
             )
-    
+
     def _add_live_scenario_categories(self):
         """Add live scenario categories"""
         self.categories["live_win_probability"] = PredictionCategory(
@@ -270,13 +286,13 @@ class ComprehensivePredictionCategories:
             difficulty_level="medium",
             requires_live_data=True
         )
-        
+
         live_categories = [
             ("next_score_probability", "Next Score Probability", ["touchdown", "field_goal", "safety", "none"]),
             ("drive_outcome_prediction", "Drive Outcome", ["touchdown", "field_goal", "punt", "turnover"]),
             ("fourth_down_decision", "Fourth Down Decision", ["punt", "field_goal", "go_for_it"])
         ]
-        
+
         for cat_id, name, choices in live_categories:
             self.categories[cat_id] = PredictionCategory(
                 category_id=cat_id,
@@ -289,7 +305,7 @@ class ComprehensivePredictionCategories:
                 difficulty_level="hard",
                 requires_live_data=True
             )
-    
+
     def _add_player_props_categories(self):
         """Add player performance categories"""
         numeric_props = [
@@ -302,7 +318,7 @@ class ComprehensivePredictionCategories:
             ("wr_receptions", "WR Receptions", 0, 20, 0.8),
             ("fantasy_points_projection", "Fantasy Points", 0, 50, 0.7)
         ]
-        
+
         for cat_id, name, min_val, max_val, weight in numeric_props:
             self.categories[cat_id] = PredictionCategory(
                 category_id=cat_id,
@@ -317,7 +333,7 @@ class ComprehensivePredictionCategories:
                 scoring_weight=weight,
                 difficulty_level="medium"
             )
-    
+
     def _add_situational_categories(self):
         """Add situational analysis categories"""
         percentage_categories = [
@@ -325,7 +341,7 @@ class ComprehensivePredictionCategories:
             ("injury_impact_score", "Injury Impact", 0.9),
             ("divisional_rivalry_factor", "Divisional Dynamics", 0.7)
         ]
-        
+
         for cat_id, name, weight in percentage_categories:
             self.categories[cat_id] = PredictionCategory(
                 category_id=cat_id,
@@ -337,7 +353,7 @@ class ComprehensivePredictionCategories:
                 scoring_weight=weight,
                 difficulty_level="medium"
             )
-        
+
         # Special situational categories
         self.categories["travel_rest_factor"] = PredictionCategory(
             category_id="travel_rest_factor",
@@ -349,7 +365,7 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.6,
             difficulty_level="medium"
         )
-        
+
         self.categories["coaching_advantage"] = PredictionCategory(
             category_id="coaching_advantage",
             category_name="Coaching Advantage",
@@ -360,7 +376,7 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.8,
             difficulty_level="hard"
         )
-        
+
         self.categories["home_field_advantage"] = PredictionCategory(
             category_id="home_field_advantage",
             category_name="Home Field Advantage",
@@ -371,7 +387,7 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.9,
             difficulty_level="medium"
         )
-        
+
         self.categories["momentum_factor"] = PredictionCategory(
             category_id="momentum_factor",
             category_name="Momentum Factor",
@@ -382,32 +398,32 @@ class ComprehensivePredictionCategories:
             scoring_weight=0.7,
             difficulty_level="medium"
         )
-    
+
     def get_category(self, category_id: str) -> Optional[PredictionCategory]:
         """Get category by ID"""
         return self.categories.get(category_id)
-    
+
     def get_categories_by_group(self, group: PredictionCategoryGroup) -> List[PredictionCategory]:
         """Get all categories in a specific group"""
         return [cat for cat in self.categories.values() if cat.group == group]
-    
+
     def get_all_categories(self) -> List[PredictionCategory]:
         """Get all categories"""
         return list(self.categories.values())
-    
+
     def get_category_summary(self) -> Dict[str, Any]:
         """Get summary statistics of all categories"""
         total_categories = len(self.categories)
         groups = {}
         difficulties = {}
-        
+
         for category in self.categories.values():
             group_key = category.group.value
             groups[group_key] = groups.get(group_key, 0) + 1
             difficulties[category.difficulty_level] = difficulties.get(category.difficulty_level, 0) + 1
-        
+
         live_categories = len([cat for cat in self.categories.values() if cat.requires_live_data])
-        
+
         return {
             'total_categories': total_categories,
             'categories_by_group': groups,

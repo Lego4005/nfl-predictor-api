@@ -352,3 +352,222 @@ NEVER proactively create documentation files (*.md) or README files. Only create
 Never save working files, text/mds and tests to the root folder.
 - check with playwright every time after you make the changes and think your done
 - when using playwright check console and if im aksing about colors or gradient you need to use advanced playwright tools to verify
+---
+
+## 🔍 VECTORCODE INTEGRATION - PRIMARY TOOL FOR NFL PREDICTOR API
+
+**VECTORCODE IS YOUR PRIMARY SEARCH AND DISCOVERY TOOL**:
+
+1. **ALWAYS use VectorCode first** before starting any coding task
+2. **Search existing code patterns** before implementing new features
+3. **Find documentation** using semantic search across `.qoder/repowiki/en/content/` (58 docs)
+4. **Discover related implementations** across the entire codebase
+5. **Use domain-specific queries** for NFL Predictor features
+
+### 🚨 CRITICAL: VECTORCODE TOKEN MANAGEMENT - PREVENT OVERFLOW
+
+**TOKEN OVERFLOW EMERGENCY PROTOCOL**:
+
+If VectorCode queries exceed 25k tokens, follow this protocol:
+
+1. **IMMEDIATELY STOP** current search approach
+2. **Switch to 3-Phase Progressive Search** methodology
+3. **Use domain-specific patterns** instead of vague queries
+4. **Limit results to 1-2 per phase** maximum
+
+### 🎯 3-PHASE PROGRESSIVE SEARCH METHODOLOGY
+
+**Phase 1: Exploration (2-3 results max)**
+```bash
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "AI expert council voting"
+```
+
+**Phase 2: Targeted Search (3 results max)**
+```bash
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 3 --query "weighted consensus voting mechanism"
+```
+
+**Phase 3: Deep Dive (1-2 results max)**
+```bash
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "merit based expert rotation algorithm"
+```
+
+### ⚡ SAFE TOKEN LIMITS
+
+- **Phase 1**: 2-3 results = ~3,000 tokens
+- **Phase 2**: 3 results = ~4,000 tokens  
+- **Phase 3**: 1-2 results = ~2,000 tokens
+- **Total per session**: ~9,000 tokens maximum
+
+### 🏈 NFL Predictor API Specific Queries
+
+**Domain-specific searches (ALWAYS use these patterns):**
+
+```bash
+# Expert Council System
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "AI expert council weighted voting consensus"
+
+# S³L (Self-Healing Learning Loop)
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "self-healing learning loop S3L monitoring"
+
+# Real-time Predictions
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "WebSocket real-time prediction updates"
+
+# Data Integration
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "SportsData.io connector intelligent caching"
+
+# Expert Performance
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "merit based expert rotation performance"
+
+# Prediction Categories
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "comprehensive prediction categories 375"
+```
+
+### 🚨 QUERY FORMULATION RULES
+
+**DO:**
+- Use 2-4 specific keywords per query
+- Include domain context ("expert council", "S3L", "WebSocket")
+- Limit results with `-n 1` to `-n 3`
+- Start narrow, expand if needed
+- Use progressive search methodology
+
+**DON'T:**
+- Use single generic words ("function", "data", "api")
+- Search without context
+- Use more than `-n 5` results
+- Make vague queries like "error" or "system"
+
+### �� VECTORCODE QUERY CHECKLIST
+
+Before ANY VectorCode query, verify:
+
+- [ ] Query includes domain-specific terms
+- [ ] Result count is `-n 3` or less  
+- [ ] Query has 2-4 specific keywords
+- [ ] Following 3-phase methodology
+- [ ] Emergency token limits respected
+
+## 🧠 CLAUDE FLOW MEMORY - NFL PREDICTOR API
+
+**Pre-stored Memory Keys (retrieve with `npx claude-flow@alpha memory query`):**
+
+```bash
+# System Overview
+npx claude-flow@alpha memory query "nfl-predictor/overview"
+# → 15 AI expert council, S³L, real-time predictions, 375+ predictions/game
+
+# Technology Stack
+npx claude-flow@alpha memory query "nfl-predictor/tech-stack"
+# → OpenRouter, Supabase, Trigger.dev, SportsData.io, Redis, WebSocket
+
+# Expert Council Architecture
+npx claude-flow@alpha memory query "nfl-predictor/expert-council"
+# → Weighted voting: accuracy 40%, recent 30%, consistency 20%, confidence 10%
+
+# Self-Healing System
+npx claude-flow@alpha memory query "nfl-predictor/s3l-system"
+# → Hourly monitoring, 70% accuracy threshold, automated rotation
+
+# Real-time Pipeline
+npx claude-flow@alpha memory query "nfl-predictor/real-time-pipeline"
+# → WebSocket updates, intelligent caching, dynamic predictions
+```
+
+## 📁 NFL PREDICTOR PROJECT STRUCTURE
+
+**Key Documentation (58 files in `.qoder/repowiki/en/content/`):**
+
+- `Project Overview.md` - System architecture, 15 AI experts, S³L
+- `Expert System Architecture/` - AI council, voting, competition
+- `Self-Healing System/` - S³L monitoring, adaptation triggers
+- `Database Schema Design/` - Supabase schema, migrations
+- `External Integrations/` - SportsData.io, ESPN, Odds API
+- `Real-time Features/` - WebSocket, live updates
+- `Machine Learning Models/` - Expert models, predictions
+- `API Reference/` - Endpoint documentation
+
+**Key Source Files:**
+
+- `ai_expert_system_api.py` - Main expert system implementation
+- `src/ml/` - Machine learning models and expert system
+- `src/services/` - Data connectors (SportsData.io, etc.)
+- `src/api/` - API endpoints and WebSocket handlers
+- `src/database/` - Database migrations and schema
+
+## 🎯 NFL PREDICTOR DEVELOPMENT WORKFLOW
+
+### 1. Before Starting Any Task
+
+```bash
+# Step 1: Query VectorCode for relevant code
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "[specific feature]"
+
+# Step 2: Retrieve Claude Flow memory
+npx claude-flow@alpha memory query "nfl-predictor/[area]"
+
+# Step 3: Check documentation
+cat .qoder/repowiki/en/content/[relevant-doc].md
+```
+
+### 2. Common Development Patterns
+
+**Working with Expert Council:**
+```bash
+# Find voting implementation
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "expert council weighted voting consensus"
+
+# Check architecture
+cat .qoder/repowiki/en/content/Expert\ System\ Architecture/*.md
+```
+
+**Working with S³L System:**
+```bash
+# Find monitoring code
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "self-healing learning loop performance monitoring"
+
+# Check S³L docs
+cat .qoder/repowiki/en/content/Self-Healing\ System/*.md
+```
+
+**Working with Real-time Features:**
+```bash
+# Find WebSocket implementation
+query_vectorcode --project-root /home/iris/code/experimental/nfl-predictor-api \
+  -n 2 --query "WebSocket real-time prediction updates"
+
+# Check real-time docs
+cat .qoder/repowiki/en/content/Real-time\ Features/*.md
+```
+
+## ✅ VECTORCODE SETUP VERIFICATION
+
+**Configuration:**
+- ✅ `.claude-flow-vector.json` exists in project root
+- ✅ Project indexed: `/home/iris/code/experimental/nfl-predictor-api`
+- ✅ 58 documentation files in `.qoder/repowiki/en/content/`
+
+**Claude Flow Memory:**
+- ✅ 5 memory entries: overview, tech-stack, expert-council, s3l-system, real-time-pipeline
+
+**VectorCode Settings:**
+- Query limit: 3 per task
+- Context window: 2000 tokens
+- Cache TTL: 1 hour
+- Redis caching enabled
+
+---
+
+**🏈 NFL Predictor API is ready for intelligent development with VectorCode + Claude Flow!**

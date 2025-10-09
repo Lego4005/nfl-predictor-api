@@ -1,0 +1,204 @@
+---
+
+## `category_registry.json` (all 83 categories)
+
+> Single source of truth used by: prompt builder, parser/validator, grader, and platform coherence.
+> Fields:
+>
+> * `id`: stable identifier
+> * `family`: markets | quarters | scores | team_props | game_props | player_props | advanced_props | live | situational
+> * `pred_type`: numeric | binary | enum
+> * `subject`: team | game | player
+> * `sigma`: numeric grading tolerance (only for numeric)
+> * `allowed`: enum domain (only for enum)
+
+```json
+[
+  { "id":"game_winner",              "family":"markets",      "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"home_score_exact",         "family":"scores",       "pred_type":"numeric","subject":"team",   "sigma":6.0 },
+  { "id":"away_score_exact",         "family":"scores",       "pred_type":"numeric","subject":"team",   "sigma":6.0 },
+  { "id":"margin_of_victory",        "family":"markets",      "pred_type":"numeric","subject":"game",   "sigma":6.0 },
+
+  { "id":"spread_full_game",         "family":"markets",      "pred_type":"numeric","subject":"team",   "sigma":6.0 },
+  { "id":"total_full_game",          "family":"markets",      "pred_type":"numeric","subject":"game",   "sigma":7.0 },
+  { "id":"winner_moneyline",         "family":"markets",      "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"first_half_winner",        "family":"quarters",     "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"first_half_spread",        "family":"markets",      "pred_type":"numeric","subject":"team",   "sigma":5.5 },
+  { "id":"first_half_total",         "family":"markets",      "pred_type":"numeric","subject":"game",   "sigma":6.5 },
+
+  { "id":"q1_winner",                "family":"quarters",     "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"q2_winner",                "family":"quarters",     "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"q3_winner",                "family":"quarters",     "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"q4_winner",                "family":"quarters",     "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"q1_total",                 "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":5.0 },
+  { "id":"q2_total",                 "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":5.0 },
+  { "id":"q3_total",                 "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":5.0 },
+  { "id":"q4_total",                 "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":5.0 },
+  { "id":"first_half_total_points",  "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":6.0 },
+  { "id":"second_half_total_points", "family":"quarters",     "pred_type":"numeric","subject":"game",   "sigma":6.0 },
+  { "id":"highest_scoring_quarter",  "family":"quarters",     "pred_type":"enum",   "subject":"game",   "allowed":["Q1","Q2","Q3","Q4","tie"] },
+  { "id":"lowest_scoring_quarter",   "family":"quarters",     "pred_type":"enum",   "subject":"game",   "allowed":["Q1","Q2","Q3","Q4","tie"] },
+
+  { "id":"team_total_points_home",   "family":"team_props",   "pred_type":"numeric","subject":"team",   "sigma":6.0 },
+  { "id":"team_total_points_away",   "family":"team_props",   "pred_type":"numeric","subject":"team",   "sigma":6.0 },
+  { "id":"first_team_to_score",      "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"last_team_to_score",       "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"team_with_longest_td",     "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"team_with_most_turnovers", "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"team_with_most_sacks",     "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"team_with_most_penalties", "family":"team_props",   "pred_type":"enum",   "subject":"team",   "allowed":["home","away","tie"] },
+  { "id":"largest_lead_of_game",     "family":"team_props",   "pred_type":"numeric","subject":"game",   "sigma":7.0 },
+  { "id":"number_of_lead_changes",   "family":"team_props",   "pred_type":"numeric","subject":"game",   "sigma":2.5 },
+
+  { "id":"will_overtime",            "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_safety",              "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_pick_six",            "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_fumble_return_td",    "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_defensive_td",        "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_special_teams_td",    "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_punt_return_td",      "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"will_kickoff_return_td",   "family":"game_props",   "pred_type":"binary", "subject":"game" },
+  { "id":"total_turnovers",          "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":1.5 },
+  { "id":"total_sacks",              "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":2.5 },
+  { "id":"total_penalties",          "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":4.0 },
+  { "id":"longest_touchdown",        "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":10.0 },
+  { "id":"longest_field_goal",       "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":4.0 },
+  { "id":"total_field_goals_made",   "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":2.0 },
+  { "id":"missed_extra_points",      "family":"game_props",   "pred_type":"numeric","subject":"game",   "sigma":1.0 },
+
+  { "id":"qb_passing_yards",         "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":40.0 },
+  { "id":"qb_passing_tds",           "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":0.9 },
+  { "id":"qb_interceptions",         "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":0.7 },
+  { "id":"qb_rushing_yards",         "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":20.0 },
+  { "id":"rb_rushing_yards",         "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":25.0 },
+  { "id":"rb_rushing_tds",           "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":0.8 },
+  { "id":"wr_receiving_yards",       "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":25.0 },
+  { "id":"wr_receptions",            "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":1.8 },
+  { "id":"te_receiving_yards",       "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":18.0 },
+  { "id":"kicker_total_points",      "family":"player_props", "pred_type":"numeric","subject":"player", "sigma":2.5 },
+
+  { "id":"anytime_td_scorer",        "family":"advanced_props","pred_type":"binary","subject":"player" },
+  { "id":"first_td_scorer",          "family":"advanced_props","pred_type":"enum",  "subject":"player", "allowed":["player_id"] },
+  { "id":"last_td_scorer",           "family":"advanced_props","pred_type":"enum",  "subject":"player", "allowed":["player_id"] },
+  { "id":"qb_longest_completion",    "family":"advanced_props","pred_type":"numeric","subject":"player","sigma":10.0 },
+  { "id":"rb_longest_rush",          "family":"advanced_props","pred_type":"numeric","subject":"player","sigma":8.0 },
+  { "id":"wr_longest_reception",     "family":"advanced_props","pred_type":"numeric","subject":"player","sigma":10.0 },
+  { "id":"kicker_longest_fg",        "family":"advanced_props","pred_type":"numeric","subject":"player","sigma":4.0 },
+  { "id":"defense_interceptions",    "family":"advanced_props","pred_type":"numeric","subject":"team",  "sigma":1.0 },
+  { "id":"defense_sacks",            "family":"advanced_props","pred_type":"numeric","subject":"team",  "sigma":2.0 },
+  { "id":"defense_forced_fumbles",   "family":"advanced_props","pred_type":"numeric","subject":"team",  "sigma":1.0 },
+  { "id":"qb_fantasy_points",        "family":"advanced_props","pred_type":"numeric","subject":"player","sigma":6.0 },
+  { "id":"top_skill_player_fantasy", "family":"advanced_props","pred_type":"enum",  "subject":"player", "allowed":["player_id"] },
+
+  { "id":"live_win_probability",     "family":"live",         "pred_type":"numeric","subject":"team",   "sigma":0.1 },
+  { "id":"next_score_type",          "family":"live",         "pred_type":"enum",   "subject":"game",   "allowed":["TD","FG","Safety","NoScoreThisQuarter"] },
+  { "id":"current_drive_outcome",    "family":"live",         "pred_type":"enum",   "subject":"team",   "allowed":["TD","FG","Punt","Turnover","Downs","Safety","EndHalf"] },
+  { "id":"fourth_down_decision",     "family":"live",         "pred_type":"enum",   "subject":"team",   "allowed":["Go","KickFG","Punt"] },
+  { "id":"next_team_to_score",       "family":"live",         "pred_type":"enum",   "subject":"team",   "allowed":["home","away"] },
+  { "id":"time_to_next_score_min",   "family":"live",         "pred_type":"numeric","subject":"game",   "sigma":3.0 },
+
+  { "id":"weather_impact_score",     "family":"situational",  "pred_type":"numeric","subject":"game",   "sigma":0.2 },
+  { "id":"injury_impact_score",      "family":"situational",  "pred_type":"numeric","subject":"game",   "sigma":0.2 },
+  { "id":"travel_rest_factor",       "family":"situational",  "pred_type":"numeric","subject":"team",   "sigma":0.2 },
+  { "id":"divisional_rivalry_factor","family":"situational",  "pred_type":"numeric","subject":"game",   "sigma":0.2 },
+  { "id":"coaching_advantage",       "family":"situational",  "pred_type":"enum",   "subject":"team",   "allowed":["home","away","even"] },
+  { "id":"home_field_advantage_pts", "family":"situational",  "pred_type":"numeric","subject":"team",   "sigma":1.0 },
+  { "id":"momentum_factor",          "family":"situational",  "pred_type":"numeric","subject":"team",   "sigma":0.2 },
+  { "id":"public_betting_bias",      "family":"situational",  "pred_type":"numeric","subject":"game",   "sigma":0.2 }
+]
+```
+
+---
+
+## `settlement_helper.py` (odds parser + PnL calculator)
+
+> Pure deterministic helper you can call from reconciliation. Supports American, Decimal, and Fraction odds; returns per-ticket PnL for outcomes `'win' | 'loss' | 'push' | 'void'`.
+
+```python
+# settlement_helper.py
+
+from typing import Literal, Tuple
+
+OddsType = Literal["american", "decimal", "fraction"]
+Outcome  = Literal["win", "loss", "push", "void"]
+
+def american_to_decimal(amer: int) -> float:
+    if amer == 0:
+        raise ValueError("American odds cannot be 0")
+    return (1 + amer/100.0) if amer > 0 else (1 + 100.0/abs(amer))
+
+def fraction_to_decimal(frac: str) -> float:
+    # e.g., "10/11"
+    num, den = frac.strip().split("/")
+    return 1.0 + (float(num) / float(den))
+
+def to_decimal(odds_type: OddsType, odds_value: str | float | int) -> float:
+    if odds_type == "decimal":
+        d = float(odds_value)
+        if d <= 1.0:
+            raise ValueError("Decimal odds must be > 1.0")
+        return d
+    if odds_type == "american":
+        return american_to_decimal(int(odds_value))
+    if odds_type == "fraction":
+        return fraction_to_decimal(str(odds_value))
+    raise ValueError(f"Unsupported odds_type: {odds_type}")
+
+def implied_probability(odds_type: OddsType, odds_value: str | float | int) -> float:
+    d = to_decimal(odds_type, odds_value)
+    return 1.0 / d
+
+def settle_ticket(
+    stake_units: float,
+    odds_type: OddsType,
+    odds_value: str | float | int,
+    outcome: Outcome
+) -> Tuple[float, float]:
+    """
+    Returns: (pnl_units, payout_units)
+    - pnl_units excludes returned stake (negative on loss, 0 push/void, positive on win)
+    - payout_units is total returned to bankroll (stake + profit) on win, stake on push/void, 0 on loss
+    """
+    if stake_units < 0:
+        raise ValueError("Stake must be non-negative")
+    d = to_decimal(odds_type, odds_value)
+
+    if outcome == "win":
+        profit = stake_units * (d - 1.0)
+        return profit, stake_units + profit
+    if outcome == "loss":
+        return -stake_units, 0.0
+    if outcome in ("push", "void"):
+        return 0.0, stake_units
+
+    raise ValueError(f"Unsupported outcome: {outcome}")
+
+# --- quick tests ---
+if __name__ == "__main__":
+    # Even money examples
+    assert round(to_decimal("american", -100), 2) == 2.00
+    assert round(to_decimal("american",  100), 2) == 2.00
+    # Profit calc
+    pnl, payout = settle_ticket(2.0, "american", -110, "win")  # stake 2u at -110
+    # Profit should be ~1.818u, payout ~3.818u
+    assert round(pnl, 3) == round(2 * (american_to_decimal(-110) - 1.0), 3)
+    assert round(payout, 3) == round(2 + pnl, 3)
+    # Push
+    assert settle_ticket(1.5, "decimal", 1.95, "push") == (0.0, 1.5)
+    # Loss
+    assert settle_ticket(1.0, "fraction", "10/11", "loss") == (-1.0, 0.0)
+```
+
+---
+
+### How to wire these immediately
+
+* Drop `category_registry.json` into your repo (e.g., `config/category_registry.json`) and load it in:
+
+  * prompt builder (C2 payload validation),
+  * parser (enforce `pred_type`/`subject`/`allowed`),
+  * grader (pull `sigma`),
+  * projection (know which categories constrain others).
+* Add `settlement_helper.py` to your reconciliation service; call `settle_ticket()` per bet to update bankrolls atomically.
+
+If you want, I can also generate a tiny **JSON Schema** for the 83-assertion output so your parser can validate expert responses before inserting.

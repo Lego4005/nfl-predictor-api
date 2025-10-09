@@ -1,0 +1,34 @@
+{
+  "default": [
+    {
+      "key": "nfl-predictor/overview",
+      "value": "15 AI personality-driven expert council system with weighted consensus voting based on historical accuracy, recent performance, consistency, and confidence calibration. Self-healing learning loop (S³L) with automated performance monitoring and expert rotation. Real-time predictions via WebSocket with sub-second response times. Comprehensive prediction coverage with 375+ predictions per game across 27 categories.",
+      "namespace": "default",
+      "timestamp": 1760004511094
+    },
+    {
+      "key": "nfl-predictor/tech-stack",
+      "value": "OpenRouter AI for multi-model expert system, Supabase PostgreSQL for data persistence with real-time features, Trigger.dev for workflow orchestration, SportsData.io and ESPN APIs for real NFL data, Redis caching for performance optimization, WebSocket for live game updates, Python FastAPI backend",
+      "namespace": "default",
+      "timestamp": 1760004515538
+    },
+    {
+      "key": "nfl-predictor/expert-council",
+      "value": "15 specialized AI experts with distinct personalities and analytical approaches. Weighted voting system based on: historical accuracy (40%), recent performance (30%), consistency (20%), confidence calibration (10%). Merit-based rotation system removes underperforming experts. Competition framework tracks expert performance across all prediction categories.",
+      "namespace": "default",
+      "timestamp": 1760004520119
+    },
+    {
+      "key": "nfl-predictor/s3l-system",
+      "value": "Self-healing learning loop with continuous performance monitoring every hour. Automated expert rotation when accuracy drops below 70% threshold. Adaptation triggers include: performance decline detection, systematic bias correction, new pattern incorporation. Closed-loop feedback system ensures continuous improvement.",
+      "namespace": "default",
+      "timestamp": 1760004524644
+    },
+    {
+      "key": "nfl-predictor/real-time-pipeline",
+      "value": "WebSocket-based live updates with sub-second latency. SportsData.io connector with intelligent caching (live scores: 1min, team stats: 1hr, injuries: 30min, betting odds: 5min). Enhanced prediction service integrates real data with AI council consensus. Dynamic prediction adjustment based on current game conditions.",
+      "namespace": "default",
+      "timestamp": 1760004529086
+    }
+  ]
+}

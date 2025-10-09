@@ -1,0 +1,85 @@
+# Agentuity Configuration for NFL Expert Council Betting System
+# Hybrid orchestration: Agentuity handles agent coordination, hot path stays in Postgres/pgvector
+
+version: ">=0.0.166"
+project_id: nfl_expert_council_betting
+name: nfl-expert-council
+description: AI expert orchestration for NFL betting predictions with 83 categories
+
+# Development configuration
+development:
+  port: 3500
+  watch:
+    enabled: true
+    files:
+      - agents/**
+  command: bun
+  args:
+    - run
+    - --silent
+    - --env-file=.env
+    - --env-file=.env.development
+    - .agentuity/index.js
+
+# Deployment configuration
+deployment:
+  command: bun
+  args:
+    - run
+    - --no-install
+    - --prefer-offline
+    - --silent
+    - .agentuity/index.js
+  resources:
+    memory: 4Gi
+    cpu: 2000M
+    disk: 500Mi
+  mode:
+    type: on-demand
+
+# Bundler configuration
+bundler:
+  enabled: true
+  identifier: bunjs
+  language: javascript
+  runtime: bunjs
+  agents:
+    dir: agents
+  ignore:
+    - "**/*"
+    - "!/.agentuity/**"
+    - "!/agentuity.yaml"
+
+# Agent definitions
+agents:
+  - id: game_orchestrator
+    name: game-orchestrator
+    description: Orchestrates parallel expert prediction generation for NFL games
+
+  - id: reflection_agent
+    name: reflection-agent
+    description: Generates post-game reflections for expert learning and improvement
+
+# Environment variables (secrets managed separately)
+environment:
+  # NFL Predictor API endpoints
+  API_BASE_URL: ${API_BASE_URL}
+
+  # Database connections (for health checks only)
+  SUPABASE_URL: ${SUPABASE_URL}
+  SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+
+  # LLM Provider Keys (for expert prediction calls)
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+  # Feature flags
+  ENABLE_SHADOW_RUNS: ${ENABLE_SHADOW_RUNS:-false}
+  ENABLE_POST_GAME_REFLECTION: ${ENABLE_POST_GAME_REFLECTION:-false}
+
+  # Performance tuning
+  MAX_PARALLEL_EXPERTS: ${MAX_PARALLEL_EXPERTS:-8}
+  EXPERT_TIMEOUT_MS: ${EXPERT_TIMEOUT_MS:-30000}
+
+  # Telemetry
+  LOG_LEVEL: ${LOG_LEVEL:-info}

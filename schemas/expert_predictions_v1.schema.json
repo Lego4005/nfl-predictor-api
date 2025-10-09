@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yourdomain/schemas/expert_predictions_v1.schema.json",
+  "title": "Expert 83-Assertion Output",
+  "type": "object",
+  "required": ["overall", "predictions"],
+  "additionalProperties": false,
+  "properties": {
+    "overall": {
+      "type": "object",
+      "required": ["winner_team_id", "home_win_prob", "overall_confidence"],
+      "additionalProperties": true,
+      "properties": {
+        "winner_team_id": { "type": "string" },
+        "home_win_prob": { "type": "number", "minimum": 0, "maximum": 1 },
+        "away_win_prob": { "type": "number", "minimum": 0, "maximum": 1 },
+        "overall_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recency_alpha_used": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "minItems": 83,
+      "maxItems": 83,
+      "items": {
+        "type": "object",
+        "required": ["category", "subject", "pred_type", "value", "confidence", "stake_units", "odds", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "game_winner","home_score_exact","away_score_exact","margin_of_victory",
+              "spread_full_game","total_full_game","winner_moneyline","first_half_winner","first_half_spread","first_half_total",
+              "q1_winner","q2_winner","q3_winner","q4_winner","q1_total","q2_total","q3_total","q4_total","first_half_total_points","second_half_total_points","highest_scoring_quarter","lowest_scoring_quarter",
+              "team_total_points_home","team_total_points_away","first_team_to_score","last_team_to_score","team_with_longest_td","team_with_most_turnovers","team_with_most_sacks","team_with_most_penalties","largest_lead_of_game","number_of_lead_changes",
+              "will_overtime","will_safety","will_pick_six","will_fumble_return_td","will_defensive_td","will_special_teams_td","will_punt_return_td","will_kickoff_return_td","total_turnovers","total_sacks","total_penalties","longest_touchdown","longest_field_goal","total_field_goals_made","missed_extra_points",
+              "qb_passing_yards","qb_passing_tds","qb_interceptions","qb_rushing_yards","rb_rushing_yards","rb_rushing_tds","wr_receiving_yards","wr_receptions","te_receiving_yards","kicker_total_points",
+              "anytime_td_scorer","first_td_scorer","last_td_scorer","qb_longest_completion","rb_longest_rush","wr_longest_reception","kicker_longest_fg","defense_interceptions","defense_sacks","defense_forced_fumbles","qb_fantasy_points","top_skill_player_fantasy",
+              "live_win_probability","next_score_type","current_drive_outcome","fourth_down_decision","next_team_to_score","time_to_next_score_min",
+              "weather_impact_score","injury_impact_score","travel_rest_factor","divisional_rivalry_factor","coaching_advantage","home_field_advantage_pts","momentum_factor","public_betting_bias"
+            ]
+          },
+          "subject": { "type": "string" },
+          "pred_type": { "type": "string", "enum": ["binary", "enum", "numeric"] },
+          "value": { "oneOf": [ { "type": "boolean" }, { "type": "number" }, { "type": "string" } ] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "stake_units": { "type": "number", "minimum": 0 },
+          "odds": {
+            "type": "object",
+            "required": ["type", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "type": "string", "enum": ["american", "decimal", "fraction"] },
+              "value": { "oneOf": [ { "type": "string" }, { "type": "number" } ] }
+            }
+          },
+          "why": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "required": ["memory_id","weight"],
+              "additionalProperties": false,
+              "properties": {
+                "memory_id": { "type": "string" },
+                "weight": { "type": "number", "minimum": 0 }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "pred_type": { "const": "binary" } } },
+            "then": { "properties": { "value": { "type": "boolean" } } }
+          },
+          {
+            "if": { "properties": { "pred_type": { "const": "numeric" } } },
+            "then": { "properties": { "value": { "type": "number" } } }
+          },
+          {
+            "if": { "properties": { "pred_type": { "const": "enum" } } },
+            "then": { "properties": { "value": { "type": "string" } } }
+          }
+        ]
+      }
+    }
+  }
+}
