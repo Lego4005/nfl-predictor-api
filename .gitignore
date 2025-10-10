@@ -6,12 +6,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .claude/
+.claude-flow/
+.cursor/
+.giga/
+.cursorrules
+.qoder/
 .kiro/
 .swarm/
 .hive-mind/
 .mcp.json
-.swarm/
-.hive-mind/
 
 
 # Build outputs
