@@ -21,6 +21,8 @@ lerna-debug.log*
 dist/
 build/
 *.tsbuildinfo
+.agentuity/
+*.js.map
 
 # TanStack Start/Vinxi build artifacts
 app.config.timestamp_*.js
