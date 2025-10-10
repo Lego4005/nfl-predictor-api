@@ -1,4 +1,3 @@
-
 # Project Overview
 
 <cite>
@@ -17,7 +16,24 @@
 - [DATABASE_SCHEMA_SUMMARY.md](file://DATABASE_SCHEMA_SUMMARY.md)
 - [PRODUCTION_SETUP_GUIDE.md](file://PRODUCTION_SETUP_GUIDE.md)
 - [SUPABASE_SETUP.md](file://SUPABASE_SETUP.md)
+- [COMPLETE_SYSTEM_DOCUMENTATION.md](file://COMPLETE_SYSTEM_DOCUMENTATION.md)
+- [TECHNICAL_DATA_ARCHITECTURE_ANALYSIS.md](file://TECHNICAL_DATA_ARCHITECTURE_ANALYSIS.md)
+- [CLAUDE.md](file://CLAUDE.md) - *Updated in commit 23*
+- [IMPLEMENTATION_SUMMARY.md](file://IMPLEMENTATION_SUMMARY.md) - *Updated in commit 23*
+- [agentuity/agentuity.yaml](file://agentuity/agentuity.yaml) - *Updated in commit 23*
+- [agentuity/agents/game-orchestrator/index.ts](file://agentuity/agents/game-orchestrator/index.ts) - *Added in commit 23*
+- [agentuity/agents/reflection-agent/index.ts](file://agentuity/agents/reflection-agent/index.ts) - *Added in commit 23*
+- [src/services/agentuity_adapter.py](file://src/services/agentuity_adapter.py) - *Added in commit 23*
 </cite>
+
+## Update Summary
+**Changes Made**   
+- Added documentation for hybrid Agentuity orchestration system
+- Updated Core Architecture section to reflect new orchestration framework
+- Added new section on Expert Council Betting System orchestration
+- Added new section on Post-Game Reflection System
+- Updated diagram sources to include new Agentuity components
+- Enhanced source tracking with new files from commit 23
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -29,7 +45,9 @@
 7. [Data Persistence and Supabase Integration](#data-persistence-and-supabase-integration)
 8. [Performance Optimization](#performance-optimization)
 9. [System Verification and Compliance](#system-verification-and-compliance)
-10. [Conclusion](#conclusion)
+10. [Expert Council Betting System Orchestration](#expert-council-betting-system-orchestration)
+11. [Post-Game Reflection System](#post-game-reflection-system)
+12. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -53,6 +71,8 @@ A critical architectural component is the real-time data pipeline, which enables
 
 The architecture also incorporates a self-healing learning loop that continuously monitors prediction accuracy and triggers adaptation protocols when performance declines are detected. This closed-loop system ensures the AI models evolve over time, incorporating new patterns and correcting systematic biases.
 
+The system has been enhanced with a hybrid Agentuity orchestration framework for the Expert Council Betting System, which coordinates parallel expert prediction generation while maintaining the hot path in Postgres/pgvector. This hybrid approach combines Agentuity's agent coordination capabilities with the performance benefits of direct database operations.
+
 ```mermaid
 graph TB
 A[External APIs] --> B[Data Ingestion Layer]
@@ -64,18 +84,25 @@ G[Supabase Database] --> C
 G --> D
 H[Self-Healing Learning Loop] --> C
 H --> D
+I[Agentuity Orchestrator] --> C
+I --> D
 style A fill:#f9f,stroke:#333
 style F fill:#bbf,stroke:#333
+style I fill:#f96,stroke:#333
 ```
 
 **Diagram sources**
 - [src/ml/comprehensive_intelligent_predictor.py](file://src/ml/comprehensive_intelligent_predictor.py#L1-L50)
 - [src/api/websocket_api.py](file://src/api/websocket_api.py#L1-L30)
 - [src/database/migrations/020_enhanced_expert_competition_schema.sql](file://src/database/migrations/020_enhanced_expert_competition_schema.sql#L1-L20)
+- [agentuity/agentuity.yaml](file://agentuity/agentuity.yaml#L1-L65)
+- [agentuity/agents/game-orchestrator/index.ts](file://agentuity/agents/game-orchestrator/index.ts#L1-L46)
 
 **Section sources**
 - [src/ml/comprehensive_intelligent_predictor.py](file://src/ml/comprehensive_intelligent_predictor.py#L1-L100)
 - [src/api/websocket_api.py](file://src/api/websocket_api.py#L1-L50)
+- [agentuity/agentuity.yaml](file://agentuity/agentuity.yaml#L1-L65)
+- [src/services/agentuity_adapter.py](file://src/services/agentuity_adapter.py#L51-L81)
 
 ## AI Council and Expert System
 
@@ -402,4 +429,120 @@ ENHANCED_EXPERT_MODELS ||--o{ PERFORMANCE_TREND_ANALYSIS : "analyzed_in"
 
 The NFL Predictor API is engineered for high-performance operation with sub-second response times, even under heavy concurrent load. The system employs multiple optimization strategies across the technology stack to ensure responsive and reliable service delivery.
 
-Database optimization includes connection pooling with configurable minimum (10) and maximum (50) connections, statement caching for prepared statements, and optimized query timeouts. The system creates over 15 specialized indexes targeting expert competition queries, AI
+Database optimization includes connection pooling with configurable minimum (10) and maximum (50) connections, statement caching for prepared statements, and optimized query timeouts. The system creates over 15 specialized indexes targeting expert competition queries, AI Council voting patterns, and performance analytics. These indexes ensure that even complex analytical queries return results within milliseconds.
+
+The prediction engine implements a multi-layered caching strategy:
+- **In-memory caching** for frequently accessed expert profiles and recent predictions
+- **Redis-based caching** for intermediate calculation results and feature vectors
+- **Browser caching** for static assets and historical data exports
+
+The system also incorporates graceful degradation mechanisms that maintain partial functionality during high-load scenarios or component failures. When under stress, the system can temporarily reduce prediction categories or fall back to deterministic algorithms while preserving core functionality.
+
+**Section sources**
+- [src/ml/performance_monitor.py](file://src/ml/performance_monitor.py#L1-L100)
+- [src/api/performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L50)
+- [config/production.py](file://config/production.py#L1-L30)
+
+## System Verification and Compliance
+
+The NFL Predictor API undergoes rigorous verification to ensure accuracy, reliability, and compliance with industry standards. The system implements automated testing frameworks that validate prediction accuracy against historical outcomes, verify data integrity across components, and ensure API stability under various load conditions.
+
+Compliance measures include:
+- **Data Privacy**: Adherence to GDPR and CCPA regulations through data minimization and encryption
+- **Security**: Implementation of OAuth2 authentication, rate limiting, and input validation
+- **Auditability**: Comprehensive logging of all prediction decisions and system changes
+- **Transparency**: Clear documentation of prediction methodologies and confidence calibration
+
+The verification process includes daily automated tests, weekly performance benchmarks, and monthly comprehensive audits. These procedures ensure that the system maintains high standards of quality and reliability.
+
+**Section sources**
+- [tests/VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md#L1-L200)
+- [src/validation/expert_predictions_validator.py](file://src/validation/expert_predictions_validator.py#L1-L80)
+- [scripts/validate_implementation.py](file://scripts/validate_implementation.py#L1-L60)
+
+## Expert Council Betting System Orchestration
+
+The NFL Predictor API has been enhanced with a hybrid Agentuity orchestration system for the Expert Council Betting System, which coordinates parallel expert prediction generation while maintaining the hot path in Postgres/pgvector. This hybrid approach combines Agentuity's agent coordination capabilities with the performance benefits of direct database operations.
+
+The Game Orchestrator agent manages the parallel processing of expert predictions, handling the coordination of all 15 personality-driven experts for each NFL game. It processes experts in parallel, significantly reducing the overall prediction generation time. The orchestrator includes telemetry collection for retrieval, LLM processing, and validation durations, providing comprehensive performance monitoring.
+
+The system implements a fallback mechanism through the AgentuityAdapter, which switches to local sequential processing if the Agentuity service is unavailable. This ensures system resilience and graceful degradation during service disruptions. The adapter also handles API communication between the main application and the Agentuity orchestrator, managing authentication and error handling.
+
+The orchestration framework supports shadow runs with alternate models, allowing for model comparison and validation without affecting the primary prediction pipeline. Shadow results are stored separately and never used in the hot path, ensuring the integrity of the main prediction system while enabling valuable comparative analysis.
+
+```mermaid
+sequenceDiagram
+participant Client as "NFL Predictor API"
+participant Adapter as "AgentuityAdapter"
+participant Agentuity as "Agentuity Orchestrator"
+participant Experts as "15 AI Experts"
+Client->>Adapter : Request prediction orchestration
+Adapter->>Agentuity : POST /agents/game_orchestrator/run
+Agentuity->>Experts : Parallel expert processing
+Experts-->>Agentuity : Individual predictions
+Agentuity->>Client : Aggregated orchestration results
+Client->>Database : Store predictions (Postgres/pgvector)
+Note over Agentuity,Experts : Parallel processing<br/>with telemetry collection
+Note over Client,Database : Hot path maintains<br/>direct database operations
+```
+
+**Diagram sources**
+- [agentuity/agentuity.yaml](file://agentuity/agentuity.yaml#L1-L65)
+- [agentuity/agents/game-orchestrator/index.ts](file://agentuity/agents/game-orchestrator/index.ts#L1-L46)
+- [src/services/agentuity_adapter.py](file://src/services/agentuity_adapter.py#L51-L81)
+
+**Section sources**
+- [agentuity/agentuity.yaml](file://agentuity/agentuity.yaml#L1-L65)
+- [agentuity/agents/game-orchestrator/index.ts](file://agentuity/agents/game-orchestrator/index.ts#L1-L254)
+- [src/services/agentuity_adapter.py](file://src/services/agentuity_adapter.py#L51-L81)
+
+## Post-Game Reflection System
+
+The NFL Predictor API incorporates a Post-Game Reflection System that generates structured reflections for expert learning and improvement. The Reflection Agent creates detailed analysis of each expert's prediction performance after game outcomes are known, identifying lessons learned, factor adjustments, and meta-insights for continuous improvement.
+
+The reflection process follows a LangGraph flow with draft generation followed by critic/repair loops (up to two iterations) to ensure high-quality, structured output. Each reflection includes specific components: lessons learned from the game, suggested factor adjustments with confidence levels, prediction quality assessment highlighting best and worst predictions, and meta-insights detecting overconfidence or bias patterns.
+
+Reflections are generated in JSON format with a strict schema to ensure consistency and machine-readability. The system validates reflection structure and will fall back to a basic reflection format if the LLM generation fails. This ensures that valuable learning insights are captured even in degraded operational modes.
+
+The reflection data is stored in a Neo4j write-behind system, preserving the provenance of expert learning and enabling complex relationship analysis between games, predictions, and performance patterns. This episodic memory system allows experts to learn from historical contexts and improve their analytical frameworks over time.
+
+```mermaid
+graph TD
+A[Game Outcome Known] --> B[Generate Reflection]
+B --> C{Reflection Valid?}
+C --> |Yes| D[Store in Neo4j]
+C --> |No| E[Run Critic/Repair]
+E --> F{Within Loops/Budget?}
+F --> |Yes| B
+F --> |No| G[Generate Basic Reflection]
+G --> D
+D --> H[Update Expert Model]
+H --> I[Improved Future Predictions]
+style B fill:#f96,stroke:#333
+style D fill:#f96,stroke:#333
+style H fill:#f96,stroke:#333
+```
+
+**Diagram sources**
+- [agentuity/agents/reflection-agent/index.ts](file://agentuity/agents/reflection-agent/index.ts#L1-L615)
+- [src/services/agentuity_adapter.py](file://src/services/agentuity_adapter.py#L51-L81)
+
+**Section sources**
+- [agentuity/agents/reflection-agent/index.ts](file://agentuity/agents/reflection-agent/index.ts#L1-L615)
+- [CLAUDE.md](file://CLAUDE.md#L1-L284)
+
+## Conclusion
+
+The NFL Predictor API represents a cutting-edge integration of AI expertise, ensemble learning, and real-time data processing to deliver highly accurate sports predictions. By combining 15 personality-driven experts within an AI Council framework, the system captures diverse analytical perspectives while maintaining rigorous performance standards.
+
+The architecture's key strengths lie in its self-healing learning loops, comprehensive data persistence through Supabase, and real-time WebSocket integration. These components work together to create a dynamic prediction system that evolves with changing conditions and delivers value across multiple use cases including betting insights, fantasy football optimization, and live game analysis.
+
+Recent enhancements with the hybrid Agentuity orchestration system and Post-Game Reflection System have further strengthened the platform's capabilities. The orchestration framework enables efficient parallel processing of expert predictions while maintaining the performance benefits of direct database operations. The reflection system provides structured learning from game outcomes, enabling continuous improvement of expert models through episodic memory.
+
+As the system continues to learn from historical outcomes and refine its prediction methodologies, it establishes a robust foundation for future enhancements in sports analytics and AI-driven decision support.
+
+**Section sources**
+- [COMPLETE_SYSTEM_DOCUMENTATION.md](file://COMPLETE_SYSTEM_DOCUMENTATION.md#L1-L427)
+- [TECHNICAL_DATA_ARCHITECTURE_ANALYSIS.md](file://TECHNICAL_DATA_ARCHITECTURE_ANALYSIS.md#L1-L261)
+- [VERIFICATION_SUMMARY.md](file://VERIFICATION_SUMMARY.md#L1-L114)
+- [IMPLEMENTATION_SUMMARY.md](file://IMPLEMENTATION_SUMMARY.md#L1-L100)

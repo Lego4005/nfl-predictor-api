@@ -8,6 +8,7 @@
 - [Dockerfile](file://Dockerfile)
 - [docker-compose.yml](file://docker-compose.yml)
 - [docker-compose.prod.yml](file://docker-compose.prod.yml)
+- [docker-compose.neo4j.yml](file://docker-compose.neo4j.yml)
 - [requirements.txt](file://requirements.txt)
 - [requirements-ml.txt](file://requirements-ml.txt)
 - [scripts/populate_database.py](file://scripts/populate_database.py)
@@ -15,7 +16,19 @@
 - [config/production_deployment.py](file://config/production_deployment.py)
 - [.env.production.template](file://.env.production.template)
 - [nginx.conf](file://nginx.conf)
+- [KIRO_NEO4J_SETUP.md](file://KIRO_NEO4J_SETUP.md)
+- [docs/NEO4J_ACCESS_GUIDE.md](file://docs/NEO4J_ACCESS_GUIDE.md)
+- [src/services/neo4j_service.py](file://src/services/neo4j_service.py)
+- [scripts/neo4j_usage_example.py](file://scripts/neo4j_usage_example.py)
 </cite>
+
+## Update Summary
+**Changes Made**   
+- Updated Development Environment Setup to include Neo4j Python driver installation from requirements.txt
+- Updated Neo4j Graph Database Setup and Integration with accurate container configuration details
+- Added requirements.txt to document references as it now includes Neo4j dependency
+- Updated Troubleshooting Common Issues with accurate Neo4j connection details
+- Verified all Neo4j-related information matches the actual configuration in docker-compose.neo4j.yml
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -27,6 +40,7 @@
 7. [Production Deployment Preparation](#production-deployment-preparation)
 8. [Troubleshooting Common Issues](#troubleshooting-common-issues)
 9. [Verification and Testing](#verification-and-testing)
+10. [Neo4j Graph Database Setup and Integration](#neo4j-graph-database-setup-and-integration)
 
 ## Introduction
 This guide provides comprehensive instructions for onboarding new developers and users to the NFL Predictor API. It covers the complete setup process from environment configuration to production deployment. The system combines machine learning models, real-time data processing, and expert competition frameworks to deliver accurate NFL predictions. This document details all necessary steps to initialize the development environment, configure database services, populate historical data, and launch the application successfully.
@@ -81,7 +95,7 @@ The Dockerfile defines a multi-stage build process that optimizes the production
 **Section sources**
 - [Dockerfile](file://Dockerfile#L1-L64)
 - [docker-compose.yml](file://docker-compose.yml#L1-L72)
-- [requirements.txt](file://requirements.txt#L1-L26)
+- [requirements.txt](file://requirements.txt#L1-L56)
 - [requirements-ml.txt](file://requirements-ml.txt#L1-L28)
 
 ## Database Initialization with Supabase
@@ -217,6 +231,11 @@ ALLOWED_HOSTS=yourdomain.com
 DB_MIN_POOL_SIZE=10
 DB_MAX_POOL_SIZE=50
 DB_QUERY_TIMEOUT=60
+
+# Neo4j Graph Database Configuration
+NEO4J_URI=bolt://localhost:7688
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=nflpredictor123
 ```
 
 3. **Generate Production Configuration**
@@ -233,7 +252,7 @@ python scripts/validate_implementation.py
 
 The system uses environment-specific configuration to separate development, staging, and production settings while maintaining consistent interface patterns.
 
-**Section sources**
+**Section sources**   
 - [.env.production.template](file://.env.production.template)
 - [config/production_deployment.py](file://config/production_deployment.py)
 - [PRODUCTION_SETUP_GUIDE.md](file://PRODUCTION_SETUP_GUIDE.md#L1-L286)
@@ -282,7 +301,7 @@ The production stack includes Nginx for SSL termination, rate limiting, and stat
 
 **Section sources**
 - [docker-compose.yml](file://docker-compose.yml#L1-L72)
-- [docker-compose.prod.yml](file://docker-compose.prod.yml#L1-L76)
+- [docker-compose.prod.yml](file://docker-compose.prod.yml#L1-L208)
 - [nginx.conf](file://nginx.conf)
 - [Dockerfile](file://Dockerfile#L1-L64)
 
@@ -333,7 +352,7 @@ The production configuration includes connection pooling, query optimization, an
 
 **Section sources**
 - [deploy.sh](file://deploy.sh)
-- [docker-compose.prod.yml](file://docker-compose.prod.yml#L1-L76)
+- [docker-compose.prod.yml](file://docker-compose.prod.yml#L1-L208)
 - [PRODUCTION_SETUP_GUIDE.md](file://PRODUCTION_SETUP_GUIDE.md#L1-L286)
 - [config/database_optimization.py](file://config/database_optimization.py)
 
@@ -379,6 +398,14 @@ Address common setup issues with these solutions:
 - Verify migration scripts executed in correct order
 - Check database schema version
 - Clear migration state if needed
+
+### Neo4j Connection Issues
+**Symptoms**: "Connection refused" or "Authentication failed"
+**Solutions**:
+- Start Neo4j container: `docker-compose -f docker-compose.neo4j.yml up -d`
+- Verify container is running: `docker ps | grep nfl-neo4j`
+- Check credentials in environment variables
+- Test connection: `docker exec nfl-neo4j cypher-shell -u neo4j -p nflpredictor123 "RETURN 1"`
 
 **Section sources**
 - [PRODUCTION_SETUP_GUIDE.md](file://PRODUCTION_SETUP_GUIDE.md#L1-L286)
@@ -475,3 +502,146 @@ These verification steps ensure all components are properly configured and funct
 - [verify_comprehensive_system.py](file://verify_comprehensive_system.py)
 - [src/api/app.py](file://src/api/app.py)
 - [src/websocket/websocket_manager.py](file://src/websocket/websocket_manager.py)
+
+## Neo4j Graph Database Setup and Integration
+The NFL Predictor API now includes a Neo4j graph database for tracking expert learning, prediction provenance, and memory influence. Follow these steps to set up and integrate Neo4j:
+
+1. **Start Neo4j Container**
+```bash
+# Start Neo4j service
+docker-compose -f docker-compose.neo4j.yml up -d
+
+# Verify container is running
+docker ps | grep nfl-neo4j
+
+# Check logs
+docker logs nfl-neo4j
+```
+
+2. **Install Neo4j Python Driver**
+```bash
+# Install from requirements
+pip install neo4j==5.25.0
+
+# Or install directly
+pip install neo4j==5.25.0
+```
+
+3. **Verify Neo4j Connection**
+```bash
+# Test connection with cypher-shell
+docker exec nfl-neo4j cypher-shell -u neo4j -p nflpredictor123 "RETURN 1"
+
+# Run example script
+python scripts/neo4j_usage_example.py
+```
+
+4. **Access Neo4j Browser**
+Open http://localhost:7475 in your browser with credentials:
+- Username: `neo4j`
+- Password: `nflpredictor123`
+
+5. **Python Integration Example**
+```python
+from services.neo4j_service import get_neo4j_service
+
+# Initialize connection
+neo4j = get_neo4j_service()
+
+# Health check
+if neo4j.health_check():
+    print("Connected to Neo4j")
+
+# List all experts
+experts = neo4j.list_experts()
+print(f"Found {len(experts)} experts")
+
+# Record a prediction
+neo4j.record_prediction(
+    expert_id="conservative_analyzer",
+    game_id="KC_BUF_2024_W10",
+    winner="KC",
+    confidence=0.75,
+    win_probability=0.65,
+    reasoning="Home field advantage and defensive strength"
+)
+
+# Close connection
+neo4j.close()
+```
+
+6. **Database Schema**
+The Neo4j database contains the following node types:
+- **Expert**: 15 AI prediction experts with personality traits
+- **Team**: 32 NFL teams with division and conference information
+- **Game**: NFL games with season, week, and date information
+- **Memory**: Expert learning memories with content and type
+
+Relationship types include:
+- **PREDICTED**: Expert → Game (with prediction details)
+- **USED_IN**: Memory → Game (with influence weight)
+- **FACED**: Team → Team (with rivalry statistics)
+
+7. **Training Integration**
+The Neo4j database is designed to support Kiro AI training workflows:
+```python
+# In training scripts
+from services.neo4j_service import get_neo4j_service
+
+neo4j = get_neo4j_service()
+
+# For each game in training data
+for game in training_games:
+    # Create game node
+    neo4j.create_game(
+        game_id=game.id,
+        home_team=game.home,
+        away_team=game.away,
+        season=game.season,
+        week=game.week,
+        game_date=game.date
+    )
+    
+    # Record expert predictions
+    for expert_type in expert_types:
+        prediction = expert.predict(game)
+        neo4j.record_prediction(
+            expert_id=expert_type,
+            game_id=game.id,
+            winner=prediction.winner,
+            confidence=prediction.confidence,
+            win_probability=prediction.win_prob,
+            reasoning=prediction.reasoning
+        )
+        
+        # Track memory usage
+        for memory in prediction.memories_used:
+            neo4j.record_memory_usage(
+                memory_id=memory.id,
+                game_id=game.id,
+                expert_id=expert_type,
+                influence_weight=memory.weight,
+                retrieval_rank=memory.rank
+            )
+```
+
+8. **Performance Monitoring**
+Monitor Neo4j performance with these commands:
+```bash
+# Check container resource usage
+docker stats nfl-neo4j
+
+# View database statistics
+docker exec nfl-neo4j cypher-shell -u neo4j -p nflpredictor123 \
+  "MATCH (e:Expert) RETURN e.name, count((e)-[:PREDICTED]->()) as predictions ORDER BY predictions DESC"
+
+# Check health status
+python scripts/neo4j_usage_example.py
+```
+
+**Section sources**
+- [KIRO_NEO4J_SETUP.md](file://KIRO_NEO4J_SETUP.md)
+- [docs/NEO4J_ACCESS_GUIDE.md](file://docs/NEO4J_ACCESS_GUIDE.md)
+- [docker-compose.neo4j.yml](file://docker-compose.neo4j.yml)
+- [src/services/neo4j_service.py](file://src/services/neo4j_service.py)
+- [scripts/neo4j_usage_example.py](file://scripts/neo4j_usage_example.py)

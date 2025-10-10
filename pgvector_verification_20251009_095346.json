@@ -1,0 +1,32 @@
+{
+  "timestamp": "20251009_095346",
+  "results": {
+    "pgvector_extension": {
+      "status": "error",
+      "message": "Error checking pgvector extension: {'message': 'Could not find the function public.sql(query) in the schema cache', 'code': 'PGRST202', 'hint': None, 'details': 'Searched for the function public.sql with parameter query or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.'}"
+    },
+    "hnsw_indexes": {
+      "status": "error",
+      "message": "Error checking HNSW indexes: {'message': 'Could not find the function public.sql(query) in the schema cache', 'code': 'PGRST202', 'hint': None, 'details': 'Searched for the function public.sql with parameter query or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.'}"
+    },
+    "search_expert_memories_rpc": {
+      "status": "error",
+      "message": "Error testing search_expert_memories RPC: {'message': 'Could not find the function public.sql(query) in the schema cache', 'code': 'PGRST202', 'hint': None, 'details': 'Searched for the function public.sql with parameter query or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.'}"
+    },
+    "embedding_tables": {
+      "status": "error",
+      "message": "Error checking embedding tables: {'message': 'Could not find the function public.sql(query) in the schema cache', 'code': 'PGRST202', 'hint': None, 'details': 'Searched for the function public.sql with parameter query or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.'}"
+    },
+    "performance": {
+      "status": "error",
+      "message": "Error during performance testing: {'message': 'Could not find the function public.sql(query) in the schema cache', 'code': 'PGRST202', 'hint': None, 'details': 'Searched for the function public.sql with parameter query or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.'}"
+    }
+  },
+  "summary": {
+    "total_checks": 5,
+    "success_count": 0,
+    "warning_count": 0,
+    "error_count": 5,
+    "overall_success": false
+  }
+}

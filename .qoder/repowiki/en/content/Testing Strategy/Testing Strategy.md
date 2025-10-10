@@ -2,31 +2,44 @@
 
 <cite>
 **Referenced Files in This Document**   
-- [comprehensive_system_testing.py](file://src/ml/testing/comprehensive_system_testing.py)
-- [playwrightConfig.ts](file://tests/e2e/playwrightConfig.ts)
-- [basic-page-test.spec.js](file://tests/e2e/basic-page-test.spec.js)
-- [vitest.config.ts](file://vitest.config.ts)
-- [locustfile.py](file://tests/load/locustfile.py)
-- [ErrorBoundary.test.tsx](file://tests/frontend/components/ErrorBoundary.test.tsx)
-- [LoadingIndicator.test.tsx](file://tests/frontend/components/LoadingIndicator.test.tsx)
-- [NotificationBanner.test.tsx](file://tests/frontend/components/NotificationBanner.test.tsx)
-- [test-setup.ts](file://tests/frontend/test-setup.ts)
-- [TEST_SUITE_SUMMARY.md](file://tests/TEST_SUITE_SUMMARY.md)
+- [comprehensive_system_testing.py](file://src/ml/testing/comprehensive_system_testing.py) - *Updated in recent commit*
+- [playwrightConfig.ts](file://tests/e2e/playwrightConfig.ts) - *Updated in recent commit*
+- [basic-page-test.spec.js](file://tests/e2e/basic-page-test.spec.js) - *Updated in recent commit*
+- [vitest.config.ts](file://vitest.config.ts) - *Updated in recent commit*
+- [locustfile.py](file://tests/load/locustfile.py) - *Updated in recent commit*
+- [ErrorBoundary.test.tsx](file://tests/frontend/components/ErrorBoundary.test.tsx) - *Updated in recent commit*
+- [LoadingIndicator.test.tsx](file://tests/frontend/components/LoadingIndicator.test.tsx) - *Updated in recent commit*
+- [NotificationBanner.test.tsx](file://tests/frontend/components/NotificationBanner.test.tsx) - *Updated in recent commit*
+- [test-setup.ts](file://tests/frontend/test-setup.ts) - *Updated in recent commit*
+- [TEST_SUITE_SUMMARY.md](file://tests/TEST_SUITE_SUMMARY.md) - *Updated in recent commit*
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts) - *Added in recent commit*
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts) - *Added in recent commit*
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts) - *Added in recent commit*
+- [VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md) - *Added in recent commit*
 </cite>
+
+## Update Summary
+**Changes Made**   
+- Added new section on Responsive Testing Strategy covering desktop and mobile layout validation
+- Updated End-to-End Testing with Playwright section to include new responsive test categories
+- Added new diagram visualizing responsive testing framework
+- Added sources for newly created test files and verification report
+- Enhanced test coverage details with responsive testing metrics
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Multi-Layered Testing Approach](#multi-layered-testing-approach)
 3. [End-to-End Testing with Playwright](#end-to-end-testing-with-playwright)
-4. [Frontend Component Testing with Vitest](#frontend-component-testing-with-vitest)
-5. [Load Testing with Locust](#load-testing-with-locust)
-6. [Test Suite Organization and Data Management](#test-suite-organization-and-data-management)
-7. [CI/CD Integration and Test Execution](#cicd-integration-and-test-execution)
-8. [Code Coverage and Test Reliability](#code-coverage-and-test-reliability)
-9. [Conclusion](#conclusion)
+4. [Responsive Testing Strategy](#responsive-testing-strategy)
+5. [Frontend Component Testing with Vitest](#frontend-component-testing-with-vitest)
+6. [Load Testing with Locust](#load-testing-with-locust)
+7. [Test Suite Organization and Data Management](#test-suite-organization-and-data-management)
+8. [CI/CD Integration and Test Execution](#cicd-integration-and-test-execution)
+9. [Code Coverage and Test Reliability](#code-coverage-and-test-reliability)
+10. [Conclusion](#conclusion)
 
 ## Introduction
-The NFL Predictor API employs a comprehensive, multi-layered testing strategy designed to ensure prediction accuracy, system reliability, and performance SLAs. This document details the complete quality assurance framework that validates the system across unit, integration, end-to-end, and load testing dimensions. The testing infrastructure supports 15 expert models generating predictions across 375+ categories, ensuring the platform delivers accurate, reliable results under various conditions and traffic loads.
+The NFL Predictor API employs a comprehensive, multi-layered testing strategy designed to ensure prediction accuracy, system reliability, and performance SLAs. This document details the complete quality assurance framework that validates the system across unit, integration, end-to-end, responsive, and load testing dimensions. The testing infrastructure supports 15 expert models generating predictions across 375+ categories, ensuring the platform delivers accurate, reliable results under various conditions and traffic loads.
 
 **Section sources**
 - [TEST_SUITE_SUMMARY.md](file://tests/TEST_SUITE_SUMMARY.md#L0-L280)
@@ -61,6 +74,7 @@ D --> D2[Mobile Touch]
 D --> D3[Performance]
 D --> D4[Accessibility]
 D --> D5[Network Simulation]
+D --> D6[Responsive Design]
 E --> E1[HTML Report]
 E --> E2[JSON Results]
 E --> E3[JUnit XML]
@@ -79,6 +93,52 @@ style E fill:#E1F5FE,stroke:#333
 **Section sources**
 - [playwrightConfig.ts](file://tests/e2e/playwrightConfig.ts#L0-L318)
 - [basic-page-test.spec.js](file://tests/e2e/basic-page-test.spec.js#L0-L100)
+
+## Responsive Testing Strategy
+The NFL Predictor API has implemented a comprehensive responsive testing strategy to ensure optimal user experience across all device types. This strategy includes dedicated test suites for desktop regression and mobile-specific features, with a focus on the AI Experts section which was previously experiencing layout issues on various screen sizes.
+
+The responsive testing framework validates both desktop and mobile layouts through specialized test files. The `expert-section-responsive.spec.ts` test suite verifies that the AI Experts section correctly displays as a 5-column grid on desktop viewports (1920x1080, 1440x900, 1024x768) without horizontal overflow, while switching to a horizontal scrollable layout on mobile devices (390x844, 375x667) with touch-friendly snap behavior. The tests validate responsive breakpoints, grid column counts, overflow behavior, and proper container visibility across different viewport sizes.
+
+Additional test suites include `desktop-regression.spec.ts` for regression testing of desktop layouts and `mobile-features.spec.ts` for validating mobile-specific features such as the hamburger menu, navigation drawer, and touch interactions. The framework uses Playwright's device emulation capabilities to test across various mobile devices including iPhone 12, iPhone SE, and Android Galaxy devices. Visual verification is supported through automated screenshot capture at multiple breakpoints, with results documented in the `VERIFICATION-REPORT.md`.
+
+```mermaid
+graph TD
+A[Responsive Testing Strategy] --> B[Desktop Testing]
+A --> C[Mobile Testing]
+A --> D[Regression Testing]
+A --> E[Visual Verification]
+B --> B1[Grid Layout]
+B --> B2[5-Column Display]
+B --> B3[No Horizontal Scroll]
+B --> B4[Max Width 7xl]
+C --> C1[Horizontal Scroll]
+C --> C2[Touch Navigation]
+C --> C3[Snap Behavior]
+C --> C4[Flex Layout]
+D --> D1[Desktop Regression]
+D --> D2[Mobile Feature Tests]
+D --> D3[Breakpoint Validation]
+E --> E1[Screenshots]
+E --> E2[Verification Report]
+E --> E3[Visual Evidence]
+style A fill:#9C27B0,stroke:#333,stroke-width:2px
+style B fill:#EDE7F6,stroke:#333
+style C fill:#EDE7F6,stroke:#333
+style D fill:#EDE7F6,stroke:#333
+style E fill:#EDE7F6,stroke:#333
+```
+
+**Diagram sources**
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts#L0-L363)
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts#L0-L146)
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts#L0-L309)
+- [VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md#L0-L269)
+
+**Section sources**
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts#L0-L363)
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts#L0-L146)
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts#L0-L309)
+- [VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md#L0-L269)
 
 ## Frontend Component Testing with Vitest
 The frontend component testing strategy employs Vitest with React Testing Library to validate UI components in isolation. The testing framework is configured through vitest.config.ts to use jsdom as the testing environment with global setup from ./tests/frontend/test-setup.ts. Tests are located in the tests/frontend directory and include comprehensive validation of React components such as ErrorBoundary, LoadingIndicator, and NotificationBanner.
@@ -189,4 +249,4 @@ The system employs various mocking strategies for external dependencies, includi
 - [TEST_SUITE_SUMMARY.md](file://tests/TEST_SUITE_SUMMARY.md#L0-L280)
 
 ## Conclusion
-The NFL Predictor API's comprehensive testing strategy ensures prediction accuracy, system reliability, and performance SLAs through a multi-layered approach combining unit, integration, end-to-end, and load tests. The framework validates 15 expert models across 375+ prediction categories, ensuring confidence values, prediction structures, and performance benchmarks are consistently met. The integration of Playwright for end-to-end testing, Vitest for frontend component testing, and Locust for load testing provides comprehensive coverage across all aspects of the system. With strict code coverage requirements, robust CI/CD integration, and sophisticated debugging capabilities for flaky tests, the testing infrastructure delivers confidence in deploying a production-ready NFL prediction platform capable of handling high traffic during peak events.
+The NFL Predictor API's comprehensive testing strategy ensures prediction accuracy, system reliability, and performance SLAs through a multi-layered approach combining unit, integration, end-to-end, responsive, and load tests. The framework validates 15 expert models across 375+ prediction categories, ensuring confidence values, prediction structures, and performance benchmarks are consistently met. The integration of Playwright for end-to-end and responsive testing, Vitest for frontend component testing, and Locust for load testing provides comprehensive coverage across all aspects of the system. With strict code coverage requirements, robust CI/CD integration, and sophisticated debugging capabilities for flaky tests, the testing infrastructure delivers confidence in deploying a production-ready NFL prediction platform capable of handling high traffic during peak events.

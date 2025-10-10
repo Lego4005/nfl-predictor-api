@@ -2,7 +2,7 @@
 
 <cite>
 **Referenced Files in This Document**   
-- [playwrightConfig.ts](file://tests/e2e/playwrightConfig.ts)
+- [playwrightConfig.ts](file://tests/e2e/playwrightConfig.ts) - *Updated in recent commit*
 - [e2e-tests.yml](file://tests/e2e/.github/workflows/e2e-tests.yml)
 - [run_tests.py](file://tests/e2e/scripts/run_tests.py)
 - [conftest.py](file://tests/e2e/conftest.py)
@@ -10,7 +10,18 @@
 - [enhanced-game-cards.spec.js](file://tests/e2e/enhanced-game-cards.spec.js)
 - [docker-compose.test.yml](file://tests/e2e/docker-compose.test.yml)
 - [Dockerfile](file://Dockerfile)
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts) - *Added in recent commit*
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts) - *Added in recent commit*
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts) - *Added in recent commit*
+- [VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md) - *Updated in recent commit*
 </cite>
+
+## Update Summary
+- Added comprehensive responsive testing for expert section across multiple viewports
+- Integrated desktop regression testing to ensure layout integrity
+- Enhanced mobile feature testing with hamburger menu and navigation drawer interactions
+- Added visual verification through screenshot capture for responsive layouts
+- Updated documentation to reflect new test suites and verification methodology
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -248,6 +259,36 @@ Q --> R[Test Expand/Collapse]
 **Section sources**
 - [basic-page-test.spec.js](file://tests/e2e/basic-page-test.spec.js)
 - [enhanced-game-cards.spec.js](file://tests/e2e/enhanced-game-cards.spec.js)
+
+### Responsive Testing Suite
+The responsive testing suite validates the AI Experts section across multiple viewports, ensuring proper layout behavior on both desktop and mobile devices. The tests verify grid layout on desktop and horizontal scroll with snap behavior on mobile.
+
+```mermaid
+flowchart TD
+A[Responsive Tests] --> B[Desktop Layout]
+A --> C[Mobile Layout]
+A --> D[Regression Verification]
+B --> B1[1920x1080 Grid]
+B --> B2[1440x900 Grid]
+B --> B3[1024x768 Grid]
+C --> C1[390x844 Scroll]
+C --> C2[375x667 Scroll]
+C --> C3[Touch Scroll]
+D --> D1[Layout Integrity]
+D --> D2[Visual Verification]
+D --> D3[Screenshot Comparison]
+```
+
+**Diagram sources**
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts)
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts)
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts)
+
+**Section sources**
+- [expert-section-responsive.spec.ts](file://tests/expert-section-responsive.spec.ts) - *Added in recent commit*
+- [desktop-regression.spec.ts](file://tests/desktop-regression.spec.ts) - *Added in recent commit*
+- [mobile-features.spec.ts](file://tests/mobile-features.spec.ts) - *Added in recent commit*
+- [VERIFICATION-REPORT.md](file://tests/VERIFICATION-REPORT.md) - *Updated in recent commit*
 
 ## Dependency Analysis
 The E2E testing framework has dependencies on various components and services that must be properly configured for successful test execution. These include the test database, Redis cache, API server, and external service mocks.

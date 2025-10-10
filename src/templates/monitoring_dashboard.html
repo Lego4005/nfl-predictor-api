@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ext Council Betting System - Performance Monitoring</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e1e5e9;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-healthy { background-color: #48bb78; }
+        .status-warning { background-color: #ed8936; }
+        .status-error { background-color: #f56565; }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-warning {
+            background-color: #fef5e7;
+            border-left: 4px solid #ed8936;
+            color: #744210;
+        }
+
+        .alert-error {
+            background-color: #fed7d7;
+            border-left: 4px solid #f56565;
+            color: #742a2a;
+        }
+
+        .alert-critical {
+            background-color: #fed7d7;
+            border-left: 4px solid #e53e3e;
+            color: #742a2a;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        .refresh-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .refresh-button:hover {
+            background: #5a67d8;
+        }
+
+        .loading {
+            text-align: center;
+            color: #718096;
+            padding: 2rem;
+        }
+
+        .error {
+            background-color: #fed7d7;
+            color: #742a2a;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .performance-target {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .performance-target:last-child {
+            border-bottom: none;
+        }
+
+        .target-name {
+            font-weight: 500;
+        }
+
+        .target-value {
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .compliant {
+            color: #48bb78;
+        }
+
+        .non-compliant {
+            color: #f56565;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Expert Council Betting System - Performance Monitoring</h1>
+        <p>Real-time telemetry, dashboards, and alerting for all system services</p>
+    </div>
+
+    <div class="container">
+        <button class="refresh-button" onclick="refreshDashboard()">🔄 Refresh Dashboard</button>
+
+        <div id="loading" class="loading">
+            Loading performance data...
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- Summary Cards -->
+            <div class="grid">
+                <div class="card">
+                    <h3>System Health</h3>
+                    <div id="system-health">
+                        <div class="metric-value" id="health-status">Healthy</div>
+                        <div class="metric-label">Overall Status</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Active Alerts</h3>
+                    <div class="metric-value" id="active-alerts-count">0</div>
+                    <div class="metric-label">Alerts Requiring Attention</div>
+                </div>
+
+                <div class="card">
+                    <h3>Vector Retrieval P95</h3>
+                    <div class="metric-value" id="vector-p95">--</div>
+                    <div class="metric-label">Milliseconds (Target: 100ms)</div>
+                </div>
+
+                <div class="card">
+                    <h3>Schema Pass Rate</h3>
+                    <div class="metric-value" id="schema-pass-rate">--</div>
+                    <div class="metric-label">Percentage (Target: 98.5%)</div>
+                </div>
+            </div>
+
+            <!-- Performance Charts -->
+            <div class="grid">
+                <div class="card">
+                    <h3>Vector Retrieval Latency</h3>
+                    <div class="chart-container">
+                        <canvas id="vector-latency-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>API Response Times</h3>
+                    <div class="chart-container">
+                        <canvas id="api-response-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts and Performance Targets -->
+            <div class="grid">
+                <div class="card">
+                    <h3>Active Alerts</h3>
+                    <div id="alerts-list">
+                        <p class="metric-label">No active alerts</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Performance Targets</h3>
+                    <div id="performance-targets">
+                        <div class="performance-target">
+                            <span class="target-name">Vector Retrieval P95</span>
+                            <span class="target-value">≤ 100ms</span>
+                        </div>
+                        <div class="performance-target">
+                            <span class="target-name">End-to-End P95</span>
+                            <span class="target-value">≤ 6000ms</span>
+                        </div>
+                        <div class="performance-target">
+                            <span class="target-name">Council Projection P95</span>
+                            <span class="target-value">≤ 150ms</span>
+                        </div>
+                        <div class="performance-target">
+                            <span class="target-name">Schema Pass Rate</span>
+                            <span class="target-value">≥ 98.5%</span>
+                        </div>
+                        <div class="performance-target">
+                            <span class="target-name">Critic/Repair Loops</span>
+                            <span class="target-value">≤ 1.2 avg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let vectorLatencyChart = null;
+        let apiResponseChart = null;
+
+        async function fetchDashboardData() {
+            try {
+                const response = await fetch('/api/monitoring/dashboard?time_range_minutes=60');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch dashboard data:', error);
+                throw error;
+            }
+        }
+
+        async function fetchPerformanceSummary() {
+            try {
+                const response = await fetch('/api/monitoring/performance');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch performance summary:', error);
+                return null;
+            }
+        }
+
+        function updateSummaryCards(data, performanceSummary) {
+            // System health
+            const alertsCount = data.summary?.active_alerts || 0;
+            const healthStatus = alertsCount === 0 ? 'Healthy' : alertsCount < 3 ? 'Degraded' : 'Unhealthy';
+            const healthElement = document.getElementById('health-status');
+            healthElement.textContent = healthStatus;
+            healthElement.className = `metric-value ${healthStatus.toLowerCase()}`;
+
+            // Active alerts
+            document.getElementById('active-alerts-count').textContent = alertsCount;
+
+            // Vector retrieval P95
+            const vectorMetric = data.metrics?.vector_retrieval_latency_ms;
+            if (vectorMetric && vectorMetric.p95) {
+                const p95 = vectorMetric.p95.toFixed(1);
+                const isCompliant = vectorMetric.p95 <= 100;
+                const element = document.getElementById('vector-p95');
+                element.textContent = `${p95}ms`;
+                element.className = `metric-value ${isCompliant ? 'compliant' : 'non-compliant'}`;
+            }
+
+            // Schema pass rate
+            const schemaMetric = data.metrics?.schema_validation_pass_rate;
+            if (schemaMetric && schemaMetric.current_value !== null) {
+                const passRate = schemaMetric.current_value.toFixed(1);
+                const isCompliant = schemaMetric.current_value >= 98.5;
+                const element = document.getElementById('schema-pass-rate');
+                element.textContent = `${passRate}%`;
+                element.className = `metric-value ${isCompliant ? 'compliant' : 'non-compliant'}`;
+            }
+        }
+
+        function updateAlerts(data) {
+            const alertsList = document.getElementById('alerts-list');
+            const alerts = Object.values(data.alerts || {});
+
+            if (alerts.length === 0) {
+                alertsList.innerHTML = '<p class="metric-label">No active alerts</p>';
+                return;
+            }
+
+            alertsList.innerHTML = alerts.map(alert => `
+                <div class="alert alert-${alert.severity}">
+                    <strong>${alert.severity.toUpperCase()}</strong> - ${alert.service}<br>
+                    ${alert.message}
+                    <div style="font-size: 0.75rem; margin-top: 0.25rem; opacity: 0.8;">
+                        ${new Date(alert.triggered_at).toLocaleString()}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createChart(canvasId, label, data, color) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(point => new Date(point.timestamp).toLocaleTimeString()),
+                    datasets: [{
+                        label: label,
+                        data: data.map(point => point.value),
+                        borderColor: color,
+                        backgroundColor: color + '20',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2e8f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#e2e8f0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts(data) {
+            // Vector retrieval latency chart
+            const vectorMetric = data.metrics?.vector_retrieval_latency_ms;
+            if (vectorMetric && vectorMetric.points) {
+                if (vectorLatencyChart) {
+                    vectorLatencyChart.destroy();
+                }
+                vectorLatencyChart = createChart(
+                    'vector-latency-chart',
+                    'Latency (ms)',
+                    vectorMetric.points.slice(-20), // Last 20 points
+                    '#667eea'
+                );
+            }
+
+            // API response time chart
+            const apiMetric = data.metrics?.api_response_time_ms;
+            if (apiMetric && apiMetric.points) {
+                if (apiResponseChart) {
+                    apiResponseChart.destroy();
+                }
+                apiResponseChart = createChart(
+                    'api-response-chart',
+                    'Response Time (ms)',
+                    apiMetric.points.slice(-20), // Last 20 points
+                    '#48bb78'
+                );
+            }
+        }
+
+        async function refreshDashboard() {
+            const loadingElement = document.getElementById('loading');
+            const errorElement = document.getElementById('error');
+            const dashboardElement = document.getElementById('dashboard');
+
+            try {
+                loadingElement.style.display = 'block';
+                errorElement.style.display = 'none';
+                dashboardElement.style.display = 'none';
+
+                const [dashboardData, performanceSummary] = await Promise.all([
+                    fetchDashboardData(),
+                    fetchPerformanceSummary()
+                ]);
+
+                updateSummaryCards(dashboardData, performanceSummary);
+                updateAlerts(dashboardData);
+                updateCharts(dashboardData);
+
+                loadingElement.style.display = 'none';
+                dashboardElement.style.display = 'block';
+
+            } catch (error) {
+                loadingElement.style.display = 'none';
+                errorElement.style.display = 'block';
+                errorElement.textContent = `Failed to load dashboard: ${error.message}`;
+                console.error('Dashboard refresh failed:', error);
+            }
+        }
+
+        // Initial load
+        refreshDashboard();
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshDashboard, 30000);
+    </script>
+</body>
+</html>

@@ -9,7 +9,8 @@ import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 import httpx
-from loguru import logger
+import logging
+logger = logging.getLogger(__name__)
 
 from src.config import settings
 

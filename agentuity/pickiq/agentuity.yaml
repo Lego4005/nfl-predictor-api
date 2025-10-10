@@ -85,3 +85,49 @@ agents:
     name: reflection-agent
     # Description of what this agent does
     description: Generates post-game reflections for expert learning and improvement
+  - # The 15 NFL Expert Agents
+    id: agent_the_analyst
+    name: the-analyst
+    description: The Analyst - Conservative, data-driven approach
+  - id: agent_the_gambler
+    name: the-gambler
+    description: The Gambler - Risk-taking, high-variance predictions
+  - id: agent_the_rebel
+    name: the-rebel
+    description: The Rebel - Contrarian, goes against consensus
+  - id: agent_the_hunter
+    name: the-hunter
+    description: The Hunter - Value-seeking, finds market inefficiencies
+  - id: agent_the_rider
+    name: the-rider
+    description: The Rider - Momentum-based, follows trends
+  - id: agent_the_scholar
+    name: the-scholar
+    description: The Scholar - Fundamentalist, deep statistical analysis
+  - id: agent_the_chaos
+    name: the-chaos
+    description: The Chaos - Randomness, expects unpredictable outcomes
+  - id: agent_the_intuition
+    name: the-intuition
+    description: The Intuition - Gut-feel based predictions
+  - id: agent_the_quant
+    name: the-quant
+    description: The Quant - Pure statistics and algorithms
+  - id: agent_the_reversal
+    name: the-reversal
+    description: The Reversal - Mean-reversion specialist
+  - id: agent_the_fader
+    name: the-fader
+    description: The Fader - Anti-narrative, fades public stories
+  - id: agent_the_sharp
+    name: the-sharp
+    description: The Sharp - Follows smart money movements
+  - id: agent_the_underdog
+    name: the-underdog
+    description: The Underdog - Upset-seeker, backs underdogs
+  - id: agent_the_consensus
+    name: the-consensus
+    description: The Consensus - Crowd-following approach
+  - id: agent_the_exploiter
+    name: the-exploiter
+    description: The Exploiter - Finds and exploits inefficiencies

@@ -1,0 +1,4 @@
+Task: Confirm pgvector HNSW indexes present; RPC search_expert_memories live; embeddings up to date
+Verification Date: 2025-10-09T10:10:10.340959
+Status: COMPLETED
+Details: See console output above

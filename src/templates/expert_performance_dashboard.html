@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+ta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Performance Dashboard - Expert Council Betting System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #1a202c;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .control-group select, .control-group button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        .control-group button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .control-group button:hover {
+            background: #4338ca;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .metric-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .expert-card {
+            border-left: 4px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .expert-card.elite {
+            border-left-color: #10b981;
+        }
+
+        .expert-card.standard {
+            border-left-color: #3b82f6;
+        }
+
+        .expert-card.developing {
+            border-left-color: #f59e0b;
+        }
+
+        .expert-card.unknown {
+            border-left-color: #6b7280;
+        }
+
+        .expert-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .expert-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .expert-personality {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .expert-rank {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .expert-rank.top-3 {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .expert-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .expert-metric {
+            text-align: center;
+        }
+
+        .expert-metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .expert-metric-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tier-elite {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .tier-standard {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tier-developing {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tier-unknown {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-active { background-color: #10b981; }
+        .status-shadow { background-color: #3b82f6; }
+        .status-suspended { background-color: #ef4444; }
+        .status-probation { background-color: #f59e0b; }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        .comparison-matrix {
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .comparison-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .comparison-positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .comparison-negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            text-align: center;
+            color: #6b7280;
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #fecaca;
+        }
+
+        .shadow-indicator {
+            background: #ede9fe;
+            color: #5b21b6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .performance-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        .trend-stable {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Expert Performance Dashboard</h1>
+        <p>Comprehensive analysis of all 15 personality-driven experts with shadow model comparisons</p>
+    </div>
+
+    <div class="container">
+        <div class="controls">
+            <div class="control-group">
+                <label for="view-select">View:</label>
+                <select id="view-select">
+                    <option value="overview">Overview</option>
+                    <option value="leaderboard">Leaderboard</option>
+                    <option value="comparison">Comparison Matrix</option>
+                    <option value="shadow">Shadow Models</option>
+                    <option value="tiers">Tier Analysis</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="tier-filter">Filter by Tier:</label>
+                <select id="tier-filter">
+                    <option value="all">All Tiers</option>
+                    <option value="elite">Elite</option>
+                    <option value="standard">Standard</option>
+                    <option value="developing">Developing</option>
+                    <option value="unknown">Unknown</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <button onclick="refreshDashboard()">🔄 Refresh Data</button>
+            </div>
+
+            <div class="control-group">
+                <button onclick="scaleExpertPool()">🚀 Scale to Full Pool</button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            Loading expert performance data...
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- Overview Section -->
+            <div id="overview-section">
+                <div class="grid grid-4">
+                    <div class="card">
+                        <h3>🏆 Total Experts</h3>
+                        <div class="metric-value" id="total-experts">15</div>
+                        <div class="metric-label">Active in Pool</div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📊 Average Accuracy</h3>
+                        <div class="metric-value" id="avg-accuracy">--</div>
+                        <div class="metric-label">Across All Experts</div>
+                    </div>
+
+                    <div class="card">
+                        <h3>💰 Average ROI</h3>
+                        <div class="metric-value" id="avg-roi">--</div>
+                        <div class="metric-label">Return on Investment</div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔬 Shadow Models</h3>
+                        <div class="metric-value" id="shadow-count">--</div>
+                        <div class="metric-label">Active Comparisons</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Cards Grid -->
+            <div id="experts-grid" class="grid grid-3">
+                <!-- Expert cards will be populated here -->
+            </div>
+
+            <!-- Charts Section -->
+            <div id="charts-section" class="grid grid-2">
+                <div class="card">
+                    <h3>📈 Performance Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Tier Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="tier-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Matrix -->
+            <div id="comparison-section" class="card" style="display: none;">
+                <h3>🔄 Expert Comparison Matrix</h3>
+                <div class="comparison-matrix">
+                    <table class="comparison-table" id="comparison-table">
+                        <!-- Comparison matrix will be populated here -->
+                    </table>
+                </div>
+            </div>
+
+            <!-- Shadow Performance -->
+            <div id="shadow-section" class="card" style="display: none;">
+                <h3>🔬 Shadow Model Performance</h3>
+                <div id="shadow-performance">
+                    <!-- Shadow performance data will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let performanceChart = null;
+        let tierChart = null;
+        let currentView = 'overview';
+        let expertData = {};
+
+        async function fetchExpertData() {
+            try {
+                const [poolStatus, performance, leaderboard, shadowData, tierAnalysis] = await Promise.all([
+                    fetch('/api/experts/pool/status').then(r => r.json()),
+                    fetch('/api/experts/performance').then(r => r.json()),
+                    fetch('/api/experts/leaderboard').then(r => r.json()),
+                    fetch('/api/experts/shadow-performance').then(r => r.json()),
+                    fetch('/api/experts/tier-analysis').then(r => r.json())
+                ]);
+
+                return {
+                    poolStatus,
+                    performance,
+                    leaderboard,
+                    shadowData,
+                    tierAnalysis
+                };
+            } catch (error) {
+                console.error('Failed to fetch expert data:', error);
+                throw error;
+            }
+        }
+
+        function updateOverviewMetrics(data) {
+            const { poolStatus, performance, shadowData } = data;
+
+            document.getElementById('total-experts').textContent = poolStatus.expert_pool_size || 0;
+
+            const avgAccuracy = poolStatus.aggregate_metrics?.average_accuracy || 0;
+            document.getElementById('avg-accuracy').textContent = (avgAccuracy * 100).toFixed(1) + '%';
+
+            const avgROI = poolStatus.aggregate_metrics?.average_roi || 0;
+            document.getElementById('avg-roi').textContent = avgROI.toFixed(1) + '%';
+
+            const shadowCount = shadowData.experts_with_shadow || 0;
+            document.getElementById('shadow-count').textContent = shadowCount;
+        }
+
+        function createExpertCard(expert) {
+            const tierClass = expert.tier || 'unknown';
+            const statusClass = expert.status || 'active';
+
+            return `
+                <div class="card expert-card ${tierClass}">
+                    <div class="expert-header">
+                        <div>
+                            <div class="expert-name">${expert.name || expert.expert_id}</div>
+                            <div class="expert-personality">${expert.personality || 'Unknown'}</div>
+                        </div>
+                        <div class="expert-rank ${expert.current_rank <= 3 ? 'top-3' : ''}">#${expert.current_rank || '?'}</div>
+                    </div>
+
+                    <div class="expert-metrics">
+                        <div class="expert-metric">
+                            <div class="expert-metric-value">${(expert.accuracy * 100).toFixed(1)}%</div>
+                            <div class="expert-metric-label">Accuracy</div>
+                        </div>
+                        <div class="expert-metric">
+                            <div class="expert-metric-value">${expert.roi.toFixed(1)}%</div>
+                            <div class="expert-metric-label">ROI</div>
+                        </div>
+                        <div class="expert-metric">
+                            <div class="expert-metric-value">${expert.total_predictions || 0}</div>
+                            <div class="expert-metric-label">Predictions</div>
+                        </div>
+                        <div class="expert-metric">
+                            <div class="expert-metric-value">
+                                <span class="status-indicator status-${statusClass}"></span>
+                                <span class="tier-badge tier-${tierClass}">${tierClass}</span>
+                            </div>
+                            <div class="expert-metric-label">Status</div>
+                        </div>
+                    </div>
+
+                    ${expert.shadow_accuracy !== undefined ? `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                            <div class="shadow-indicator">
+                                Shadow: ${(expert.shadow_accuracy * 100).toFixed(1)}%
+                                (${expert.shadow_vs_main_delta > 0 ? '+' : ''}${(expert.shadow_vs_main_delta * 100).toFixed(1)}%)
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function updateExpertGrid(data) {
+            const { performance, leaderboard } = data;
+            const expertsGrid = document.getElementById('experts-grid');
+
+            let experts = [];
+            if (leaderboard && leaderboard.leaderboard) {
+                experts = leaderboard.leaderboard;
+            } else if (performance && performance.experts) {
+                experts = Object.values(performance.experts);
+            }
+
+            const tierFilter = document.getElementById('tier-filter').value;
+            if (tierFilter !== 'all') {
+                experts = experts.filter(expert => expert.tier === tierFilter);
+            }
+
+            expertsGrid.innerHTML = experts.map(createExpertCard).join('');
+        }
+
+        function createPerformanceChart(data) {
+            const { leaderboard } = data;
+            if (!leaderboard || !leaderboard.leaderboard) return;
+
+            const ctx = document.getElementById('performance-chart').getContext('2d');
+
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            const experts = leaderboard.leaderboard.slice(0, 10); // Top 10
+
+            performanceChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Expert Performance',
+                        data: experts.map(expert => ({
+                            x: expert.accuracy * 100,
+                            y: expert.roi,
+                            expert: expert
+                        })),
+                        backgroundColor: experts.map(expert => {
+                            switch(expert.tier) {
+                                case 'elite': return '#10b981';
+                                case 'standard': return '#3b82f6';
+                                case 'developing': return '#f59e0b';
+                                default: return '#6b7280';
+                            }
+                        }),
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            },
+                            min: 40,
+                            max: 70
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'ROI (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const expert = context.raw.expert;
+                                    return `${expert.name}: ${context.parsed.x.toFixed(1)}% accuracy, ${context.parsed.y.toFixed(1)}% ROI`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function createTierChart(data) {
+            const { tierAnalysis } = data;
+            if (!tierAnalysis || !tierAnalysis.tier_distribution) return;
+
+            const ctx = document.getElementById('tier-chart').getContext('2d');
+
+            if (tierChart) {
+                tierChart.destroy();
+            }
+
+            const tierData = tierAnalysis.tier_distribution;
+
+            tierChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Elite', 'Standard', 'Developing', 'Unknown'],
+                    datasets: [{
+                        data: [
+                            tierData.elite || 0,
+                            tierData.standard || 0,
+                            tierData.developing || 0,
+                            tierData.unknown || 0
+                        ],
+                        backgroundColor: [
+                            '#10b981',
+                            '#3b82f6',
+                            '#f59e0b',
+                            '#6b7280'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        async function scaleExpertPool() {
+            try {
+                const response = await fetch('/api/experts/pool/scale', {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                alert(`Expert pool scaled successfully!\nNew experts added: ${result.new_experts_added}\nShadow models enabled: ${result.shadow_models_enabled}`);
+
+                // Refresh dashboard
+                refreshDashboard();
+
+            } catch (error) {
+                alert(`Failed to scale expert pool: ${error.message}`);
+            }
+        }
+
+        async function refreshDashboard() {
+            const loadingElement = document.getElementById('loading');
+            const errorElement = document.getElementById('error');
+            const dashboardElement = document.getElementById('dashboard');
+
+            try {
+                loadingElement.style.display = 'block';
+                errorElement.style.display = 'none';
+                dashboardElement.style.display = 'none';
+
+                const data = await fetchExpertData();
+                expertData = data;
+
+                updateOverviewMetrics(data);
+                updateExpertGrid(data);
+                createPerformanceChart(data);
+                createTierChart(data);
+
+                loadingElement.style.display = 'none';
+                dashboardElement.style.display = 'block';
+
+            } catch (error) {
+                loadingElement.style.display = 'none';
+                errorElement.style.display = 'block';
+                errorElement.textContent = `Failed to load dashboard: ${error.message}`;
+                console.error('Dashboard refresh failed:', error);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('view-select').addEventListener('change', function(e) {
+            currentView = e.target.value;
+            // Handle view switching logic here
+        });
+
+        document.getElementById('tier-filter').addEventListener('change', function(e) {
+            if (expertData.performance || expertData.leaderboard) {
+                updateExpertGrid(expertData);
+            }
+        });
+
+        // Initial load
+        refreshDashboard();
+
+        // Auto-refresh every 60 seconds
+        setInterval(refreshDashboard, 60000);
+    </script>
+</body>
+</html>

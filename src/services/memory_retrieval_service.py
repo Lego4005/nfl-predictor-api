@@ -49,7 +49,8 @@ class MemoryRetrievalService:
         self,
         expert_id: str,
         game_context: Dict[str, Any],
-        persona_config: Optional[Dict[str, Any]] = None
+        persona_config: Optional[Dict[str, Any]] = None,
+        run_id: str = "run_2025_pilot4"
     ) -> MemoryContext:
         """
         Retrieve complete memory context for expert prediction
@@ -73,7 +74,7 @@ class MemoryRetrievalService:
 
             # Retrieve episodic memories with timeout protection
             episodic_memories = await asyncio.wait_for(
-                self._retrieve_episodic_memories(expert_id, query_text, k, alpha),
+                self._retrieve_episodic_memories(expert_id, query_text, k, alpha, run_id),
                 timeout=self.timeout_ms / 1000.0
             )
 
@@ -117,30 +118,32 @@ class MemoryRetrievalService:
 
         except asyncio.TimeoutError:
             logger.warning(f"Memory retrieval timeout for {expert_id}, falling back")
-            return await self._fallback_retrieval(expert_id, game_context)
+            return await self._fallback_retrieval(expert_id, game_context, run_id)
         except Exception as e:
             logger.error(f"Memory retrieval failed for {expert_id}: {e}")
-            return await self._fallback_retrieval(expert_id, game_context)
+            return await self._fallback_retrieval(expert_id, game_context, run_id)
 
     async def _retrieve_episodic_memories(
         self,
         expert_id: str,
         query_text: str,
         k: int,
-        alpha: float
+        alpha: float,
+        run_id: str
     ) -> List[MemoryItem]:
         """
         Retrieve episodic memories using pgvector RPC with recency blending
         """
         try:
-            # Call pgvector RPC function
+            # Call pgvector RPC function with run_id filtering
             result = await supabase.rpc(
                 'search_expert_memories',
                 {
                     'p_expert_id': expert_id,
                     'p_query_text': query_text,
                     'p_k': k,
-                    'p_alpha': alpha
+                    'p_alpha': alpha,
+                    'p_run_id': run_id
                 }
             ).execute()
 
@@ -356,7 +359,8 @@ class MemoryRetrievalService:
     async def _fallback_retrieval(
         self,
         expert_id: str,
-        game_context: Dict[str, Any]
+        game_context: Dict[str, Any],
+        run_id: str
     ) -> MemoryContext:
         """
         Complete fallback when all retrieval methods fail

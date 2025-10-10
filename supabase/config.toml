@@ -33,7 +33,7 @@ port = 54324
 enabled = true
 # SMTP port for Inbucket
 smtp_port = 54325
-# POP3 port for Inbucket  
+# POP3 port for Inbucket
 pop3_port = 54326
 
 [storage]
@@ -51,24 +51,16 @@ site_url = "http://localhost:3000"
 additional_redirect_urls = ["https://localhost:3000"]
 # JWT expiry time in seconds
 jwt_expiry = 3600
-# Whether to enable email confirmations
-enable_confirmations = false
-# Whether to enable phone confirmations
-enable_phone_confirmations = false
 
 [auth.email]
 # Whether to enable email authentication
 enable_signup = true
 # Whether to double confirm email changes
 double_confirm_changes = true
-# Whether to enable email notifications
-enable_confirmations = false
 
 [auth.sms]
 # Whether to enable SMS authentication
 enable_signup = false
-# Whether to enable SMS confirmations
-enable_confirmations = false
 
 [auth.external.apple]
 enabled = false
@@ -157,7 +149,5 @@ client_id = ""
 secret = ""
 
 # Local environment variables for development
-[env]
-SUPABASE_URL = "http://localhost:54321"
-SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
-SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU"
+# Note: These are removed from config.toml in newer Supabase CLI versions
+# Set these in your .env file instead

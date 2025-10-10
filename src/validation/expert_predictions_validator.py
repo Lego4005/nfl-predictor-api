@@ -4,7 +4,7 @@ Hard gate: reject entire bundle on any validation failure
 """
 
 import json
-from typort Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 import jsonschema
 from loguru import logger

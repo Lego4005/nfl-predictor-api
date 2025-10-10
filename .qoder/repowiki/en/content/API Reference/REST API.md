@@ -1,4 +1,3 @@
-
 # REST API
 
 <cite>
@@ -19,7 +18,21 @@
 - [predictions.ts](file://src/types/predictions.ts)
 - [expertObservatoryApi.js](file://src/services/api/expertObservatoryApi.js)
 - [gameDataService.js](file://src/services/gameDataService.js)
+- [experts.js](file://api/experts.js) - *Added in recent commit*
+- [recent.js](file://api/predictions/recent.js) - *Added in recent commit*
+- [expert.py](file://src/api/models/expert.py) - *Updated in recent commit*
+- [prediction.py](file://src/api/models/prediction.py) - *Updated in recent commit*
+- [game.py](file://src/api/models/game.py) - *Updated in recent commit*
 </cite>
+
+## Update Summary
+**Changes Made**   
+- Added documentation for new API endpoints: `/api/experts` and `/api/predictions/recent`
+- Updated expert data model to reflect actual fields from new API endpoints
+- Added mock response examples for new endpoints
+- Updated expert analysis section with new endpoint details
+- Added new section for Recent Predictions
+- Updated data models to align with actual implementation
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -29,12 +42,13 @@
 5. [Error Handling](#error-handling)
 6. [Game Predictions](#game-predictions)
 7. [Expert Analysis](#expert-analysis)
-8. [Real-Time Data](#real-time-data)
-9. [Performance Metrics](#performance-metrics)
-10. [Data Models](#data-models)
-11. [Usage Examples](#usage-examples)
-12. [Integration Guidance](#integration-guidance)
-13. [Best Practices](#best-practices)
+8. [Recent Predictions](#recent-predictions)
+9. [Real-Time Data](#real-time-data)
+10. [Performance Metrics](#performance-metrics)
+11. [Data Models](#data-models)
+12. [Usage Examples](#usage-examples)
+13. [Integration Guidance](#integration-guidance)
+14. [Best Practices](#best-practices)
 
 ## Introduction
 
@@ -286,13 +300,34 @@ The Expert Analysis endpoints provide detailed insights into the predictions and
 
 ### Expert List Endpoint
 ```
-GET /api/predictions/experts
+GET /api/experts
 ```
 
 Retrieve a list of all 15 personality-driven experts.
 
 #### Response
 Returns a list of expert profiles with their names, personalities, and metadata.
+
+```json
+[
+  {
+    "expert_id": "1",
+    "display_name": "The Analyst",
+    "personality": "conservative",
+    "avatar_emoji": "📊",
+    "accuracy_rate": 0.756,
+    "predictions_count": 42
+  },
+  {
+    "expert_id": "2",
+    "display_name": "The Gambler",
+    "personality": "risk_taking",
+    "avatar_emoji": "🎲",
+    "accuracy_rate": 0.623,
+    "predictions_count": 38
+  }
+]
+```
 
 ### Expert History Endpoint
 ```
@@ -397,10 +432,64 @@ Expert --> EpisodicMemory : "has"
 
 **Diagram sources **
 - [expert_deep_dive_endpoints.py](file://src/api/expert_deep_dive_endpoints.py#L1-L271)
+- [experts.js](file://api/experts.js#L1-L23)
 
 **Section sources**
 - [expert_deep_dive_endpoints.py](file://src/api/expert_deep_dive_endpoints.py#L1-L271)
 - [clean_predictions_endpoints.py](file://src/api/clean_predictions_endpoints.py#L50-L93)
+- [experts.js](file://api/experts.js#L1-L23)
+
+## Recent Predictions
+
+The Recent Predictions endpoint provides access to the latest predictions from the AI expert council.
+
+### Recent Predictions Endpoint
+```
+GET /api/predictions/recent
+```
+
+Retrieve the most recent predictions for upcoming games.
+
+#### Response
+Returns a list of recent prediction objects with expert consensus and individual expert predictions.
+
+```json
+[
+  {
+    "game_id": "KC_BUF_2025_W1",
+    "date": "2025-01-15T20:20:00Z",
+    "home_team": "KC",
+    "away_team": "BUF",
+    "consensus_winner": "KC",
+    "consensus_confidence": 0.72,
+    "status": "upcoming",
+    "expert_predictions": [
+      {
+        "expert_name": "The Analyst",
+        "avatar_emoji": "📊",
+        "prediction": {
+          "winner": "KC",
+          "confidence": 0.75
+        }
+      },
+      {
+        "expert_name": "The Gambler",
+        "avatar_emoji": "🎲",
+        "prediction": {
+          "winner": "BUF",
+          "confidence": 0.68
+        }
+      }
+    ]
+  }
+]
+```
+
+This endpoint provides a simplified view of the latest predictions, making it easier for clients to quickly access the most current prediction data without complex filtering or parameters.
+
+**Section sources**
+- [recent.js](file://api/predictions/recent.js#L1-L35)
+- [experts.js](file://api/experts.js#L1-L23)
 
 ## Real-Time Data
 
@@ -665,4 +754,62 @@ Real-time update message structure.
 
 ```typescript
 interface RealtimeUpdate {
-  type: 'prediction_update' | 'game_event' | 'line_movement' | 'expert_update' | 'consensus_change
+  type: 'prediction_update' | 'game_event' | 'line_movement' | 'expert_update' | 'consensus_change';
+  timestamp: string;
+  payload: any;
+  game_id?: string;
+  expert_id?: string;
+}
+```
+
+#### Expert
+The expert model structure used in responses.
+
+```python
+class Expert(BaseModel):
+    expert_id: str
+    name: str
+    emoji: str
+    archetype: Archetype
+    bankroll: BankrollInfo
+    performance: PerformanceMetrics
+    specialization: Specialization
+```
+
+#### Prediction
+The prediction model structure used in responses.
+
+```python
+class Prediction(BaseModel):
+    prediction_id: str
+    game_id: str
+    category: PredictionCategory
+    prediction: str
+    confidence: float = Field(..., ge=0.0, le=1.0)
+    reasoning: str
+    bet_placed: bool
+    bet_amount: Optional[float] = None
+    status: PredictionStatus
+    created_at: datetime
+```
+
+#### Game
+The game model structure used in responses.
+
+```python
+class Game(BaseModel):
+    game_id: str
+    home_team: str
+    away_team: str
+    game_time: datetime
+    venue: str
+    weather: Optional[Weather] = None
+    vegas_lines: VegasLines
+    council_consensus: Optional[CouncilGameConsensus] = None
+    expert_count: ExpertCount
+```
+
+**Section sources**
+- [expert.py](file://src/api/models/expert.py#L44-L51)
+- [prediction.py](file://src/api/models/prediction.py#L22-L32)
+- [game.py](file://src/api/models/game.py#L31-L40)

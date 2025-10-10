@@ -48,6 +48,13 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
+    # Run ID for experimental isolation
+    run_id: str = "run_2025_pilot4"
+
+    def get_run_id(self) -> str:
+        """Get the current run ID for experimental isolation"""
+        return self.run_id
+
     class Config:
         env_file = ".env"
         case_sensitive = False

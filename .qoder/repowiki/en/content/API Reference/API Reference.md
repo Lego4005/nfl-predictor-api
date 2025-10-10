@@ -1,4 +1,3 @@
-<docs>
 # API Reference
 
 <cite>
@@ -12,6 +11,8 @@
 - [api.types.ts](file://src/types/api.types.ts)
 - [main_with_access_control.py](file://src/main_with_access_control.py) - *Updated in recent commit*
 - [server.ts](file://tests/frontend/mocks/server.ts) - *Added authentication examples*
+- [experts.js](file://api/experts.js) - *Added in recent commit*
+- [recent.js](file://api/predictions/recent.js) - *Added in recent commit*
 </cite>
 
 ## Update Summary
@@ -22,6 +23,8 @@
 - Added new API status endpoint information
 - Updated client implementation guidelines with authentication flow
 - Added authentication request/response examples
+- Added new endpoints: `/api/experts` and `/api/predictions/recent`
+- Documented new expert data structure and recent predictions format
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -169,6 +172,34 @@ I --> A
 
 **Section sources**
 - [real_data_endpoints.py](file://src/api/real_data_endpoints.py#L1-L468)
+
+### New Experts Endpoint
+The new `/api/experts` endpoint provides information about all available prediction experts.
+
+```mermaid
+sequenceDiagram
+participant Client
+participant API
+Client->>API : GET /api/experts
+API-->>Client : Return expert profiles
+```
+
+**Section sources**
+- [experts.js](file://api/experts.js#L1-L23)
+
+### Recent Predictions Endpoint
+The new `/api/predictions/recent` endpoint provides access to recent prediction data.
+
+```mermaid
+sequenceDiagram
+participant Client
+participant API
+Client->>API : GET /api/predictions/recent
+API-->>Client : Return recent predictions
+```
+
+**Section sources**
+- [recent.js](file://api/predictions/recent.js#L1-L35)
 
 ## WebSocket API
 
@@ -375,6 +406,67 @@ Response:
 **Section sources**
 - [websocket_events.py](file://src/websocket/websocket_events.py#L1-L120)
 
+### New Endpoint Example: Experts
+```json
+[
+  {
+    "expert_id": "1",
+    "display_name": "The Analyst",
+    "personality": "conservative",
+    "avatar_emoji": "📊",
+    "accuracy_rate": 0.756,
+    "predictions_count": 42
+  },
+  {
+    "expert_id": "2",
+    "display_name": "The Gambler",
+    "personality": "risk_taking",
+    "avatar_emoji": "🎲",
+    "accuracy_rate": 0.623,
+    "predictions_count": 38
+  }
+]
+```
+
+**Section sources**
+- [experts.js](file://api/experts.js#L1-L23)
+
+### New Endpoint Example: Recent Predictions
+```json
+[
+  {
+    "game_id": "KC_BUF_2025_W1",
+    "date": "2025-01-15T20:20:00Z",
+    "home_team": "KC",
+    "away_team": "BUF",
+    "consensus_winner": "KC",
+    "consensus_confidence": 0.72,
+    "status": "upcoming",
+    "expert_predictions": [
+      {
+        "expert_name": "The Analyst",
+        "avatar_emoji": "📊",
+        "prediction": {
+          "winner": "KC",
+          "confidence": 0.75
+        }
+      },
+      {
+        "expert_name": "The Gambler",
+        "avatar_emoji": "🎲",
+        "prediction": {
+          "winner": "BUF",
+          "confidence": 0.68
+        }
+      }
+    ]
+  }
+]
+```
+
+**Section sources**
+- [recent.js](file://api/predictions/recent.js#L1-L35)
+
 ## Rate Limiting and Error Handling
 
 ### Rate Limiting Strategy
@@ -513,11 +605,23 @@ class NFLPredictorClient:
             return data
         else:
             raise Exception(f"Authentication failed: {response.status_code}")
+    
+    def get_experts(self):
+        url = f"{self.base_url}/api/experts"
+        response = requests.get(url, headers=self.headers)
+        return response.json()
+    
+    def get_recent_predictions(self):
+        url = f"{self.base_url}/api/predictions/recent"
+        response = requests.get(url, headers=self.headers)
+        return response.json()
 ```
 
 **Section sources**
 - [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
 - [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
+- [experts.js](file://api/experts.js#L1-L23)
+- [recent.js](file://api/predictions/recent.js#L1-L35)
 
 ### REST API Client (JavaScript)
 ```javascript
@@ -580,12 +684,40 @@ class NFLPredictorClient {
         this.headers.Authorization = `Bearer ${this.apiKey}`;
         return data;
     }
+    
+    async getExperts() {
+        const response = await fetch(
+            `${this.baseUrl}/api/experts`,
+            { headers: this.headers }
+        );
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch experts: ${response.status}`);
+        }
+        
+        return await response.json();
+    }
+    
+    async getRecentPredictions() {
+        const response = await fetch(
+            `${this.baseUrl}/api/predictions/recent`,
+            { headers: this.headers }
+        );
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch recent predictions: ${response.status}`);
+        }
+        
+        return await response.json();
+    }
 }
 ```
 
 **Section sources**
 - [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
 - [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
+- [experts.js](file://api/experts.js#L1-L23)
+- [recent.js](file://api/predictions/recent.js#L1-L35)
 
 ### WebSocket Client (JavaScript)
 ```javascript
@@ -658,3 +790,42 @@ class NFLPredictorWebSocket {
                 data: { client_time: new Date().toISOString() }
             }));
             setTimeout(() => this._sendHeartbeat(), 30000); //
+        }
+    }
+
+    _reconnect() {
+        setTimeout(() => {
+            this.connect();
+        }, 5000);
+    }
+
+    _dispatchEvent(message) {
+        const eventType = message.event_type;
+        if (this.listeners.has(eventType)) {
+            this.listeners.get(eventType).forEach(callback => {
+                callback(message);
+            });
+        }
+    }
+}
+```
+
+**Section sources**
+- [websocket_manager.py](file://src/websocket/websocket_manager.py#L1-L364)
+- [websocket_events.py](file://src/websocket/websocket_events.py#L1-L120)
+
+## Security Considerations
+The API implements JWT-based authentication with subscription tier-based access control. API keys should be stored securely and never exposed in client-side code. All sensitive data is transmitted over HTTPS. The system implements rate limiting to prevent abuse and distributed denial-of-service attacks. User data is encrypted at rest and in transit.
+
+**Section sources**
+- [main_with_access_control.py](file://src/main_with_access_control.py#L98-L139)
+- [app.py](file://src/api/app.py#L1-L227)
+
+## Performance Optimization
+The API is optimized for high-performance access with Redis caching, database connection pooling, and parallel processing. The system implements response compression for large datasets and intelligent cache invalidation. Performance monitoring is enabled to track response times and system health. For high-frequency consumers, batch endpoints are recommended to minimize request overhead.
+
+**Section sources**
+- [app.py](file://src/api/app.py#L1-L227)
+- [performance_endpoints.py](file://src/api/performance_endpoints.py#L1-L539)
+- [performance.optimized_prediction_service.py](file://src/performance/optimized_prediction_service.py)
+- [performance.database_optimizer.py](file://src/performance/database_optimizer.py)

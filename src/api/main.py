@@ -20,6 +20,7 @@ from src.api.services.cache import cache_service
 
 # Routers
 from src.api.routers import experts, council, bets, games
+from src.api import shadow_predictions_api
 
 # WebSocket
 from src.api.websocket.manager import connection_manager
@@ -138,6 +139,7 @@ app.include_router(experts.router)
 app.include_router(council.router)
 app.include_router(bets.router)
 app.include_router(games.router)
+app.include_router(shadow_predictions_api.router)
 
 
 # Root endpoint
