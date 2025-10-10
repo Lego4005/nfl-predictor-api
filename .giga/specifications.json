@@ -1,0 +1,22 @@
+[
+  {
+    "fileName": "main-overview.mdc",
+    "description": "High-level system architecture detailing the NFL prediction platform's core components: expert council system, prediction engine, memory-enhanced learning system, and betting analytics integration"
+  },
+  {
+    "fileName": "expert-personality-system.mdc",
+    "description": "Detailed documentation of the 15 expert personalities, their unique prediction strategies, specialization areas, confidence calculation algorithms, and voting weight mechanisms"
+  },
+  {
+    "fileName": "memory-learning-system.mdc",
+    "description": "Technical specification of the episodic memory system including memory formation, retrieval algorithms, temporal decay calculations, and integration with the prediction pipeline"
+  },
+  {
+    "fileName": "prediction-categories.mdc",
+    "description": "Comprehensive documentation of the 27 prediction categories, their calculation algorithms, confidence scoring systems, and aggregation methods for consensus building"
+  },
+  {
+    "fileName": "betting-analytics-engine.mdc",
+    "description": "Detailed architecture of the betting analytics system including Kelly Criterion implementation, arbitrage detection, sharp money tracking, and correlation-aware parlay risk assessment"
+  }
+]

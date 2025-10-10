@@ -1,0 +1,123 @@
+{
+  "vectorcode": {
+    "enabled": true,
+    "indexing": {
+      "strategy": "git-based",
+      "triggers": [
+        "post-merge",
+        "manual",
+        "scheduled"
+      ],
+      "schedule": "0 3 * * 0",
+      "incrementalApi": true,
+      "batchSize": 50,
+      "maxIndexingTime": 300
+    },
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".next/**",
+      "*.min.js",
+      "*.bundle.js",
+      "coverage/**",
+      "*.test.ts",
+      "*.spec.ts",
+      "__pycache__/**",
+      "*.pyc",
+      ".git/**",
+      "*.log",
+      "*.lock",
+      "venv/**",
+      ".venv/**",
+      "*.egg-info/**",
+      "archive/**"
+    ],
+    "priorityPatterns": [
+      "src/**/index.ts",
+      "src/**/*.py",
+      "api/**/*.py",
+      "experts/**/*.py",
+      "council/**/*.py",
+      "s3l/**/*.py",
+      "src/services/**/*.py",
+      "src/ml/**/*.py",
+      "**/types.ts",
+      "**/schema.ts",
+      "**/config.py",
+      "**/models.py"
+    ],
+    "semanticTracking": {
+      "trackFunctions": true,
+      "trackClasses": true,
+      "trackInterfaces": true,
+      "trackImports": true,
+      "minFunctionSize": 5,
+      "excludeTests": true
+    }
+  },
+  "claudeFlow": {
+    "hooks": {
+      "preTask": {
+        "enabled": true,
+        "queryLimit": 3,
+        "contextWindow": 2000,
+        "cacheResults": true,
+        "cacheTTL": 3600
+      },
+      "duringTask": {
+        "enabled": true,
+        "autoSuggest": true,
+        "maxSuggestions": 2
+      },
+      "postTask": {
+        "enabled": false,
+        "flagForIndexing": false
+      }
+    },
+    "agentConfig": {
+      "vectorcodeAccess": "automatic",
+      "fallbackToFullFile": true,
+      "preferCachedPatterns": true,
+      "learningEnabled": true
+    },
+    "performance": {
+      "maxConcurrentQueries": 5,
+      "queryTimeout": 5000,
+      "retryAttempts": 2,
+      "cacheStrategy": "redis",
+      "compressionEnabled": true
+    }
+  },
+  "monitoring": {
+    "trackQueryPatterns": true,
+    "trackHitRate": true,
+    "trackTokenSavings": true,
+    "reportingInterval": "daily",
+    "alertThresholds": {
+      "hitRate": 0.6,
+      "indexingLag": 7200,
+      "queryTime": 2000
+    }
+  },
+  "nflPredictor": {
+    "expertSystem": {
+      "totalExperts": 15,
+      "votingMechanism": "weighted-consensus",
+      "performanceTracking": true,
+      "meritBasedRotation": true
+    },
+    "s3lSystem": {
+      "enabled": true,
+      "monitoringInterval": 3600,
+      "performanceThreshold": 0.7,
+      "autoRotation": true
+    },
+    "realTimePredictions": {
+      "websocketEnabled": true,
+      "updateFrequency": "live",
+      "cacheStrategy": "redis"
+    }
+  }
+}
+

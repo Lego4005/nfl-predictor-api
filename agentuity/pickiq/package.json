@@ -1,0 +1,39 @@
+{
+  "name": "pickiq",
+  "description": "15 ai agents compete for the best prediciton in sports",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "agentuity build",
+    "dev": "agentuity dev",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "prestart": "agentuity bundle",
+    "start": "bun run .agentuity/index.js"
+  },
+  "keywords": [
+    "agentuity",
+    "agent",
+    "ai",
+    "ai agent",
+    "bun"
+  ],
+  "private": true,
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.5",
+    "@types/bun": "^1.2.23"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@agentuity/sdk": "^0.0.154",
+    "@langchain/core": "^0.3.78",
+    "@langchain/langgraph": "^0.4.9",
+    "@langchain/openai": "^0.6.14",
+    "source-map-js": "^1.2.1",
+    "zod": "^4.1.12"
+  },
+  "module": "index.ts"
+}
